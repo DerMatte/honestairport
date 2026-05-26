@@ -3,7 +3,7 @@ iata: "BKK"
 name: "Suvarnabhumi Airport (Bangkok)"
 city: "Bangkok"
 country: "Thailand"
-lastUpdated: "2026-05-27"
+lastUpdated: "2026-05-26"
 sources:
   - "https://suvarnabhumi.airportthai.co.th/"
   - "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/Transportation_BKK"
@@ -18,7 +18,7 @@ quickFacts:
   - "One main terminal (MTB) plus Satellite Terminal 1 (SAT-1) linked by underground APM (~3 min)"
   - "Thai Airways hub; many long-haul and full-service international carriers use SAT-1 (gates S101–S128)"
   - "MCT on one ticket: 90 min int'l–int'l airside is the airline floor — add buffer Nov–Apr and for SAT-1 hops"
-  - "TDAC digital arrival card required for most arrivals (free at tdac.immigration.go.th)"
+  - "TDAC digital arrival card required for most arrivals — submit within 3 days of arrival (free at tdac.immigration.go.th)"
   - "Airport Rail Link to Phaya Thai (BTS): THB 45, ~26–30 min, 05:30–24:00 — not 24h"
   - "Free BKK↔DMK shuttle for same-day connections: Level 2 Gate 3, 05:00–24:00"
 ---
@@ -34,7 +34,7 @@ quickFacts:
   - **Int'l ↔ domestic** (immigration involved): **120 min** published; plan **2.5–3 h** in high season when queues spike.
   - **MTB ↔ SAT-1:** APM ride ~**3 min** (incl. wait) per AOT — still budget **20–30 min** gate-to-gate with walks and possible **connection security**.
 - **Separate tickets / self-transfer:** collect bags, clear immigration, check in again — **4 h minimum** for BKK-only; **5 h+** if changing **BKK ↔ DMK**.
-- **TDAC:** Non-Thai nationals entering Thailand must file the **Thailand Digital Arrival Card** online within **72 hours** of arrival ([tdac.immigration.go.th](https://tdac.immigration.go.th/)) — free; pure **airside transit without immigration** is exempt. Kiosks exist at BKK but add delay.
+- **TDAC:** Non-Thai nationals entering Thailand must file the **Thailand Digital Arrival Card** online within **3 days before arrival** (including arrival day) ([tdac.immigration.go.th](https://tdac.immigration.go.th/)) — free; **airside transit without passing immigration** is exempt. Kiosks exist at BKK but add delay.
 - **Wi‑Fi:** **"AOT Airport Free Wi-Fi by NT"** — browser login, **60-minute** sessions, re-authenticate as needed (per AOT).
 - **Liquids:** Standard **100 ml** cabin rules apply; assume conventional screening unless staff direct otherwise — don’t rely on US-style “leave everything in the bag” habits.
 
@@ -56,7 +56,7 @@ quickFacts:
 - **Empty bottle:** Refill stations airside near many restrooms — skip **฿150+** bottled water at duty-free.
 - **Airport Rail Link beats taxi** to **Phaya Thai / Makkasan** in rush hour (**17:00–20:00**) — taxi wins only with **3+ passengers** or **heavy bags** at quiet hours.
 - **After midnight:** ARL stops ~**24:00** — taxi/Grab only; queue at official taxi stand (**Level 1, Gates 4–7**) with meter + **฿50** airport surcharge.
-- **Avoid:** Booking **90 min** int'l–int'l in **January** with checked bags and an **SAT-1** departure — forum consensus treats that as a self-inflicted misconnect.
+- **Avoid:** Booking **90 min** int'l–int'l in **January** with checked bags and an **SAT-1** departure — experienced travelers treat that as a self-inflicted misconnect.
 
 ## Terminals & Navigation
 - **MTB:** Single giant hall — **4F** departures/check-in, **3F** shops, **2F** arrivals and many transfer desks, **1F** taxis/buses, **B1** Airport Rail Link, **B2** APM to SAT-1.

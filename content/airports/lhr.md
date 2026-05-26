@@ -8,13 +8,15 @@ sources:
   - "https://www.heathrow.com/"
   - "https://www.heathrow.com/airport-guide/security"
   - "https://www.heathrow.com/transport-and-directions"
+  - "https://www.heathrow.com/at-the-airport/airport-services/internet-and-wifi"
+  - "https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"
   - "https://www.britishairways.com/information/airport-information/flight-connections"
 quickFacts:
   - "4 active terminals (2, 3, 4, 5); not all are connected airside"
   - "BA hub in Terminal 5; Star Alliance heavy in Terminal 2"
   - "Plan 90+ minutes for inter-terminal connections; 2.5–3 hours in peaks"
-  - "Elizabeth line and Heathrow Express are free for inter-terminal transfers landside"
-  - "Connection passengers re-clear security at the departure terminal"
+  - "Elizabeth line and Heathrow Express are free for inter-terminal transfers landside (contactless or free transfer ticket)"
+  - "Airside connections use purple Flight Connections buses; expect connection security at the departure terminal"
 ---
 
 # LHR Airport Guide
@@ -25,7 +27,7 @@ quickFacts:
 - **Terminals:** 2 (Star Alliance hub), 3 (many long-haul/oneworld), 4 (SkyTeam-heavy), 5 (British Airways hub with A/B/C satellites).
 - **MCT (same ticket):** BA/heathrow guidance is often 60–90 minutes on one ticket, but experienced travelers treat **90 minutes as the floor** and **2–2.5 hours** as sane for terminal changes.
 - **Separate tickets:** BA recommends **at least 4 hours** — you must collect bags, change terminals landside, and check in again.
-- **Wi‑Fi:** Free `_Heathrow Wi-Fi`; registration required, sessions expire (re-login periodically).
+- **Wi‑Fi:** Free **`_Heathrow Wi-Fi`** — one-time registration; free for the duration of your stay at Heathrow (per airport Wi‑Fi FAQs).
 - **Liquids:** Still assume strict 100 ml rules unless your terminal uses newer CT lanes — check Heathrow security pages before travel.
 
 ## Security & Screening Tips
@@ -40,8 +42,8 @@ quickFacts:
 - **T5 satellite trap:** Gates B/C are in separate buildings linked by an **airside transit train** from T5A — landing at C and departing from A can eat **20+ minutes** before you even reach connection security.
 - **T2 length:** The walk to T2B satellite gates is long (**15–20 minutes** of walking alone) — don’t linger at duty free if your connection is tight.
 - **Heathrow app** for live security wait times and gates often beats the overhead screens.
-- **Inter-terminal landside:** Heathrow Express and Elizabeth line transfers between terminals are **free** when staying within Heathrow (contactless/Oyster for Tube/Elizabeth as applicable).
-- **Separate-ticket self-transfer:** Treat it like an airport change — immigration, baggage, terminal hop, new check-in. Frequent-flyer forums consistently say **3–4 hours minimum**, not airline MCT marketing.
+- **Inter-terminal landside:** Heathrow Express and Elizabeth line transfers between terminals are **free** when staying within Heathrow — tap contactless/Oyster (charged £0.00) or pick up a **free inter-terminal transfer ticket** from machines in the rail stations ([TfL Elizabeth line at Heathrow](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)).
+- **Separate-ticket self-transfer:** Treat it like an airport change — immigration, baggage, terminal hop, new check-in. Allow **4 hours minimum** (BA guidance for separate tickets); **3 hours** is high-risk.
 - **Long layover:** YOTELAIR sleep pods in T4/T5 can beat overcrowded lounges when you only need a few hours (check current pricing in terminal).
 
 ## Terminals & Navigation
@@ -73,5 +75,7 @@ quickFacts:
 - [Heathrow Official Site](https://www.heathrow.com/)
 - [Heathrow Security](https://www.heathrow.com/airport-guide/security)
 - [Heathrow Transport](https://www.heathrow.com/transport-and-directions)
+- [Heathrow Wi‑Fi](https://www.heathrow.com/at-the-airport/airport-services/internet-and-wifi)
+- [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - [BA Flight Connections at LHR](https://www.britishairways.com/information/airport-information/flight-connections)
 - Always re-check terminal assignments and construction notices the day before travel.

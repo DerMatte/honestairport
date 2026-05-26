@@ -51,14 +51,14 @@ quickFacts:
 ## Best Airport Tricks & Hacks
 - **Connection signage first:** After landing, follow **connecting flights** signs immediately — don’t drift into arrivals shopping unless you need to clear immigration.
 - **T2 Satellite trap:** Gates **J/K/L** are **after** central security via the **PTS** shuttle (every **4 min**, ~**1 min** ride, **04:00–24:00**). Landing at **G/H** and departing from **J** can cost **15–25 min** walking + PTS even without security — check **both** gate areas on your pass.
-- **T1↔T2 airside:** Free **shuttle bus** between terminals for connecting passengers (**5–7 min** ride). Still allow **walking + passport** time — this is not a sub-30-minute terminal change in practice.
+- **T1↔T2 airside:** Free **shuttle bus** between terminals for connecting passengers (**5–7 min** ride; every **10 min** 07:00–17:00, every **20 min** at other published hours per airport). Still allow **walking + passport** time — this is not a sub-30-minute terminal change in practice.
 - **MAC is the spine:** Landside, almost everything (S-Bahn, Airbräu, many shops) funnels through **MAC Level 03** — learn it once and navigation gets easier.
 - **Airbräu (landside MAC):** World’s first airport brewery — solid Bavarian food and fresh beer **before** security or on a long layover **without** lounge access. Overrated for a 45-minute connection; excellent for **90+ min** landside.
 - **T1 module discipline:** Your boarding pass module letter matters — wrong module means a **long landside hike** (T1 is ~1.1 km end-to-end). Non-Schengen **B/C** often use **Level 05** passport gallery above security — don’t camp on Level 04.
 - **New T1 Pier (from 21 Apr 2026):** Non-Schengen pier with **centralized CT security** — if your airline moved here, old B/C habits may be wrong; confirm gate on the airport app the day of travel.
 - **Wi‑Fi friction:** Registration is quick but repetitive — use **Passngr** if you connect often; charge while waiting because **outlets compete** at busy gates.
 - **Water:** No widely advertised airside refill network — bring an **empty bottle** and fill landside if staff allow, or buy after security (airport retail pricing). Don’t assume Frankfurt-style refill density.
-- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — forum consensus and airport transfer guidance both treat that as reckless even when the airport is “efficient.”
+- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — airport transfer guidance and experienced travelers both treat that as reckless even when the airport is “efficient.”
 
 ## Terminals & Navigation
 - **Terminal 2 layout:** Check-in **G (Schengen, Level 4)** and **H (non-Schengen, Level 5)**; **Senator/Business lounges Level 5**; central security then airside toward **G/H** or down to **PTS → Satellite J/K/L**.
