@@ -11,6 +11,9 @@
 
 import { Agent, CursorAgentError } from "@cursor/sdk";
 import { buildAirportReviewPrompt } from "../lib/airport-review-brief";
+import { loadLocalEnv } from "./load-env";
+
+loadLocalEnv();
 
 async function reviewAirportPages(iata?: string) {
   const apiKey = process.env.CURSOR_API_KEY;

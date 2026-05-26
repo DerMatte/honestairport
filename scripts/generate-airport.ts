@@ -13,6 +13,9 @@ import { streamText } from "ai";
 import { createGateway } from "@ai-sdk/gateway";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { loadLocalEnv } from "./load-env";
+
+loadLocalEnv();
 
 const CONTENT_DIR = path.join(process.cwd(), "content/airports");
 
