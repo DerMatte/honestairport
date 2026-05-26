@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TravelGuide — Per-Airport Knowledge Pages
+
+The best practical travel information for major airports, presented as clean, scannable Markdown pages (one per airport).
+
+**Focus**: Security tips, clever tricks & hacks, navigation, lounges, and ground transport — prioritized for real travelers.
+
+Inspired by high-signal "grokipedia"-style knowledge pages.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit http://localhost:3000 — you'll see the airport directory with live search.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Click any airport (JFK and LAX have real high-quality content) to see the rendered page.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Features (Current)
 
-## Learn More
+- Extremely simple Markdown-driven content (`/content/airports/*.md`)
+- Clean, readable design with tips & tricks front-and-center
+- Client-side search on the directory
+- Fully static/SSG pages (great performance)
+- AI SDK-powered generator script for drafting new pages
 
-To learn more about Next.js, take a look at the following resources:
+## Adding a New Airport (Manual)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create `content/airports/xxx.md` (lowercase IATA).
+2. Follow the exact heading structure used in `jfk.md` / `lax.md`.
+3. Add proper YAML frontmatter (`iata`, `name`, `lastUpdated`, `sources`, optional `quickFacts`).
+4. The page appears automatically.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Using the AI Content Generator (Recommended for Drafts)
 
-## Deploy on Vercel
+```bash
+# Requires AI_GATEWAY_API_KEY (your Vercel AI Gateway key with xAI access)
+AI_GATEWAY_API_KEY=your_gateway_key npx tsx scripts/generate-airport.ts LHR
+AI_GATEWAY_API_KEY=your_gateway_key npx tsx scripts/generate-airport.ts CDG "Focus on families and long-haul connections"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The generator uses `streamText` + **Grok 4.3 via the Vercel AI Gateway** (model: `xai/grok-4.3`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Always** human-review and fact-check generated pages before publishing. The script is a powerful drafting assistant, not a source of truth.
+
+## Tech Stack (Intentionally Minimal)
+
+- Next.js App Router + TypeScript
+- Tailwind
+- `gray-matter` + `react-markdown` + `remark-gfm` (simple, no heavy MDX)
+- Vercel AI SDK (`ai` + `@ai-sdk/openai`) — used only in the generator script
+
+No database. No CMS. Pure files + Git.
+
+## Deploy
+
+Deploy to Vercel with one click (or `vercel` CLI). Everything is static and works great on the free tier.
+
+## Philosophy
+
+- One excellent page beats many mediocre ones.
+- Tips and tricks are the star of the show.
+- Every claim should be traceable to an official or highly reputable source.
+- Start narrow, go deep.
+
+---
+
+Built following the approved implementation plan for a simple, high-signal airport knowledge site.

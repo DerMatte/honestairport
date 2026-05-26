@@ -1,0 +1,30 @@
+{
+  "name": "TravelGuide — Review airport pages",
+  "description": "Weekly cloud agent that enriches airport Markdown pages using Vielfliegertreff-style frequent-flyer feedback. Opens a PR when material updates are found.",
+  "workflow": {
+    "prompt": "You maintain TravelGuide in this repository — one practical Markdown page per airport under content/airports/.\n\nRead and follow the editorial bar in lib/airport-review-brief.ts (Vielfliegertreff-inspired: connection times, transport, lounges, wifi, water, security peaks, honest hacks).\n\nStyle reference: https://www.vielfliegertreff.de/forum/forums/airports-lounges.12/\n\nEach run:\n1. Review every content/airports/*.md file (or start with pages whose lastUpdated is oldest).\n2. Research current official sources; expand thin or placeholder sections.\n3. Add Vielfliegertreff-style practical detail: MCT/connections, airport-city transport, lounge access gotchas, wifi/power, water/refill, peak security windows, overrated vs. worth-it options.\n4. Update lastUpdated and sources in frontmatter when facts change.\n5. Preserve the existing heading structure.\n\nQuality gate:\n- No invented prices or access rules — verify or mark \"check before travel\".\n- Prefer specific, actionable bullets over generic advice.\n- Skip pages that are already strong unless you find a high-value fix.\n\nIf you made material content improvements, open a pull request titled \"chore(airports): refresh traveler tips\" with a bullet summary per airport.\nIf nothing needs changing, do not open a PR — reply with a short note of what you checked.",
+    "triggers": [
+      {
+        "type": "schedule",
+        "cron": "0 9 * * 1"
+      }
+    ],
+    "actions": {
+      "openPullRequest": {
+        "enabled": true
+      }
+    },
+    "memoryEnabled": true,
+    "model": {
+      "id": "composer-2.5"
+    },
+    "gitConfig": {
+      "repos": [
+        {
+          "url": "https://github.com/DerMatte/travelguide",
+          "startingRef": "main"
+        }
+      ]
+    }
+  }
+}
