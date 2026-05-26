@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "generate:airport": "tsx --env-file-if-exists=.env.local scripts/generate-airport.ts",
+    "generate:airports": "tsx --env-file-if-exists=.env.local scripts/generate-airports-batch.ts",
     "review:airports": "tsx --env-file-if-exists=.env.local scripts/review-airport-pages.ts",
     "sync:forum": "tsx --env-file-if-exists=.env.local scripts/sync-community-forum.ts"
   },
