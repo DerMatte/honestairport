@@ -6,14 +6,17 @@ country: "United Kingdom"
 lastUpdated: "2026-05-26"
 sources:
   - "https://www.heathrow.com/"
-  - "https://www.heathrow.com/airport-guide/security"
+  - "https://www.heathrow.com/connecting-flights"
+  - "https://www.heathrow.com/at-the-airport/security-and-baggage/hand-baggage-and-liquids"
   - "https://www.heathrow.com/transport-and-directions"
+  - "https://www.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"
   - "https://www.britishairways.com/information/airport-information/flight-connections"
 quickFacts:
   - "4 active terminals (2, 3, 4, 5); not all are connected airside"
   - "BA hub in Terminal 5; Star Alliance heavy in Terminal 2"
-  - "Plan 90+ minutes for inter-terminal connections; 2.5–3 hours in peaks"
+  - "Plan 90+ minutes for inter-terminal connections; 2–2.5 hours in peaks"
   - "Elizabeth line and Heathrow Express are free for inter-terminal transfers landside"
+  - "All terminals use CT scanners; liquids up to 2 L can stay in your bag at security"
   - "Connection passengers re-clear security at the departure terminal"
 ---
 
@@ -22,26 +25,26 @@ quickFacts:
 > Fast, no-fluff reference for moving through Heathrow with minimal stress and wasted time.
 
 ## Quick Facts
-- **Terminals:** 2 (Star Alliance hub), 3 (many long-haul/oneworld), 4 (SkyTeam-heavy), 5 (British Airways hub with A/B/C satellites).
-- **MCT (same ticket):** BA/heathrow guidance is often 60–90 minutes on one ticket, but experienced travelers treat **90 minutes as the floor** and **2–2.5 hours** as sane for terminal changes.
+- **Terminals:** 2 (Star Alliance hub), 3 (many long-haul/oneworld), 4 (SkyTeam-heavy), 5 (British Airways hub with A/B/C satellites). Terminal 1 is closed.
+- **MCT (same ticket):** BA/Heathrow guidance is often 60–90 minutes on one ticket, but experienced travelers treat **90 minutes as the floor** and **2–2.5 hours** as sane for terminal changes.
 - **Separate tickets:** BA recommends **at least 4 hours** — you must collect bags, change terminals landside, and check in again.
 - **Wi‑Fi:** Free `_Heathrow Wi-Fi`; registration required, sessions expire (re-login periodically).
-- **Liquids:** Still assume strict 100 ml rules unless your terminal uses newer CT lanes — check Heathrow security pages before travel.
+- **Liquids (from 23 Jan 2026):** All terminals (T2–T5) use CT scanners. Liquids in containers up to **2 litres** can stay in your cabin bag at security, including connection screening. Downstream airports may still enforce 100 ml — pack for your full itinerary.
 
 ## Security & Screening Tips
-- **Connection security is real:** Even airside transfers usually require **another security screening** at your departure terminal — budget queue time, not just walking time.
+- **Connection security is real:** Even airside transfers require **another security screening** at your departure terminal — budget queue time, not just walking time.
 - **Peak pain windows:** Early morning (roughly 06:30–09:30) and late afternoon/evening (16:00–19:00) are consistently slower; add buffer on Mondays and holiday peaks.
 - **Fast Track:** Paid lanes via the Heathrow app can help when your flight is soon and queues spike — prices vary by terminal/time (verify in app).
-- **Liquids bag:** Keep everything in one transparent **20×20 cm** bag; oversized items are often discarded without debate.
+- **CT lanes:** Laptops and liquids (up to 2 L per container) can usually stay packed. Metal or double-walled vacuum bottles must be empty before screening.
 - **Terminal 5** is usually smoother for BA-to-BA connections; **Terminals 2 and 3** can feel slower when multiple long-haul banks depart together.
 
 ## Best Airport Tricks & Hacks
-- **Follow purple “Flight Connections” signs** immediately after landing — they lead to dedicated free shuttle buses (every ~6–10 minutes, step-free).
+- **Follow purple “Flight Connections” signs** immediately after landing — they lead to dedicated free shuttle buses (about every **10 minutes**, step-free).
 - **T5 satellite trap:** Gates B/C are in separate buildings linked by an **airside transit train** from T5A — landing at C and departing from A can eat **20+ minutes** before you even reach connection security.
 - **T2 length:** The walk to T2B satellite gates is long (**15–20 minutes** of walking alone) — don’t linger at duty free if your connection is tight.
 - **Heathrow app** for live security wait times and gates often beats the overhead screens.
 - **Inter-terminal landside:** Heathrow Express and Elizabeth line transfers between terminals are **free** when staying within Heathrow (contactless/Oyster for Tube/Elizabeth as applicable).
-- **Separate-ticket self-transfer:** Treat it like an airport change — immigration, baggage, terminal hop, new check-in. Frequent-flyer forums consistently say **3–4 hours minimum**, not airline MCT marketing.
+- **Separate-ticket self-transfer:** Treat it like an airport change — immigration, baggage, terminal hop, new check-in. Budget **3–4 hours minimum**; airline MCT marketing does not apply.
 - **Long layover:** YOTELAIR sleep pods in T4/T5 can beat overcrowded lounges when you only need a few hours (check current pricing in terminal).
 
 ## Terminals & Navigation
@@ -71,7 +74,9 @@ quickFacts:
 
 ## Official Sources
 - [Heathrow Official Site](https://www.heathrow.com/)
-- [Heathrow Security](https://www.heathrow.com/airport-guide/security)
+- [Heathrow Connecting Flights](https://www.heathrow.com/connecting-flights)
+- [Heathrow Hand Baggage & Liquids](https://www.heathrow.com/at-the-airport/security-and-baggage/hand-baggage-and-liquids)
 - [Heathrow Transport](https://www.heathrow.com/transport-and-directions)
+- [Elizabeth Line at Heathrow (TfL)](https://www.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - [BA Flight Connections at LHR](https://www.britishairways.com/information/airport-information/flight-connections)
 - Always re-check terminal assignments and construction notices the day before travel.
