@@ -3,7 +3,7 @@ iata: "MUC"
 name: "Munich Airport (Franz Josef Strauss)"
 city: "Munich"
 country: "Germany"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-05-30"
 sources:
   - "https://www.munich-airport.com/"
   - "https://www.munich-airport.com/connecting-flights-260553"
@@ -58,7 +58,7 @@ quickFacts:
 - **New T1 Pier (from 21 Apr 2026):** Non-Schengen pier with **centralized CT security** — if your airline moved here, old B/C habits may be wrong; confirm gate on the airport app the day of travel.
 - **Wi‑Fi friction:** Registration is quick but repetitive — use **Passngr** if you connect often; charge while waiting because **outlets compete** at busy gates.
 - **Water:** No widely advertised airside refill network — bring an **empty bottle** and fill landside if staff allow, or buy after security (airport retail pricing). Don’t assume Frankfurt-style refill density.
-- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — forum consensus and airport transfer guidance both treat that as reckless even when the airport is “efficient.”
+- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — airport transfer guidance and experienced-traveler consensus both treat that as reckless even when the airport is efficient.
 
 ## Terminals & Navigation
 - **Terminal 2 layout:** Check-in **G (Schengen, Level 4)** and **H (non-Schengen, Level 5)**; **Senator/Business lounges Level 5**; central security then airside toward **G/H** or down to **PTS → Satellite J/K/L**.
@@ -75,7 +75,7 @@ quickFacts:
 - **Common mistakes:** Assuming **TBIT-style** re-security on every T2 connection (many stay airside on one ticket); entering **wrong T1 module**; missing that **PTS stops after midnight** (plan landside reroute if applicable).
 
 ## Lounges Food & Amenities
-- **Lufthansa Senator / Business (T2):** The default good lounges for status — **Level 5** for Schengen/non-Schengen split; additional lounges in the **Satellite**. **Works best** off-peak; **avoid** tight connections during the **morning long-haul bank** when Senator fills with connecting premium traffic (many FF reports).
+- **Lufthansa Senator / Business (T2):** The default good lounges for status — **Level 5** for Schengen/non-Schengen split; additional lounges in the **Satellite**. **Works best** off-peak; **avoid** tight connections during the **morning long-haul bank** when Senator fills with connecting premium traffic.
 - **Lufthansa First (T2):** Separate check-in/security and First lounge — genuinely saves time vs. Senator when queues spike; not worth paying up unless you’re already in the cabin.
 - **Pay-for / independent:** **Airport Lounge Europe / World**, **Bayern-Lounge** (T1 — Bavarian vibe, mixed reviews vs. Star lounges for food), **Emirates** (T1 Module C for eligible itineraries). Day-pass rules change — **check before travel**.
 - **Food — actually good:**
