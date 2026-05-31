@@ -13,17 +13,18 @@ import { streamText } from "ai";
 import { createGateway } from "@ai-sdk/gateway";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { loadLocalEnv } from "./load-env";
 
 loadLocalEnv();
 
-const CONTENT_DIR = path.join(process.cwd(), "content/airports");
+export const CONTENT_DIR = path.join(process.cwd(), "content/airports");
 
-async function generateAirportPage(iata: string, extraInstructions = "") {
+export function buildAirportGenerationPrompt(iata: string, extraInstructions = ""): string {
   const normalizedIata = iata.toUpperCase();
   const today = new Date().toISOString().slice(0, 10);
 
-  const prompt = `You are an expert travel researcher creating the single best, most practical one-page guide for ${normalizedIata} airport.
+  return `You are an expert travel researcher creating the single best, most practical one-page guide for ${normalizedIata} airport.
 
 Write in clean, scannable Markdown.
 
@@ -76,6 +77,21 @@ IATA: ${normalizedIata}
 ${extraInstructions ? `Additional focus: ${extraInstructions}` : ""}
 
 Output ONLY the raw Markdown file (frontmatter + body). No explanations before or after.`;
+}
+
+export async function airportContentExists(iata: string): Promise<boolean> {
+  const filepath = path.join(CONTENT_DIR, `${iata.toLowerCase()}.md`);
+  try {
+    await fs.access(filepath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function generateAirportPage(iata: string, extraInstructions = "") {
+  const normalizedIata = iata.toUpperCase();
+  const prompt = buildAirportGenerationPrompt(normalizedIata, extraInstructions);
 
   const gateway = createGateway({
     apiKey: process.env.AI_GATEWAY_API_KEY,
@@ -96,17 +112,25 @@ Output ONLY the raw Markdown file (frontmatter + body). No explanations before o
 
   console.log(`✅ Generated ${filepath}`);
   console.log("⚠️  Please review carefully for accuracy before committing.");
+
+  return filepath;
 }
 
-const iata = process.argv[2];
-const extra = process.argv.slice(3).join(" ");
+const isDirectRun =
+  process.argv[1] !== undefined &&
+  fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 
-if (!iata) {
-  console.error("Usage: pnpm generate:airport <IATA> [extra instructions]");
-  process.exit(1);
+if (isDirectRun) {
+  const iata = process.argv[2];
+  const extra = process.argv.slice(3).join(" ");
+
+  if (!iata) {
+    console.error("Usage: pnpm generate:airport <IATA> [extra instructions]");
+    process.exit(1);
+  }
+
+  generateAirportPage(iata, extra).catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
 }
-
-generateAirportPage(iata, extra).catch((err) => {
-  console.error(err);
-  process.exit(1);
-});

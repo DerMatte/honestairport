@@ -1,0 +1,65 @@
+---
+iata: "ORD"
+name: "Chicago O'Hare International Airport"
+city: "Chicago"
+country: "United States"
+lastUpdated: "2026-05-26"
+sources:
+  - "https://www.flychicago.com/ohare/home.page"
+  - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
+quickFacts:
+  - "Four terminals: 1, 2, 3, and 5"
+  - "United Airlines primary hub; American Airlines secondary"
+  - "Serves ~80 million passengers yearly"
+  - "Airport Transit System connects all terminals in ~10 minutes"
+  - "TSA PreCheck and CLEAR available at all terminals"
+  - "Terminal 5 handles nearly all international arrivals"
+---
+
+# ORD Airport Guide
+
+> Fast, no-nonsense reference for moving through O’Hare with minimal wasted time.
+
+## Quick Facts
+- United dominates Terminals 1 and 2; American uses Terminal 3; Terminal 5 is international.
+- The free Airport Transit System (ATS) runs 24/7 between terminals and the rental car center.
+- Security lines in Terminal 1 are longest before 8 a.m. and 4–7 p.m.
+- Terminal 5 customs can exceed 90 minutes on heavy European arrival banks.
+- No airside connection exists between Terminal 5 and the other terminals.
+
+## Security & Screening Tips
+- Enroll in CLEAR + TSA PreCheck; the combined lane at Terminal 1 is usually the fastest.
+- Avoid the main Terminal 3 checkpoint 5–7 p.m.; use the satellite checkpoint near Gate K8 instead.
+- International arrivals in Terminal 5: Global Entry kiosks cut wait times by 60–75 % on most days.
+- Peak congestion hits 6–9 a.m. and 3–8 p.m.; arrive at security no more than 75 minutes before departure if PreCheck.
+
+## Best Airport Tricks & Hacks
+- Walk the tunnel between Terminals 2 and 3 to bypass the ATS when moving between United and American flights.
+- Use the post-security walkway from Terminal 1 to Terminal 2 (8–10 minutes) instead of riding the ATS during rush hours.
+- Grab the 4 a.m.–6 a.m. window for shortest security lines even on heavy travel days.
+- Download the Fly Chicago app for real-time ATS and security wait times; it updates every 5 minutes.
+- Terminal 5 arrivals: clear customs first, then re-check bags airside before taking the ATS to avoid re-screening.
+- The United Polaris lounge in Terminal 1 accepts day passes after 5 p.m. when under capacity; arrive after 6 p.m. for best odds.
+
+## Terminals & Navigation
+- Terminal 1 (United): gates B and C; Terminal 2 (United Express): gates E and F.
+- Terminal 3 (American): gates H, K, L; Terminal 5 (all international): gates M.
+- Walking time between Terminal 1 and 3 via the tunnel is 12–15 minutes; ATS ride is 4 minutes plus wait.
+- Common mistake: assuming you can connect airside from Terminal 5—plan 45–60 minutes for the ATS plus security.
+
+## Lounges, Food & Amenities
+- United Polaris Lounge (Terminal 1, near gate C18) is the only genuinely quiet paid option with good showers.
+- Garrett Popcorn in Terminal 3 (near gate H4) and Terminal 1 (near B8) is the best quick snack.
+- Tortas Frontera (Terminal 1, B8 and Terminal 3, K4) offers the highest-quality sit-down meal under $20.
+- The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
+
+## Ground Transport & Parking
+- Blue Line “L” train to downtown is $5 and runs 24/7; 45–55 minutes to the Loop.
+- Terminal 2/3 curb is fastest for rideshares; Terminal 1 often has 10-minute surge pricing.
+- Economy parking ($15/day) is a 5-minute ATS ride; avoid the garage ($40/day) unless you need <2 hours.
+- Leave the rental car center by 6:30 a.m. to beat the worst security rush on weekday mornings.
+
+## Official Sources
+- https://www.flychicago.com/ohare/home.page
+- https://www.tsa.gov/airports/chicago-ohare-international-airport
+- https://www.flychicago.com/ohare/flights/terminals.page
