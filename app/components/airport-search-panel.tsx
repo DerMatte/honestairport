@@ -1,16 +1,28 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { AirportSummary } from "@/lib/airport-content";
-import { filterAirports } from "@/lib/filter-airports";
+import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { filterAndSortAirports } from "@/lib/airport-utils";
 import { cn } from "@/lib/utils";
+import type { Airport, AirportFilters } from "@/lib/types";
 
 interface AirportSearchPanelProps {
-  airports: AirportSummary[];
+  airports: Airport[];
   onSelect?: () => void;
   autoFocus?: boolean;
   className?: string;
+}
+
+function searchFilters(query: string): AirportFilters {
+  return {
+    query,
+    minimumScore: 0,
+    regions: [],
+    amenities: [],
+    disruptionStatuses: [],
+    sort: "highest-score",
+  };
 }
 
 export function AirportSearchPanel({
@@ -23,7 +35,7 @@ export function AirportSearchPanel({
 
   const results = useMemo(() => {
     if (!query.trim()) return airports.slice(0, 6);
-    return filterAirports(airports, query).slice(0, 8);
+    return filterAndSortAirports(airports, searchFilters(query)).slice(0, 8);
   }, [airports, query]);
 
   return (
@@ -45,9 +57,9 @@ export function AirportSearchPanel({
           <div className="px-3 py-3 text-sm text-muted-foreground">No airports found.</div>
         ) : (
           results.map((airport) => (
-            <a
+            <Link
               key={airport.iata}
-              href={`/airports/${airport.iata.toLowerCase()}`}
+              href={`/airports/${airport.slug}`}
               onClick={() => {
                 setQuery("");
                 onSelect?.();
@@ -59,9 +71,10 @@ export function AirportSearchPanel({
                 <span className="text-sm font-medium">{airport.name}</span>
               </div>
               <div className="mt-0.5 text-xs text-muted-foreground">
-                {airport.city}, {airport.country}
+                {airport.city}, {airport.country} · Score{" "}
+                {airport.airportistScore.toFixed(1)}
               </div>
-            </a>
+            </Link>
           ))
         )}
       </div>

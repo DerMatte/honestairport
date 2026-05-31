@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Menu, Search } from "lucide-react";
-import type { AirportSummary } from "@/lib/airport-content";
 import { AirportSearchPanel } from "@/app/components/airport-search-panel";
 import { Button } from "@/components/ui/button";
+import type { Airport } from "@/lib/types";
 import {
   Popover,
   PopoverContent,
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 
 interface SiteHeaderProps {
-  airports: AirportSummary[];
+  airports: Airport[];
 }
 
 export function SiteHeader({ airports }: SiteHeaderProps) {
@@ -32,7 +33,7 @@ export function SiteHeader({ airports }: SiteHeaderProps) {
     <div className="ml-auto flex items-center gap-1">
       <nav className="mr-1 hidden items-center md:flex">
         <Button variant="ghost" size="sm" asChild>
-          <a href="/">Airports</a>
+          <Link href="/">Directory</Link>
         </Button>
       </nav>
 
@@ -70,7 +71,7 @@ export function SiteHeader({ airports }: SiteHeaderProps) {
           <nav className="flex flex-col gap-1 px-4">
             <SheetClose asChild>
               <Button variant="ghost" className="justify-start" asChild>
-                <a href="/">All airports</a>
+                <Link href="/">Airport directory</Link>
               </Button>
             </SheetClose>
           </nav>

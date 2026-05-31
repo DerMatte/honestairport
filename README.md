@@ -1,69 +1,94 @@
-# TravelGuide — Per-Airport Knowledge Pages
+# HonestAirport
 
-The best practical travel information for major airports, presented as clean, scannable Markdown pages (one per airport).
+HonestAirport is a premium traveler-focused airport directory inspired by the clarity of hotelist-style directories, but built for airports. It helps travelers compare airports, understand disruption risk, and find practical Traveler Tips before they leave for the terminal.
 
-**Focus**: Security tips, clever tricks & hacks, navigation, lounges, and ground transport — prioritized for real travelers.
+## Tech Stack
 
-Inspired by high-signal "grokipedia"-style knowledge pages.
+- Next.js 16 App Router
+- TypeScript
+- Tailwind CSS 4
+- shadcn/ui components
+- React Hook Form + Zod ready for future forms
+- Lucide icons
+- Vercel deployment ready
 
 ## Getting Started
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-Visit http://localhost:3000 — you'll see the airport directory with live search.
+Open http://localhost:3000 to view the directory.
 
-Click any airport (JFK and LAX have real high-quality content) to see the rendered page.
+## Current MVP
 
-## Key Features (Current)
+- Homepage hero with search by airport name, code, city, country, or region
+- Filterable airport cards by Airportist Score, region, amenities, and disruption level
+- Sort options for Highest Score, Most Reviewed, and Least Disruptions
+- Lightweight static world map with clickable airport pins
+- Detail pages at `/airports/[slug]`
+- Tabs for Overview, Getting There, Facilities & Amenities, Traveler Tips & Hacks, Current Disruptions, and Reviews & Photos
+- Flighty-style mock disruption data with delay percentages, cancellation pressure, alert tags, and update timestamps
+- SEO metadata and airport JSON-LD
+- Loading skeletons and empty states
 
-- Extremely simple Markdown-driven content (`/content/airports/*.md`)
-- Clean, readable design with tips & tricks front-and-center
-- Client-side search on the directory
-- Fully static/SSG pages (great performance)
-- AI SDK-powered generator script for drafting new pages
+## Seed Airports
 
-## Adding a New Airport (Manual)
+The MVP includes 10 major airports:
 
-1. Create `content/airports/xxx.md` (lowercase IATA).
-2. Follow the exact heading structure used in `jfk.md` / `lax.md`.
-3. Add proper YAML frontmatter (`iata`, `name`, `lastUpdated`, `sources`, optional `quickFacts`).
-4. The page appears automatically.
+- JFK, LAX, ORD, ATL
+- LHR, CDG, FRA
+- DXB, SIN, HND
 
-## Using the AI Content Generator (Recommended for Drafts)
+## Project Structure
+
+```text
+app/
+  airports/[slug]/page.tsx       Airport detail route
+  airports/[slug]/loading.tsx    Detail loading skeleton
+  components/                    Product components
+  layout.tsx                     Root shell and metadata
+  page.tsx                       Homepage route
+components/ui/                   shadcn/ui primitives
+lib/
+  airport-utils.ts               Filtering, sorting, labels, JSON-LD helpers
+  data.ts                        Structured sample airport data
+  types.ts                       Airport, Disruption, Amenity, Tip, Review types
+```
+
+The older Markdown files under `content/airports/` and generator scripts are still present as reference/editorial tooling, but the MVP UI now uses structured TypeScript data from `lib/data.ts`.
+
+## Data Model
+
+Core interfaces live in `lib/types.ts`:
+
+- `Airport`
+- `Disruption`
+- `Amenity`
+- `Tip`
+- `Review`
+
+Each airport includes an Airportist Score, score breakdown, stats, coordinates, transport options, amenities, Traveler Tips, reviews, placeholder photo metadata, and current disruption data.
+
+## Disruption Data Roadmap
+
+Current disruption data is realistic mock data. A production version can replace it with a server-side ingestion pipeline that scrapes `https://flighty.com/airports` with Cheerio on a Vercel Cron schedule, or with a licensed third-party aviation operations API exposed through a Next.js route handler.
+
+## Scripts
 
 ```bash
-# Requires AI_GATEWAY_API_KEY (your Vercel AI Gateway key with xAI access)
-AI_GATEWAY_API_KEY=your_gateway_key npx tsx scripts/generate-airport.ts LHR
-AI_GATEWAY_API_KEY=your_gateway_key npx tsx scripts/generate-airport.ts CDG "Focus on families and long-haul connections"
+pnpm dev
+pnpm build
+pnpm lint
 ```
 
-The generator uses `streamText` + **Grok 4.3 via the Vercel AI Gateway** (model: `xai/grok-4.3`).
+## Future Roadmap
 
-**Always** human-review and fact-check generated pages before publishing. The script is a powerful drafting assistant, not a source of truth.
-
-## Tech Stack (Intentionally Minimal)
-
-- Next.js App Router + TypeScript
-- Tailwind
-- `gray-matter` + `react-markdown` + `remark-gfm` (simple, no heavy MDX)
-- Vercel AI SDK (`ai` + `@ai-sdk/openai`) — used only in the generator script
-
-No database. No CMS. Pure files + Git.
-
-## Deploy
-
-Deploy to Vercel with one click (or `vercel` CLI). Everything is static and works great on the free tier.
-
-## Philosophy
-
-- One excellent page beats many mediocre ones.
-- Tips and tricks are the star of the show.
-- Every claim should be traceable to an official or highly reputable source.
-- Start narrow, go deep.
-
----
-
-Built following the approved implementation plan for a simple, high-signal airport knowledge site.
+- Real disruption ingestion and historical reliability trends
+- User-submitted reviews and tip validation
+- Airport comparison pages
+- Personalized layover recommendations
+- Real terminal navigation and walking-time maps
+- Photo uploads with moderation
+- Forms powered by React Hook Form + Zod

@@ -1,8 +1,8 @@
 import { AirportDirectory } from "@/app/components/airport-directory";
-import { getAllAirports } from "@/lib/airport-content";
+import { getAllHonestAirports } from "@/lib/airport-utils";
 
-export default async function AirportsDirectory() {
-  const airports = await getAllAirports();
+export default function HomePage() {
+  const airports = getAllHonestAirports();
 
   return <AirportDirectory airports={airports} />;
 }

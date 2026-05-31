@@ -1,72 +1,352 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { AirportSummary } from "@/lib/airport-content";
-import { filterAirports } from "@/lib/filter-airports";
+import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
+import { AirportCard } from "@/app/components/airport-card";
+import { AirportMap } from "@/app/components/airport-map";
+import { DisruptionBadge } from "@/app/components/disruption-status";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Slider } from "@/components/ui/slider";
+import {
+  amenityCategories,
+  amenityLabel,
+  disruptionStatuses,
+  filterAndSortAirports,
+  regions,
+} from "@/lib/airport-utils";
+import type {
+  Airport,
+  AirportFilters,
+  AirportSort,
+  AmenityCategory,
+  DisruptionStatus,
+  Region,
+} from "@/lib/types";
 
 interface AirportDirectoryProps {
-  airports: AirportSummary[];
+  airports: Airport[];
+}
+
+const DEFAULT_FILTERS: AirportFilters = {
+  query: "",
+  minimumScore: 0,
+  regions: [],
+  amenities: [],
+  disruptionStatuses: [],
+  sort: "highest-score",
+};
+
+function toggleValue<T extends string>(values: T[], value: T): T[] {
+  return values.includes(value)
+    ? values.filter((item) => item !== value)
+    : [...values, value];
+}
+
+function FilterPanel({
+  filters,
+  onFiltersChange,
+  onReset,
+}: {
+  filters: AirportFilters;
+  onFiltersChange: (filters: AirportFilters) => void;
+  onReset: () => void;
+}) {
+  return (
+    <Card className="border-border/70 bg-card/95">
+      <CardHeader className="flex-row items-center justify-between gap-3">
+        <div>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <SlidersHorizontal className="size-4" aria-hidden="true" />
+            Filters
+          </CardTitle>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Tune the directory for your travel style.
+          </p>
+        </div>
+        <Button variant="ghost" size="sm" onClick={onReset}>
+          <RotateCcw className="size-3.5" aria-hidden="true" />
+          Reset
+        </Button>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-sm">
+            <Label>Minimum Airportist Score</Label>
+            <span className="font-mono">{filters.minimumScore.toFixed(1)}</span>
+          </div>
+          <Slider
+            min={0}
+            max={10}
+            step={0.5}
+            value={[filters.minimumScore]}
+            onValueChange={(value) =>
+              onFiltersChange({
+                ...filters,
+                minimumScore: value[0] ?? 0,
+              })
+            }
+          />
+        </div>
+
+        <div className="space-y-3">
+          <Label>Region</Label>
+          <div className="space-y-2">
+            {regions.map((region) => (
+              <label key={region} className="flex items-center gap-2 text-sm">
+                <Checkbox
+                  checked={filters.regions.includes(region)}
+                  onCheckedChange={() =>
+                    onFiltersChange({
+                      ...filters,
+                      regions: toggleValue<Region>(filters.regions, region),
+                    })
+                  }
+                />
+                {region}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <Label>Amenities</Label>
+          <div className="space-y-2">
+            {amenityCategories.map((category) => (
+              <label key={category} className="flex items-center gap-2 text-sm">
+                <Checkbox
+                  checked={filters.amenities.includes(category)}
+                  onCheckedChange={() =>
+                    onFiltersChange({
+                      ...filters,
+                      amenities: toggleValue<AmenityCategory>(
+                        filters.amenities,
+                        category,
+                      ),
+                    })
+                  }
+                />
+                {amenityLabel(category)}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <Label>Current Disruption Level</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {disruptionStatuses.map((status) => (
+              <label
+                key={status}
+                className="flex items-center gap-2 rounded-xl border bg-background/60 p-2 text-sm"
+              >
+                <Checkbox
+                  checked={filters.disruptionStatuses.includes(status)}
+                  onCheckedChange={() =>
+                    onFiltersChange({
+                      ...filters,
+                      disruptionStatuses: toggleValue<DisruptionStatus>(
+                        filters.disruptionStatuses,
+                        status,
+                      ),
+                    })
+                  }
+                />
+                <DisruptionBadge status={status} />
+              </label>
+            ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }
 
 export function AirportDirectory({ airports }: AirportDirectoryProps) {
-  const [query, setQuery] = useState("");
+  const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
 
   const filteredAirports = useMemo(
-    () => filterAirports(airports, query),
-    [airports, query],
+    () => filterAndSortAirports(airports, filters),
+    [airports, filters],
   );
 
+  const topAirport = airports[0];
+  const activeFilterCount =
+    filters.regions.length +
+    filters.amenities.length +
+    filters.disruptionStatuses.length +
+    (filters.minimumScore > 0 ? 1 : 0);
+
+  function updateFilters(nextFilters: AirportFilters) {
+    setFilters(nextFilters);
+  }
+
+  function resetFilters() {
+    setFilters({ ...DEFAULT_FILTERS, regions: [], amenities: [], disruptionStatuses: [] });
+  }
+
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-      <div className="mb-10">
-        <h1 className="text-4xl font-semibold tracking-tighter">Airports</h1>
-        <p className="mt-3 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          The most important practical information for major airports — security, clever tricks, navigation, lounges, and more.
-          One clean, scannable page per airport.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
+      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-16">
+        <div className="flex flex-col justify-center">
+          <Badge variant="outline" className="mb-5 w-fit rounded-full">
+            HonestAirport beta · Airportist Score inside
+          </Badge>
+          <h1 className="max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
+            Airport intel that feels like a calm frequent flyer in your pocket.
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
+            Search major airports, compare disruption risk, spot the amenities
+            that matter, and read practical Traveler Tips before you get there.
+          </p>
 
-      <label className="mb-8 block">
-        <span className="sr-only">Search airports</span>
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search by code, name, or city…"
-          className="w-full rounded-2xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-zinc-600"
-        />
-      </label>
+          <div className="mt-8 max-w-2xl rounded-2xl border bg-card p-2 shadow-xl shadow-foreground/5">
+            <div className="flex items-center gap-2">
+              <Search className="ml-3 size-5 text-muted-foreground" aria-hidden="true" />
+              <Input
+                type="search"
+                value={filters.query}
+                onChange={(event) =>
+                  updateFilters({ ...filters, query: event.target.value })
+                }
+                placeholder="Search airports by name, code, or city"
+                className="h-12 border-0 bg-transparent text-base shadow-none focus-visible:ring-0"
+              />
+            </div>
+          </div>
 
-      {filteredAirports.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-zinc-300 px-6 py-10 text-center text-sm text-zinc-500 dark:border-zinc-700">
-          {airports.length === 0
-            ? "No airport pages yet. Add a Markdown file under content/airports/ to get started."
-            : "No airports match your search."}
+          <div className="mt-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
+            <Badge variant="secondary" className="rounded-full">
+              {airports.length} curated airports
+            </Badge>
+            {topAirport ? (
+              <Badge variant="secondary" className="rounded-full">
+                Top score: {topAirport.iata} {topAirport.airportistScore.toFixed(1)}
+              </Badge>
+            ) : null}
+            <Badge variant="secondary" className="rounded-full">
+              Flighty-style disruption signals
+            </Badge>
+          </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredAirports.map((airport) => (
-            <a
-              key={airport.iata}
-              href={`/airports/${airport.iata.toLowerCase()}`}
-              className="group block rounded-2xl border border-zinc-200 bg-white p-6 transition hover:border-zinc-300 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
-            >
-              <div className="font-mono text-xs tracking-[3px] text-zinc-500">{airport.iata}</div>
-              <div className="mt-2 text-xl font-semibold tracking-tight group-hover:underline">{airport.name}</div>
-              <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                {airport.city}, {airport.country}
-              </div>
-              <div className="mt-4 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                View best tips &amp; tricks →
-              </div>
-            </a>
-          ))}
-        </div>
-      )}
 
-      <div className="mt-12 text-xs text-zinc-500">
-        {airports.length} airport{airports.length === 1 ? "" : "s"} published. All content prioritizes official sources + verified traveler tricks.
-      </div>
+        <AirportMap airports={airports} />
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[280px_1fr]">
+        <aside className="hidden lg:block">
+          <FilterPanel
+            filters={filters}
+            onFiltersChange={updateFilters}
+            onReset={resetFilters}
+          />
+        </aside>
+
+        <div className="space-y-5">
+          <div className="flex flex-col gap-3 rounded-2xl border bg-card/80 p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div className="text-sm font-medium">
+                {filteredAirports.length} airport
+                {filteredAirports.length === 1 ? "" : "s"} found
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {activeFilterCount > 0
+                  ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} active`
+                  : "Showing the full HonestAirport starter set"}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="lg:hidden">
+                    <Filter className="size-4" aria-hidden="true" />
+                    Filters
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>Filter airports</SheetTitle>
+                  </SheetHeader>
+                  <div className="px-4 pb-4">
+                    <FilterPanel
+                      filters={filters}
+                      onFiltersChange={updateFilters}
+                      onReset={resetFilters}
+                    />
+                  </div>
+                </SheetContent>
+              </Sheet>
+
+              <Select
+                value={filters.sort}
+                onValueChange={(value) =>
+                  updateFilters({
+                    ...filters,
+                    sort: value as AirportSort,
+                  })
+                }
+              >
+                <SelectTrigger className="w-44">
+                  <SelectValue placeholder="Sort airports" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="highest-score">Highest Score</SelectItem>
+                  <SelectItem value="most-reviewed">Most Reviewed</SelectItem>
+                  <SelectItem value="least-disruptions">Least Disruptions</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {filteredAirports.length === 0 ? (
+            <Card className="border-dashed">
+              <CardContent className="flex flex-col items-center px-6 py-14 text-center">
+                <div className="rounded-full bg-muted p-4">
+                  <Search className="size-6 text-muted-foreground" aria-hidden="true" />
+                </div>
+                <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
+                <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                  Try lowering the score threshold or removing an amenity filter.
+                  HonestAirport is starting with 10 major hubs.
+                </p>
+                <Button className="mt-5" variant="outline" onClick={resetFilters}>
+                  Reset filters
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {filteredAirports.map((airport) => (
+                <AirportCard key={airport.iata} airport={airport} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

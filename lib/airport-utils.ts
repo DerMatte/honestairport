@@ -1,0 +1,224 @@
+import { airports } from "@/lib/data";
+import type {
+  Airport,
+  AirportFilters,
+  AmenityCategory,
+  DisruptionStatus,
+  Region,
+  TipCategory,
+} from "@/lib/types";
+
+export const regions: Region[] = [
+  "North America",
+  "Europe",
+  "Asia-Pacific",
+  "Middle East",
+];
+
+export const amenityCategories: AmenityCategory[] = [
+  "food",
+  "lounge",
+  "wifi",
+  "family",
+  "accessibility",
+  "transport",
+  "shopping",
+  "sleep",
+];
+
+export const disruptionStatuses: DisruptionStatus[] = [
+  "normal",
+  "minor",
+  "moderate",
+  "severe",
+];
+
+export function getAllHonestAirports(): Airport[] {
+  return [...airports].sort((a, b) => b.airportistScore - a.airportistScore);
+}
+
+export function getAirportBySlug(slug: string): Airport | undefined {
+  const normalized = slug.trim().toLowerCase();
+  return airports.find((airport) => airport.slug === normalized);
+}
+
+export function getAirportSlugs(): string[] {
+  return airports.map((airport) => airport.slug);
+}
+
+export function filterAndSortAirports(
+  airportList: Airport[],
+  filters: AirportFilters,
+): Airport[] {
+  const normalizedQuery = filters.query.trim().toLowerCase();
+
+  const filtered = airportList.filter((airport) => {
+    const matchesQuery =
+      !normalizedQuery ||
+      [
+        airport.name,
+        airport.shortName,
+        airport.iata,
+        airport.icao,
+        airport.city,
+        airport.country,
+        airport.region,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalizedQuery);
+
+    const matchesScore = airport.airportistScore >= filters.minimumScore;
+    const matchesRegion =
+      filters.regions.length === 0 || filters.regions.includes(airport.region);
+    const matchesAmenities =
+      filters.amenities.length === 0 ||
+      filters.amenities.every((category) =>
+        airport.amenities.some((amenity) => amenity.category === category),
+      );
+    const matchesDisruption =
+      filters.disruptionStatuses.length === 0 ||
+      filters.disruptionStatuses.includes(airport.disruption.status);
+
+    return (
+      matchesQuery &&
+      matchesScore &&
+      matchesRegion &&
+      matchesAmenities &&
+      matchesDisruption
+    );
+  });
+
+  return filtered.sort((a, b) => {
+    switch (filters.sort) {
+      case "highest-score":
+        return b.airportistScore - a.airportistScore;
+      case "most-reviewed":
+        return b.reviews.length - a.reviews.length;
+      case "least-disruptions":
+        return disruptionSeverityRank(a.disruption.status) - disruptionSeverityRank(b.disruption.status);
+      default: {
+        const exhaustiveCheck: never = filters.sort;
+        return exhaustiveCheck;
+      }
+    }
+  });
+}
+
+export function disruptionSeverityRank(status: DisruptionStatus): number {
+  switch (status) {
+    case "normal":
+      return 0;
+    case "minor":
+      return 1;
+    case "moderate":
+      return 2;
+    case "severe":
+      return 3;
+    default: {
+      const exhaustiveCheck: never = status;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function disruptionLabel(status: DisruptionStatus): string {
+  switch (status) {
+    case "normal":
+      return "Normal";
+    case "minor":
+      return "Minor";
+    case "moderate":
+      return "Moderate";
+    case "severe":
+      return "Severe";
+    default: {
+      const exhaustiveCheck: never = status;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function amenityLabel(category: AmenityCategory): string {
+  switch (category) {
+    case "food":
+      return "Food";
+    case "lounge":
+      return "Has Lounge";
+    case "wifi":
+      return "Fast WiFi";
+    case "family":
+      return "Family Friendly";
+    case "accessibility":
+      return "Accessibility";
+    case "transport":
+      return "Easy Transport";
+    case "shopping":
+      return "Shopping";
+    case "sleep":
+      return "Sleep Options";
+    default: {
+      const exhaustiveCheck: never = category;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function tipCategoryLabel(category: TipCategory): string {
+  switch (category) {
+    case "security":
+      return "Security";
+    case "food":
+      return "Food";
+    case "navigation":
+      return "Navigation";
+    case "layover":
+      return "Layover";
+    case "transport":
+      return "Transport";
+    case "family":
+      return "Family";
+    case "lounge":
+      return "Lounge";
+    default: {
+      const exhaustiveCheck: never = category;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+export function formatDateTime(value: Date): string {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+  }).format(value);
+}
+
+export function airportJsonLd(airport: Airport) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Airport",
+    name: airport.name,
+    iataCode: airport.iata,
+    icaoCode: airport.icao,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: airport.city,
+      addressCountry: airport.country,
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: airport.coordinates.latitude,
+      longitude: airport.coordinates.longitude,
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: airport.airportistScore,
+      bestRating: 10,
+      ratingCount: airport.reviews.length,
+    },
+  };
+}
