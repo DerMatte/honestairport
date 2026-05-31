@@ -9,6 +9,7 @@ sources:
   - "https://www.heathrow.com/connecting-flights"
   - "https://www.heathrow.com/airport-guide/security"
   - "https://www.heathrow.com/transport-and-directions"
+  - "https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"
   - "https://www.britishairways.com/information/airport-information/flight-connections"
   - "https://news.aa.com/news/news-details/2025/Cleared-to-connect-American-Airlines-pilots-streamlined-security-program-in-collaboration-with-US-and-UK-governments-OPS-OTH-02/"
 quickFacts:
@@ -77,5 +78,6 @@ quickFacts:
 - [Heathrow Connecting flights](https://www.heathrow.com/connecting-flights)
 - [Heathrow Security](https://www.heathrow.com/airport-guide/security)
 - [Heathrow Transport](https://www.heathrow.com/transport-and-directions)
+- [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - [BA Flight Connections at LHR](https://www.britishairways.com/information/airport-information/flight-connections)
 - Always re-check terminal assignments and construction notices the day before travel.
