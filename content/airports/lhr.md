@@ -26,7 +26,7 @@ quickFacts:
 
 ## Quick Facts
 - **Terminals:** 2 (Star Alliance hub), 3 (many long-haul/oneworld), 4 (SkyTeam-heavy), 5 (British Airways hub with A/B/C satellites).
-- **MCT (same ticket):** BA/heathrow guidance is often 60–90 minutes on one ticket, but experienced travelers treat **90 minutes as the floor** and **2–2.5 hours** as sane for terminal changes.
+- **MCT (same ticket):** BA/Heathrow guidance is often 60–90 minutes on one ticket, but experienced travelers treat **90 minutes as the floor** and **2–2.5 hours** as sane for terminal changes.
 - **Separate tickets:** BA recommends **at least 4 hours** — you must collect bags, change terminals landside, and check in again.
 - **Wi‑Fi:** Free `_Heathrow Wi-Fi`; registration required, sessions expire (re-login periodically).
 - **Liquids on connections:** In **Terminals 2, 3, and 5**, connecting passengers may keep **liquids up to 2 litres** and large electronics **inside** cabin baggage at connection security ([Heathrow connecting flights](https://www.heathrow.com/connecting-flights)). **Terminal 4** upgrades are ongoing — you may still need liquids in **100 ml** containers and electronics out; follow staff directions.
@@ -53,12 +53,12 @@ quickFacts:
 - **T2 ↔ T3:** Connected and a relatively short walk **within** the connected area, but still allow time for re-security.
 - **T4:** More isolated — connections involving T4 often need **30–40+ minutes** of transfer time plus security.
 - **T5 layout:** Main building (A gates) plus B and C satellites via transit train — check **both** arrival and departure pier on your boarding pass.
-- **Recommended connection buffers (experienced traveler consensus):**
+- **Recommended connection buffers (practical, not airline marketing):**
   - Same terminal, same pier: **60–90 min** minimum
   - Terminal change on one ticket: **90 min official, 2+ hours safer**
   - Separate tickets: **4 hours** (BA guidance) — don’t cut it close
 
-## Lounges, Food & Amenities
+## Lounges Food & Amenities
 - **Paid day passes:** No.1 Lounge (T3) is often cited as good value vs. airline lounges when you lack status — showers and quiet zones; verify current walk-in/day-pass rules.
 - **T5 food:** Strongest variety airside; “celebrity name” restaurants are popular — order ahead via apps at peak meal times to skip lines.
 - **Last-minute essentials:** T2 WHSmith/Boots are reliable for travel-size liquids and adapters after security.
@@ -80,4 +80,6 @@ quickFacts:
 - [Heathrow Transport](https://www.heathrow.com/transport-and-directions)
 - [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - [BA Flight Connections at LHR](https://www.britishairways.com/information/airport-information/flight-connections)
+- [UK hand luggage liquids (GOV.UK)](https://www.gov.uk/hand-luggage-restrictions/liquids)
+- [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - Always re-check terminal assignments and construction notices the day before travel.

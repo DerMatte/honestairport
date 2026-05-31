@@ -12,6 +12,7 @@ sources:
   - "https://www.portauthoritybuilds.com/redevelopment/us/en/jfk/planned-projects/terminal-6.html"
   - "https://shakeshack.com/locations"
   - "https://www.tsa.gov/travel/security-screening/whatcanibring"
+  - "https://www.portauthoritybuilds.com/redevelopment/us/en/jfk/terminal-6.html"
 quickFacts:
   - "Five active terminals: 1, 4, 5, 7, 8 (2 and 3 demolished; new T6 opening in phases from 2026)"
   - "No airside connections — every terminal change requires AirTrain + new TSA screening"

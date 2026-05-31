@@ -72,7 +72,7 @@ quickFacts:
   - Same ticket, **T2 + Satellite** or Schengen border crossing: **75–90 min**
   - Same ticket, **T1 ↔ T2**: **90 min** floor, **2 h** in peaks
   - Separate tickets: **3+ hours** minimum
-- **Common mistakes:** Assuming **TBIT-style** re-security on every T2 connection (many stay airside on one ticket); entering **wrong T1 module**; missing that **PTS stops after midnight** (plan landside reroute if applicable).
+- **Common mistakes:** Assuming **extra re-screening** on every T2 connection (many stay airside on one ticket); entering **wrong T1 module**; missing that **PTS stops after midnight** (plan landside reroute if applicable).
 
 ## Lounges Food & Amenities
 - **Lufthansa Senator / Business (T2):** The default good lounges for status — **Level 5** for Schengen/non-Schengen split; additional lounges in the **Satellite**. **Works best** off-peak; **avoid** tight connections during the **morning long-haul bank** when Senator fills with connecting premium traffic.
