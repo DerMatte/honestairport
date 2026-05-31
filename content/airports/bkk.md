@@ -3,7 +3,7 @@ iata: "BKK"
 name: "Suvarnabhumi Airport (Bangkok)"
 city: "Bangkok"
 country: "Thailand"
-lastUpdated: "2026-05-27"
+lastUpdated: "2026-05-30"
 sources:
   - "https://suvarnabhumi.airportthai.co.th/"
   - "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/Transportation_BKK"
@@ -11,15 +11,16 @@ sources:
   - "https://suvarnabhumi.airportthai.co.th/service/way-to-airport/detail/suvarnabhumi_airport_SAT-1"
   - "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/2024_Update_Suvarnabhumi_Airport_Free_Wi-Fi_Access"
   - "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/902"
-  - "https://tdac.immigration.go.th/"
+  - "https://tdac.immigration.go.th/manual/en/faq.html"
   - "https://www.thaiairways.com/en-ch/content/ground-services/lounges/"
   - "https://thailand.go.th/issue-focus-detail/001_01_090"
+  - "https://bangkokairporttrain.com/timetable/"
 quickFacts:
   - "One main terminal (MTB) plus Satellite Terminal 1 (SAT-1) linked by underground APM (~3 min)"
   - "Thai Airways hub; many long-haul and full-service international carriers use SAT-1 (gates S101–S128)"
   - "MCT on one ticket: 90 min int'l–int'l airside is the airline floor — add buffer Nov–Apr and for SAT-1 hops"
   - "TDAC digital arrival card required for most arrivals (free at tdac.immigration.go.th)"
-  - "Airport Rail Link to Phaya Thai (BTS): THB 45, ~26–30 min, 05:30–24:00 — not 24h"
+  - "Airport Rail Link to Phaya Thai (BTS): THB 45, ~26–30 min, 05:30–24:00 weekdays (last train ~00:08 weekends/holidays)"
   - "Free BKK↔DMK shuttle for same-day connections: Level 2 Gate 3, 05:00–24:00"
 ---
 
@@ -34,7 +35,7 @@ quickFacts:
   - **Int'l ↔ domestic** (immigration involved): **120 min** published; plan **2.5–3 h** in high season when queues spike.
   - **MTB ↔ SAT-1:** APM ride ~**3 min** (incl. wait) per AOT — still budget **20–30 min** gate-to-gate with walks and possible **connection security**.
 - **Separate tickets / self-transfer:** collect bags, clear immigration, check in again — **4 h minimum** for BKK-only; **5 h+** if changing **BKK ↔ DMK**.
-- **TDAC:** Non-Thai nationals entering Thailand must file the **Thailand Digital Arrival Card** online within **72 hours** of arrival ([tdac.immigration.go.th](https://tdac.immigration.go.th/)) — free; pure **airside transit without immigration** is exempt. Kiosks exist at BKK but add delay.
+- **TDAC:** Non-Thai nationals **entering Thailand** (passing immigration) must file the **Thailand Digital Arrival Card** online within **72 hours** of arrival ([TDAC FAQ](https://tdac.immigration.go.th/manual/en/faq.html)) — free. Pure **airside transit without immigration** is **exempt**. Kiosks exist at BKK but add delay.
 - **Wi‑Fi:** **"AOT Airport Free Wi-Fi by NT"** — browser login, **60-minute** sessions, re-authenticate as needed (per AOT).
 - **Liquids:** Standard **100 ml** cabin rules apply; assume conventional screening unless staff direct otherwise — don’t rely on US-style “leave everything in the bag” habits.
 
@@ -56,7 +57,7 @@ quickFacts:
 - **Empty bottle:** Refill stations airside near many restrooms — skip **฿150+** bottled water at duty-free.
 - **Airport Rail Link beats taxi** to **Phaya Thai / Makkasan** in rush hour (**17:00–20:00**) — taxi wins only with **3+ passengers** or **heavy bags** at quiet hours.
 - **After midnight:** ARL stops ~**24:00** — taxi/Grab only; queue at official taxi stand (**Level 1, Gates 4–7**) with meter + **฿50** airport surcharge.
-- **Avoid:** Booking **90 min** int'l–int'l in **January** with checked bags and an **SAT-1** departure — experienced travelers treat that as a self-inflicted misconnect.
+- **Avoid:** Booking **90 min** int'l–int'l in **January** with checked bags and an **SAT-1** departure — AOT connection guidance and peak-season queues make that a common misconnect; experienced travelers treat it as a self-inflicted misconnect.
 
 ## Terminals & Navigation
 - **MTB:** Single giant hall — **4F** departures/check-in, **3F** shops, **2F** arrivals and many transfer desks, **1F** taxis/buses, **B1** Airport Rail Link, **B2** APM to SAT-1.
@@ -87,7 +88,7 @@ quickFacts:
 - **Long layover:** **Novotel** landside connected via walkway; **Boxtel** capsules at Airport Rail Link **B** level (~**4 h** blocks) if you want sleep without leaving the airport complex — verify current rates.
 
 ## Ground Transport & Parking
-- **Best value to central Bangkok:** **Airport Rail Link (City Line)** from **B1** — **05:30–24:00**, **THB 15–45** distance-based; **Phaya Thai** (BTS) **฿45 / ~26–30 min**; **Makkasan** (MRT Phetchaburi) **฿35**. Contactless tap-to-pay at marked gates. **Not 24 h** — taxi after last train.
+- **Best value to central Bangkok:** **Airport Rail Link (City Line)** from **B1** — **05:30–24:00** weekdays, last train **~00:08** on weekends/public holidays ([ARL timetable](https://bangkokairporttrain.com/timetable/)); **THB 15–45** distance-based; **Phaya Thai** (BTS) **฿45 / ~26–30 min**; **Makkasan** (MRT Phetchaburi) **฿35**. Contactless tap-to-pay at marked gates. **Not 24 h** — taxi after last train.
 - **When taxi wins:** Late night, **3+ passengers**, or heavy luggage on stairs at ARL stations. Official taxis: **Level 1 Gates 4–7**, queue ticket, meter from **฿35/40** + **฿50** airport surcharge + tolls.
 - **BKK ↔ DMK (connecting flights only):** Free shuttle **Level 2 Gate 3**, **05:00–24:00**, every **30 min** — boarding pass + passport required ([Thailand.go.th](https://thailand.go.th/issue-focus-detail/001_01_090)).
 - **Budget bus:** **S1** to Khaosan/Sanam Luang (**06:00–20:00**, Gate 7 area); public buses **554/555** also link airports cheaply but are slower and less luggage-friendly than ARL.
@@ -102,7 +103,8 @@ quickFacts:
 - [Connecting flights at SAT-1](https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/ConnectingFlightProceduresinsideSAT-1)
 - [Free Wi‑Fi (AOT / NT)](https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/2024_Update_Suvarnabhumi_Airport_Free_Wi-Fi_Access)
 - [Fast Track lanes](https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/902)
-- [Thailand Digital Arrival Card (TDAC)](https://tdac.immigration.go.th/)
+- [Thailand Digital Arrival Card (TDAC FAQ)](https://tdac.immigration.go.th/manual/en/faq.html)
+- [Airport Rail Link timetable](https://bangkokairporttrain.com/timetable/)
 - [BKK ↔ DMK free shuttle](https://thailand.go.th/issue-focus-detail/001_01_090)
 - [Thai Airways lounge access](https://www.thaiairways.com/en-ch/content/ground-services/lounges/)
 - Re-check gate terminal (**S###** = SAT-1), TDAC rules, and ARL last train before every trip — immigration policy and F/C priority lanes change without much notice.

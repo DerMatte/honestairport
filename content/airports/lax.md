@@ -3,18 +3,22 @@ iata: "LAX"
 name: "Los Angeles International Airport"
 city: "Los Angeles"
 country: "United States"
-lastUpdated: "2026-05-27"
+lastUpdated: "2026-05-30"
 sources:
   - "https://www.flylax.com/"
   - "https://www.flylax.com/inter-terminal-connections"
   - "https://www.flylax.com/lax-it"
   - "https://www.flylax.com/flyaway-bus/fares-tickets"
+  - "https://www.flylax.com/flyaway"
   - "https://www.tsa.gov/travel/security-screening/whatcanibring"
+  - "https://shakeshack.com/locations"
 quickFacts:
   - "Terminals 1–8 plus Tom Bradley International (Terminal B / TBIT)"
   - "All terminals connected airside on foot since 2023 — plan 10–30+ min walks"
+  - "Airside walk T1→T8 is ~2 miles — budget 35–45 min for a full end-to-end hike"
   - "Standard rideshare/taxi pickups use LAX-it (free shuttle from arrivals); premium tiers pick up curbside"
-  - "FlyAway bus to Union Station or Van Nuys: $12.75 one-way (no cash)"
+  - "FlyAway buses serve Union Station and Van Nuys only: $12.75 one-way (no cash)"
+  - "In-N-Out is landside (9149 S Sepulveda); Shake Shack is airside in Terminal 3 near Gate 34"
   - "TSA PreCheck at T1, T4, T6, T7, and TBIT South; CLEAR at most major terminals"
 ---
 
@@ -39,38 +43,42 @@ quickFacts:
 - **Terminal-specific gotcha:** **T7 and T8 share one security checkpoint** — if your gate is in the other building, you still walk airside after clearing once.
 - **Construction:** LAX is mid-transformation (people mover, terminal upgrades) — checkpoint locations and walking routes can shift; check [flylax.com](https://www.flylax.com/) the day of travel.
 - **International arrivals:** CBP processing at TBIT (and other int'l terminals) is often the bottleneck, not TSA — budget time before any domestic connection.
+- **Terminal change on separate tickets** always means a **new** TSA line — airside walkways only help when you stay on one ticket and remain airside.
 
 ## Best Airport Tricks & Hacks
 - **West Gates trap:** Gates in the **200s** are in the **West Gates** building — a long underground walk from the main TBIT Great Hall. Check **both** gate area and terminal on your boarding pass; some airlines check in at **T1** and bus airside to West Gates.
 - **T1 ↔ West Gates shuttle:** Airside bus **T1 ↔ TBIT West Gates** runs **every 10 min, 24/7** — useful when your itinerary mixes remote West Gates with T1 check-in ([LAWA](https://www.flylax.com/inter-terminal-connections)).
 - **In-N-Out is not airside:** The famous **9149 S Sepulveda Blvd** location is **outside** the airport (~**15–25 min** walk from nearer terminals on the arrivals level). Only viable on a **2+ hour** landside layover — you must exit security and re-clear TSA.
-- **Shake Shack (airside):** In **Terminal 3** food court — order via app at meal peaks to skip the line; not a TBIT option.
+- **Shake Shack (airside):** In **Terminal 3** near **Gate 34** (next to Starbucks) — order via app at meal peaks to skip the line; hours roughly **4:30 a.m.–midnight** per airport operator; not a TBIT option.
+- **Airside terminal hopping:** You can reach T3 Shake Shack from TBIT/T4–T8 without leaving security — but allow **15–25 min** walking for every 1–2 terminals crossed; don't cut a tight connection for a burger.
 - **LAX-it for standard Uber/Lyft:** Regular rideshare and taxi **pickups** use the **LAX-it** lot — free green-column shuttles from **arrivals (Level 1)** at every terminal (~**3–15 min** depending on terminal). Request your ride once you are on the shuttle or at LAX-it.
 - **Curbside pickup still exists for:** Private vehicles, limos/town cars, and **premium** ride tiers (**Uber Black/Black SUV, Lyft Lux/Lux XL**) — per [LAX-it FAQ](https://www.flylax.com/lax-it).
 - **Cell phone lot:** Well-signed off-airport waiting area for drivers meeting arriving passengers — beats circling the horseshoe.
-- **Avoid:** Assuming “same airport” means a short walk — **T1 to T7** airside can exceed **30 min** of walking alone.
+- **Baggage claim trick:** For international arrivals, the first bags often come out at the far end of the carousel. Position yourself accordingly.
+- **Avoid:** Assuming "same airport" means a short walk — **T1 to T7** airside can exceed **30 min** of walking alone.
 
 ## Terminals & Navigation
 - **North cluster (T1–T3 + TBIT):** **T1** (Southwest, JetBlue, Frontier, others), **T2** (LATAM, Virgin Atlantic, Norse, others), **T3** (Delta hub), **TBIT** (most long-haul international). Connected airside via **T1.5**, **T2–T3** walkways, and **T3–TBIT** bridge.
 - **South cluster (T4–T8):** **T4** (American), **T5** (Spirit and others — verify current ops; parts of LAX remain under construction), **T6** (Alaska, Air Canada, Hawaiian), **T7–T8** (United). Connected airside via tunnels and walkways; **TBIT** links via skybridge to **T4**.
+- **American Eagle remote gates (52A–52I):** Airside shuttle from T4 gate area — not a simple walk.
 - **Walking times (order-of-magnitude, post-security):**
   - Adjacent terminals: **10–15 min**
   - T1 ↔ T4: **25–35 min**
   - TBIT main ↔ West Gates: **~15 min**
   - Full horseshoe T1 ↔ T8: up to **~45+ min**
-- **Landside connector:** Pink **“LAX Shuttles”** Terminal Connector on **arrivals level** — **every 10 min** between terminals if you are not airside ([LAX airline map](https://www.flylax.com/sites/lax/files/2025-07/LAX%20Airline%20Location%20Map.pdf)).
+- **Landside connector:** Pink **"LAX Shuttles"** Terminal Connector on **arrivals level** — **every 10 min** between terminals if you are not airside ([LAX airline map](https://www.flylax.com/sites/lax/files/2025-07/LAX%20Airline%20Location%20Map.pdf)).
 - **Recommended connection buffers:**
   - Same ticket, same terminal half: **60 min** floor, **90 min** comfortable
   - Same ticket, cross-terminal airside: **90 min** floor, **2 h** in peaks
   - Separate tickets: **3+ hours**
-- **Common mistakes:** Missing that **West Gates** require a long walk or bus; going to curbside for a standard Uber when you need **LAX-it**; booking a tight connection during the evening rush.
+- **Common mistakes:** Missing that **West Gates** require a long walk or bus; going to curbside for a standard Uber when you need **LAX-it**; booking a tight connection during the evening rush; assuming TBIT is "next door" to your domestic gate.
 
 ## Lounges Food & Amenities
 - **TBIT:** Strongest international lounge cluster — **Star Alliance**, **oneworld**, and **SkyTeam** lounges plus paid options. Worth the walk if your gate is in West Gates and you have **90+ min**.
 - **Terminal 4 (American):** Flagship and Admirals Club — solid for AA/oneworld connections; less useful if you are walking in from TBIT.
-- **Terminal 3 (Delta):** Delta Sky Club and **Shake Shack** food court — reliable for SkyTeam connections in the north cluster.
+- **Terminal 3 (Delta):** Delta Sky Club and **Shake Shack** food court near Gate 34 — reliable for SkyTeam connections in the north cluster.
 - **Paid / independent:** Some terminals offer contract lounges (Priority Pass eligibility varies) — verify location against your gate before backtracking.
-- **Food — actually worth it:** **Shake Shack (T3, airside)**; **In-N-Out (Sepulveda Blvd, landside only)** for a classic LA burger on a long layover; TBIT sit-down options are fine but peak-priced.
+- **Food — actually worth it:** **Shake Shack (T3, airside, Gate 34)**; **In-N-Out (Sepulveda Blvd, landside only)** for a classic LA burger on a long layover; TBIT sit-down options are fine but peak-priced.
 - **Overrated / traps:** Trekking landside for In-N-Out with under **2 h** to board; buying bottled water when many concourses have refill fountains (check signage).
 - **Power:** TBIT mezzanine and West Gates have charging clusters — grab outlets right after security, not during a delay at the gate.
 - **Long layover:** **LAX Marriott** and hotels on Century Blvd with free shuttles; no sleep pods in-terminal.
@@ -88,5 +96,6 @@ quickFacts:
 - [Inter-terminal connections (airside walks & shuttles)](https://www.flylax.com/inter-terminal-connections)
 - [LAX-it (rideshare/taxi pickups)](https://www.flylax.com/lax-it)
 - [FlyAway bus fares](https://www.flylax.com/flyaway-bus/fares-tickets)
+- [LAX FlyAway bus](https://www.flylax.com/flyaway)
 - [TSA What Can I Bring?](https://www.tsa.gov/travel/security-screening/whatcanibring)
 - Re-check terminal, gate area (**West Gates** vs main TBIT), and construction notices before every trip — airline terminal assignments shift during LAX's ongoing modernization.
