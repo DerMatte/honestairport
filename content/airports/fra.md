@@ -14,6 +14,27 @@ quickFacts:
   - "Direct long-distance ICE rail from Terminal 1"
   - "Security wait times often 20-45 min in peaks"
   - "Strong rail links to Frankfurt city center (15 min)"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Add buffer for peak and non-Schengen"
+    summary: "The 06:00-09:00 and 16:00-20:00 banks are the slowest."
+    detail: "Arrive earlier for non-Schengen departures, and avoid the central Terminal 1 checkpoint around 07:00-08:30."
+  - category: "terminal"
+    label: "Terminals"
+    title: "Use SkyLine, not walking"
+    summary: "Terminal 1 and Terminal 2 are linked by the free SkyLine every few minutes."
+    detail: "Walking between terminals is not practical; follow yellow SkyLine signs for transfers."
+  - category: "food"
+    label: "Food"
+    title: "Skip the main T1 food court"
+    summary: "The quieter Z gates area has shorter lines at many of the same chains."
+    detail: "Aroma near A40 and the Z-area market are better bets than the crowded central food court."
+  - category: "status"
+    label: "Rail & queues"
+    title: "Check rail and fast-lane options early"
+    summary: "The RMV app helps with regional trains, and paid Fast Lane can be booked ahead."
+    detail: "Fast Lane is most useful for departures before 09:00, when security queues build quickly."
 ---
 
 # FRA Airport Guide

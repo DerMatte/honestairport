@@ -21,6 +21,27 @@ quickFacts:
   - "S1/S8 S-Bahn from MAC to Munich Hbf ~40–45 min; combined 10-min headway off-peak"
   - "New Terminal 1 Pier (non-Schengen) in regular ops since 21 Apr 2026"
   - "Free Wi‑Fi network: \"Free Wifi – Munich Airport\" (browser registration)"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Use 90 minutes for terminal changes"
+    summary: "T2-only transfers can be easy, but T1-T2 needs 90 minutes or more."
+    detail: "Passport control, walking, and the airside shuttle can push cross-terminal trips toward 2 hours in peaks."
+  - category: "terminal"
+    label: "Satellite"
+    title: "J/K/L gates need the PTS"
+    summary: "T2 Satellite gates add the underground PTS and extra walking after security."
+    detail: "Check both arrival and departure gate areas; G/H to J can cost 15-25 minutes even without a new security queue."
+  - category: "food"
+    label: "Food"
+    title: "Use Airbraeu only on landside time"
+    summary: "Airbraeu in the MAC is the best local stop, but it is before security."
+    detail: "For airside T2 food, Dallmayr and Viktualien Stubn are better connection-friendly options."
+  - category: "status"
+    label: "Live checks"
+    title: "Re-check modules and T1 Pier"
+    summary: "The new Terminal 1 Pier changed some non-Schengen habits and gate flows."
+    detail: "Confirm module and gate assignments the day before travel, especially outside Lufthansa Group."
 ---
 
 # MUC Airport Guide

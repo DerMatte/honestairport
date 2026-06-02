@@ -13,6 +13,27 @@ quickFacts:
   - "Handles ~85 million passengers; one of Asia's most punctual airports"
   - "No TSA PreCheck equivalent; security is efficient but strict on liquids"
   - "Free Wi-Fi and abundant power outlets in all terminals"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Domestic is quick, international needs buffer"
+    summary: "Domestic security is often under 10 minutes, but international needs 2 hours."
+    detail: "Domestic peaks hit 7-9 a.m. and 5-7 p.m.; international lines can build after 2 p.m."
+  - category: "terminal"
+    label: "Transfers"
+    title: "Use the free terminal shuttle"
+    summary: "T1 and T2 are close, but T3 is farther and poorly signed on foot."
+    detail: "The shuttle runs every 5-10 minutes and is better for domestic-international connections."
+  - category: "food"
+    label: "Food & power"
+    title: "Terminal 3 has the best international food"
+    summary: "Ramen at Shinshu Shosuke and sushi at Edomae Sushi are the guide picks."
+    detail: "Power is plentiful at gates, but avoid the central food court areas for charging."
+  - category: "status"
+    label: "Live checks"
+    title: "Double-check the international terminal"
+    summary: "Not every international flight uses Terminal 3."
+    detail: "Use the Haneda app for real-time gate and security waits before taking the shuttle."
 ---
 
 # HND Airport Guide

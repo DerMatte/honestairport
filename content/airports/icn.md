@@ -13,6 +13,27 @@ quickFacts:
   - "AREX express train reaches Seoul Station in 43 min"
   - "Strong free Wi-Fi and abundant charging stations"
   - "24-hour transit hotel and capsule options available"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Pad the morning and evening peaks"
+    summary: "Security and immigration slow down around 06:00-09:00 and 18:00-22:00."
+    detail: "Arrive 2.5 hours early for international flights during those banks."
+  - category: "terminal"
+    label: "Transfers"
+    title: "T1 and T2 are not walkable"
+    summary: "Use the free shuttle and budget 12-15 minutes including wait."
+    detail: "Korean Air and SkyTeam use T2, while Star Alliance and many others use T1."
+  - category: "food"
+    label: "Food & rest"
+    title: "Use T2 for food, showers, and rest"
+    summary: "T2 has the stronger Korean Air lounge and 4F rest zone."
+    detail: "The T2 departures level also has the guide's best Korean BBQ and bibimbap counters."
+  - category: "status"
+    label: "Live checks"
+    title: "Check shuttle and gate info early"
+    summary: "The official airport app tracks shuttle and gate updates before landing."
+    detail: "It is most useful when deciding between terminal shuttle, transit hotel, and AREX timing."
 ---
 
 # ICN Airport Guide

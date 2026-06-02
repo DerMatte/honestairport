@@ -14,6 +14,27 @@ quickFacts:
   - "No TSA PreCheck equivalent; paid fast-track available at T3"
   - "Delhi Metro reaches city center in 25-40 min for ₹60"
   - "Strict 100 ml liquid rule enforced; water bottles confiscated"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Respect the T3 rush windows"
+    summary: "Arrive 3 hours early for international and 2.5 hours for domestic at peaks."
+    detail: "The worst crowding is 05:00-09:00 and 18:00-23:00, with T3 international security often the slowest step."
+  - category: "terminal"
+    label: "Transfers"
+    title: "T1 and T3 are not walkable"
+    summary: "Use the free shuttle only if you have 45+ minutes to spare."
+    detail: "A prepaid taxi can be faster between terminals when the 10-15 minute shuttle wait would be risky."
+  - category: "food"
+    label: "Food & power"
+    title: "Eat in T3 and charge early"
+    summary: "Haldiram's and Sagar Ratna beat the overpriced international chains."
+    detail: "Carry a power bank because charging points are scarce in T1 and unreliable around T3 domestic gates."
+  - category: "status"
+    label: "Live checks"
+    title: "Use the Delhi Airport app"
+    summary: "Real-time shuttle and security waits help decide between fast-track, shuttle, and taxi."
+    detail: "It is especially useful before committing to a T1-T3 transfer."
 ---
 
 # DEL Airport Guide

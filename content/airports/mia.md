@@ -13,6 +13,27 @@ quickFacts:
   - "TSA PreCheck and CLEAR available at all checkpoints"
   - "Frequent long security lines during 5-8am and 3-7pm peaks"
   - "Connected to Miami via Metrobus, Tri-Rail, and rental cars"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Avoid the central peak queues"
+    summary: "Security is busiest 5-8am and 3-7pm, especially around the central checkpoint."
+    detail: "If flying E or J, the smaller checkpoints can be better than the main queue."
+  - category: "terminal"
+    label: "Concourses"
+    title: "Long walks are part of MIA"
+    summary: "The farthest gates can take 20-25 minutes from security."
+    detail: "For D-J transfers, the MIA Mover route can save time, but only re-clear security when needed."
+  - category: "food"
+    label: "Food"
+    title: "Pre-order the good local stops"
+    summary: "La Carreta and La Sandwicherie are worth using, but lines build fast."
+    detail: "Ordering ahead is faster than waiting in peak meal queues."
+  - category: "status"
+    label: "Live checks"
+    title: "Check waits before choosing a checkpoint"
+    summary: "The MIA app and airport site show real-time checkpoint waits."
+    detail: "Use them before defaulting to the central checkpoint during morning or late-afternoon peaks."
 ---
 
 # MIA Airport Guide

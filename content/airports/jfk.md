@@ -20,6 +20,27 @@ quickFacts:
   - "Major $19B rebuild underway — verify terminal with your airline within 24 h of departure"
   - "Int'l → US domestic: immigration, baggage claim, recheck, TSA again — plan 2.5–3+ hours"
   - "Shake Shack: Terminal 4 (Gates B23 & B37) and Terminal 8 (Gate 12) — airside only"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Terminal changes need real buffers"
+    summary: "Plan 2+ hours for one-ticket terminal changes and 3+ hours after international arrival."
+    detail: "AirTrain is quick, but walking, baggage recheck, and a new TSA queue dominate the transfer."
+  - category: "terminal"
+    label: "Terminal checks"
+    title: "Reconfirm your operating terminal"
+    summary: "The 2026 rebuild is shifting airlines across T1, T6, T7, and T8."
+    detail: "Codeshares can mislead; check the operating carrier within 24 hours of departure."
+  - category: "food"
+    label: "Food"
+    title: "Shake Shack only helps in T4 or T8"
+    summary: "The useful locations are airside at T4 B23/B37 and T8 Gate 12."
+    detail: "Do not leave another terminal for it unless you have enough time to re-clear TSA."
+  - category: "status"
+    label: "Live checks"
+    title: "Watch AirTrain and construction alerts"
+    summary: "Central Terminal Area work can change AirTrain wait times and curb access."
+    detail: "Check JFK advisories before leaving for the airport and again before any terminal hop."
 ---
 
 # JFK Airport Guide

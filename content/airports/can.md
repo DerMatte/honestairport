@@ -13,6 +13,27 @@ quickFacts:
   - "Over 70 million passengers per year; consistently among China's busiest"
   - "Metro Line 3 reaches downtown in 35-45 minutes"
   - "Rigorous security screening with full liquid and electronics checks"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Arrive early for T2 international"
+    summary: "International departures in T2 are slowest around 07:00-10:00."
+    detail: "Overall peak congestion is 06:30-09:00 and 17:00-21:00, so use a 3-hour international buffer."
+  - category: "terminal"
+    label: "Transfers"
+    title: "No airside terminal transfer"
+    summary: "T1 and T2 are 1.5 km apart and require the free shuttle."
+    detail: "If connecting international to domestic, clear immigration first, then take the shuttle rather than trying to walk."
+  - category: "food"
+    label: "Food & charge"
+    title: "Use T2 for stronger amenities"
+    summary: "T2 has Din Tai Fung, a China Southern lounge, showers, and power near gates 50-60."
+    detail: "Tim Ho Wan is the better T1 food fallback; avoid generic noodle stands."
+  - category: "status"
+    label: "Live checks"
+    title: "Check the Baiyun app before arrival"
+    summary: "The app tracks shuttle and security waits for both terminals."
+    detail: "It is most useful when choosing between T1 lanes and T2 gates 10-14."
 ---
 
 # CAN Airport Guide

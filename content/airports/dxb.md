@@ -13,6 +13,27 @@ quickFacts:
   - "Emirates hub; flydubai at T2"
   - "High passenger volumes year-round"
   - "Strict security with liquid rules enforced"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Plan around the two big queue banks"
+    summary: "Arrive 3 hours early; queues peak 6-9 AM and 8-11 PM."
+    detail: "Security is strict on liquids and electronics, so self-check-in only helps if your bags are ready too."
+  - category: "terminal"
+    label: "Terminals"
+    title: "T2 is the isolated one"
+    summary: "T1 and T3 connect airside, but T2 requires shuttle time and extra security."
+    detail: "Budget 25-30 minutes for T2 bus transfers rather than treating it like a quick concourse hop."
+  - category: "food"
+    label: "Food & showers"
+    title: "Use T3 Concourse B on long layovers"
+    summary: "T3 has better food near B30 and free showers in Concourse B."
+    detail: "Avoid T2 food courts during the 2-5 PM rush if your connection allows a better option."
+  - category: "status"
+    label: "Live checks"
+    title: "Watch gates and waits in the app"
+    summary: "The Dubai Airports app helps with gate changes and security waits before you arrive."
+    detail: "Check it before walking deep into T3 or deciding whether T2 has enough buffer."
 ---
 
 # DXB Airport Guide

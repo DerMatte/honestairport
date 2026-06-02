@@ -14,6 +14,27 @@ quickFacts:
   - "Security opens 2.5 h before departure for Schengen"
   - "Free showers and quiet zones available airside"
   - "Busiest 06:00–09:00 and 16:00–19:00"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Pad the morning and evening banks"
+    summary: "Arrive 2 hours early for Schengen and 2.5 hours for non-Schengen."
+    detail: "Security peaks around 06:30-08:30 and 17:00-19:00, so fast-track rarely saves much unless you also have bags."
+  - category: "terminal"
+    label: "Piers"
+    title: "It is one building, but signs matter"
+    summary: "All piers connect airside, and most gate walks stay under 12 minutes."
+    detail: "Do not follow generic Gates signs too early; stay aligned with your pier letter to avoid backtracking."
+  - category: "food"
+    label: "Food & rest"
+    title: "Use E/F for quiet and D for food"
+    summary: "The lower-level quiet zone between E and F has power and fewer crowds."
+    detail: "For a quick bite, Bar Bouche in pier D and La Place in Departure Hall 2 beat the pricier gate-area traps."
+  - category: "status"
+    label: "Live checks"
+    title: "Use the airport app for gate changes"
+    summary: "Official screens can lag during peaks, so check the Schiphol app before committing to a pier."
+    detail: "It is especially useful when KLM or transfer banks are changing gates quickly."
 ---
 
 # AMS Airport Guide

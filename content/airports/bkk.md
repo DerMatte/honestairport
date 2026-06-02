@@ -22,6 +22,27 @@ quickFacts:
   - "TDAC digital arrival card required for most arrivals (free at tdac.immigration.go.th)"
   - "Airport Rail Link to Phaya Thai (BTS): THB 45, ~26–30 min, 05:30–24:00 weekdays (last train ~00:08 weekends/holidays)"
   - "Free BKK↔DMK shuttle for same-day connections: Level 2 Gate 3, 05:00–24:00"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Do not trust the 90-minute floor"
+    summary: "Use 2 hours for int'l-int'l and 2.5-3 hours when immigration or SAT-1 is involved."
+    detail: "Nov-Apr peaks and evening long-haul banks can turn connection security or immigration into the bottleneck."
+  - category: "terminal"
+    label: "SAT-1"
+    title: "S gates mean the APM"
+    summary: "Gates S101-S128 require the B2 APM and extra walking time."
+    detail: "Budget 20-30 minutes gate-to-gate for MTB-SAT-1 moves, especially if connection security is required."
+  - category: "food"
+    label: "Food & water"
+    title: "Refill water and avoid lounge backtracks"
+    summary: "Airside refill stations beat expensive bottled water."
+    detail: "If your gate is SAT-1, use the SAT-1 Miracle lounge option instead of trekking back to the main terminal."
+  - category: "status"
+    label: "Live checks"
+    title: "Submit TDAC before landing"
+    summary: "Entering Thailand requires the digital arrival card unless you stay pure airside transit."
+    detail: "Screenshot the QR code; airport kiosks add avoidable delay before immigration."
 ---
 
 # BKK Airport Guide

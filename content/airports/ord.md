@@ -14,6 +14,27 @@ quickFacts:
   - "Airport Transit System connects all terminals in ~10 minutes"
   - "TSA PreCheck and CLEAR available at all terminals"
   - "Terminal 5 handles nearly all international arrivals"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Pad Terminal 5 arrivals"
+    summary: "Customs in Terminal 5 can run past 90 minutes on heavy European banks."
+    detail: "Peak congestion is 6-9 a.m. and 3-8 p.m.; Global Entry helps most on international arrivals."
+  - category: "terminal"
+    label: "Connections"
+    title: "Terminal 5 is landside from the rest"
+    summary: "There is no airside connection from Terminal 5 to Terminals 1-3."
+    detail: "Plan 45-60 minutes for ATS plus security if your connection crosses Terminal 5."
+  - category: "food"
+    label: "Food"
+    title: "Aim for Frontera or Garrett"
+    summary: "Tortas Frontera is the best sit-down value, with locations in T1 and T3."
+    detail: "Garrett Popcorn near T3 H4 or T1 B8 is the easiest quick local snack."
+  - category: "status"
+    label: "Live checks"
+    title: "Check ATS and security waits"
+    summary: "The Fly Chicago app updates ATS and security waits every few minutes."
+    detail: "Use it before choosing a tunnel walk, ATS ride, or alternate checkpoint."
 ---
 
 # ORD Airport Guide

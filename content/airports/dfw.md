@@ -13,6 +13,27 @@ quickFacts:
   - "Serves ~80 million passengers annually"
   - "TSA PreCheck and CLEAR available at all terminals"
   - "Skylink runs every 2 minutes, 24/7"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Avoid Terminal A at peak"
+    summary: "Terminal A security is worst around 7-9 a.m. and 4-6 p.m."
+    detail: "If your itinerary allows it, Terminal C security is the better fallback during those banks."
+  - category: "terminal"
+    label: "Skylink"
+    title: "Stay airside and use Skylink"
+    summary: "The train reaches any terminal in under 10 minutes and avoids re-screening."
+    detail: "For D-E moves only, the 8-minute walkway can beat waiting for a train."
+  - category: "food"
+    label: "Food & water"
+    title: "Plan food and refills after security"
+    summary: "Terminal D has 2.0 Taco & Tequila, while Terminal C has The Grove."
+    detail: "Water refill stations are post-security only in B, C, and D, so fill before long gate waits."
+  - category: "status"
+    label: "Live checks"
+    title: "Use DFW and AA apps together"
+    summary: "The DFW app tracks Skylink and security waits, while AA gate changes can move fast."
+    detail: "Airport FIDS boards can lag by a few minutes during busy American Airlines banks."
 ---
 
 # DFW Airport Guide

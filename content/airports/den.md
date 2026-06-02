@@ -14,6 +14,27 @@ quickFacts:
   - "Serves 60+ million passengers yearly"
   - "PreCheck and CLEAR available at all checkpoints"
   - "Direct flights to Europe and Asia"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Add time for snow and long walks"
+    summary: "Use 90 minutes domestic, 2.5 hours international, plus 30 minutes during snow."
+    detail: "Security peaks 5-8 a.m. and 4-7 p.m., and gate-to-gate moves can still take 20-30 minutes."
+  - category: "terminal"
+    label: "Train"
+    title: "Follow Train to Gates after security"
+    summary: "All gates require the underground train from Jeppesen Terminal."
+    detail: "Trying to walk between B and C without the train adds 25+ minutes and stairs."
+  - category: "food"
+    label: "Food & calm"
+    title: "Eat before the train if you can"
+    summary: "The Great Hall food hall has better variety than many concourse options."
+    detail: "For quiet power, the meditation room near A34 is rarely used."
+  - category: "status"
+    label: "Live checks"
+    title: "Check train, security, and winter backups"
+    summary: "The flydenver app tracks train and checkpoint waits."
+    detail: "In winter, have a backup rideshare plan because snow delays can hit the A Line."
 ---
 
 # DEN Airport Guide

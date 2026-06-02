@@ -13,6 +13,27 @@ quickFacts:
   - "Metro M11 and high-speed train links to city center in 30-45 minutes"
   - "One of the world's largest airport terminals by floor area"
   - "Strict liquid and security screening with frequent peak-hour queues"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Give long-haul flights a full 3 hours"
+    summary: "Security and passport queues are worst 05:00-09:00 and 18:00-22:00."
+    detail: "Entrances A and D fill fastest, and the central security zone gets busiest after 20:00."
+  - category: "terminal"
+    label: "Zones"
+    title: "Use the right entrance and zone"
+    summary: "The terminal is single-building but huge, with zones A-G and far satellites."
+    detail: "The south entrance near Gate G is often less crowded, and far satellite gates can justify the free tram."
+  - category: "food"
+    label: "Food"
+    title: "Leave the main food court behind"
+    summary: "Zone E cafes are quieter, and the kebab counter near C15 is the standout."
+    detail: "Airside dining is limited outside paid lounges, so do not waste time in the busiest central food areas."
+  - category: "status"
+    label: "Live checks"
+    title: "Use the Istanbul Airport app"
+    summary: "Gate and queue updates matter in a terminal where long walks can change the plan."
+    detail: "Check the app before heading deep into a pier or committing to a transfer route."
 ---
 
 # IST Airport Guide

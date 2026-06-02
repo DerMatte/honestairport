@@ -13,6 +13,27 @@ quickFacts:
   - "Free unlimited Wi-Fi, 24-hour cinemas, and public butterfly garden in every terminal"
   - "Jewel Changi (between T1-T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
   - "Consistently ranked world's best airport; security screening averages under 15 minutes"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Arrive early to use Changi, not to queue"
+    summary: "Security is usually quick, but 07:00-09:00 and 19:00-21:00 can reach 20 minutes."
+    detail: "Extra time is best spent at Jewel, cinemas, gardens, or foot reflexology stations."
+  - category: "terminal"
+    label: "Terminals"
+    title: "T4 is the outlier"
+    summary: "T1-T3 are easy by Skytrain or Jewel; T4 sits farther out."
+    detail: "Avoid T4 for full-service connections when possible because transfers are longer and lounge options are thinner."
+  - category: "food"
+    label: "Food & rest"
+    title: "Use local food and free rest options"
+    summary: "Singapore Food Street and Jewel food hall beat most chain outlets."
+    detail: "For rest, T3 cinema recliners are free while T1 day rooms are the paid option."
+  - category: "status"
+    label: "Live checks"
+    title: "Use the Changi app before moving"
+    summary: "Gate and Skytrain updates help choose between walking, Skytrain, and staying near your terminal."
+    detail: "Load it before travel; the guide notes it works offline after the initial load."
 ---
 
 # SIN Airport Guide

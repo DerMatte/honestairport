@@ -14,6 +14,27 @@ quickFacts:
   - "Seven concourses (A–F, T) served by underground train"
   - "TSA PreCheck and CLEAR widely available"
   - "High volume of connections; tight layovers common"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Watch the 5-8 a.m. and 4-7 p.m. crunch"
+    summary: "Security peaks hard, but PreCheck and CLEAR keep the shortest path moving."
+    detail: "Domestic security is usually better before 5 a.m. and after 8 p.m."
+  - category: "terminal"
+    label: "Plane Train"
+    title: "Stay airside for tight connections"
+    summary: "The Plane Train runs every 2-3 minutes and reaches all concourses."
+    detail: "For sub-50-minute connections, do not exit security; ride the train instead."
+  - category: "food"
+    label: "Food & charge"
+    title: "Use E or F on longer waits"
+    summary: "One Flew South in E and Varasano's in F beat most terminal options."
+    detail: "Quiet charging areas near T8 or E24 are useful during delays."
+  - category: "status"
+    label: "Live checks"
+    title: "Check gates and checkpoint waits"
+    summary: "The ATL app can update gate changes and security waits faster than airline apps."
+    detail: "Use it before switching concourses or choosing a terminal-side rideshare pickup."
 ---
 
 # ATL Airport Guide

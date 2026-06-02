@@ -18,6 +18,27 @@ quickFacts:
   - "Plan 90+ minutes for inter-terminal connections; 2–2.5 hours in peaks"
   - "Elizabeth line and Heathrow Express are free for inter-terminal transfers landside"
   - "All connecting passengers re-clear security — limited One Stop Security pilot for select US inbound ATL/DFW routes"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Use 2 hours for terminal changes"
+    summary: "Official minimums can work, but 2-2.5 hours is saner in peaks."
+    detail: "All normal connecting passengers re-clear security, so the queue matters as much as the bus ride."
+  - category: "terminal"
+    label: "Connections"
+    title: "Follow the purple signs"
+    summary: "Purple Flight Connections signs lead to the free terminal shuttle buses."
+    detail: "Do not try to improvise airside routes between distant terminals; T4 and T5 satellites add real time."
+  - category: "food"
+    label: "Food & water"
+    title: "Use T5 food, but charge early"
+    summary: "T5 has the strongest airside food variety and busy power areas."
+    detail: "Bring an empty bottle for refill stations in newer areas, and order ahead at peak meal times."
+  - category: "status"
+    label: "Live checks"
+    title: "Verify liquid rules and OSS eligibility"
+    summary: "T2, T3, and T5 connection security rules differ from T4 upgrades."
+    detail: "The One Stop Security pilot is narrow; confirm with your airline instead of assuming you skip re-screening."
 ---
 
 # LHR Airport Guide

@@ -13,6 +13,27 @@ quickFacts:
   - "RER B reaches central Paris in 35-50 min"
   - "Frequent long security queues at peak hours"
   - "24-hour operations with heavy international traffic"
+bentoTips:
+  - category: "timing"
+    label: "Timing"
+    title: "Treat non-Schengen like a 3-hour airport"
+    summary: "Terminal 2E and Terminal 1 security can exceed 45 minutes at peak."
+    detail: "Avoid 2E Hall L and Terminal 1 during 06:00-10:00 and 16:00-20:00 when possible."
+  - category: "terminal"
+    label: "Transfers"
+    title: "Terminal 2 is not one simple walk"
+    summary: "Some 2A-2G moves require buses or CDGVAL, not just corridors."
+    detail: "For 2A/2B to 2E/2F, the free N1 or N2 bus can beat walking."
+  - category: "food"
+    label: "Food & quiet"
+    title: "Use 2E for food, 2G for calm"
+    summary: "Laduree and Frenchie To Go are reliable 2E options."
+    detail: "Terminal 2G is smaller and calmer after security, but do not detour there on a tight connection."
+  - category: "status"
+    label: "Live checks"
+    title: "Check Paris Aeroport before security"
+    summary: "Live wait times can change which checkpoint or terminal route makes sense."
+    detail: "The airport app is most useful before committing to a crowded 2E or Terminal 1 queue."
 ---
 
 # CDG Airport Guide
