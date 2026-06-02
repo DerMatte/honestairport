@@ -17,6 +17,7 @@ interface AirportSearchPanelProps {
 function searchFilters(query: string): AirportFilters {
   return {
     query,
+    searchScope: "all",
     minimumScore: 0,
     regions: [],
     amenities: [],

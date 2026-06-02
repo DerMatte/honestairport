@@ -2,6 +2,7 @@ import { airports } from "@/lib/data";
 import type {
   Airport,
   AirportFilters,
+  AirportSearchScope,
   AmenityCategory,
   DisruptionStatus,
   Region,
@@ -50,23 +51,14 @@ export function filterAndSortAirports(
   airportList: Airport[],
   filters: AirportFilters,
 ): Airport[] {
-  const normalizedQuery = filters.query.trim().toLowerCase();
+  const normalizedQuery = normalizeSearchValue(filters.query);
 
   const filtered = airportList.filter((airport) => {
-    const matchesQuery =
-      !normalizedQuery ||
-      [
-        airport.name,
-        airport.shortName,
-        airport.iata,
-        airport.icao,
-        airport.city,
-        airport.country,
-        airport.region,
-      ]
-        .join(" ")
-        .toLowerCase()
-        .includes(normalizedQuery);
+    const matchesQuery = airportMatchesSearch(
+      airport,
+      normalizedQuery,
+      filters.searchScope,
+    );
 
     const matchesScore = airport.airportistScore >= filters.minimumScore;
     const matchesRegion =
@@ -103,6 +95,39 @@ export function filterAndSortAirports(
       }
     }
   });
+}
+
+function airportMatchesSearch(
+  airport: Airport,
+  normalizedQuery: string,
+  searchScope: AirportSearchScope,
+): boolean {
+  if (!normalizedQuery) return true;
+
+  const fields =
+    searchScope === "city"
+      ? [airport.city]
+      : searchScope === "country"
+        ? [airport.country]
+        : [
+            airport.name,
+            airport.shortName,
+            airport.iata,
+            airport.icao,
+            airport.city,
+            airport.country,
+            airport.region,
+          ];
+
+  return normalizeSearchValue(fields.join(" ")).includes(normalizedQuery);
+}
+
+function normalizeSearchValue(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
 }
 
 export function disruptionSeverityRank(status: DisruptionStatus): number {
