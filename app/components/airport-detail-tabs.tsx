@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   Baby,
   Bus,
@@ -15,9 +16,18 @@ import {
   Utensils,
   Wifi,
 } from "lucide-react";
-import { AirportLiveStatusLoader } from "@/app/components/airport-live-status-loader";
+import {
+  AirportLiveStatusPanel,
+  AirportLiveStatusProvider,
+} from "@/app/components/airport-live-status-loader";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -33,10 +43,12 @@ import {
   tipCategoryLabel,
 } from "@/lib/airport-utils";
 import { cn } from "@/lib/utils";
+import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
 import type { Airport, AmenityCategory } from "@/lib/types";
 
 interface AirportDetailTabsProps {
   airport: Airport;
+  guide?: AirportGuideSummary | null;
 }
 
 function amenityIcon(category: AmenityCategory) {
@@ -76,6 +88,71 @@ function ScoreMetric({ label, value }: { label: string; value: number }) {
   );
 }
 
+function GuideSectionCard({
+  className,
+  description,
+  icon,
+  section,
+  title,
+}: {
+  className?: string;
+  description: string;
+  icon: ReactNode;
+  section?: AirportGuideSection;
+  title: string;
+}) {
+  if (!section?.items.length) {
+    return null;
+  }
+
+  return (
+    <Card className={className}>
+      <CardHeader>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:size-5">
+            {icon}
+          </div>
+        </div>
+        <Badge variant="outline" className="w-fit rounded-full">
+          From {section.title}
+        </Badge>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-3">
+          {section.items.map((item, index) => (
+            <li key={`${section.title}-${index}`} className="flex gap-3 text-sm leading-6">
+              <CheckCircle2
+                className="mt-0.5 size-4 shrink-0 text-primary"
+                aria-hidden="true"
+              />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function formatGuideDate(value: string) {
+  const date = new Date(`${value}T00:00:00Z`);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(date);
+}
+
 function TransportIcon({ type }: { type: Airport["transport"][number]["type"] }) {
   switch (type) {
     case "train":
@@ -95,21 +172,78 @@ function TransportIcon({ type }: { type: Airport["transport"][number]["type"] })
   }
 }
 
-export function AirportDetailTabs({ airport }: AirportDetailTabsProps) {
-  return (
-    <Tabs defaultValue="overview" className="gap-6">
-      <div className="overflow-x-auto pb-1">
-        <TabsList className="w-max" variant="line">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="getting-there">Getting There</TabsTrigger>
-          <TabsTrigger value="amenities">Amenities</TabsTrigger>
-          <TabsTrigger value="tips">Traveler Tips</TabsTrigger>
-          <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
-          <TabsTrigger value="reviews">Reviews & Photos</TabsTrigger>
-        </TabsList>
-      </div>
+export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
+  const guideSections = guide?.sections;
+  const hasGettingThereGuide = Boolean(
+    guideSections?.terminalNavigation?.items.length ||
+      guideSections?.groundTransport?.items.length,
+  );
 
-      <TabsContent value="overview" className="space-y-6">
+  return (
+    <AirportLiveStatusProvider iata={airport.iata}>
+      <Tabs defaultValue="overview" className="gap-6">
+        <div className="overflow-x-auto pb-1">
+          <TabsList className="w-max" variant="line">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="getting-there">Getting There</TabsTrigger>
+            <TabsTrigger value="amenities">Amenities</TabsTrigger>
+            <TabsTrigger value="tips">Traveler Tips</TabsTrigger>
+            <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews & Photos</TabsTrigger>
+          </TabsList>
+        </div>
+
+        <TabsContent value="overview" className="space-y-6">
+          <section aria-labelledby="live-status-heading" className="space-y-3">
+            <div>
+              <p className="text-sm font-medium text-primary">Live airport status</p>
+              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight">
+                Current operations
+              </h2>
+            </div>
+            <AirportLiveStatusPanel className="mb-0" />
+          </section>
+
+        {guide?.quickFacts.length ? (
+          <Card>
+            <CardHeader>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <CardTitle>Guide quick facts</CardTitle>
+                  <CardDescription>
+                    Pulled from the editorial markdown guide for {airport.iata}.
+                  </CardDescription>
+                </div>
+                <Badge variant="outline" className="rounded-full">
+                  Updated {formatGuideDate(guide.lastUpdated)}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <ul className="grid gap-3 md:grid-cols-2">
+                {guide.quickFacts.slice(0, 6).map((fact, index) => (
+                  <li
+                    key={`${fact}-${index}`}
+                    className="flex gap-3 rounded-xl border bg-muted/30 p-3 text-sm leading-6"
+                  >
+                    <CheckCircle2
+                      className="mt-0.5 size-4 shrink-0 text-primary"
+                      aria-hidden="true"
+                    />
+                    <span>{fact}</span>
+                  </li>
+                ))}
+              </ul>
+              {guide.sources.length ? (
+                <p className="text-xs text-muted-foreground">
+                  Editorial guide cites {guide.sources.length} official{" "}
+                  {guide.sources.length === 1 ? "source" : "sources"}.
+                </p>
+              ) : null}
+            </CardContent>
+          </Card>
+        ) : null}
+
         <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
           <Card>
             <CardHeader>
@@ -181,33 +315,52 @@ export function AirportDetailTabs({ airport }: AirportDetailTabsProps) {
         </div>
       </TabsContent>
 
-      <TabsContent value="getting-there" className="grid gap-4 md:grid-cols-3">
-        {airport.transport.map((option) => (
-          <Card key={`${option.type}-${option.name}`} className="h-full">
-            <CardHeader>
-              <div className="mb-2 flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
-                <TransportIcon type={option.type} />
-              </div>
-              <CardTitle>{option.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm">
-              <p className="text-muted-foreground">{option.summary}</p>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl border bg-muted/30 p-3">
-                  <div className="text-xs text-muted-foreground">Time</div>
-                  <div className="mt-1 font-mono">{option.timeToCity}</div>
+      <TabsContent value="getting-there" className="space-y-4">
+        {hasGettingThereGuide ? (
+          <div className="grid gap-4 lg:grid-cols-2">
+            <GuideSectionCard
+              description="Terminal-change and gate-area notes pulled from the markdown guide."
+              icon={<Map aria-hidden="true" />}
+              section={guideSections?.terminalNavigation}
+              title="Terminal navigation guide"
+            />
+            <GuideSectionCard
+              description="City-transfer, rideshare, train, and parking guidance from the markdown guide."
+              icon={<Train aria-hidden="true" />}
+              section={guideSections?.groundTransport}
+              title="Ground transport guide"
+            />
+          </div>
+        ) : null}
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {airport.transport.map((option) => (
+            <Card key={`${option.type}-${option.name}`} className="h-full">
+              <CardHeader>
+                <div className="mb-2 flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
+                  <TransportIcon type={option.type} />
                 </div>
-                <div className="rounded-xl border bg-muted/30 p-3">
-                  <div className="text-xs text-muted-foreground">Cost</div>
-                  <div className="mt-1 font-mono">{option.cost}</div>
+                <CardTitle>{option.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm">
+                <p className="text-muted-foreground">{option.summary}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border bg-muted/30 p-3">
+                    <div className="text-xs text-muted-foreground">Time</div>
+                    <div className="mt-1 font-mono">{option.timeToCity}</div>
+                  </div>
+                  <div className="rounded-xl border bg-muted/30 p-3">
+                    <div className="text-xs text-muted-foreground">Cost</div>
+                    <div className="mt-1 font-mono">{option.cost}</div>
+                  </div>
                 </div>
-              </div>
-              <p className="rounded-xl bg-primary/5 p-3 text-xs text-muted-foreground">
-                Tip: {option.insiderTip}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+                <p className="rounded-xl bg-primary/5 p-3 text-xs text-muted-foreground">
+                  Tip: {option.insiderTip}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </TabsContent>
 
       <TabsContent value="amenities" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -240,6 +393,13 @@ export function AirportDetailTabs({ airport }: AirportDetailTabsProps) {
       </TabsContent>
 
       <TabsContent value="tips" className="space-y-4">
+        <GuideSectionCard
+          description="The markdown guide's highest-signal tactics before the data-backed tips below."
+          icon={<Sparkles aria-hidden="true" />}
+          section={guideSections?.airportTricks}
+          title="Editorial guide tricks"
+        />
+
         {airport.tips.map((tip, index) => (
           <Card key={tip.id}>
             <CardContent className="grid gap-4 p-5 md:grid-cols-[80px_1fr]">
@@ -298,7 +458,7 @@ export function AirportDetailTabs({ airport }: AirportDetailTabsProps) {
             </p>
           </CardHeader>
           <CardContent>
-            <AirportLiveStatusLoader iata={airport.iata} />
+            <AirportLiveStatusPanel />
           </CardContent>
         </Card>
       </TabsContent>
@@ -378,6 +538,7 @@ export function AirportDetailTabs({ airport }: AirportDetailTabsProps) {
           </CardContent>
         </Card>
       </TabsContent>
-    </Tabs>
+      </Tabs>
+    </AirportLiveStatusProvider>
   );
 }

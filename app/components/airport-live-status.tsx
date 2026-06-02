@@ -1,8 +1,10 @@
 import { AlertTriangle, Clock3, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 import type { AirportLiveData, AirportDisruption, SecurityCheckpoint } from "@/lib/airport-live-data";
 
 interface AirportLiveStatusProps {
   data: AirportLiveData;
+  className?: string;
 }
 
 function disruptionTitle(type: AirportDisruption["type"]): string {
@@ -99,14 +101,19 @@ function DisruptionRow({ disruption }: { disruption: AirportDisruption }) {
   );
 }
 
-export function AirportLiveStatus({ data }: AirportLiveStatusProps) {
+export function AirportLiveStatus({ data, className }: AirportLiveStatusProps) {
   const hasSecurity = data.security.supported && data.security.checkpoints.length > 0;
   const hasDisruptions = data.disruptions.supported;
   const showSection = hasSecurity || hasDisruptions;
 
   if (!showSection) {
     return (
-      <div className="mb-8 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+      <div
+        className={cn(
+          "mb-8 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900",
+          className,
+        )}
+      >
         <div className="flex items-center gap-2 font-semibold text-sm tracking-wide">
           <Clock3 className="size-4" aria-hidden="true" />
           Live airport status
@@ -119,7 +126,7 @@ export function AirportLiveStatus({ data }: AirportLiveStatusProps) {
   }
 
   return (
-    <div className="mb-8 grid gap-4 md:grid-cols-2">
+    <div className={cn("mb-8 grid gap-4 md:grid-cols-2", className)}>
       <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="flex items-center gap-2 font-semibold text-sm tracking-wide">
           <ShieldCheck className="size-4" aria-hidden="true" />

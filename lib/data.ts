@@ -196,44 +196,6 @@ export const airports = [
       "LAX has better food and lounges than its reputation suggests, but curbside logistics and terminal construction still punish unplanned arrivals.",
     bestFor: ["Transpacific flights", "Premium lounges", "Airside terminal connectors"],
     watchOutFor: ["Rideshare friction", "Construction detours", "Peak evening security"],
-    importantTips: [
-      {
-        id: "lax-timing-buffer",
-        category: "timing",
-        label: "Timing",
-        title: "Pad peak security and curb time",
-        summary: "Arrive 20-30 minutes earlier for morning and evening banks.",
-        detail:
-          "Bag drop, traffic, and TSA queues can stack up at once, especially before Pacific departures.",
-      },
-      {
-        id: "lax-terminal-zone",
-        category: "terminal",
-        label: "Terminal zones",
-        title: "Check whether you are in TBIT or West Gates",
-        summary: "The 200s gates add a long underground walk from the main hall.",
-        detail:
-          "TBIT has the strongest lounge zone, but West Gates can be 15 minutes beyond it.",
-      },
-      {
-        id: "lax-food-water",
-        category: "food",
-        label: "Food & water",
-        title: "Use T3/TBIT for food; refill water airside",
-        summary: "Shake Shack is airside in T3, while In-N-Out is landside only.",
-        detail:
-          "Do not exit security for In-N-Out unless you have a long landside layover and time to re-clear TSA.",
-      },
-      {
-        id: "lax-live-status",
-        category: "status",
-        label: "Live checks",
-        title: "Re-check weather and construction before leaving",
-        summary: "Marine layer delays and detours can change the best plan fast.",
-        detail:
-          "Confirm your gate, checkpoint, and LAX-it route with official airport and airline updates.",
-      },
-    ],
     amenities: [
       {
         id: "lax-food",

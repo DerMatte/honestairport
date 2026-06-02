@@ -12,6 +12,7 @@ import {
   getAirportBySlug,
   getAirportSlugs,
 } from "@/lib/airport-utils";
+import { getAirportGuideSummaryByIata } from "@/lib/airport-content";
 
 interface AirportPageProps {
   params: Promise<{ slug: string }>;
@@ -51,6 +52,8 @@ export default async function AirportPage({ params }: AirportPageProps) {
   if (!airport) {
     notFound();
   }
+
+  const guide = await getAirportGuideSummaryByIata(airport.iata);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
@@ -134,11 +137,11 @@ export default async function AirportPage({ params }: AirportPageProps) {
         </section>
 
         <section className="mt-10">
-          <AirportTipBento airport={airport} />
+          <AirportTipBento airport={airport} guideTips={guide?.importantTips} />
         </section>
 
         <section className="mt-10">
-          <AirportDetailTabs airport={airport} />
+          <AirportDetailTabs airport={airport} guide={guide} />
         </section>
       </div>
     </div>

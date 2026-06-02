@@ -8,6 +8,7 @@ import type { Airport, ImportantTip, ImportantTipCategory, TipCategory } from "@
 
 interface AirportTipBentoProps {
   airport: Airport;
+  guideTips?: ImportantTip[];
 }
 
 const categoryStyles: Record<
@@ -70,8 +71,14 @@ function fallbackTips(airport: Airport): ImportantTip[] {
   }));
 }
 
-export function AirportTipBento({ airport }: AirportTipBentoProps) {
-  const tips = (airport.importantTips?.length ? airport.importantTips : fallbackTips(airport)).slice(0, 4);
+export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
+  const tips = (
+    guideTips?.length
+      ? guideTips
+      : airport.importantTips?.length
+        ? airport.importantTips
+        : fallbackTips(airport)
+  ).slice(0, 4);
 
   if (tips.length === 0) {
     return null;

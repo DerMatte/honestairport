@@ -2,6 +2,25 @@
 
 A standard structure for creating Airportist airport pages that feel practical, current, and specific rather than like a static directory. The long-term goal is a Grokipedia-style guide layer where facts, live status, and traveler tips are continuously refreshed and clearly sourced.
 
+## Markdown Frontmatter
+
+Airport guide markdown is the source of truth for guide-specific page content. Keep structured frontmatter concise and sourced:
+
+- `iata`, `name`, `city`, `country`, `lastUpdated`
+- `sources`: official airport, transport, security, and operator URLs used by the guide
+- `quickFacts`: short facts surfaced in the Overview tab
+- `bentoTips`: up to four high-priority tip cards for "Know before you go"
+
+Each `bentoTips` item should include `category` (`timing`, `terminal`, `food`, or `status`), `label`, `title`, `summary`, and optional `detail`.
+
+The airport detail tabs also read short bullet summaries from these level-two guide headings when present:
+
+- `## Best Airport Tricks & Hacks` for the Traveler Tips tab
+- `## Terminals & Navigation` for the Getting There tab
+- `## Ground Transport & Parking` for the Getting There tab
+
+Keep those sections as scannable markdown bullet lists. Nested bullets are okay, but each bullet should stand alone when surfaced as a compact card.
+
 ## 1. Quick Snapshot
 
 - Airport name, IATA/ICAO codes, city, country, timezone
