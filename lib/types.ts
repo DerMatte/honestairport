@@ -31,6 +31,8 @@ export type ImportantTipCategory = "timing" | "terminal" | "food" | "status";
 
 export type AirportSort = "highest-score" | "most-reviewed" | "least-disruptions";
 
+export type AirportSearchScope = "all" | "city" | "country";
+
 export interface Amenity {
   id: string;
   label: string;
@@ -140,6 +142,7 @@ export interface Airport {
 
 export interface AirportFilters {
   query: string;
+  searchScope: AirportSearchScope;
   minimumScore: number;
   regions: Region[];
   amenities: AmenityCategory[];
