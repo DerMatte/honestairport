@@ -272,7 +272,7 @@ async function reviewAirportPageWithGateway(iata: string): Promise<"updated" | "
     tools: {
       perplexity_search: gateway.tools.perplexitySearch({
         maxResults: 10,
-        searchLanguageFilter: ["en"],
+        // searchLanguageFilter: ["en"],
       }),
     },
     stopWhen: stepCountIs(5),
