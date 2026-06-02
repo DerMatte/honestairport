@@ -3,14 +3,15 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
+  - "https://www.ns.nl/en/travel-information/special-routes/taking-the-train-to-the-airport.html"
 quickFacts:
   - "Single terminal complex with piers A–G"
   - "KLM hub; also serves Delta, easyJet, Transavia"
-  - "Train to Amsterdam Centraal: 15–20 min"
+  - "Train to Amsterdam Centraal: ~17 min; NS fare from €5.20 (2025)"
   - "Security opens 2.5 h before departure for Schengen"
   - "Free showers and quiet zones available airside"
   - "Busiest 06:00–09:00 and 16:00–19:00"
@@ -44,7 +45,7 @@ bentoTips:
 ## Quick Facts
 - One terminal with piers A–G; all connected airside after security.
 - Dominant airline is KLM; Star Alliance and SkyTeam use piers B, C, D, G.
-- Direct NS train to Amsterdam Centraal every 10 min; €5.80 one-way.
+- Direct NS Sprinter to Amsterdam Centraal every few minutes; **€5.20–5.50** one-way second class (2025 NS fares; e-ticket often €5.50).
 - No TSA PreCheck equivalent; EU citizens can use automated gates when available.
 - Free Wi-Fi is reliable; power outlets plentiful in piers B and D.
 - Schiphol is compact—most gate walks are under 12 min once airside.
@@ -83,6 +84,6 @@ bentoTips:
 - For early flights, park in P3 the night before—shuttle starts at 04:30.
 
 ## Official Sources
-- https://www.schiphol.nl/
-- https://www.schiphol.nl/en/security/
-- https://www.ns.nl/en (train schedules)
+- [Schiphol](https://www.schiphol.nl/)
+- [Schiphol Security](https://www.schiphol.nl/en/security/)
+- [NS — train to Schiphol](https://www.ns.nl/en/travel-information/special-routes/taking-the-train-to-the-airport.html)

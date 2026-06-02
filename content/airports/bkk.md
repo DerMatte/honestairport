@@ -3,7 +3,7 @@ iata: "BKK"
 name: "Suvarnabhumi Airport (Bangkok)"
 city: "Bangkok"
 country: "Thailand"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-02"
 sources:
   - "https://suvarnabhumi.airportthai.co.th/"
   - "https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/Transportation_BKK"
@@ -65,7 +65,7 @@ bentoTips:
 - **Follow yellow TRANSFER signs** immediately after landing — don’t drift into arrivals immigration unless you must clear Thailand.
 - **Peak immigration pain:** **Nov–Apr** (cool/dry high season) and evening long-haul banks (**18:00–22:00**) produce the worst arrival queues. A **90 min** legal connection is not a plan here.
 - **Official priority lanes (departure):** Fast Track at security (**4F**, behind check-in Row A) and passport control (**zone 3**, between Rows T/U) for **F/C**, PRM, infants, pregnancy, **70+**, diplomatic, APEC ABTC, and other listed categories ([AOT Fast Track](https://suvarnabhumi.airportthai.co.th/service/airport-guide/detail/902)).
-- **Arrival priority:** AOT confirmed **F/C may use priority immigration at zones 1 and 3** (policy can change at Immigration’s discretion — many FF reports say signage is inconsistent; ask staff if unsure).
+- **Arrival priority:** AOT lists **F/C may use priority immigration at zones 1 and 3** — signage and enforcement can vary; ask staff if your lane is unclear.
 - **Paid VIP Fast Track:** Licensed meet-and-greet services use official priority windows — only worth it on **tight connections** or peak arrivals; book ahead, not a walk-up gamble.
 - **TDAC before landing:** Submit online; screenshot the QR. Forgetting it means kiosk lines **before** immigration — avoid on short connections.
 

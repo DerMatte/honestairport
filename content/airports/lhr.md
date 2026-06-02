@@ -3,7 +3,7 @@ iata: "LHR"
 name: "London Heathrow Airport"
 city: "London"
 country: "United Kingdom"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.heathrow.com/"
   - "https://www.heathrow.com/connecting-flights"
@@ -102,5 +102,4 @@ bentoTips:
 - [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - [BA Flight Connections at LHR](https://www.britishairways.com/information/airport-information/flight-connections)
 - [UK hand luggage liquids (GOV.UK)](https://www.gov.uk/hand-luggage-restrictions/liquids)
-- [Elizabeth line at Heathrow (TfL)](https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line)
 - Always re-check terminal assignments and construction notices the day before travel.

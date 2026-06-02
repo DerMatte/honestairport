@@ -3,10 +3,11 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.changiairport.com/"
   - "https://www.caas.gov.sg/"
+  - "https://www.smrt.com.sg/Trains/NetworkMap/ChangiAirport.aspx"
 quickFacts:
   - "Four terminals (T1-T4) linked by Skytrain; T4 newest and fastest for low-cost carriers"
   - "Handles 65+ million passengers yearly; Singapore Airlines is dominant hub carrier"
@@ -45,7 +46,8 @@ bentoTips:
 - Singapore Airlines and its subsidiaries operate the majority of long-haul flights from T2 and T3.
 - Free 24-hour cinemas, gaming zones, and outdoor gardens available airside in all terminals.
 - Jewel Changi adds 10 hectares of retail and the HSBC Rain Vortex between T1 and T3.
-- MRT, taxis, and buses depart from basement levels; no long security queues outside peak 07:00-09:00 and 19:00-21:00.
+- MRT (Changi Airport station, T2/T3 basement): shuttle to Tanah Merah then city — first train ~**05:31** weekdays; last city connection ~**23:18** (check SMRT for your date).
+- Security is usually quick outside peak **07:00–09:00** and **19:00–21:00**.
 
 ## Security & Screening Tips
 - Automated clearance gates for most nationalities; have passport and boarding pass ready for facial recognition.
@@ -74,7 +76,7 @@ bentoTips:
 - Free luggage wrapping and charging lockers available in all terminals near transfer desks.
 
 ## Ground Transport & Parking
-- MRT is cheapest and fastest to city center (S$2.50, 45 min); runs 05:30-23:00.
+- **MRT** is cheapest to the city: take the **Changi Airport ↔ Tanah Merah** shuttle, then connect on the East-West Line — fare depends on distance (often a few SGD); allow **~45–60 min** to downtown with transfer. **Not 24 h** — last trains leave the airport around **23:18–00:06** depending on connection ([SMRT Changi Airport](https://www.smrt.com.sg/Trains/NetworkMap/ChangiAirport.aspx)).
 - Taxi queue at T1-T3 basement is well-managed; fixed airport surcharge applies after 22:00.
 - Book private transfer only if traveling with multiple bags—public options are reliable and frequent.
 - Short-term parking at T3 is most convenient for quick drop-offs; rates rise sharply after 2 hours.

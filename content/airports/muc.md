@@ -3,7 +3,7 @@ iata: "MUC"
 name: "Munich Airport (Franz Josef Strauss)"
 city: "Munich"
 country: "Germany"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.munich-airport.com/"
   - "https://www.munich-airport.com/connecting-flights-260553"
@@ -79,7 +79,7 @@ bentoTips:
 - **New T1 Pier (from 21 Apr 2026):** Non-Schengen pier with **centralized CT security** — if your airline moved here, old B/C habits may be wrong; confirm gate on the airport app the day of travel.
 - **Wi‑Fi friction:** Registration is quick but repetitive — use **Passngr** if you connect often; charge while waiting because **outlets compete** at busy gates.
 - **Water:** No widely advertised airside refill network — bring an **empty bottle** and fill landside if staff allow, or buy after security (airport retail pricing). Don’t assume Frankfurt-style refill density.
-- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — airport transfer guidance and experienced-traveler consensus both treat that as reckless even when the airport is efficient.
+- **Avoid:** Booking **35–45 min** self-transfer T1→T2 on separate tickets — Munich’s own connection guidance and typical queue times make that reckless even when the airport is efficient.
 
 ## Terminals & Navigation
 - **Terminal 2 layout:** Check-in **G (Schengen, Level 4)** and **H (non-Schengen, Level 5)**; **Senator/Business lounges Level 5**; central security then airside toward **G/H** or down to **PTS → Satellite J/K/L**.

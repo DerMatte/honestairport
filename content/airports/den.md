@@ -3,16 +3,18 @@ iata: "DEN"
 name: "Denver International Airport"
 city: "Denver"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.flydenver.com/"
   - "https://www.flydenver.com/security"
+  - "https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den"
+  - "https://www.rtd-denver.com/airport/"
 quickFacts:
   - "Hub for United and Frontier Airlines"
   - "Single Jeppesen Terminal with Concourses A, B, C linked by train"
   - "Largest US airport by land area"
-  - "Serves 60+ million passengers yearly"
-  - "PreCheck and CLEAR available at all checkpoints"
+  - "West and East security on Level 6 both use CT scanners (2024–2025)"
+  - "PreCheck, CLEAR, and DEN Reserve (West only) at main checkpoints"
   - "Direct flights to Europe and Asia"
 bentoTips:
   - category: "timing"
@@ -33,7 +35,7 @@ bentoTips:
   - category: "status"
     label: "Live checks"
     title: "Check train, security, and winter backups"
-    summary: "The flydenver app tracks train and checkpoint waits."
+    summary: "The flydenver.com security page shows live checkpoint waits."
     detail: "In winter, have a backup rideshare plan because snow delays can hit the A Line."
 ---
 
@@ -42,48 +44,45 @@ bentoTips:
 > Practical, time-saving guide to moving through Denver International Airport without delays or wasted effort.
 
 ## Quick Facts
-- One main terminal feeds three concourses via underground train (5–8 min rides).
+- One main terminal feeds three concourses via underground train (**5–8 min** rides; no re-screening between concourses).
 - United dominates Concourse B; Frontier and Southwest split A and C.
-- Security lines peak 5–8 a.m. and 4–7 p.m.; PreCheck/CLEAR lanes are usually short.
-- Free airport Wi-Fi is reliable; cell signal is strong throughout.
-- The automated train runs 24/7 with no security re-screening between concourses.
-- Long walks are common; moving walkways help but still budget 20–30 min between gates.
+- **Security (2025–2026):** **West** and **East** checkpoints on **Level 6** are the active screening areas — the former **South** checkpoint on Level 5 closed when **East** opened (**Aug 2025**). Both main checkpoints use **CT scanners**; you can usually keep **laptops and compliant liquids in your bag** ([DEN security](https://www.flydenver.com/security), [TSA DEN East opening](https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den)).
+- **DEN Reserve:** Appointment-based screening is available at the **West** checkpoint only (check current hours on flydenver.com).
+- Security lines peak **5–8 a.m.** and **4–7 p.m.**; PreCheck/CLEAR lanes exist at both Level 6 checkpoints.
+- Free airport Wi-Fi is reliable; allow **12–15 min** average post-security walks to far gates per airport estimates.
 
 ## Security & Screening Tips
-- Use the main terminal checkpoints; avoid the smaller east checkpoint after 8 p.m.
-- CLEAR + PreCheck combo is fastest; CLEAR alone still beats standard lines during rushes.
-- Liquids and laptops must come out—DEN does not have the newest CT scanners yet.
-- Arrive 90 min early for domestic, 2.5 hours for international; add 30 min during snow.
+- Use **either Level 6 checkpoint** — both support standard, PreCheck, and CLEAR per DEN/TSA announcements; pick the side closer to your airline if lines are even.
+- **CT lanes:** Do not assume you never remove anything — medically necessary liquids over **3.4 oz** still need separate screening when required.
+- Arrive **2 hours** early for domestic, **2.5 hours** for international; add **30 min** during snow or holiday banks.
+- **A-Line arrivals:** Trains arrive at **Level 5** — you must go **up to Level 6** for security after the South checkpoint closure.
 
 ## Best Airport Tricks & Hacks
-- Board the train at the far end of the terminal to grab a seat before crowds pile on.
-- If connecting from B to C, ride one stop to A then transfer—often faster than direct during peak.
-- Grab a window seat on the train for the best view of the airfield and mountains.
-- Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
-- Download the flydenver app for real-time train and security wait times.
-- Park in the economy lot and take the free shuttle; it beats the garage when returning after 10 p.m.
-- The meditation room near Gate A34 is rarely used and has power outlets.
+- Board the train at the far end of the platform during peak hours for a better chance at a seat.
+- If connecting **B → C**, riding to **A** and transferring is sometimes faster than the direct train during crush periods — verify on the flydenver app.
+- Download the **flydenver** app for real-time train and security wait times.
+- Park in the economy lot and take the free shuttle when returning late; garage is better for sub-2-hour trips.
+- Meditation room near **Gate A34** has power and is rarely crowded.
 
 ## Terminals & Navigation
-- All passengers start in the Jeppesen Terminal; train is mandatory to reach gates.
-- Walking between B and C without the train adds 25+ min and multiple stairs.
-- Follow signs for “Train to Gates” immediately after security to avoid backtracking.
-- Baggage claim is on Level 5; allow 15 min from train arrival.
+- All passengers start in the **Jeppesen Terminal**; the train is mandatory to reach gates.
+- Walking between B and C without the train is impractical (**25+ min** and stairs).
+- Follow **“Train to Gates”** immediately after security to avoid backtracking.
+- Baggage claim is on **Level 5**; allow **15 min** from train arrival.
 
 ## Lounges, Food & Amenities
-- United Club in B is the largest and least crowded after 8 p.m.
-- The DEN Market in the terminal has solid grab-and-go sandwiches and local beer.
-- Great Hall food hall offers better variety than concourse options; eat here before boarding the train.
-- Quietest seating is the upper level near the windows overlooking the tarmac.
+- United Club in B is the largest; often less crowded after **8 p.m.**
+- **Great Hall** food hall beats many concourse options — eat before boarding the train if you have time.
+- DEN Market in the terminal has solid grab-and-go and local beer.
 
 ## Ground Transport & Parking
-- RTD A Line to Union Station costs $10.50 and runs every 15–30 min; fastest public option.
-- Rideshares pick up on Level 5; expect 10–20 min wait during peak arrival banks.
-- Economy parking is $15/day with free shuttle every 10 min; garage is $32/day but closer.
-- Snow delays hit the A Line hardest—have a backup rideshare ready in winter.
+- **RTD A Line** to Union Station: check current fare on RTD (historically around **$10.50**); runs every **15–30 min** depending on time of day.
+- Rideshares pick up on **Level 5**; expect waits during evening arrival banks.
+- Economy parking is cheaper with a shuttle; garage is closer for short trips.
+- Snow disrupts the A Line more than road traffic — keep a taxi/rideshare backup in winter.
 
 ## Official Sources
-- https://www.flydenver.com/
-- https://www.flydenver.com/security
-- https://www.flydenver.com/parking
-- https://www.rtd-denver.com/airport/
+- [DEN Official Site](https://www.flydenver.com/)
+- [DEN Security & wait times](https://www.flydenver.com/security)
+- [TSA — East Security Checkpoint opening](https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den)
+- [RTD Airport Rail](https://www.rtd-denver.com/airport/)

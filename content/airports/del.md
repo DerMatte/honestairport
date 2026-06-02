@@ -3,17 +3,18 @@ iata: "DEL"
 name: "Indira Gandhi International Airport"
 city: "Delhi"
 country: "India"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.newdelhiairport.in/"
   - "https://www.newdelhiairport.in/terminals"
+  - "https://delhimetrorail.com/"
 quickFacts:
-  - "Terminals: T1 (domestic LCCs), T3 (international + full-service domestic)"
-  - "Hub for IndiGo, Air India, Vistara; 70M+ passengers/year"
-  - "T1 and T3 are 4 km apart; free shuttle runs every 10-15 min"
+  - "Terminals: T1 (domestic LCCs), T2 (domestic), T3 (international + full-service domestic)"
+  - "Hub for IndiGo, Air India; 70M+ passengers/year"
+  - "T1 is ~8 km from T3; free inter-terminal shuttle (landside)"
   - "No TSA PreCheck equivalent; paid fast-track available at T3"
-  - "Delhi Metro reaches city center in 25-40 min for ₹60"
-  - "Strict 100 ml liquid rule enforced; water bottles confiscated"
+  - "Delhi Metro Yellow Line from T3: 25-40 min to city for low single-digit ₹ fares"
+  - "Strict 100 ml liquid rule enforced; water bottles confiscated at screening"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -22,9 +23,9 @@ bentoTips:
     detail: "The worst crowding is 05:00-09:00 and 18:00-23:00, with T3 international security often the slowest step."
   - category: "terminal"
     label: "Transfers"
-    title: "T1 and T3 are not walkable"
-    summary: "Use the free shuttle only if you have 45+ minutes to spare."
-    detail: "A prepaid taxi can be faster between terminals when the 10-15 minute shuttle wait would be risky."
+    title: "Know T1, T2, or T3 before you leave home"
+    summary: "Terminals are not walkable and there is no routine airside transfer between them."
+    detail: "Allow 45+ minutes for the free shuttle between T1 and T3; buggy service links T2 and T3."
   - category: "food"
     label: "Food & power"
     title: "Eat in T3 and charge early"
@@ -42,45 +43,45 @@ bentoTips:
 > One-page playbook to move through DEL fast, skip the worst lines, and use the actually good options.
 
 ## Quick Facts
-- T1 serves IndiGo, Akasa, SpiceJet domestic; T3 handles all international plus Air India/Vistara domestic.
-- Peak chaos hits 05:00-09:00 and 18:00-23:00; arrive 3 h early for international, 2.5 h for domestic.
-- Free airside shuttle between T1 and T3; allow 20-25 min including wait.
-- Only T3 has reliable paid fast-track security (₹1,200-1,800).
-- Delhi Metro Yellow Line is the fastest, cheapest exit; avoid cabs at rush hour.
+- **T1:** Major domestic LCCs (IndiGo, SpiceJet, Akasa, etc.) — upgraded facility, **~8 km** from T3 ([Delhi Airport terminals](https://www.newdelhiairport.in/terminals)).
+- **T2:** Domestic terminal for select carriers — **buggy service** connects to **T3** per airport facilities list.
+- **T3:** All **international** traffic plus full-service **domestic** (Air India, Vistara, etc.) — largest and most modern.
+- Peak chaos **05:00–09:00** and **18:00–23:00**; arrive **3 h** early for international, **2.5 h** for domestic at peaks.
+- **Inter-terminal moves are landside:** free shuttle, taxi, or buggy — **not** a single airside connecting complex. Separate tickets need full exit, transfer, check-in, and security again.
+- Delhi Metro **Yellow Line** from **T3** is the fastest, cheapest exit; avoid cabs at rush hour when possible.
 
 ## Security & Screening Tips
-- T3 international security is chronically slow; use the paid fast-track lane on the departures level when queues exceed 30 min.
-- Liquids are strictly enforced—buy after security or carry an empty bottle and fill at fountains.
-- Domestic T1 screening is faster but still allow 25-35 min; no Clear-style program exists.
-- Avoid the central security checkpoint at T3 during evening rushes; use the side lanes near gates 30-40 when open.
+- **T3 international** security is chronically slow; paid **fast-track** on departures level helps when queues exceed **30 min** (verify current price before travel).
+- Liquids are strictly enforced — buy after security or carry an empty bottle for fountains where available.
+- **T1** screening is usually faster but still allow **25–35 min**; no Clear-style program.
+- During evening rushes at T3, ask staff if side lanes near mid-pier gates are open — assignments change.
 
 ## Best Airport Tricks & Hacks
-- Book the 05:30-06:30 metro slot from Terminal 3 to avoid both security and traffic.
-- At T3, enter departures through Gate 3 (far left) for shorter check-in queues on Air India and Star Alliance flights.
-- Use the free shuttle only if you have 45+ min; otherwise take a prepaid taxi between terminals (₹150-200).
-- Plaza Premium lounge in T3 (near gate 33) offers the best value day-pass; skip the crowded ones near immigration.
-- Download the “Delhi Airport” app for real-time shuttle and security wait times.
-- For early domestic flights at T1, check in online and head straight to the far-left security lane that opens earlier.
-- Carry a power bank—charging points are scarce in T1 and often broken in T3 domestic gates.
+- Early-morning **Metro** from T3 beats both security queues and road traffic for central Delhi.
+- At T3, some airlines process faster at peripheral check-in rows — follow airport signage for your carrier.
+- Use the **free inter-terminal shuttle** only with **45+ min** between flights; prepaid taxi can be faster when the shuttle queue is long (verify fare at official counters).
+- **Plaza Premium** near gate **33** (T3) is a reliable paid lounge; quality varies by time of day.
+- Download the **Delhi Airport** app for shuttle and security wait times.
+- Carry a **power bank** — outlets are scarce in T1 and inconsistent at busy T3 domestic gates.
 
 ## Terminals & Navigation
-- T1 and T3 are not walkable; the free shuttle is the only free link.
-- T3 is modern and well-signed; T1 is older and more chaotic—factor in extra walking time.
-- Common mistake: assuming you can transfer airside between terminals without exiting security.
+- **T1 ↔ T3:** Not walkable — airport shuttle is the standard free link; budget **20–25 min** including wait.
+- **T2 ↔ T3:** Buggy and walking connections exist **within the T2/T3 area** for domestic flows — still confirm your terminal on the ticket.
+- **Common mistake:** Assuming you can stay airside when changing terminals — you normally cannot without a specific airline transfer arrangement.
 
 ## Lounges, Food & Amenities
-- Best lounge: Plaza Premium T3 (airside, near gate 33) for showers, decent food, and quiet zones.
-- Solid food: Haldiram’s and Sagar Ratna in T3 departures; avoid the overpriced international chains.
-- Quietest spot in T3: the seating area past gate 50 near the end of the pier.
-- T1 has almost no decent paid lounge; eat before arrival if flying domestic LCC.
+- **Plaza Premium T3** (airside, near gate 33) — showers and decent food; verify day-pass rules.
+- **Haldiram’s** and **Sagar Ratna** in T3 departures beat generic international chains.
+- Quietest T3 seating is often past gate **50** at the pier end.
+- T1 has limited lounge options — eat landside before security if on a short domestic turn.
 
 ## Ground Transport & Parking
-- Delhi Metro from Terminal 3 is fastest and cheapest; trains run 05:00-23:30.
-- App cabs (Uber/Ola) require pickup from designated zones—allow 10-15 min walk from arrivals.
-- Prepaid taxi counters are reliable but 30-50 % more expensive than apps.
-- Short-term parking at T3 is ₹120/hr; long-term is cheaper but requires a shuttle ride.
+- Delhi Metro from **T3** runs roughly **05:00–23:30** — check [Delhi Metro](https://delhimetrorail.com/) for the day you travel.
+- Uber/Ola use designated pickup zones — allow **10–15 min** walk from arrivals.
+- Prepaid taxi counters are reliable but often cost more than apps.
+- T3 short-term parking is **₹120/hr**; long-term lots use shuttles.
 
 ## Official Sources
-- https://www.newdelhiairport.in/
-- https://www.newdelhiairport.in/terminals
-- https://delhimetrorail.com/ (for metro schedules)
+- [Delhi Airport](https://www.newdelhiairport.in/)
+- [Terminals & inter-terminal transfer](https://www.newdelhiairport.in/terminals)
+- [Delhi Metro](https://delhimetrorail.com/)

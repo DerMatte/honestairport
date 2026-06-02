@@ -3,10 +3,11 @@ iata: "FRA"
 name: "Frankfurt Airport"
 city: "Frankfurt"
 country: "Germany"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-02"
 sources:
   - "https://www.frankfurt-airport.com/"
   - "https://www.frankfurt-airport.com/en/flights/check-in-security.html"
+  - "https://www.frankfurt-airport.com/en/passengers-and-visitors/transfer.html"
 quickFacts:
   - "Primary hub for Lufthansa and Star Alliance"
   - "Two terminals linked by free SkyLine train (4-5 min)"
@@ -56,11 +57,10 @@ bentoTips:
 - Families and passengers with reduced mobility get priority lanes—ask staff directly rather than queuing.
 
 ## Best Airport Tricks & Hacks
-- Take the SkyLine to Terminal 2 even if your flight is from Terminal 1 when security lines there are shorter, then ride back (works best 10:00-15:00).
-- Book the paid “Fast Lane” security online the night before via the airport app when your flight is before 09:00.
-- Use the quiet seating area on the upper level of Terminal 1 near gates A50-A60 when lounges are full.
-- For long connections, exit airside and re-enter via the train station level to reset security wait time (only useful with 3+ hour layovers).
-- Download the RMV app for real-time regional train departures from the airport station.
+- **SkyLine between T1 and T2** takes **4–5 min** and runs frequently — use it for connections; do not try to walk between terminals ([FRA transfers](https://www.frankfurt-airport.com/en/passengers-and-visitors/transfer.html)).
+- Book paid **Fast Lane** security ahead when your flight is before **09:00** and main T1 queues spike (verify current price on frankfurt-airport.com).
+- Use the quiet seating area on the upper level of Terminal 1 near gates **A50–A60** when lounges are full.
+- Download the **RMV** app for regional S-Bahn/U-Bahn departures from the airport station.
 - Avoid the main Terminal 1 food court; walk to the quieter Z gates area for shorter lines at the same chains.
 - If arriving on a late flight, the S-Bahn runs until 01:00; after that use the night bus N5 to the city.
 
@@ -77,7 +77,7 @@ bentoTips:
 - Showers are available in most Lufthansa lounges; day rooms can be booked at the airport hotel inside Terminal 1.
 
 ## Ground Transport & Parking
-- Regional train (S8/S9) to Frankfurt city center costs €5.10 and runs every 15 minutes.
+- Regional **S8/S9** to Frankfurt Hauptbahnhof area: check current MVV fare before travel (off-peak single tickets are typically in the **€5–6** range); trains run frequently daytime.
 - Long-distance ICE trains from the Fernbahnhof reach Cologne in 1 h 10 min and Munich in 3 h 20 min.
 - Short-term parking P1/P2 costs €5 for the first 30 minutes then €3.50 per 30 minutes; long-term P8/P9 is cheaper at €35-45 per day.
 - Taxi to city center takes 20-25 minutes and costs €35-45; use only official ranks.
