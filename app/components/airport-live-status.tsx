@@ -177,7 +177,7 @@ export function AirportLiveStatus({ data }: AirportLiveStatusProps) {
 
             {data.disruptions.updatedAt ? (
               <p className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
-                FAA update: {data.disruptions.updatedAt}
+                Status update: {data.disruptions.updatedAt}
               </p>
             ) : null}
           </>

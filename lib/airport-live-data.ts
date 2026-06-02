@@ -1,9 +1,10 @@
 import { compressToEncodedURIComponent } from "lz-string";
 
 const FETCH_TIMEOUT_MS = 12_000;
-const LIVE_DATA_REVALIDATE_SECONDS = 60;
+const LIVE_DATA_REVALIDATE_SECONDS = 3600;
 
 const FAA_NAS_STATUS_URL = "https://nasstatus.faa.gov/api/airport-status-information";
+const FLIGHTY_AIRPORTS_URL = "https://flighty.com/airports";
 const PORT_AUTHORITY_GRAPHQL_URL = "https://www.jfkairport.com/api/graphql";
 const LAX_WAIT_TIMES_URL = "https://www.flylax.com/wait-times";
 
@@ -129,6 +130,79 @@ function parseXmlBlocks(xml: string, blockTag: string): string[] {
 function readXmlValue(block: string, tag: string): string | undefined {
   const match = block.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
   return match?.[1]?.trim();
+}
+
+function flightyAirportUrl(iata: string): string {
+  return `${FLIGHTY_AIRPORTS_URL}/${iata.toUpperCase()}`;
+}
+
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+function htmlToVisibleLines(html: string): string[] {
+  const text = html
+    .replace(/<script[\s\S]*?<\/script>/gi, "\n")
+    .replace(/<style[\s\S]*?<\/style>/gi, "\n")
+    .replace(/<[^>]+>/g, "\n");
+
+  const lines = decodeHtmlEntities(text)
+    .split(/\n+/)
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+
+  return lines.filter((line, index) => line !== lines[index - 1]);
+}
+
+function findLineAfter(
+  lines: string[],
+  label: string,
+  predicate: (line: string) => boolean,
+): string | undefined {
+  for (let index = 0; index < lines.length - 1; index += 1) {
+    if (lines[index] === label && predicate(lines[index + 1])) {
+      return lines[index + 1];
+    }
+  }
+}
+
+function flightyStatusFromLabel(
+  label: string | undefined,
+  items: AirportDisruption[],
+): OperationalStatus {
+  const normalized = label?.toLowerCase() ?? "";
+
+  if (normalized.includes("closed") || normalized.includes("ground stop")) {
+    return "closed";
+  }
+
+  if (normalized.includes("issue") || normalized.includes("delay") || items.length > 0) {
+    return "delayed";
+  }
+
+  if (normalized.includes("normal") || normalized.includes("good")) {
+    return "normal";
+  }
+
+  return items.length > 0 ? "delayed" : "unknown";
+}
+
+function flightyAverageDelay(sentence: string): string | undefined {
+  const match = sentence.match(/(\d+\s*(?:m|min|minutes?|h|hr|hours?)) late on average/i);
+  return match ? `${match[1].replace(/\s+/g, "")} avg` : undefined;
+}
+
+function isAdverseWeatherSummary(summary: string): boolean {
+  return /\b(storm|thunder|snow|ice|icing|de-icing|fog|low visibility|wind|gust|hail|rain|freezing)\b/i.test(
+    summary,
+  );
 }
 
 async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<SecurityCheckpoint[]> {
@@ -326,6 +400,99 @@ function disruptionStatus(items: AirportDisruption[]): OperationalStatus {
   return "normal";
 }
 
+async function fetchFlightyDisruptions(iata: string): Promise<AirportLiveData["disruptions"]> {
+  const code = iata.toUpperCase();
+  const sourceUrl = flightyAirportUrl(code);
+
+  try {
+    const response = await fetch(sourceUrl, {
+      headers: {
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "User-Agent": "TravelGuide/1.0 (+https://github.com/DerMatte/travelguide)",
+      },
+      signal: withTimeout(),
+      next: { revalidate: LIVE_DATA_REVALIDATE_SECONDS },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Flighty Airports returned ${response.status}`);
+    }
+
+    const html = await response.text();
+    const lines = htmlToVisibleLines(html);
+    const items: AirportDisruption[] = [];
+    const statusLabel = lines.find((line) =>
+      /^(Normal Operations|Good Operations|Minor Issues|Major Issues|Delays Reported|Ground Stop|Closed)$/i.test(
+        line,
+      ),
+    );
+    const updatedAt = lines.find((line) => /^\d{1,2}:\d{2}\s?[A-Z]{2,4}$/.test(line));
+    const departureSummary = findLineAfter(lines, "Departures", (line) =>
+      /^Flights are taking off/i.test(line),
+    );
+    const arrivalSummary = findLineAfter(lines, "Arrivals", (line) =>
+      /^Flights are landing/i.test(line),
+    );
+    const weatherSummary = findLineAfter(lines, "Weather", (line) => !/^View Full/i.test(line));
+
+    if (departureSummary && !/\bon time\b/i.test(departureSummary)) {
+      items.push({
+        type: "departure_delay",
+        reason: departureSummary,
+        minDelay: flightyAverageDelay(departureSummary),
+      });
+    }
+
+    if (arrivalSummary && !/\bon time\b/i.test(arrivalSummary)) {
+      items.push({
+        type: "arrival_delay",
+        reason: arrivalSummary,
+        minDelay: flightyAverageDelay(arrivalSummary),
+      });
+    }
+
+    if (weatherSummary && isAdverseWeatherSummary(weatherSummary)) {
+      items.push({
+        type: "other",
+        reason: `Weather: ${weatherSummary}`,
+      });
+    }
+
+    if (items.length === 0 && statusLabel && !/normal|good/i.test(statusLabel)) {
+      items.push({
+        type: "other",
+        reason: statusLabel,
+      });
+    }
+
+    const status = flightyStatusFromLabel(statusLabel, items);
+
+    return {
+      supported: true,
+      status,
+      items,
+      updatedAt,
+      message:
+        items.length === 0
+          ? status === "normal"
+            ? "No Flighty-reported operational issues for this airport."
+            : "Flighty did not publish detailed operational issue text for this airport."
+          : undefined,
+      source: "Flighty Airports",
+      sourceUrl,
+    };
+  } catch (error) {
+    return {
+      supported: false,
+      status: "unknown",
+      items: [],
+      message: error instanceof Error ? error.message : "Unable to load Flighty airport status.",
+      source: "Flighty Airports",
+      sourceUrl,
+    };
+  }
+}
+
 async function fetchFaaDisruptions(iata: string): Promise<AirportLiveData["disruptions"]> {
   const code = iata.toUpperCase();
 
@@ -419,10 +586,13 @@ async function fetchFaaDisruptions(iata: string): Promise<AirportLiveData["disru
 
 export async function getAirportLiveData(iata: string): Promise<AirportLiveData> {
   const normalizedIata = iata.toUpperCase();
-  const [security, disruptions] = await Promise.all([
+  const [security, flightyDisruptions] = await Promise.all([
     fetchSecurityWaitTimes(normalizedIata),
-    fetchFaaDisruptions(normalizedIata),
+    fetchFlightyDisruptions(normalizedIata),
   ]);
+  const disruptions = flightyDisruptions.supported
+    ? flightyDisruptions
+    : await fetchFaaDisruptions(normalizedIata);
 
   return {
     iata: normalizedIata,
