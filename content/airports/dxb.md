@@ -3,7 +3,7 @@ iata: "DXB"
 name: "Dubai International Airport"
 city: "Dubai"
 country: "United Arab Emirates"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.dubaiairports.ae/"
   - "https://www.rta.ae/"

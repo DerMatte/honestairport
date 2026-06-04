@@ -3,7 +3,7 @@ iata: "DFW"
 name: "Dallas/Fort Worth International Airport"
 city: "Dallas"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.dfwairport.com/"
   - "https://www.tsa.gov/airports/dallas-fort-worth-international-airport"
@@ -50,7 +50,7 @@ bentoTips:
 ## Security & Screening Tips
 - PreCheck lanes at every terminal; CLEAR is fastest at A and D during morning peaks.
 - Avoid security at Terminal A between 7–9 a.m. and 4–6 p.m.; use Terminal C instead.
-- Global Entry kiosks sit in Terminal D arrivals; use them even on domestic returns if connecting internationally.
+- **Global Entry** kiosks are in **Terminal D** international arrivals — use them when arriving on an international flight before a connection.
 - Liquids in quart-size bags are still enforced; no water refill stations before security in A or E.
 
 ## Best Airport Tricks & Hacks
@@ -78,7 +78,7 @@ bentoTips:
 - DART Orange Line rail reaches Terminal A in 45 minutes from downtown Dallas; $3 fare.
 - Terminal Link shuttle runs every 10 minutes between terminals and rental car center.
 - Economy parking ($9/day) requires 10-minute shuttle; Terminal B garage ($24/day) is worth it for short trips.
-- Rideshares pick up on upper level of Terminal A only; avoid during 4–7 p.m. surge pricing.
+- **Uber/Lyft** pick up on the **upper (departure) level** at **each terminal** in signed Ride App/TNC zones — confirm the door in your app; surges hit **4–7 p.m.** airport-wide.
 
 ## Official Sources
 - https://www.dfwairport.com/

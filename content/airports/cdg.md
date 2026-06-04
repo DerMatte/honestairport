@@ -3,10 +3,11 @@ iata: "CDG"
 name: "Paris Charles de Gaulle Airport"
 city: "Paris"
 country: "France"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.parisaeroport.fr/en"
   - "https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security"
+  - "https://www.bonjour-ratp.fr/en/titres-tarifs/ticket-paris-region-aeroports/"
 quickFacts:
   - "Primary hub for Air France and SkyTeam"
   - "Terminals 1, 2A-2G, 3 with complex transfers"
@@ -56,8 +57,8 @@ bentoTips:
 ## Best Airport Tricks & Hacks
 - Download the Paris Aéroport app for real-time gate and security data; works best on airport Wi-Fi.
 - For Terminal 2 connections, take the free N1 or N2 bus instead of walking when moving between 2A/2B and 2E/2F.
-- If you have 90+ minutes between flights, exit security and re-enter via a less crowded terminal (e.g., move from 2E to 2D).
-- RER B tickets bought at airport machines are €11.45; buy return tickets in Paris to skip airport lines.
+- If you have **90+ min** and staff allow it, some travelers switch terminals landside to dodge a backed-up checkpoint — only when your ticket/itinerary permits leaving the secure area.
+- **Paris Region ↔ Airports** ticket is **€13** adult (2025, replaces the old CDG-only RER B airport ticket) — valid **2 hours** on Metro/RER in zones 1–5 including CDG ([Bonjour RATP](https://www.bonjour-ratp.fr/en/titres-tarifs/ticket-paris-region-aeroports/)).
 - Quietest seating is on the upper level of Terminal 2E Hall L near gates 50–60 after security.
 - Avoid Terminal 3 entirely unless flying low-cost carriers; it has minimal amenities and slow security.
 

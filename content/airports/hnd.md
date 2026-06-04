@@ -3,7 +3,7 @@ iata: "HND"
 name: "Tokyo International Airport (Haneda)"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.tokyo-airport-bldg.co.jp/en/"
   - "https://www.haneda-airport.jp/en/"
@@ -56,7 +56,7 @@ bentoTips:
 
 ## Best Airport Tricks & Hacks
 - Download the official Haneda app for real-time gate and security wait times.
-- Terminal 3 international security is usually faster than domestic peaks; consider it for same-day connections when possible.
+- Terminal 3 has paid shower rooms (clean, rarely crowded before 10 a.m.) — useful on long layovers if you have landside time.
 - Free shower rooms in Terminal 3 (paid but clean) are rarely crowded before 10 a.m.
 - Buy a Suica or Pasmo card at the station inside the terminal for seamless train/monorail rides.
 - Avoid the paid observation deck; free viewing areas on Terminal 3's 5th floor are better.

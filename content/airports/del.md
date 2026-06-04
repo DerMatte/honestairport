@@ -3,13 +3,13 @@ iata: "DEL"
 name: "Indira Gandhi International Airport"
 city: "Delhi"
 country: "India"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.newdelhiairport.in/"
   - "https://www.newdelhiairport.in/terminals"
 quickFacts:
   - "Terminals: T1 (domestic LCCs), T3 (international + full-service domestic)"
-  - "Hub for IndiGo, Air India, Vistara; 70M+ passengers/year"
+  - "Hub for IndiGo and Air India (Vistara merged into Air India); 70M+ passengers/year"
   - "T1 and T3 are 4 km apart; free shuttle runs every 10-15 min"
   - "No TSA PreCheck equivalent; paid fast-track available at T3"
   - "Delhi Metro reaches city center in 25-40 min for ₹60"
@@ -42,7 +42,7 @@ bentoTips:
 > One-page playbook to move through DEL fast, skip the worst lines, and use the actually good options.
 
 ## Quick Facts
-- T1 serves IndiGo, Akasa, SpiceJet domestic; T3 handles all international plus Air India/Vistara domestic.
+- T1 serves IndiGo, Akasa, SpiceJet domestic; T3 handles all international plus Air India full-service domestic.
 - Peak chaos hits 05:00-09:00 and 18:00-23:00; arrive 3 h early for international, 2.5 h for domestic.
 - Free airside shuttle between T1 and T3; allow 20-25 min including wait.
 - Only T3 has reliable paid fast-track security (₹1,200-1,800).

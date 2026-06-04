@@ -3,13 +3,14 @@ iata: "ICN"
 name: "Incheon International Airport"
 city: "Seoul"
 country: "South Korea"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.airport.kr/ap/en/index.do"
+  - "https://business.airport.kr/ap_en/1413/subview.do"
   - "https://www.arex.co.kr/en/"
 quickFacts:
-  - "Two terminals linked by free shuttle (15 min)"
-  - "Primary hub for Korean Air and Asiana Airlines"
+  - "Two terminals linked by free shuttle (~12-15 min)"
+  - "T2: Korean Air, Asiana, Delta, and most SkyTeam partners; T1: most other international carriers"
   - "AREX express train reaches Seoul Station in 43 min"
   - "Strong free Wi-Fi and abundant charging stations"
   - "24-hour transit hotel and capsule options available"
@@ -23,7 +24,7 @@ bentoTips:
     label: "Transfers"
     title: "T1 and T2 are not walkable"
     summary: "Use the free shuttle and budget 12-15 minutes including wait."
-    detail: "Korean Air and SkyTeam use T2, while Star Alliance and many others use T1."
+    detail: "Korean Air, Asiana, and Delta use T2; verify codeshares — some KE-marketed flights still depart T1."
   - category: "food"
     label: "Food & rest"
     title: "Use T2 for food, showers, and rest"
@@ -42,7 +43,7 @@ bentoTips:
 
 ## Quick Facts
 - Terminals 1 and 2 are separate; shuttle runs every 5–10 min.
-- Korean Air and SkyTeam use Terminal 2; Star Alliance and others use Terminal 1.
+- **Terminal 2:** Korean Air, Asiana, Delta, Jin Air, and most SkyTeam partners. **Terminal 1:** most other international airlines and LCCs — always confirm terminal on your ticket ([airline terminal list](https://business.airport.kr/ap_en/1413/subview.do)).
 - Security and immigration are efficient but slow during 06:00–09:00 and 18:00–22:00 peaks.
 - Free Wi-Fi is reliable; power outlets are plentiful at gates.
 - AREX, buses, and taxis all depart from the arrivals level of each terminal.

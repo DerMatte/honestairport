@@ -3,7 +3,7 @@ iata: "MUC"
 name: "Munich Airport (Franz Josef Strauss)"
 city: "Munich"
 country: "Germany"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.munich-airport.com/"
   - "https://www.munich-airport.com/connecting-flights-260553"

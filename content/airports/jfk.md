@@ -3,7 +3,7 @@ iata: "JFK"
 name: "John F. Kennedy International Airport"
 city: "New York"
 country: "United States"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.jfkairport.com/"
   - "https://www.jfkairport.com/flights/connections-guide"

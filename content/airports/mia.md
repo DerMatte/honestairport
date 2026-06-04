@@ -3,13 +3,14 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-04"
 sources:
   - "https://www.miami-airport.com/"
+  - "https://www.miami-airport.com/getting-around-mia.asp"
   - "https://www.tsa.gov/airports/miami-international-airport"
 quickFacts:
   - "Major American Airlines hub with heavy Latin America traffic"
-  - "Single terminal building with concourses D, E, F, G, H, J"
+  - "North/Central/South terminals; concourses D–J; Skytrain only inside Concourse D"
   - "TSA PreCheck and CLEAR available at all checkpoints"
   - "Frequent long security lines during 5-8am and 3-7pm peaks"
   - "Connected to Miami via Metrobus, Tri-Rail, and rental cars"
@@ -23,7 +24,7 @@ bentoTips:
     label: "Concourses"
     title: "Long walks are part of MIA"
     summary: "The farthest gates can take 20-25 minutes from security."
-    detail: "For D-J transfers, the MIA Mover route can save time, but only re-clear security when needed."
+    detail: "Use Level 3 moving walkways between terminals; the MIA Mover is for rental cars/Metrorail, not gate-to-gate."
   - category: "food"
     label: "Food"
     title: "Pre-order the good local stops"
@@ -42,8 +43,10 @@ bentoTips:
 
 ## Quick Facts
 - American Airlines dominates; most international flights use concourses D, E, and J.
-- One linear terminal; airside connections require the MIA Mover or long walks.
-- No airside train between all concourses—plan for 15-25 min walks.
+- **North / Central / South** terminals with concourses **D–J**; **Level 3 Skyride** moving walkways connect terminals **landside**.
+- **Airside without re-screening:** mainly **D ↔ E** and **H ↔ J** on domestic itineraries — other concourse changes often require **new security**.
+- **MIA Mover** (Level 3) goes to the **Rental Car Center / Metrorail / Tri-Rail** — **not** a concourse-to-concourse shortcut ([Getting around MIA](https://www.miami-airport.com/getting-around-mia.asp)).
+- **Skytrain** runs **inside Concourse D** only (4 stops) — saves long D-gate hikes.
 - Busiest periods: early morning departures to Europe and evening arrivals from Latin America.
 - Free Wi-Fi is reliable but login required every 2 hours.
 
@@ -55,7 +58,7 @@ bentoTips:
 
 ## Best Airport Tricks & Hacks
 - Download the MIA app before arrival for gate changes and security times.
-- If connecting from D to J, take the MIA Mover to the main terminal then re-clear security only if needed—saves 20+ min vs walking.
+- **D ↔ J** connections usually require **landside Level 3 walkways** (or internal routes) and often **new security** — do not detour via the **MIA Mover** unless you need rental cars or rail.
 - For early flights, check bags at the American Airlines remote bag drop on the arrivals level when the main counters are slammed.
 - Quietest seating is the upper level near Gate J17 after security.
 - Avoid the rental car center bus during 3-6pm cruise passenger rushes; walk to the Tri-Rail station instead.
@@ -65,7 +68,7 @@ bentoTips:
 - All passenger processing happens in one building; concourses are lettered D-J.
 - Walking from security to the farthest gate (J) takes 20-25 minutes.
 - International arrivals must clear customs then re-check bags for connections.
-- The MIA Mover between terminals runs every 3-5 minutes but can be skipped for short connections inside the same concourse.
+- **MIA Mover** runs ~every **3 min** to the **MIC/Rental Car Center** — use it for ground transport, not for airside gate changes.
 
 ## Lounges, Food & Amenities
 - American Airlines Admirals Club in D and the new Centurion Lounge near E are the best paid options.
