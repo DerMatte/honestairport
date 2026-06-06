@@ -3,10 +3,12 @@ iata: "DEN"
 name: "Denver International Airport"
 city: "Denver"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.flydenver.com/"
   - "https://www.flydenver.com/security"
+  - "https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den"
+  - "https://www.rtd-denver.com/airport/"
 quickFacts:
   - "Hub for United and Frontier Airlines"
   - "Single Jeppesen Terminal with Concourses A, B, C linked by train"
@@ -50,14 +52,14 @@ bentoTips:
 - Long walks are common; moving walkways help but still budget 20–30 min between gates.
 
 ## Security & Screening Tips
-- Use the main terminal checkpoints; avoid the smaller east checkpoint after 8 p.m.
+- **Two checkpoints on Level 6:** West and East Security — both have **CT scanners on all 34 lanes** (East opened Aug 2025). Electronics and compliant liquids can usually **stay in your bag**; standard **3.4 oz (100 ml)** liquid limits still apply.
+- Use **DEN Reserve** or arrive early — both checkpoints can back up 5–8 a.m. and 4–7 p.m.
 - CLEAR + PreCheck combo is fastest; CLEAR alone still beats standard lines during rushes.
-- Liquids and laptops must come out—DEN does not have the newest CT scanners yet.
-- Arrive 90 min early for domestic, 2.5 hours for international; add 30 min during snow.
+- Arrive **90 min** early for domestic, **2.5 hours** for international; add **30 min** during snow.
 
 ## Best Airport Tricks & Hacks
 - Board the train at the far end of the terminal to grab a seat before crowds pile on.
-- If connecting from B to C, ride one stop to A then transfer—often faster than direct during peak.
+- If connecting from B to C, ride one stop to A then transfer — often faster than direct during peak.
 - Grab a window seat on the train for the best view of the airfield and mountains.
 - Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
 - Download the flydenver app for real-time train and security wait times.
@@ -80,10 +82,10 @@ bentoTips:
 - RTD A Line to Union Station costs $10.50 and runs every 15–30 min; fastest public option.
 - Rideshares pick up on Level 5; expect 10–20 min wait during peak arrival banks.
 - Economy parking is $15/day with free shuttle every 10 min; garage is $32/day but closer.
-- Snow delays hit the A Line hardest—have a backup rideshare ready in winter.
+- Snow delays hit the A Line hardest — have a backup rideshare ready in winter.
 
 ## Official Sources
-- https://www.flydenver.com/
-- https://www.flydenver.com/security
-- https://www.flydenver.com/parking
-- https://www.rtd-denver.com/airport/
+- [Denver International Airport](https://www.flydenver.com/)
+- [Security wait times](https://www.flydenver.com/security)
+- [TSA East Security Checkpoint opening (Aug 2025)](https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den)
+- [RTD Airport Rail](https://www.rtd-denver.com/airport/)

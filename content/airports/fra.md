@@ -3,14 +3,16 @@ iata: "FRA"
 name: "Frankfurt Airport"
 city: "Frankfurt"
 country: "Germany"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.frankfurt-airport.com/"
   - "https://www.frankfurt-airport.com/en/flights/check-in-security.html"
+  - "https://www.frankfurt-airport.com/en/travel-planning/check-in-luggage-controls/fra-smartway.html"
+  - "https://www.bahn.de"
 quickFacts:
   - "Primary hub for Lufthansa and Star Alliance"
   - "Two terminals linked by free SkyLine train (4-5 min)"
-  - "Handles 65-75 million passengers per year"
+  - "Handled ~63 million passengers in 2025"
   - "Direct long-distance ICE rail from Terminal 1"
   - "Security wait times often 20-45 min in peaks"
   - "Strong rail links to Frankfurt city center (15 min)"
@@ -32,9 +34,9 @@ bentoTips:
     detail: "Aroma near A40 and the Z-area market are better bets than the crowded central food court."
   - category: "status"
     label: "Rail & queues"
-    title: "Check rail and fast-lane options early"
-    summary: "The RMV app helps with regional trains, and paid Fast Lane can be booked ahead."
-    detail: "Fast Lane is most useful for departures before 09:00, when security queues build quickly."
+    title: "Book FRA SmartWay for security slots"
+    summary: "The free SmartWay service lets you reserve a security timeslot up to 72 hours ahead."
+    detail: "Fast Lanes are flight-display based for eligible cabins/status — not a typical paid walk-up lane."
 ---
 
 # FRA Airport Guide
@@ -43,23 +45,23 @@ bentoTips:
 
 ## Quick Facts
 - Lufthansa dominates Terminal 1; Terminal 2 serves mainly Condor, United, and some Star Alliance flights.
-- SkyLine automated train runs every 3-4 minutes between terminals; walking is not practical.
+- SkyLine automated train runs every 3–4 minutes between terminals; walking is not practical.
 - Long-distance ICE trains depart from the lower level of Terminal 1 (Fernbahnhof).
-- Regional S-Bahn and U-Bahn reach Frankfurt Hauptbahnhof in 10-15 minutes.
-- Peak congestion occurs 06:00-09:00 and 16:00-20:00; arrive earlier for non-Schengen departures.
+- Regional S-Bahn and U-Bahn reach Frankfurt Hauptbahnhof in 10–15 minutes.
+- Peak congestion occurs **06:00–09:00** and **16:00–20:00**; arrive earlier for non-Schengen departures.
 - Free Wi-Fi is reliable but login required every 2 hours.
 
 ## Security & Screening Tips
-- Use the dedicated fast-track lanes at Terminal 1 A/B and C/D if you hold Star Alliance Gold or paid access (€25-35).
-- Avoid the central security area in Terminal 1 between 07:00-08:30; use the smaller A-West or B checkpoints instead.
-- Liquids and electronics rules match EU standards; 100 ml limit strictly enforced.
-- Families and passengers with reduced mobility get priority lanes—ask staff directly rather than queuing.
+- **FRA SmartWay** is a **free** advance security timeslot booking (up to 72 h ahead) at selected T1/T2 checkpoints ([FRA SmartWay](https://www.frankfurt-airport.com/en/travel-planning/check-in-luggage-controls/fra-smartway.html)).
+- **Fast Lanes** are for flights shown on checkpoint display boards — typically business/first and eligible status passengers, not a general paid €25–35 walk-up product.
+- Star Alliance Gold and eligible premium passengers can use dedicated fast-track lanes at T1 A/B and C/D.
+- Avoid the central security area in Terminal 1 between **07:00–08:30**; use the smaller A-West or B checkpoints instead.
+- Liquids and electronics rules match EU standards; **100 ml** limit strictly enforced.
+- Families and passengers with reduced mobility get priority lanes — ask staff directly rather than queuing.
 
 ## Best Airport Tricks & Hacks
-- Take the SkyLine to Terminal 2 even if your flight is from Terminal 1 when security lines there are shorter, then ride back (works best 10:00-15:00).
-- Book the paid “Fast Lane” security online the night before via the airport app when your flight is before 09:00.
-- Use the quiet seating area on the upper level of Terminal 1 near gates A50-A60 when lounges are full.
-- For long connections, exit airside and re-enter via the train station level to reset security wait time (only useful with 3+ hour layovers).
+- Book **FRA SmartWay** the night before when your flight is before 09:00 — slots fill quickly.
+- Use the quiet seating area on the upper level of Terminal 1 near gates A50–A60 when lounges are full.
 - Download the RMV app for real-time regional train departures from the airport station.
 - Avoid the main Terminal 1 food court; walk to the quieter Z gates area for shorter lines at the same chains.
 - If arriving on a late flight, the S-Bahn runs until 01:00; after that use the night bus N5 to the city.
@@ -79,10 +81,11 @@ bentoTips:
 ## Ground Transport & Parking
 - Regional train (S8/S9) to Frankfurt city center costs €5.10 and runs every 15 minutes.
 - Long-distance ICE trains from the Fernbahnhof reach Cologne in 1 h 10 min and Munich in 3 h 20 min.
-- Short-term parking P1/P2 costs €5 for the first 30 minutes then €3.50 per 30 minutes; long-term P8/P9 is cheaper at €35-45 per day.
-- Taxi to city center takes 20-25 minutes and costs €35-45; use only official ranks.
+- Short-term parking P1/P2 costs €5 for the first 30 minutes then €3.50 per 30 minutes; long-term P8/P9 is cheaper at €35–45 per day.
+- Taxi to city center takes 20–25 minutes and costs €35–45; use only official ranks.
 
 ## Official Sources
-- https://www.frankfurt-airport.com/
-- https://www.frankfurt-airport.com/en/flights/check-in-security.html
-- https://www.bahn.de (long-distance rail)
+- [Frankfurt Airport](https://www.frankfurt-airport.com/)
+- [Security and check-in](https://www.frankfurt-airport.com/en/flights/check-in-security.html)
+- [FRA SmartWay (free security timeslots)](https://www.frankfurt-airport.com/en/travel-planning/check-in-luggage-controls/fra-smartway.html)
+- [Deutsche Bahn (long-distance rail)](https://www.bahn.de)

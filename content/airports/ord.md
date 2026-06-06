@@ -3,7 +3,7 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
   - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
@@ -28,8 +28,8 @@ bentoTips:
   - category: "food"
     label: "Food"
     title: "Aim for Frontera or Garrett"
-    summary: "Tortas Frontera is the best sit-down value, with locations in T1 and T3."
-    detail: "Garrett Popcorn near T3 H4 or T1 B8 is the easiest quick local snack."
+    summary: "Tortas Frontera is the best sit-down value in T1 (B11), T3 (K4), and T5 (M18)."
+    detail: "Garrett Popcorn near T1 B8 or T3 H2 is the easiest quick local snack."
   - category: "status"
     label: "Live checks"
     title: "Check ATS and security waits"
@@ -70,8 +70,8 @@ bentoTips:
 
 ## Lounges, Food & Amenities
 - United Polaris Lounge (Terminal 1, near gate C18) is the only genuinely quiet paid option with good showers.
-- Garrett Popcorn in Terminal 3 (near gate H4) and Terminal 1 (near B8) is the best quick snack.
-- Tortas Frontera (Terminal 1, B8 and Terminal 3, K4) offers the highest-quality sit-down meal under $20.
+- Garrett Popcorn in Terminal 1 (near gate B8) and Terminal 3 (near H2) is the best quick snack.
+- Tortas Frontera (Terminal 1 near B11, Terminal 3 near K4, Terminal 5 near M18) offers the highest-quality sit-down meal under $20.
 - The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
 
 ## Ground Transport & Parking

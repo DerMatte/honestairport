@@ -3,7 +3,7 @@ iata: "HND"
 name: "Tokyo International Airport (Haneda)"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.tokyo-airport-bldg.co.jp/en/"
   - "https://www.haneda-airport.jp/en/"

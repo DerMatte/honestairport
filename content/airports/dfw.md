@@ -3,7 +3,7 @@ iata: "DFW"
 name: "Dallas/Fort Worth International Airport"
 city: "Dallas"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.dfwairport.com/"
   - "https://www.tsa.gov/airports/dallas-fort-worth-international-airport"

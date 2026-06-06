@@ -3,9 +3,10 @@ iata: "DXB"
 name: "Dubai International Airport"
 city: "Dubai"
 country: "United Arab Emirates"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.dubaiairports.ae/"
+  - "https://dubaiairports.ae/experiences/services/details/showers"
   - "https://www.rta.ae/"
 quickFacts:
   - "World's busiest international airport"
@@ -56,7 +57,7 @@ bentoTips:
 ## Best Airport Tricks & Hacks
 - Download the Dubai Airports app for real-time gate and security wait times before you arrive.
 - Walk the moving walkways in T3 to shave 5-7 minutes between distant gates.
-- Use the shower facilities in T3 Concourse B for long layovers; they are free and rarely crowded before 7 AM.
+- Free shower facilities in T3 Concourse B (gates B13–B19) are basic — bring your own towel and toiletries ([Dubai Airports](https://dubaiairports.ae/experiences/services/details/showers)).
 - Buy a Nol Silver metro card at the airport station for seamless onward travel; it works on buses too.
 - Avoid T2 food courts during 2-5 PM rush; instead, walk to T3 for better options if your connection allows.
 - Charge devices at the quiet power banks near gates B30-B40 in T3 rather than crowded central areas.

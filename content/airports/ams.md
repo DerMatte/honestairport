@@ -3,14 +3,15 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
+  - "https://www.ns.nl/en"
 quickFacts:
   - "Single terminal complex with piers A–G"
   - "KLM hub; also serves Delta, easyJet, Transavia"
-  - "Train to Amsterdam Centraal: 15–20 min"
+  - "Train to Amsterdam Centraal: 15–17 min; €5.50 one-way (e-ticket)"
   - "Security opens 2.5 h before departure for Schengen"
   - "Free showers and quiet zones available airside"
   - "Busiest 06:00–09:00 and 16:00–19:00"
@@ -44,25 +45,25 @@ bentoTips:
 ## Quick Facts
 - One terminal with piers A–G; all connected airside after security.
 - Dominant airline is KLM; Star Alliance and SkyTeam use piers B, C, D, G.
-- Direct NS train to Amsterdam Centraal every 10 min; €5.80 one-way.
+- Direct NS train to Amsterdam Centraal every 10 min; **€5.50** one-way e-ticket (add **€1.60** surcharge for disposable paper tickets at machines).
 - No TSA PreCheck equivalent; EU citizens can use automated gates when available.
 - Free Wi-Fi is reliable; power outlets plentiful in piers B and D.
-- Schiphol is compact—most gate walks are under 12 min once airside.
+- Schiphol is compact — most gate walks are under 12 min once airside.
 
 ## Security & Screening Tips
-- Arrive 2 h early for Schengen, 2.5 h for non-Schengen; lines peak 06:30–08:30 and 17:00–19:00.
-- Use the “Fast Track” (€35–50) only if you have bags and are flying non-Schengen; otherwise it rarely saves time.
-- Liquids in 100 ml rule strictly enforced; no exceptions at this airport.
-- Keep passport and boarding pass ready—multiple ID checks before security.
+- Arrive **2 h** early for Schengen, **2.5 h** for non-Schengen; lines peak **06:30–08:30** and **17:00–19:00**.
+- **Fast security access** is mainly via **Privium membership** (annual, from ~€185) or the airport's **free advance security timeslot** booking — not a typical walk-up €35–50 day pass.
+- Liquids in **100 ml** rule strictly enforced; no exceptions at this airport.
+- Keep passport and boarding pass ready — multiple ID checks before security.
 
 ## Best Airport Tricks & Hacks
 - Check in online, then drop bags at the far-left “Bag Drop Only” counters in Departure Hall 3 to skip the main queues.
 - After security, take the escalator down to the quiet zone between piers E and F for power outlets and fewer people.
-- Free showers are in the basement level near the meditation room—bring your own towel or buy one at the HEMA.
+- Free showers are in the basement level near the meditation room — bring your own towel or buy one at the HEMA.
 - Buy an NS train ticket from the machines on the arrivals level before you clear customs to avoid platform queues.
 - If you have a long layover, exit airside to the landside library (free, open 24 h) then re-enter through a less crowded security lane.
 - Use the “Schiphol Valet” parking only if your flight is before 07:00; otherwise the P3 garage is faster and cheaper.
-- Download the Schiphol app for real-time gate changes—official screens lag by 2–3 min during peaks.
+- Download the Schiphol app for real-time gate changes — official screens lag by 2–3 min during peaks.
 
 ## Terminals & Navigation
 - Everything is one building; follow yellow overhead signs for piers.
@@ -71,18 +72,18 @@ bentoTips:
 - Common mistake: following “Gates” signs too early and missing the direct route to your pier.
 
 ## Lounges, Food & Amenities
-- KLM Crown Lounge (non-Schengen) has the best showers and quiet seating; access via KLM status or paid day pass (€50).
+- KLM Crown Lounge (non-Schengen) has the best showers and quiet seating; access via KLM status or paid day pass (verify current pricing).
 - For food, choose “La Place” in Departure Hall 2 for fresh sandwiches or “Bar Bouche” in pier D for quick Dutch bitterballen.
-- Free quiet room with recliners is on the lower level between piers E and F—rarely crowded.
+- Free quiet room with recliners is on the lower level between piers E and F — rarely crowded.
 - Avoid the overpriced “Dutch Kitchen” near gate G; better value is the Albert Heijn To Go in the main terminal.
 
 ## Ground Transport & Parking
 - NS Intercity train is fastest and cheapest to Amsterdam; buy at the blue machines on arrivals.
 - Taxi to city center costs €45–55 and takes 25–40 min depending on traffic; use the official taxi rank only.
 - P1 parking is closest but €4.50/h; P3 is €3/h and connected by free shuttle every 5 min.
-- For early flights, park in P3 the night before—shuttle starts at 04:30.
+- For early flights, park in P3 the night before — shuttle starts at 04:30.
 
 ## Official Sources
-- https://www.schiphol.nl/
-- https://www.schiphol.nl/en/security/
-- https://www.ns.nl/en (train schedules)
+- [Schiphol Airport](https://www.schiphol.nl/)
+- [Schiphol Security](https://www.schiphol.nl/en/security/)
+- [NS train schedules and fares](https://www.ns.nl/en)

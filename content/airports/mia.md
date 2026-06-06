@@ -3,7 +3,7 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.miami-airport.com/"
   - "https://www.tsa.gov/airports/miami-international-airport"
@@ -68,7 +68,7 @@ bentoTips:
 - The MIA Mover between terminals runs every 3-5 minutes but can be skipped for short connections inside the same concourse.
 
 ## Lounges, Food & Amenities
-- American Airlines Admirals Club in D and the new Centurion Lounge near E are the best paid options.
+- American Airlines Admirals Club in D and the Centurion Lounge in Concourse D (near Gate D12, 4th floor) are the best paid options.
 - Standout food: La Carreta (Cuban) in the main terminal and La Sandwicherie in concourse D.
 - Quietest non-lounge spot is the seating area past Gate H after the moving walkway.
 

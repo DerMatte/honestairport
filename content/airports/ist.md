@@ -3,7 +3,7 @@ iata: "IST"
 name: "Istanbul Airport"
 city: "Istanbul"
 country: "Turkey"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-06"
 sources:
   - "https://www.istanbul-airport.com/"
   - "https://www.dhmi.gov.tr/"
