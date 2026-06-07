@@ -3,7 +3,7 @@ iata: "LAX"
 name: "Los Angeles International Airport"
 city: "Los Angeles"
 country: "United States"
-lastUpdated: "2026-05-30"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.flylax.com/"
   - "https://www.flylax.com/inter-terminal-connections"

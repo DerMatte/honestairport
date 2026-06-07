@@ -3,15 +3,16 @@ iata: "CAN"
 name: "Guangzhou Baiyun International Airport"
 city: "Guangzhou"
 country: "China"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.baiyunairport.com/"
   - "https://www.gbiac.net/en/"
+  - "https://www.gzmtr.com/"
 quickFacts:
   - "Primary hub for China Southern Airlines"
   - "Two operational terminals: T1 (mostly domestic) and T2 (international + some domestic)"
   - "Over 70 million passengers per year; consistently among China's busiest"
-  - "Metro Line 3 reaches downtown in 35-45 minutes"
+  - "Metro Line 3 from T2 reaches downtown in ~45 min (~¥12)"
   - "Rigorous security screening with full liquid and electronics checks"
 bentoTips:
   - category: "timing"
@@ -75,7 +76,7 @@ bentoTips:
 - Free showers available in T2 transit hotel on level 3 for long layovers.
 
 ## Ground Transport & Parking
-- Metro Line 3 from T2 is fastest and cheapest to downtown (¥7-12).
+- Metro Line 3 from T2 is fastest and cheapest to downtown (~¥12 to Tianhe; distance-based fares ¥2–¥20).
 - Taxi to city center costs ¥80-120 and takes 45-70 min depending on traffic; use Didi for fixed pricing.
 - Avoid private drivers at arrivals; they overcharge.
 - Short-term parking at T2 costs ¥10/hour; long-term cheaper at remote lots with free shuttle.
@@ -83,4 +84,4 @@ bentoTips:
 ## Official Sources
 - https://www.baiyunairport.com/
 - https://www.gbiac.net/en/
-- https://www.szmc.net/ (Metro)
+- https://www.gzmtr.com/ (Guangzhou Metro)

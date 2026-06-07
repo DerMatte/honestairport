@@ -3,7 +3,7 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
   - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
@@ -75,7 +75,7 @@ bentoTips:
 - The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
 
 ## Ground Transport & Parking
-- Blue Line “L” train to downtown is $5 and runs 24/7; 45–55 minutes to the Loop.
+- Blue Line “L” train from O’Hare is $5 (the only CTA station with a premium fare) and runs 24/7; 45–55 minutes to the Loop. Station is in Terminal 2—use the ATS from other terminals.
 - Terminal 2/3 curb is fastest for rideshares; Terminal 1 often has 10-minute surge pricing.
 - Economy parking ($15/day) is a 5-minute ATS ride; avoid the garage ($40/day) unless you need <2 hours.
 - Leave the rental car center by 6:30 a.m. to beat the worst security rush on weekday mornings.

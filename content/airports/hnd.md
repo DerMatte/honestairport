@@ -3,10 +3,11 @@ iata: "HND"
 name: "Tokyo International Airport (Haneda)"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.tokyo-airport-bldg.co.jp/en/"
   - "https://www.haneda-airport.jp/en/"
+  - "https://tokyo-haneda.com/en/service/facilities/shower_room.html"
 quickFacts:
   - "Terminals 1 (JAL domestic), 2 (ANA domestic), 3 (international + some LCCs)"
   - "20-30 min to central Tokyo via monorail or Keikyu line"
@@ -57,7 +58,7 @@ bentoTips:
 ## Best Airport Tricks & Hacks
 - Download the official Haneda app for real-time gate and security wait times.
 - Terminal 3 international security is usually faster than domestic peaks; consider it for same-day connections when possible.
-- Free shower rooms in Terminal 3 (paid but clean) are rarely crowded before 10 a.m.
+- Paid shower rooms in T2 (5:00–22:00) and T3 (24 h) cost ¥1,500/30 min with towels and toiletries included—T3 is rarely crowded before 10 a.m.
 - Buy a Suica or Pasmo card at the station inside the terminal for seamless train/monorail rides.
 - Avoid the paid observation deck; free viewing areas on Terminal 3's 5th floor are better.
 - If connecting from domestic to international, use the free shuttle rather than walking the long corridor.

@@ -3,7 +3,7 @@ iata: "DFW"
 name: "Dallas/Fort Worth International Airport"
 city: "Dallas"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.dfwairport.com/"
   - "https://www.tsa.gov/airports/dallas-fort-worth-international-airport"
@@ -75,7 +75,7 @@ bentoTips:
 - Water bottle refill stations exist post-security only in B, C, and D.
 
 ## Ground Transport & Parking
-- DART Orange Line rail reaches Terminal A in 45 minutes from downtown Dallas; $3 fare.
+- DART Orange Line rail reaches Terminal A in ~45 minutes from downtown Dallas; $3 three-hour local pass or $6 local day pass (regional day pass $9 from Mar 2026).
 - Terminal Link shuttle runs every 10 minutes between terminals and rental car center.
 - Economy parking ($9/day) requires 10-minute shuttle; Terminal B garage ($24/day) is worth it for short trips.
 - Rideshares pick up on upper level of Terminal A only; avoid during 4–7 p.m. surge pricing.

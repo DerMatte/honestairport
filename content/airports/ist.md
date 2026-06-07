@@ -3,9 +3,10 @@ iata: "IST"
 name: "Istanbul Airport"
 city: "Istanbul"
 country: "Turkey"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.istanbul-airport.com/"
+  - "https://www.istanbul-airport.com/en/airport/airport-transportation/urban-transportation/public-transportation"
   - "https://www.dhmi.gov.tr/"
 quickFacts:
   - "Single massive terminal complex handling all international and domestic flights"
@@ -77,7 +78,7 @@ bentoTips:
 - Quiet seating areas exist on the upper level of Zone E away from retail traffic.
 
 ## Ground Transport & Parking
-- M11 metro runs every 6–10 minutes to Gayrettepe in 30 minutes for the lowest cost.
+- M11 metro runs every 8–10 minutes to Gayrettepe in ~30 minutes (~₺42 with İstanbulkart; 06:00–00:00, no overnight service).
 - High-speed train to Istanbul city center takes 45 minutes and avoids traffic.
 - Havaist buses to Taksim or Kadıköy are reliable and run 24 hours; buy tickets on the app.
 - Official airport taxis use fixed rates—insist on the meter or pre-agreed price to avoid scams.

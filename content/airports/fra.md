@@ -3,10 +3,11 @@ iata: "FRA"
 name: "Frankfurt Airport"
 city: "Frankfurt"
 country: "Germany"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.frankfurt-airport.com/"
   - "https://www.frankfurt-airport.com/en/flights/check-in-security.html"
+  - "https://www.rmv.de/"
 quickFacts:
   - "Primary hub for Lufthansa and Star Alliance"
   - "Two terminals linked by free SkyLine train (4-5 min)"
@@ -77,7 +78,7 @@ bentoTips:
 - Showers are available in most Lufthansa lounges; day rooms can be booked at the airport hotel inside Terminal 1.
 
 ## Ground Transport & Parking
-- Regional train (S8/S9) to Frankfurt city center costs €5.10 and runs every 15 minutes.
+- Regional train (S8/S9) to Frankfurt Hauptbahnhof costs €6.90 (RMV Preisstufe 4, valid Jan 2026) and runs every ~10 minutes; journey ~12 minutes.
 - Long-distance ICE trains from the Fernbahnhof reach Cologne in 1 h 10 min and Munich in 3 h 20 min.
 - Short-term parking P1/P2 costs €5 for the first 30 minutes then €3.50 per 30 minutes; long-term P8/P9 is cheaper at €35-45 per day.
 - Taxi to city center takes 20-25 minutes and costs €35-45; use only official ranks.

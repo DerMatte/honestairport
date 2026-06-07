@@ -3,7 +3,7 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-07"
 sources:
   - "https://www.miami-airport.com/"
   - "https://www.tsa.gov/airports/miami-international-airport"
@@ -58,7 +58,7 @@ bentoTips:
 - If connecting from D to J, take the MIA Mover to the main terminal then re-clear security only if needed—saves 20+ min vs walking.
 - For early flights, check bags at the American Airlines remote bag drop on the arrivals level when the main counters are slammed.
 - Quietest seating is the upper level near Gate J17 after security.
-- Avoid the rental car center bus during 3-6pm cruise passenger rushes; walk to the Tri-Rail station instead.
+- Avoid the rental car center bus during 3-6pm cruise passenger rushes; use the free MIA Mover to the Metrorail station instead.
 - Pre-order food via airport vendors when possible—pickup is faster than lines at La Carreta or La Sandwicherie.
 
 ## Terminals & Navigation
@@ -73,7 +73,7 @@ bentoTips:
 - Quietest non-lounge spot is the seating area past Gate H after the moving walkway.
 
 ## Ground Transport & Parking
-- Tri-Rail from the airport station reaches downtown Miami in 25 minutes for $2.50.
+- Metrorail Orange Line from the Miami Intermodal Center (free MIA Mover from terminals) reaches downtown in ~15 min for $2.25; Tri-Rail is a separate commuter service with higher fares.
 - Rental car center is a free 5-minute bus ride; avoid during cruise turnarounds.
 - Short-term parking garage is directly above check-in; long-term is cheaper but requires a shuttle.
 - Uber/Lyft pickup is on the arrivals level; surge pricing is common 4-7pm.
