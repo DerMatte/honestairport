@@ -3,10 +3,11 @@ iata: "CDG"
 name: "Paris Charles de Gaulle Airport"
 city: "Paris"
 country: "France"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.parisaeroport.fr/en"
   - "https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security"
+  - "https://www.iledefrance-mobilites.fr/en/titres-et-tarifs/detail/ticket-paris-region-aeroports"
 quickFacts:
   - "Primary hub for Air France and SkyTeam"
   - "Terminals 1, 2A-2G, 3 with complex transfers"
@@ -43,7 +44,7 @@ bentoTips:
 ## Quick Facts
 - Air France dominates Terminal 2; most other carriers use Terminal 1 or 2.
 - Terminal 2 is split into seven sub-terminals (2A–2G) connected by buses or the CDGVAL shuttle.
-- RER B is fastest and cheapest to Paris; avoid during rush hours (7–9 a.m., 5–7 p.m.).
+- RER B is fastest and cheapest to Paris; avoid during rush hours (7–9 a.m., 5–7 p.m.). **Paris Region ↔ Airports ticket: €14** one-way (Jan 2026).
 - Security lines often exceed 45 minutes in Terminal 2E and 1; arrive 3 hours early for non-Schengen flights.
 - Free CDGVAL shuttle runs every 4 minutes between terminals and RER stations.
 
@@ -57,7 +58,7 @@ bentoTips:
 - Download the Paris Aéroport app for real-time gate and security data; works best on airport Wi-Fi.
 - For Terminal 2 connections, take the free N1 or N2 bus instead of walking when moving between 2A/2B and 2E/2F.
 - If you have 90+ minutes between flights, exit security and re-enter via a less crowded terminal (e.g., move from 2E to 2D).
-- RER B tickets bought at airport machines are €11.45; buy return tickets in Paris to skip airport lines.
+- RER B tickets bought at airport machines are **€14** (Paris Region ↔ Airports ticket, valid Jan 2026); load onto Navigo Easy or buy via the Île-de-France Mobilités app.
 - Quietest seating is on the upper level of Terminal 2E Hall L near gates 50–60 after security.
 - Avoid Terminal 3 entirely unless flying low-cost carriers; it has minimal amenities and slow security.
 
@@ -72,7 +73,7 @@ bentoTips:
 - Quietest non-lounge spot: Terminal 2G after security—small but calm and rarely crowded.
 
 ## Ground Transport & Parking
-- RER B is best value; book taxis via official ranks only (€55–€65 flat to central Paris).
+- RER B is best value (**€14** one-way Paris Region ↔ Airports ticket); book taxis via official ranks only (€56–€65 flat to central Paris, right-bank vs left-bank).
 - Valet parking at Terminal 2 saves time but costs €45+ per day; long-term P3/P4 lots are cheaper via shuttle.
 - Avoid Uber at arrivals—official taxi queue is faster and regulated.
 

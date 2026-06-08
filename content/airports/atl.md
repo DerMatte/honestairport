@@ -3,7 +3,7 @@ iata: "ATL"
 name: "Hartsfield-Jackson Atlanta International Airport"
 city: "Atlanta"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.atl.com/"
   - "https://www.tsa.gov/airports/hartsfield-jackson-atlanta-international-airport"
@@ -62,7 +62,7 @@ bentoTips:
 - Grab food at Concourse E (One Flew South) or F (Varasano’s Pizzeria) before long connections; both beat terminal options.
 - Download the ATL app for gate changes and security wait times; it updates faster than airline apps.
 - For tight connections under 50 minutes, stay airside and ride the train rather than re-clearing security.
-- Park in the new International Terminal garage when flying Delta international; shorter walk than Domestic.
+- Park in the **International Terminal** garage only when checking in at the **Maynard H. Jackson Jr. International Terminal (Concourse F)** — many Delta international flights still depart from Concourses E/F via the Domestic Terminal.
 - Charge devices at the quiet seating areas near Gate T8 or E24 during delays.
 - Skip the rental-car shuttle by taking the SkyTrain directly to the consolidated rental center.
 

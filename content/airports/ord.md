@@ -3,9 +3,10 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
+  - "https://www.flychicago.com/ohare/tofrom/connecting"
   - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
 quickFacts:
   - "Four terminals: 1, 2, 3, and 5"
@@ -59,7 +60,7 @@ bentoTips:
 - Use the post-security walkway from Terminal 1 to Terminal 2 (8–10 minutes) instead of riding the ATS during rush hours.
 - Grab the 4 a.m.–6 a.m. window for shortest security lines even on heavy travel days.
 - Download the Fly Chicago app for real-time ATS and security wait times; it updates every 5 minutes.
-- Terminal 5 arrivals: clear customs first, then re-check bags airside before taking the ATS to avoid re-screening.
+- Terminal 5 international arrivals: clear CBP, **collect all bags**, recheck at counters outside customs, then clear TSA at T5 or ride the **ATS** to Terminals 1–3 and screen there.
 - The United Polaris lounge in Terminal 1 accepts day passes after 5 p.m. when under capacity; arrive after 6 p.m. for best odds.
 
 ## Terminals & Navigation

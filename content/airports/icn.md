@@ -3,13 +3,14 @@ iata: "ICN"
 name: "Incheon International Airport"
 city: "Seoul"
 country: "South Korea"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.airport.kr/ap/en/index.do"
   - "https://www.arex.co.kr/en/"
 quickFacts:
-  - "Two terminals linked by free shuttle (15 min)"
-  - "Primary hub for Korean Air and Asiana Airlines"
+  - "Two terminals linked by free shuttle (~12–15 min)"
+  - "Korean Air, Asiana (from Jan 2026), and SkyTeam use Terminal 2"
+  - "Many Star Alliance and other carriers still use Terminal 1"
   - "AREX express train reaches Seoul Station in 43 min"
   - "Strong free Wi-Fi and abundant charging stations"
   - "24-hour transit hotel and capsule options available"
@@ -23,7 +24,7 @@ bentoTips:
     label: "Transfers"
     title: "T1 and T2 are not walkable"
     summary: "Use the free shuttle and budget 12-15 minutes including wait."
-    detail: "Korean Air and SkyTeam use T2, while Star Alliance and many others use T1."
+    detail: "Korean Air, Asiana, and SkyTeam use T2; many Star Alliance and other carriers use T1 — Asiana moved to T2 in Jan 2026."
   - category: "food"
     label: "Food & rest"
     title: "Use T2 for food, showers, and rest"
@@ -42,7 +43,8 @@ bentoTips:
 
 ## Quick Facts
 - Terminals 1 and 2 are separate; shuttle runs every 5–10 min.
-- Korean Air and SkyTeam use Terminal 2; Star Alliance and others use Terminal 1.
+- **Terminal 2:** Korean Air, **Asiana (relocated Jan 2026)**, Jin Air, and SkyTeam partners.
+- **Terminal 1:** Many Star Alliance carriers (except Asiana), plus other international airlines.
 - Security and immigration are efficient but slow during 06:00–09:00 and 18:00–22:00 peaks.
 - Free Wi-Fi is reliable; power outlets are plentiful at gates.
 - AREX, buses, and taxis all depart from the arrivals level of each terminal.
@@ -65,7 +67,7 @@ bentoTips:
 ## Terminals & Navigation
 - T1 and T2 are 2 km apart; free shuttle takes 12–15 min including wait.
 - Walking between terminals is not practical—always use the shuttle.
-- Most international arrivals are processed in T1; T2 handles newer long-haul gates.
+- Most international arrivals split between T1 and T2 by airline — check your carrier, not alliance alone.
 - Clear signage in English and Korean; follow color-coded lines for departures vs arrivals.
 
 ## Lounges, Food & Amenities

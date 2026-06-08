@@ -87,4 +87,5 @@ bentoTips:
 ## Official Sources
 - https://www.schiphol.nl/
 - https://www.schiphol.nl/en/security/
+- https://www.schiphol.nl/en/at-schiphol/services/shower-at-schiphol/
 - https://www.ns.nl/en (train schedules)
