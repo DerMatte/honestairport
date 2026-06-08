@@ -3,22 +3,24 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.changiairport.com/"
+  - "https://www.changiairport.com/en/experience/attractions-directory/butterfly-garden.html"
+  - "https://www.changiairport.com/en/at-changi/facilities-and-services-directory/movie-theatres.html"
   - "https://www.caas.gov.sg/"
 quickFacts:
   - "Four terminals (T1-T4) linked by Skytrain; T4 newest and fastest for low-cost carriers"
   - "Handles 65+ million passengers yearly; Singapore Airlines is dominant hub carrier"
-  - "Free unlimited Wi-Fi, 24-hour cinemas, and public butterfly garden in every terminal"
-  - "Jewel Changi (between T1-T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
+  - "Free unlimited Wi-Fi; Butterfly Garden and 24/7 cinema are in Terminal 3"
+  - "Jewel Changi (between T1–T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
   - "Consistently ranked world's best airport; security screening averages under 15 minutes"
 bentoTips:
   - category: "timing"
     label: "Timing"
     title: "Arrive early to use Changi, not to queue"
     summary: "Security is usually quick, but 07:00-09:00 and 19:00-21:00 can reach 20 minutes."
-    detail: "Extra time is best spent at Jewel, cinemas, gardens, or foot reflexology stations."
+    detail: "Extra time is best spent at Jewel, the T3 Butterfly Garden, cinema, gardens, or foot reflexology stations."
   - category: "terminal"
     label: "Terminals"
     title: "T4 is the outlier"
@@ -41,9 +43,9 @@ bentoTips:
 > Changi rewards early arrival with free entertainment and fast processes—use the time instead of rushing through.
 
 ## Quick Facts
-- Four terminals connected by free Skytrain (3-5 min between most); T4 optimized for Scoot and Jetstar.
+- Four terminals connected by free Skytrain (3–5 min between most); T4 optimized for Scoot and Jetstar.
 - Singapore Airlines and its subsidiaries operate the majority of long-haul flights from T2 and T3.
-- Free 24-hour cinemas, gaming zones, and outdoor gardens available airside in all terminals.
+- **Butterfly Garden** (world's first airport butterfly garden) and the **free 24/7 transit cinema** are both in **Terminal 3** — Skytrain over if you're in T1/T2/T4.
 - Jewel Changi adds 10 hectares of retail and the HSBC Rain Vortex between T1 and T3.
 - MRT, taxis, and buses depart from basement levels; no long security queues outside peak 07:00-09:00 and 19:00-21:00.
 
@@ -54,13 +56,12 @@ bentoTips:
 - Families and elderly travelers get priority lanes at T1-T3; request at entry.
 
 ## Best Airport Tricks & Hacks
-- Watch a full movie in the free 24-hour cinemas (T1-T4) when layover exceeds 3 hours—seats are comfortable and dark.
+- Watch a full movie in the **free 24/7 cinema at T3 transit Level 3** (next to Ambassador Transit Hotel) when your layover exceeds 3 hours — closed Thursdays 11:00–16:00 for maintenance.
 - Use Jewel's HSBC Rain Vortex viewing deck on Level 5 for photos and quiet space; best before security.
 - Free foot reflexology stations in T2 and T3 airside work well for 2-hour layovers; no appointment needed.
 - Download the Changi app for real-time Skytrain and gate info; works offline after initial load.
 - Early check-in at T1 or T3 (up to 48 hours) lets you clear immigration and enjoy Jewel before your flight.
 - Avoid T4 if connecting to a full-service carrier—transfer times are longer and fewer lounges.
-- Grab free Singapore Airlines amenity kits (toothbrush, socks) from transfer desks when available.
 
 ## Terminals & Navigation
 - T1-T3 form the main complex; T4 sits 1 km away and requires Skytrain or bus transfer.
@@ -70,7 +71,7 @@ bentoTips:
 ## Lounges, Food & Amenities
 - The Haven (T2) and SATS Premier (T3) offer the best paid lounge experience with showers and à-la-carte dining.
 - Local hawker-style food at T2 (Singapore Food Street) and T3 (Jewel food hall) beats most chain outlets.
-- Quietest sleeping spots are the day rooms in T1 (paid) or the cinema recliners in T3 (free).
+- Quietest sleeping spots are the day rooms in T1 (paid) or the **T3 transit cinema recliners** (free, when seats are open).
 - Free luggage wrapping and charging lockers available in all terminals near transfer desks.
 
 ## Ground Transport & Parking

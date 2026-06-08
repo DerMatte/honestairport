@@ -3,14 +3,16 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-05-26"
+lastUpdated: "2026-06-08"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
+  - "https://www.schiphol.nl/en/at-schiphol/services/shower-at-schiphol/"
+  - "https://www.ns.nl/en/service-and-contact/payment/consumer-rates"
 quickFacts:
   - "Single terminal complex with piers A–G"
   - "KLM hub; also serves Delta, easyJet, Transavia"
-  - "Train to Amsterdam Centraal: 15–20 min"
+  - "Direct NS train to Amsterdam Centraal: ~16 min; €5.50 one-way (OVpay/contactless)"
   - "Security opens 2.5 h before departure for Schengen"
   - "Free showers and quiet zones available airside"
   - "Busiest 06:00–09:00 and 16:00–19:00"
@@ -44,7 +46,7 @@ bentoTips:
 ## Quick Facts
 - One terminal with piers A–G; all connected airside after security.
 - Dominant airline is KLM; Star Alliance and SkyTeam use piers B, C, D, G.
-- Direct NS train to Amsterdam Centraal every 10 min; €5.80 one-way.
+- Direct NS train to Amsterdam Centraal every 10 min; **€5.50** one-way second class via OVpay/contactless (disposable paper tickets add a **€1.60** surcharge).
 - No TSA PreCheck equivalent; EU citizens can use automated gates when available.
 - Free Wi-Fi is reliable; power outlets plentiful in piers B and D.
 - Schiphol is compact—most gate walks are under 12 min once airside.
@@ -58,7 +60,7 @@ bentoTips:
 ## Best Airport Tricks & Hacks
 - Check in online, then drop bags at the far-left “Bag Drop Only” counters in Departure Hall 3 to skip the main queues.
 - After security, take the escalator down to the quiet zone between piers E and F for power outlets and fewer people.
-- Free showers are in the basement level near the meditation room—bring your own towel or buy one at the HEMA.
+- Free airside shower cabins are in the **EF filter** near piers E/F (follow First Aid signs from Lounge 2)—**no towels or toiletries**; bring your own or pay **€22.50** at the Mercure Hotel in Lounge 3.
 - Buy an NS train ticket from the machines on the arrivals level before you clear customs to avoid platform queues.
 - If you have a long layover, exit airside to the landside library (free, open 24 h) then re-enter through a less crowded security lane.
 - Use the “Schiphol Valet” parking only if your flight is before 07:00; otherwise the P3 garage is faster and cheaper.
@@ -71,7 +73,7 @@ bentoTips:
 - Common mistake: following “Gates” signs too early and missing the direct route to your pier.
 
 ## Lounges, Food & Amenities
-- KLM Crown Lounge (non-Schengen) has the best showers and quiet seating; access via KLM status or paid day pass (€50).
+- KLM Crown Lounge (non-Schengen) has the best showers and quiet seating; access via KLM status or paid day pass (**€60** Schengen / **€75** non-Schengen — verify current rates on klm.com).
 - For food, choose “La Place” in Departure Hall 2 for fresh sandwiches or “Bar Bouche” in pier D for quick Dutch bitterballen.
 - Free quiet room with recliners is on the lower level between piers E and F—rarely crowded.
 - Avoid the overpriced “Dutch Kitchen” near gate G; better value is the Albert Heijn To Go in the main terminal.
