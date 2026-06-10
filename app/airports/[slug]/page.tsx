@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
+import { AirportGuideArticle } from "@/app/components/airport-guide-article";
+import {
+  AirportLiveStatusPanel,
+  AirportLiveStatusProvider,
+} from "@/app/components/airport-live-status-loader";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Badge } from "@/components/ui/badge";
@@ -12,14 +17,28 @@ import {
   getAirportBySlug,
   getAirportSlugs,
 } from "@/lib/airport-utils";
-import { getAirportGuideSummaryByIata } from "@/lib/airport-content";
+import {
+  getAirportContent,
+  getAirportGuideSummary,
+  getAirportGuideSummaryByIata,
+  getAllAirportIatas,
+} from "@/lib/airport-content";
+import { getAirportByIata } from "@/lib/airports";
 
 interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return getAirportSlugs().map((slug) => ({ slug }));
+// Every airport with a page is known at build time; anything else is a 404.
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const guideIatas = await getAllAirportIatas();
+  const slugs = new Set([
+    ...getAirportSlugs(),
+    ...guideIatas.map((iata) => iata.toLowerCase()),
+  ]);
+  return [...slugs].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -29,8 +48,18 @@ export async function generateMetadata({
   const airport = getAirportBySlug(slug);
 
   if (!airport) {
+    const guideContent = await getAirportContent(slug);
+
+    if (!guideContent) {
+      return {
+        title: "Airport not found",
+      };
+    }
+
+    const { name, iata, city, country } = guideContent.frontmatter;
     return {
-      title: "Airport not found",
+      title: `${name} (${iata}) Airport Guide`,
+      description: `Traveler guide for ${name} in ${city}, ${country}: security tips, terminal navigation, lounges, food, and ground transport.`,
     };
   }
 
@@ -50,7 +79,7 @@ export default async function AirportPage({ params }: AirportPageProps) {
   const airport = getAirportBySlug(slug);
 
   if (!airport) {
-    notFound();
+    return <GuideOnlyAirportPage slug={slug} />;
   }
 
   const guide = await getAirportGuideSummaryByIata(airport.iata);
@@ -142,6 +171,134 @@ export default async function AirportPage({ params }: AirportPageProps) {
 
         <section className="mt-10">
           <AirportDetailTabs airport={airport} guide={guide} />
+        </section>
+      </div>
+    </div>
+  );
+}
+
+async function GuideOnlyAirportPage({ slug }: { slug: string }) {
+  const guideContent = await getAirportContent(slug);
+
+  if (!guideContent) {
+    notFound();
+  }
+
+  const { frontmatter } = guideContent;
+  const guide = getAirportGuideSummary(guideContent);
+  const record = getAirportByIata(frontmatter.iata);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Airport",
+    name: frontmatter.name,
+    iataCode: frontmatter.iata,
+    ...(record?.icao_code ? { icaoCode: record.icao_code } : {}),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: frontmatter.city,
+      addressCountry: frontmatter.country,
+    },
+    ...(record
+      ? {
+          geo: {
+            "@type": "GeoCoordinates",
+            latitude: record.latitude,
+            longitude: record.longitude,
+          },
+        }
+      : {}),
+  };
+
+  return (
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+        >
+          <ArrowLeft className="size-4" aria-hidden="true" />
+          All airports
+        </Link>
+
+        <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="font-mono">
+                {frontmatter.iata}
+              </Badge>
+              {record?.icao_code ? (
+                <Badge variant="outline" className="font-mono">
+                  {record.icao_code}
+                </Badge>
+              ) : null}
+              <Badge variant="secondary" className="rounded-full">
+                Editorial guide
+              </Badge>
+            </div>
+            <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl">
+              {frontmatter.name}
+            </h1>
+            <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
+              <MapPin className="size-5" aria-hidden="true" />
+              {frontmatter.city}, {frontmatter.country}
+            </p>
+          </div>
+
+          <Card className="border-border/70 bg-card/95 shadow-xl shadow-foreground/5">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-sm text-muted-foreground">Guide quick facts</div>
+                  <div className="mt-1 text-xs text-muted-foreground">
+                    Updated {guide.lastUpdated}
+                    {guide.sources.length
+                      ? ` · ${guide.sources.length} official ${
+                          guide.sources.length === 1 ? "source" : "sources"
+                        }`
+                      : null}
+                  </div>
+                </div>
+                <div className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
+                  <BookOpenText className="size-6" aria-hidden="true" />
+                </div>
+              </div>
+              <ul className="mt-5 space-y-2 text-sm leading-6">
+                {guide.quickFacts.slice(0, 5).map((fact, index) => (
+                  <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2">
+                    <Plane className="mt-1 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                    <span>{fact}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="mt-10">
+          <AirportTipBento guideTips={guide.importantTips} />
+        </section>
+
+        <AirportLiveStatusProvider iata={frontmatter.iata}>
+          <section aria-labelledby="live-status-heading" className="mt-10 space-y-3">
+            <div>
+              <p className="text-sm font-medium text-primary">Live airport status</p>
+              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight">
+                Current operations
+              </h2>
+            </div>
+            <AirportLiveStatusPanel className="mb-0" />
+          </section>
+        </AirportLiveStatusProvider>
+
+        <section className="mt-10 max-w-4xl">
+          <AirportGuideArticle content={guideContent.content} />
         </section>
       </div>
     </div>

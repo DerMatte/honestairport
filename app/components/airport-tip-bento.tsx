@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import type { Airport, ImportantTip, ImportantTipCategory, TipCategory } from "@/lib/types";
 
 interface AirportTipBentoProps {
-  airport: Airport;
+  airport?: Airport;
   guideTips?: ImportantTip[];
 }
 
@@ -75,9 +75,11 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
   const tips = (
     guideTips?.length
       ? guideTips
-      : airport.importantTips?.length
-        ? airport.importantTips
-        : fallbackTips(airport)
+      : airport
+        ? airport.importantTips?.length
+          ? airport.importantTips
+          : fallbackTips(airport)
+        : []
   ).slice(0, 4);
 
   if (tips.length === 0) {
