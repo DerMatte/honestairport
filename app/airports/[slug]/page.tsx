@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
+import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
@@ -296,6 +297,18 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             <AirportLiveStatusPanel className="mb-0" />
           </section>
         </AirportLiveStatusProvider>
+
+        {guide.lounges.length ? (
+          <section aria-labelledby="lounges-heading" className="mt-10 space-y-3">
+            <div>
+              <p className="text-sm font-medium text-primary">Lounges</p>
+              <h2 id="lounges-heading" className="text-2xl font-semibold tracking-tight">
+                Where to wait in comfort
+              </h2>
+            </div>
+            <AirportLoungeGrid lounges={guide.lounges} />
+          </section>
+        ) : null}
 
         <section className="mt-10 max-w-4xl">
           <AirportGuideArticle content={guideContent.content} />

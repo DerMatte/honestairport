@@ -10,8 +10,11 @@ Airport guide markdown is the source of truth for guide-specific page content. K
 - `sources`: official airport, transport, security, and operator URLs used by the guide
 - `quickFacts`: short facts surfaced in the Overview tab
 - `bentoTips`: up to four high-priority tip cards for "Know before you go"
+- `lounges`: structured lounge cards surfaced in the Lounges tab / section
 
 Each `bentoTips` item should include `category` (`timing`, `terminal`, `food`, or `status`), `label`, `title`, `summary`, and optional `detail`.
+
+Each `lounges` item requires `name`, `terminal`, and `summary`, plus optional `zone` (e.g. Schengen / non-Schengen), `access` (list: airline status, Priority Pass, day-pass pricing), `hours`, `amenities` (list), `bestFor` (list), and `verdict` (`worth-it`, `depends`, or `skip`). Omit any field that isn't confidently sourced rather than guessing.
 
 The airport detail tabs also read short bullet summaries from these level-two guide headings when present:
 

@@ -20,6 +20,7 @@ import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
+import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -186,6 +187,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
           <TabsList className="w-max" variant="line">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="getting-there">Getting There</TabsTrigger>
+            <TabsTrigger value="lounges">Lounges</TabsTrigger>
             <TabsTrigger value="amenities">Amenities</TabsTrigger>
             <TabsTrigger value="tips">Traveler Tips</TabsTrigger>
             <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
@@ -361,6 +363,28 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
             </Card>
           ))}
         </div>
+      </TabsContent>
+
+      <TabsContent value="lounges" className="space-y-4">
+        {guide?.lounges.length ? (
+          <AirportLoungeGrid lounges={guide.lounges} />
+        ) : null}
+
+        <GuideSectionCard
+          description="Lounge, food, and quiet-spot picks pulled from the markdown guide."
+          icon={<DoorOpen aria-hidden="true" />}
+          section={guideSections?.loungesAmenities}
+          title="Lounge & amenity notes"
+        />
+
+        {!guide?.lounges.length && !guideSections?.loungesAmenities?.items.length ? (
+          <Card>
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              No lounge intel yet for {airport.iata}. Check the official airport site for
+              current lounge locations and access rules.
+            </CardContent>
+          </Card>
+        ) : null}
       </TabsContent>
 
       <TabsContent value="amenities" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

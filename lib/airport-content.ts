@@ -13,6 +13,20 @@ export interface AirportBentoTip {
   detail?: string;
 }
 
+export type AirportLoungeVerdict = "worth-it" | "depends" | "skip";
+
+export interface AirportLounge {
+  name: string;
+  terminal: string;
+  zone?: string;
+  access: string[];
+  hours?: string;
+  amenities?: string[];
+  bestFor?: string[];
+  verdict?: AirportLoungeVerdict;
+  summary: string;
+}
+
 export interface AirportFrontmatter {
   iata: string;
   name: string;
@@ -22,6 +36,7 @@ export interface AirportFrontmatter {
   sources?: string[];
   quickFacts?: string[];
   bentoTips?: AirportBentoTip[];
+  lounges?: AirportLounge[];
 }
 
 export interface AirportContent {
@@ -43,6 +58,7 @@ export interface AirportGuideSummary {
   quickFacts: string[];
   sources: string[];
   importantTips: ImportantTip[];
+  lounges: AirportLounge[];
   sections: AirportGuideSections;
 }
 
@@ -55,6 +71,7 @@ export interface AirportGuideSections {
   airportTricks?: AirportGuideSection;
   terminalNavigation?: AirportGuideSection;
   groundTransport?: AirportGuideSection;
+  loungesAmenities?: AirportGuideSection;
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -150,7 +167,60 @@ function getAirportGuideSections(content: string): AirportGuideSections {
       "Ground Transport & Parking",
       "Getting There & Away",
     ]),
+    loungesAmenities: readGuideSection(sections, [
+      "Lounges, Food & Amenities",
+      "Lounges & Amenities",
+      "Lounges",
+    ]),
   };
+}
+
+function isLoungeVerdict(value: unknown): value is AirportLoungeVerdict {
+  return value === "worth-it" || value === "depends" || value === "skip";
+}
+
+function toStringList(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(isNonEmptyString).map((item) => item.trim());
+}
+
+function toLounges(lounges: unknown): AirportLounge[] {
+  if (!Array.isArray(lounges)) {
+    return [];
+  }
+
+  return lounges.flatMap((lounge) => {
+    if (typeof lounge !== "object" || lounge === null) {
+      return [];
+    }
+
+    const candidate = lounge as Record<string, unknown>;
+
+    if (
+      !isNonEmptyString(candidate.name) ||
+      !isNonEmptyString(candidate.terminal) ||
+      !isNonEmptyString(candidate.summary)
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        name: candidate.name.trim(),
+        terminal: candidate.terminal.trim(),
+        zone: isNonEmptyString(candidate.zone) ? candidate.zone.trim() : undefined,
+        access: toStringList(candidate.access),
+        hours: isNonEmptyString(candidate.hours) ? candidate.hours.trim() : undefined,
+        amenities: toStringList(candidate.amenities),
+        bestFor: toStringList(candidate.bestFor),
+        verdict: isLoungeVerdict(candidate.verdict) ? candidate.verdict : undefined,
+        summary: candidate.summary.trim(),
+      } satisfies AirportLounge,
+    ];
+  });
 }
 
 function toImportantTips(iata: string, bentoTips: AirportBentoTip[] = []): ImportantTip[] {
@@ -186,6 +256,7 @@ export function getAirportGuideSummary(content: AirportContent): AirportGuideSum
     quickFacts: quickFacts.filter(isNonEmptyString).map((fact) => fact.trim()),
     sources: sources.filter(isNonEmptyString).map((source) => source.trim()),
     importantTips: toImportantTips(iata, bentoTips),
+    lounges: toLounges(frontmatter.lounges),
     sections: getAirportGuideSections(content.content),
   };
 }

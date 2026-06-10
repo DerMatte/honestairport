@@ -47,9 +47,28 @@ bentoTips:
     title: "Short imperative headline"
     summary: "One-sentence takeaway a traveler can act on."
     detail: "One extra sentence of context (when it applies, what to avoid)."
+lounges:
+  - name: "Official lounge name"
+    terminal: "Terminal 1"
+    zone: "non-Schengen"
+    access:
+      - "Priority Pass"
+      - "Star Alliance Gold"
+      - "Day pass ~€50"
+    hours: "05:00-22:00"
+    amenities:
+      - "Showers"
+      - "Quiet zone"
+    bestFor:
+      - "Work"
+      - "Long layovers"
+    verdict: "worth-it"
+    summary: "One honest sentence on whether this lounge is worth the visit."
 ---
 
 Include exactly 4 bentoTips, one for each category in this order: "timing", "terminal", "food", "status". Each label is a 1-2 word display tag (e.g. "Timing", "Transfers", "Food & quiet", "Live checks"). These are the highest-signal tips for this airport — they are shown prominently, so do not waste them on generic advice.
+
+Include 2-5 lounges covering the airport's most relevant options for ordinary travelers (independent/Priority Pass lounges and flagship airline lounges). \`zone\` is optional — use it for Schengen/non-Schengen or domestic/international splits. \`verdict\` must be exactly one of "worth-it", "depends", or "skip". Only state access rules, hours, and amenities you are confident about; omit a field rather than guessing.
 
 Then continue with the page body using this exact heading structure:
 
