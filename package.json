@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm validate:content && next build",
     "start": "next start",
     "lint": "eslint",
+    "validate:content": "tsx scripts/validate-airports.ts",
     "generate:airport": "tsx --env-file-if-exists=.env.local scripts/generate-airport.ts",
     "generate:airports": "tsx --env-file-if-exists=.env.local scripts/generate-airports-batch.ts",
     "generate:lounges": "tsx --env-file-if-exists=.env.local scripts/generate-lounges.ts",
