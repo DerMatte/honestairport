@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/app/components/site-header";
 import { getAllHonestAirports } from "@/lib/airport-utils";
 import "./globals.css";
@@ -55,6 +56,7 @@ export default async function RootLayout({
         <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
           Airportist Scores are editorial mock data for this starter. Always verify live rules, terminals, and operational alerts with official airport and airline sources.
         </footer>
+        <Analytics />
       </body>
     </html>
   );
