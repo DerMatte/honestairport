@@ -3,17 +3,18 @@ iata: "BOS"
 name: "Boston Logan International Airport"
 city: "Boston"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.massport.com/logan-airport/"
+  - "https://www.massport.com/logan-airport/flights/connecting-flights"
+  - "https://www.massport.com/logan-airport/getting-here/remote-terminal"
   - "https://www.tsa.gov/airports/boston-logan-international-airport"
-  - "https://www.wbur.org/news/2026/06/01/remote-logan-airport-terminal-framingham-tsa"
 quickFacts:
-  - "Four terminals (A, B, C, E) with JetBlue dominant in C"
+  - "Four terminals (A, B, C, E) — B, C, and E connect post-security on one ticket"
+  - "Terminal A is isolated airside; A↔B/C/E requires landside transfer + new TSA"
   - "Domestic flights: arrive 90-120 min early; international: 2.5-3 hrs"
   - "TSA PreCheck and CLEAR available at all terminals"
   - "Silver Line bus connects to South Station in 15-25 min"
-  - "Live security wait times on massport.com for all terminals A, B, C, E"
   - "Framingham remote terminal pilot (Delta/JetBlue): $9 secure bus past BOS security"
   - "Free Wi-Fi throughout; water fountains pre- and post-security in C and E"
 bentoTips:
@@ -26,7 +27,7 @@ bentoTips:
     label: "Terminal"
     title: "Confirm terminal first"
     summary: "JetBlue uses C; Delta uses A; American uses B; international uses E."
-    detail: "No walking connections; allow 15-20 min for inter-terminal bus or rental-car shuttle."
+    detail: "B↔C↔E stay airside; only Terminal A requires exiting security to reach other terminals."
   - category: "food"
     label: "Food"
     title: "Legal Sea Foods in C"
@@ -65,11 +66,11 @@ lounges:
 
 ## Quick Facts
 - Terminals A (Delta), B (American, United), C (JetBlue hub), E (international + some JetBlue).
-- No airside walkways; inter-terminal travel requires ground buses or walking outside.
+- **Terminals B, C, and E connect post-security** on one ticket without re-screening. **Terminal A** is isolated airside — A↔others requires landside shuttle/walk + new TSA ([Massport connecting flights](https://www.massport.com/logan-airport/flights/connecting-flights)).
 - Silver Line (SL1) reaches South Station in ~20 min for $2.40 with CharlieCard.
 - Cell-phone lot is free and usually has space; avoid circling the terminals.
 - Free Wi-Fi network-wide; refill bottles at fountains in C (airside) and E arrivals.
-- **June 2026:** Massport's **Framingham remote terminal** pilot lets eligible **Delta/JetBlue** passengers clear TSA ~20 miles west, then ride a secure bus airside to A/C ($9; 5:30 a.m.–4 p.m. departures only).
+- **June 2026:** Massport's **Framingham remote terminal** pilot lets eligible **Delta/JetBlue** passengers clear TSA ~20 miles west, then ride a secure bus airside to A/C ($9; facility **3:00 a.m.–11:00 a.m.**, Framingham buses **4:00–11:00 a.m.**) ([Massport remote terminal](https://www.massport.com/logan-airport/getting-here/remote-terminal)).
 - Live security wait estimates for all terminals on **massport.com** — overflow beyond the checkpoint queue isn't counted, so pad peak windows.
 
 ## Security & Screening Tips
@@ -80,7 +81,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Download the Massport app before arrival—it shows live security times and gate info the TSA site misses.
 - **Remote terminal hack:** West-suburb departures on Delta/JetBlue can skip Logan security entirely via the Framingham pilot — book on massport.com if your flight qualifies.
-- If connecting from A to C, take the free Massport shuttle rather than walking the long outside path in bad weather.
+- If connecting **B to C or E**, stay airside — no shuttle needed. For **A to C**, use the free Massport shuttle rather than walking the long outside path in bad weather.
 - Park in the Central Garage for easiest access to B and C; Terminal A garage is smaller and fills fast.
 - Use the free cell-phone lot on Harborside Drive instead of paying for short-term parking while waiting for arrivals.
 - JetBlue flyers: check in at the kiosk in the departure level of C to skip the crowded main counters.
@@ -88,8 +89,9 @@ lounges:
 - Silver Line runs every 5-8 min during peaks; buy a CharlieCard at South Station for the cheapest ride.
 
 ## Terminals & Navigation
-- Walk outside between B and C (5-7 min) or use free terminal shuttle buses that loop every 10 min.
-- Allow 15 min minimum for any terminal change; 25 min if carrying bags or during rush hour.
+- **B ↔ C ↔ E:** Stay airside on one ticket — no re-screening ([Massport connecting flights](https://www.massport.com/logan-airport/flights/connecting-flights)).
+- **Terminal A:** Isolated airside — use free shuttle or walk outside + new TSA to reach B/C/E.
+- Allow 15 min minimum for any landside terminal change; 25 min if carrying bags or during rush hour.
 - Rental-car shuttle stops are outside baggage claim—follow signs carefully as they differ by terminal.
 
 ## Lounges, Food & Amenities

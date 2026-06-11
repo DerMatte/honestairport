@@ -94,7 +94,7 @@ lounges:
 ## Terminals & Navigation
 - T1 and T2 are 2 km apart; free shuttle takes 12–15 min including wait.
 - Walking between terminals is not practical—always use the shuttle.
-- Most international arrivals are processed in T1; T2 handles newer long-haul gates.
+- Both T1 and T2 handle international arrivals depending on airline — check your carrier's terminal assignment.
 - Clear signage in English and Korean; follow color-coded lines for departures vs arrivals.
 
 ## Lounges, Food & Amenities

@@ -10,7 +10,7 @@ sources:
   - "https://csmia-mumbai.adaniairports.com/en/airport-facilities/wifi-service"
 quickFacts:
   - "T1 handles domestic flights; T2 handles all international plus some domestic"
-  - "Major hubs for Air India, IndiGo, Vistara, and Akasa Air"
+  - "Major hubs for Air India, IndiGo, and Akasa Air"
   - "T1 and T2 are 4 km apart; free shuttle buses run every 15 minutes"
   - "Peak congestion 6-10 AM and 6-10 PM; allow extra buffer"
   - "Strict liquid rules enforced; 100 ml limit with no exceptions at security"
@@ -80,10 +80,10 @@ lounges:
 
 ## Quick Facts
 - T1 (domestic) and T2 (international) are separate; free shuttle runs every 15 min but adds 30-45 min total.
-- Air India, IndiGo, Vistara, and Akasa dominate; most international carriers use T2.
+- Air India, IndiGo, and Akasa dominate; most international carriers use T2.
 - Security is strict on liquids and electronics; expect bag checks even with PreCheck equivalents.
 - Peak hours 6-10 AM and 6-10 PM create long lines; monsoon season adds traffic delays.
-- **MCT:** Same ticket, T3-style int'l–int'l through T2 only — **90 min** floor if bags are through-checked; **T1↔T2** or separate tickets need **2.5–4 h** (shuttle + re-screen).
+- **MCT:** Same ticket, int'l–int'l through T2 only — **90 min** floor if bags are through-checked; **T1↔T2** or separate tickets need **2.5–4 h** (shuttle + re-screen).
 - **Wi‑Fi:** Free unlimited on **#MumbaiAirportWiFi** — OTP via mobile or passport/boarding-pass voucher at kiosks (T2 gates 48/67/74, level 4 info desks). Speed drops at evening peaks; carry a power bank anyway.
 - **Water:** Refill stations post-security in T2; landside level 4 food court before security beats airside bottled prices.
 

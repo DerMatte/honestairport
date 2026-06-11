@@ -3,16 +3,19 @@ iata: "SFO"
 name: "San Francisco International Airport"
 city: "San Francisco"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.flysfo.com/"
+  - "https://www.flysfo.com/passengers/travel-tips/navigating-sfo"
+  - "https://www.flysfo.com/passengers/flight-info/airlines-sfo/united-domestic"
   - "https://www.tsa.gov/airports/sfo"
 quickFacts:
-  - "Four terminals linked by AirTrain and airside walkways"
-  - "Primary United hub with strong Alaska and international service"
+  - "Four terminal buildings: Harvey Milk T1, T2, T3, International Terminal (gates A–G)"
+  - "Primary United hub — domestic at T2/T3, international at Intl Terminal G"
+  - "All terminals connect post-security on one ticket — no re-screen for domestic connections"
   - "Direct BART station inside the airport for Bay Area transit"
   - "TSA PreCheck and CLEAR available in every terminal"
-  - "International arrivals must re-clear security for most connections"
+  - "International arrivals must re-clear security for onward domestic connections"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -74,15 +77,15 @@ lounges:
 > SFO rewards travelers who know the AirTrain shortcuts, BART link, and United-heavy gate patterns.
 
 ## Quick Facts
-- Four terminals (A, B, C, G) connected airside and by frequent AirTrain.
+- Four terminal buildings — **Harvey Milk Terminal 1**, **Terminal 2**, **Terminal 3**, and the **International Terminal** (gates A–G). All connect **post-security on one ticket** for domestic connections ([Navigating SFO](https://www.flysfo.com/passengers/travel-tips/navigating-sfo)).
 - **MCT (same ticket, practical floor):**
-  - **Adjacent terminals** (G↔A): **60 min** floor — walk is **8–10 min** airside.
-  - **Cross-terminal** (G→International): **75–90 min** including possible re-security.
-  - **International arrival → domestic:** full re-screen — **2 h** minimum.
-- United operates the majority of flights from Terminal G and parts of A/B.
+  - **Adjacent areas** (e.g. T3 ↔ Intl G): **60 min** floor — walk is **8–10 min** airside.
+  - **Cross-terminal domestic:** **75–90 min** — walk airside, no re-screen.
+  - **International arrival → domestic:** exit arrivals, recheck bags, new TSA — **2 h** minimum.
+- **United domestic** operates from **Terminal 2 and Terminal 3**; **international United** uses the **International Terminal (G gates)** ([United at SFO](https://www.flysfo.com/passengers/flight-info/airlines-sfo/united-domestic)).
 - BART station sits directly beneath the International Terminal for seamless regional access.
 - TSA PreCheck lanes exist in every terminal; CLEAR is also widespread.
-- International arrivals require full re-screening for most domestic connections.
+- International arrivals require full re-screening for onward domestic connections — domestic-to-domestic stays airside without re-screen.
 - Free Wi-Fi and plentiful power outlets throughout all terminals.
 - **Water:** Refill stations post-security in Terminal 2 and International Terminal — bring an empty bottle.
 
@@ -102,10 +105,10 @@ lounges:
 - International Terminal has the quietest seating areas post-security after 10 PM when most long-haul flights have departed.
 
 ## Terminals & Navigation
-- All terminals connect airside except for some international arrivals that force a security re-clear.
-- AirTrain runs every 4 minutes; use it for B-C or rental-car loops only.
-- Walking time between G and A is 8-10 minutes; G to International is 12-15 minutes.
-- Common mistake: riding AirTrain when adjacent terminals are faster on foot.
+- All terminals connect **post-security by walkway** on one ticket — domestic connections do **not** require re-screening ([Navigating SFO](https://www.flysfo.com/passengers/travel-tips/navigating-sfo)).
+- AirTrain runs every 4 minutes; use it for rental-car loops or when walking is impractical.
+- Walking time between adjacent areas is 8-10 minutes; cross-terminal walks can reach 12-15 minutes.
+- Common mistake: assuming international arrivals can connect airside — they must exit and re-clear TSA.
 
 ## Lounges, Food & Amenities
 - United Club in Terminal G offers solid food and showers; expect crowds during bank departures.
@@ -116,7 +119,7 @@ lounges:
 ## Ground Transport & Parking
 - BART is fastest and cheapest to downtown or East Bay; trains run every 10-20 minutes.
 - Rideshares pick up on the departures level; allow 15 extra minutes during rush hours.
-- Short-term parking in the closest domestic garage costs $3 for the first 30 minutes, then $6 per hour.
+- Short-term parking in the domestic hourly garage is **$4 per 30 minutes** (~$39 daily max); **10-minute exit grace** ([SFO hourly parking](https://www.flysfo.com/passengers/parking/domestic-hourly)).
 - Cell phone lot is free and well-marked; use it instead of circling.
 
 ## Official Sources

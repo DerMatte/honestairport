@@ -101,7 +101,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - **Follow yellow "Correspondance / Transfer" signs** — purple is not CDG's color (that's LHR); yellow is consistent.
 - **2A/2B → 2E/2F:** Take **N1/N2 bus** instead of walking when time is tight — walking can exceed **15–20 min**.
-- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common forum-reported misconnect; pad **20+ min**.
+- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common misconnect; pad **20+ min**.
 - **Long layover hack:** With **90+ min** and wrong-terminal security queue, some travelers exit and re-enter via a quieter terminal — only with time and valid docs.
 - **RER B tickets:** **€11.45** at airport machines — buy **return in Paris** to skip airport queues on the way back.
 - **Quiet seating:** Upper level **2E Hall L** near gates **50–60** post-security — less retail traffic.

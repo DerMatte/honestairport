@@ -3,15 +3,17 @@ iata: "EWR"
 name: "Newark Liberty International Airport"
 city: "Newark"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.newarkairport.com/"
+  - "https://www.newarkairport.com/static/EWR/html/connecting-flights.html"
+  - "https://shakeshack.com/location/newark-liberty-international-airport-nj"
   - "https://www.tsa.gov/airports/newark-liberty-international-airport"
 quickFacts:
   - "Three terminals (A, B, C) linked by free AirTrain"
   - "United Airlines dominant hub; international focus in Terminal C"
   - "AirTrain reaches NJ Transit rail in 10 minutes"
-  - "TSA PreCheck and CLEAR lanes at all terminals"
+  - "TSA PreCheck at all terminals; CLEAR primarily at Terminal B (Gates B40–B49)"
   - "Peak congestion 6-9 AM and 4-7 PM"
 bentoTips:
   - category: "timing"
@@ -26,9 +28,9 @@ bentoTips:
     detail: "AirTrain between terminals runs every 3-5 minutes; avoid if already airside."
   - category: "food"
     label: "Food"
-    title: "Grab at Terminal C Shake Shack"
-    summary: "Reliable, fast option before security in C or post-security in A."
-    detail: "Terminal B has fewer solid choices; eat before heading there."
+    title: "Grab at Terminal A Shake Shack"
+    summary: "Shake Shack is in Terminal A (gate level), not Terminal C."
+    detail: "Terminal B has fewer solid choices; eat in A or C before heading to B."
   - category: "status"
     label: "Status"
     title: "Check United app for gate changes"
@@ -64,17 +66,17 @@ lounges:
 - **Terminals:** **A**, **B**, **C** — **United** hub; int'l focus in **C**; **A** and **B** serve other Star/non-Star carriers.
 - **MCT (same ticket, practical floor):**
   - **Same terminal (United → United in C):** **45 min** floor, **60 min** comfortable.
-  - **Terminal change (one ticket, airside via AirTrain):** **75 min** floor — AirTrain is **3–5 min** but you still re-clear TSA at departure terminal.
+  - **Terminal change (United, one ticket):** United runs a complimentary **airside shuttle A↔C** (and one-way to Terminal B gates B60–B68, 1–11 p.m.) — **no re-screen** on eligible connections. Other carriers: AirTrain landside + new TSA — **75 min** floor.
   - **International → domestic:** CBP + baggage recheck if not through-checked — **2–2.5 h** minimum.
   - **Separate tickets:** **3 h** minimum.
-- **AirTrain:** Free between terminals; **~10 min** to NJ Transit; **PreCheck + CLEAR** at all terminals.
+- **AirTrain:** Free between terminals landside; **~10 min** to NJ Transit; **PreCheck** at all terminals; **CLEAR** primarily at **Terminal B** (Gates B40–B49).
 - **Wi‑Fi:** Free **EWR Free WiFi** — registration required; usable for gate tracking.
 - **Water:** Limited refill fountains airside in C near gates 70–90; landside has better access before security.
 - **Power:** Scarce at peak — far end of **C near gate 120** has quieter seating and outlets.
 - **Peak congestion:** **06:00–09:00** and **16:00–19:00**.
 
 ## Security & Screening Tips
-- PreCheck and CLEAR are worth it; standard lines can hit 40+ minutes at 7 AM and 5 PM.
+- PreCheck is worth it; CLEAR is primarily at **Terminal B** (Gates B40–B49). Standard lines can hit 40+ minutes at 7 AM and 5 PM.
 - Terminal C usually clears fastest for United passengers.
 - Avoid the main checkpoint in B during evening international arrivals surge.
 
@@ -88,7 +90,7 @@ lounges:
 - Skip the rental-car shuttle loop by walking to the garage when possible.
 
 ## Terminals & Navigation
-- AirTrain connects all terminals and parking in under **10 min** — always use it landside; no practical airside links.
+- AirTrain connects all terminals **landside** in under **10 min** — United passengers on eligible connections can use the **airside A↔C shuttle** instead ([EWR connecting flights](https://www.newarkairport.com/static/EWR/html/connecting-flights.html)).
 - Terminal C handles most United long-haul; A and B serve other carriers.
 - **Recommended connection buffers:**
   - Same terminal: **60 min** floor
@@ -98,7 +100,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - United Club in C is the strongest lounge option for eligible passengers.
-- Shake Shack and Gallagher's in C are the most reliable food choices.
+- **Shake Shack** is in **Terminal A** (gate level) — not Terminal C ([Shake Shack EWR](https://shakeshack.com/location/newark-liberty-international-airport-nj)). Gallagher's in C is another reliable option.
 - Quiet seating is scarce; head to the far end of C near gate 120 when waiting.
 
 ## Ground Transport & Parking

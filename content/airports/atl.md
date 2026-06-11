@@ -7,7 +7,7 @@ lastUpdated: "2026-06-10"
 sources:
   - "https://www.atl.com/"
   - "https://www.tsa.gov/airports/hartsfield-jackson-atlanta-international-airport"
-  - "https://www.flyertalk.com/forum/delta-air-lines-skymiles/579051-minimum-connection-transfer-time-atlanta-atl-definitive-thread.html"
+  - "https://www.delta.com/us/en/airports/united-states/atlanta-hartsfield-jackson-airport"
 quickFacts:
   - "Busiest passenger airport in the world"
   - "Primary Delta Air Lines hub with ~1,000 daily flights"
@@ -119,5 +119,5 @@ lounges:
 ## Official Sources
 - https://www.atl.com/
 - https://www.tsa.gov/airports/hartsfield-jackson-atlanta-international-airport
-- https://www.flyertalk.com/forum/delta-air-lines-skymiles/579051-minimum-connection-transfer-time-atlanta-atl-definitive-thread.html
+- https://www.delta.com/us/en/airports/united-states/atlanta-hartsfield-jackson-airport
 - https://itsmarta.com/ (MARTA schedules)

@@ -3,16 +3,20 @@ iata: "DUS"
 name: "Düsseldorf Airport"
 city: "Düsseldorf"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.dus.com/"
-  - "https://www.dus.com/en/flight-preparation/security"
+  - "https://www.dus.com/en/inform/security-control"
+  - "https://www.dus.com/en/inform/security-control/dus-gateway"
+  - "https://www.dus.com/en/inform/lounges"
+  - "https://www.dus.com/en/inform/lounges/lufthansa-lounges"
+  - "https://www.vrr.de/"
 quickFacts:
-  - "Three terminals (A, B, C) with A and B directly connected"
+  - "Three piers (A, B, C) connected airside — walk between all gates after security"
   - "Eurowings base; also serves Lufthansa, Ryanair, and Condor"
   - "Security lines often exceed 30 minutes in peak morning hours"
   - "Direct S-Bahn and regional trains to Düsseldorf Hauptbahnhof in 10-15 min"
-  - "No TSA PreCheck equivalent; all passengers go through standard screening"
+  - "Priority Lane at Gate B and free DUSgateway time slots available"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -21,8 +25,8 @@ bentoTips:
     detail: "Add 30 extra minutes if checking a bag on Eurowings or Ryanair."
   - category: "terminal"
     label: "Terminal"
-    title: "Stay in A/B when possible"
-    summary: "C requires a 10-minute bus or long walk via A."
+    title: "Walk airside to Pier C"
+    summary: "Piers A, B, and C connect airside — no shuttle between gates."
     detail: "Most Schengen flights use A/B; non-Schengen often depart from C."
   - category: "food"
     label: "Food"
@@ -33,28 +37,25 @@ bentoTips:
     label: "Status"
     title: "Check live security times"
     summary: "Use the DUS app or dus.com for current wait estimates."
-    detail: "Avoid 6-9 a.m. departures if the app shows >25 minutes."
+    detail: "Book a free DUSgateway slot or use Priority Lane at Gate B when eligible."
 lounges:
-  - name: "Lufthansa Lounge"
-    terminal: "B"
-    access:
-      - "Star Alliance Gold"
-      - "Lufthansa status"
-      - "€45 day pass"
-    bestFor:
-      - "Work"
-      - "Relax"
-    verdict: "worth-it"
-    summary: "The only paid lounge worth considering for non-Star Alliance passengers at €45."
   - name: "Lufthansa Senator Lounge"
-    terminal: "B"
+    terminal: "A"
     access:
       - "Star Alliance Gold"
       - "Lufthansa Senator status"
     bestFor:
       - "Work"
     verdict: "depends"
-    summary: "Premium access only for top-tier Star Alliance elites; skip otherwise."
+    summary: "Pier A gallery level — status/cabin only; no public day pass."
+  - name: "DUS Rhein Lounge"
+    terminal: "A"
+    access:
+      - "paid day pass from ~€17 online"
+    bestFor:
+      - "Relax"
+    verdict: "depends"
+    summary: "Airport pay lounge — book online for the best rate."
 ---
 
 # DUS Airport Guide
@@ -62,47 +63,49 @@ lounges:
 > Fast, no-fluff guide to moving through Düsseldorf Airport with minimal stress and wasted time.
 
 ## Quick Facts
-- Three terminals (A, B, C); A and B are connected airside and landside.
-- Eurowings operates the majority of flights; long-haul uses Terminal C.
-- Security is mandatory for all passengers; no fast-track or PreCheck lanes.
+- Three piers (**A, B, C**) connected **airside** — walk between all gates after clearing security at your pier ([DUS site map](https://www.dus.com/en/inform/location-map/airport-map)).
+- Eurowings operates the majority of flights; long-haul uses Pier C.
+- **Priority Lane** (fast lane) at **Gate B** and free **DUSgateway** time-slot booking available ([DUS security](https://www.dus.com/en/inform/security-control)).
 - S-Bahn line S11 reaches Düsseldorf city center in 10-15 minutes.
-- Free Wi-Fi is reliable throughout all terminals.
-- Baggage storage and showers are available in Terminal A arrivals.
+- Free Wi-Fi is reliable throughout all piers.
+- Showers are available in **airside lounges** (Senator, Emirates) — not in public arrivals.
 
 ## Security & Screening Tips
 - Arrive at security at least 90 minutes before departure during morning and evening peaks.
-- Remove liquids and laptops; trays are required for all items.
-- Families and passengers with reduced mobility can use the dedicated lane at the far left of each checkpoint.
-- Avoid the central security area in Terminal B between 5-8 a.m.; use the A checkpoint instead when possible.
+- **Priority Lane** at Gate B for eligible status/cabin passengers; **DUSgateway** offers free timed slots for all passengers.
+- Remove liquids and laptops at conventional lanes; CT-equipped lanes allow devices in bag.
+- Families and passengers with reduced mobility can use dedicated lanes — ask staff.
 
 ## Best Airport Tricks & Hacks
 - Download the official DUS app before arrival for real-time security wait times and gate info.
-- If your flight departs from C, clear security in A/B first then take the free bus from gate level.
+- If departing from Pier C, clear security at **your pier** then **walk airside** — no bus between piers.
 - Landside food court in Terminal A (before security) has better value than any airside option.
-- Use the S-Bahn instead of taxis for city center trips; machines accept cards and the ride is under €3.
-- For early flights, the Radisson Blu hotel connected to Terminal C offers day-use rooms with shower access.
+- Use the S-Bahn instead of taxis for city center trips; machines accept cards — VRR **Preisstufe A €3.80** (2026).
+- For early flights, the Radisson Blu hotel connected to Pier C offers day-use rooms with shower access.
 - Check the departure boards in the train station level; some gates are a 12-minute walk from security.
-- Avoid the single elevator at the C bus stop during rush; use the escalators on the far side.
 
 ## Terminals & Navigation
-- Terminals A and B share one security zone and are walkable in under 5 minutes.
-- Terminal C is reached by a 10-minute shuttle bus from the A/B arrivals level or a 15-minute covered walkway.
-- All gates in A/B are reachable within 8 minutes after security; C gates require an extra 5-7 minutes.
-- Moving walkways run only in the A/B finger; budget extra time if heading to the far C gates.
+- Piers A and B are walkable in under 5 minutes airside.
+- **Pier C is reachable on foot airside** from A/B after security — allow 5-7 extra minutes to far C gates.
+- Each pier has its own security checkpoint; all gates are reachable airside without a shuttle.
+- Moving walkways run in the A/B finger; budget extra time for Pier C.
 
 ## Lounges, Food & Amenities
-- The Lufthansa Lounge in B is the only paid lounge worth considering for non-star alliance passengers (€45 day pass).
-- Best quick meal landside: Hans im Glück burger or the bakery in Terminal A arrivals.
+- **Lufthansa lounges** are in **Pier A** (gallery level) — status/cabin only, no day pass ([DUS Lufthansa lounges](https://www.dus.com/en/inform/lounges/lufthansa-lounges)).
+- **DUS Rhein Lounge** and **DUS Sky Lounge** offer paid access from ~€17 online ([DUS lounges](https://www.dus.com/en/inform/lounges)).
+- Best quick meal landside: bakery or restaurant in Terminal A arrivals per [DUS gastronomy](https://www.dus.com/en/shop-and-dine/gastro).
 - Quietest seating area is the upper level near gate A40 after security.
-- Showers are available in the Terminal A arrivals for €8; bring your own towel.
+- Showers are in lounge facilities only — not available in public arrivals.
 
 ## Ground Transport & Parking
-- S-Bahn S11 runs every 20 minutes to Düsseldorf Hauptbahnhof (€2.90).
+- S-Bahn S11 runs every 20 minutes to Düsseldorf Hauptbahnhof (**€3.80** VRR Preisstufe A).
 - Taxi rank is outside Terminal B; expect €20-25 to the city center with no surge pricing.
-- Short-term parking P1/P2 costs €4 per hour; long-term P8/P9 is €18 per day with free shuttle.
-- Drop-off is free for 5 minutes at the departures curb; longer stays trigger €3 fees.
+- On-site terminal garages: **€8/hour**, daily max **€38.50–48** (P1/P2/P3/P7/P8) — book online for lower rates ([DUS parking](https://www.dus.com/en/inform/parking)).
+- Drop-off is free for 5 minutes at the departures curb; longer stays trigger fees.
 
 ## Official Sources
 - https://www.dus.com/
-- https://www.dus.com/en/flight-preparation/security
+- https://www.dus.com/en/inform/security-control
+- https://www.dus.com/en/inform/security-control/dus-gateway
+- https://www.dus.com/en/inform/lounges
 - https://www.dus.com/en/getting-here-and-away

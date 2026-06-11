@@ -3,16 +3,18 @@ iata: "CGN"
 name: "Flughafen Köln/Bonn"
 city: "Cologne"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.cologne-bonn-airport.com/"
-  - "https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check"
+  - "https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check.html"
+  - "https://www.cologne-bonn-airport.com/en/passengers/shops-restaurants-services/detail/the-lounge-1.html"
   - "https://www.cologne-bonn-airport.com/en/company/next-chapter.html"
+  - "https://www.bahn.de/"
 quickFacts:
   - "Single central security in T1; CT upgrade rolling out through summer 2026"
   - "Primary base for Eurowings and Ryanair"
   - "CGNGateWay free security time slots up to 100 days ahead"
-  - "Direct train to Cologne Hauptbahnhof in 15 min"
+  - "S19 train to Cologne Hauptbahnhof in ~14 min (every 20 min)"
   - "Free Wi-Fi throughout both terminals"
 bentoTips:
   - category: "timing"
@@ -27,27 +29,25 @@ bentoTips:
     detail: "Walkway between T1 and T2 takes 4 min; follow yellow signs."
   - category: "food"
     label: "Food"
-    title: "Eat at Hans im Glück before security"
-    summary: "Best burger option is airside in T1; landside options are limited."
-    detail: "Opens at 05:00; avoid the overpriced Pret near gate B."
+    title: "Eat landside before security"
+    summary: "Bäckerei Wüst opens at 04:30 with better value than most airside options."
+    detail: "Airside: Burger King and 51° Bar & Kitchen in T1 for quick meals."
   - category: "status"
     label: "Live checks"
     title: "Use the airport app for queue cams"
     summary: "Security wait times update every 5 min in the official app."
-    detail: "All passengers use the central T1 checkpoint — book CGNGateWay instead of guessing T2 queues."
+    detail: "All passengers use the central T1 checkpoint — book CGNGateWay instead of guessing queues."
 lounges:
-  - name: "Eurowings Lounge"
+  - name: "The Lounge"
     terminal: "T1"
     access:
-      - "€35 day pass"
+      - "€35 day pass (up to 4 h)"
     amenities:
       - "breakfast"
-      - "showers"
     bestFor:
       - "Food"
-      - "Shower"
     verdict: "depends"
-    summary: "Solid choice for breakfast and showers with the €35 day pass, but only worth visiting if you have free access via status or membership."
+    summary: "Airport pay lounge with €35 day pass — worth it for breakfast if you lack status access."
 ---
 
 # CGN Airport Guide
@@ -55,11 +55,11 @@ lounges:
 > Fast, no-nonsense guide to clearing Cologne Bonn with minimal stress and wasted time.
 
 ## Quick Facts
-- Two terminals connected by a 4-minute indoor walkway; **one central security checkpoint in T1** serves all departures.
+- Two terminals connected by a 4-minute indoor walkway; **one central security checkpoint in T1** serves **all departures** (T1 and T2).
 - Eurowings and Ryanair dominate; Star Alliance uses T1.
 - **Security rebuild (2025–2026):** CT scanners rolling out through summer 2026 — liquids/laptops stay in bags once your lane is converted ([CGN Next Chapter](https://www.cologne-bonn-airport.com/en/company/next-chapter.html)).
 - **CGNGateWay:** Free timed security slots up to **100 days** ahead — the insider move on Monday-morning Eurowings banks.
-- S-Bahn line 13 runs every 20 min to Cologne city center (€3.20).
+- **S19** runs every **20 min** to Cologne Hbf (~**14 min**, ~€3.80 VRR) ([DB Köln/Bonn Airport](https://www.bahn.de/strecke/flughafen-koeln-bonn)).
 - **Wi‑Fi:** Free airport-wide. **Water:** Fountains next to every restroom airside and landside.
 
 ## Security & Screening Tips
@@ -70,25 +70,25 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the official CGN app for live security wait times and gate changes.
-- **Book CGNGateWay** for a dedicated lane — frequent-flyer forums rate this above showing up blind at 06:30.
+- **Book CGNGateWay** for a dedicated lane — official free service that beats showing up blind at 06:30.
 - If T1 security exceeds 25 min without a slot, you're stuck — there is no alternate checkpoint; arrive earlier instead.
-- Landside bakery “Bäckerei Wüst” opens at 04:30 and beats airside prices.
+- Landside bakery **Bäckerei Wüst** opens at 04:30 and beats airside prices.
 - Free charging lockers are behind the escalators near gate A in T1.
 - For early flights, the Radisson Blu hotel walkway lets you skip the drop-off curb chaos.
 - Ryanair passengers: check in online and print boarding pass; app version is often rejected.
-- Short-term parking P1 fills by 07:00 on weekdays; use P3 and take the free shuttle.
+- **P3** is ~350 m walk (~5–7 min) to Terminal 2 — no shuttle; P1 fills by 07:00 on weekdays.
 
 ## Terminals & Navigation
-T1 handles Eurowings, Lufthansa, and most international flights. T2 is Ryanair-heavy. Both share one security area per terminal. Walking time between furthest gates is 12 min. Follow the yellow “T1 ↔ T2” signs; moving walkways run only toward departures.
+T1 handles Eurowings, Lufthansa, and most international flights. T2 is Ryanair-heavy. **One central security in T1 serves all passengers.** Walking time between furthest gates is 12 min. Follow the yellow "T1 ↔ T2" signs; moving walkways run only toward departures.
 
 ## Lounges, Food & Amenities
-The Eurowings Lounge in T1 (airside) offers decent breakfast and showers for €35 day pass. For food, Hans im Glück (T1 airside) serves reliable burgers. Quiet seating is on the upper level near gate C; avoid the noisy central atrium. Water fountains are next to every restroom.
+**The Lounge** in T1 (airside) offers a €35 day pass for up to 4 hours ([The Lounge CGN](https://www.cologne-bonn-airport.com/en/passengers/shops-restaurants-services/detail/the-lounge-1.html)). For food, **Burger King** and **51° Bar & Kitchen** (T1 airside) are reliable quick options per [CGN restaurants](https://www.cologne-bonn-airport.com/en/passengers/shops-restaurants-services.html). Quiet seating is on the upper level near gate C; avoid the noisy central atrium. Water fountains are next to every restroom.
 
 ## Ground Transport & Parking
-S-Bahn line 13 is fastest and cheapest to Cologne. Taxi rank is outside T1 arrivals (€25-30 to city center). Long-term parking P8 is €4.50/day with free shuttle every 15 min. Avoid the kiss-and-fly zone during rush hours; use the multi-storey P1/P2 instead.
+**S19** is fastest and cheapest to Cologne (~14 min). Taxi rank is outside T1 arrivals (€25-30 to city center). On-site parking **P3 from ~€36/day**; book online for weekly rates ([CGN parking](https://www.cologne-bonn-airport.com/en/passengers/parking/parking-rates.html)). Avoid the kiss-and-fly zone during rush hours; use P1/P2 for short stays.
 
 ## Official Sources
 - https://www.cologne-bonn-airport.com/
-- https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check
+- https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check.html
 - https://www.cologne-bonn-airport.com/en/company/next-chapter.html
-- https://www.bahn.de/ (for S-Bahn schedules)
+- https://www.bahn.de/

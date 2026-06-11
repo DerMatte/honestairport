@@ -10,7 +10,7 @@ sources:
   - "https://www.newdelhiairport.in/passenger-guide/transit"
 quickFacts:
   - "Terminals: T1 (domestic LCCs), T3 (international + full-service domestic)"
-  - "Hub for IndiGo, Air India, Vistara; 70M+ passengers/year"
+  - "Hub for IndiGo and Air India; 70M+ passengers/year"
   - "MCT T3 int'l–int'l: 90 min floor; T1↔T3 needs 2.5–4 h landside"
   - "T1 and T3 are 4 km apart; free shuttle runs every 10-15 min"
   - "No TSA PreCheck equivalent; paid fast-track available at T3"
@@ -70,7 +70,7 @@ lounges:
 > One-page playbook to move through DEL fast, skip the worst lines, and use the actually good options.
 
 ## Quick Facts
-- T1 serves IndiGo, Akasa, SpiceJet domestic; T3 handles all international plus Air India/Vistara domestic.
+- T1 serves IndiGo, Akasa, SpiceJet domestic; T3 handles all international plus Air India domestic (Vistara merged into Air India Nov 2024).
 - **MCT (practical, not airline marketing):**
   - **T3 int'l → int'l, one ticket:** **90 min** floor, **2 h** in peaks (05:00–09:00, 18:00–23:00).
   - **T3 int'l → domestic (same terminal):** **2.5 h** floor; immigration + baggage reclaim is the killer.

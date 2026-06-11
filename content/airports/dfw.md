@@ -3,7 +3,7 @@ iata: "DFW"
 name: "Dallas/Fort Worth International Airport"
 city: "Dallas"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.dfwairport.com/"
   - "https://www.tsa.gov/airports/dallas-fort-worth-international-airport"
@@ -13,8 +13,8 @@ quickFacts:
   - "5 terminals (A-E) linked by free Skylink train every ~2 min"
   - "Primary hub for American Airlines; Terminal D for most int'l"
   - "Serves ~80 million passengers annually"
-  - "TSA PreCheck and CLEAR available at all terminals"
-  - "Free Wi-Fi; water refill post-security in B, C, D only"
+  - "TSA PreCheck at terminals A, C, D, and E; CLEAR at Terminal E (E8/E16/E18)"
+  - "Free Wi-Fi; water refill stations airside in all terminals"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -30,7 +30,7 @@ bentoTips:
     label: "Food & water"
     title: "Plan food and refills after security"
     summary: "Terminal D has 2.0 Taco & Tequila, while Terminal C has The Grove."
-    detail: "Water refill stations are post-security only in B, C, and D, so fill before long gate waits."
+    detail: "Water refill stations are airside in all terminals — fill before long E-gate walks."
   - category: "status"
     label: "Live checks"
     title: "Use DFW and AA apps together"
@@ -70,13 +70,13 @@ lounges:
 - American Airlines dominates; most international flights use Terminal D.
 - Skylink train reaches any terminal in under 10 minutes (avg ~5 min per DFW).
 - Terminal E handles many regional jets and some international arrivals.
-- **Wi‑Fi:** Free airport-wide. **Water:** Refill stations post-security in **B, C, D only** — fill before long E-gate waits.
+- **Wi‑Fi:** Free airport-wide. **Water:** Refill stations airside in **all terminals** ([DFW refill stations](https://www.dfwairport.com/dfwnewsroom/liquid-disposal-stations-here-to-stay/)).
 
 ## Security & Screening Tips
-- PreCheck lanes at every terminal; CLEAR is fastest at A and D during morning peaks.
+- PreCheck at **terminals A, C, D, and E** (not Terminal B); **CLEAR** at **Terminal E** (E8, E16, E18) ([DFW security](https://www.dfwairport.com/security/)).
 - Avoid security at Terminal A between 7–9 a.m. and 4–6 p.m.; use Terminal C instead.
 - Global Entry kiosks sit in Terminal D arrivals; use them even on domestic returns if connecting internationally.
-- Liquids in quart-size bags are still enforced; no water refill stations before security in A or E.
+- Liquids in quart-size bags are still enforced; water refill stations are airside in all terminals.
 
 ## Best Airport Tricks & Hacks
 - Board the Skylink at the far end of your terminal to grab a seat during busy periods.

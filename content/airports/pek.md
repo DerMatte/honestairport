@@ -3,7 +3,7 @@ iata: "PEK"
 name: "Beijing Capital International Airport"
 city: "Beijing"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.bcia.com.cn/"
   - "https://www.caac.gov.cn/"
@@ -61,7 +61,7 @@ lounges:
 
 ## Quick Facts
 - Three terminals connected by free shuttle buses every 10 minutes.
-- **MCT (same ticket):** **90 min** T2↔T3 minimum including shuttle; **2 h** safer — all passengers re-clear security on connections.
+- **MCT (same ticket):** **90 min** T2↔T3 minimum; **2 h** safer — T2 and T3 have an **airside walkway** for eligible connections, but **T1 connections** and most domestic transfers require exit and re-screen.
 - T3 handles most international and SkyTeam flights; T2 serves Star Alliance.
 - All passengers face full security screening regardless of connection.
 - High-speed Airport Express reaches Dongzhimen in 30 minutes for ¥25.

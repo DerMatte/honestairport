@@ -3,7 +3,7 @@ iata: "LAX"
 name: "Los Angeles International Airport"
 city: "Los Angeles"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-11"
 sources:
   - "https://www.flylax.com/"
   - "https://www.flylax.com/wifi"
@@ -20,7 +20,7 @@ quickFacts:
   - "Standard rideshare/taxi pickups use LAX-it (free shuttle from arrivals); premium tiers pick up curbside"
   - "FlyAway buses serve Union Station and Van Nuys only: $12.75 one-way (no cash)"
   - "In-N-Out is landside (9149 S Sepulveda); Shake Shack is airside in Terminal 3 near Gate 34"
-  - "TSA PreCheck at T1, T4, T6, T7, and TBIT South; CLEAR at most major terminals"
+  - "TSA PreCheck at T1, T3, T4, T6, T7, T8, and TBIT South; Terminal 5 closed for construction"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -88,7 +88,7 @@ lounges:
 
 ## Security & Screening Tips
 - **Peak pain windows:** Early morning (**05:00–09:00**) and late afternoon/evening (**16:00–20:00**) consistently produce the longest TSA queues — add **20–30 min** buffer beyond airline MCT.
-- **TSA PreCheck:** Available at **Terminals 1, 4, 6, 7**, and **TBIT South** — verify your terminal before relying on it; hours vary by checkpoint.
+- **TSA PreCheck:** Available at **Terminals 1, 3, 4, 6, 7, 8**, and **TBIT South** — verify your terminal before relying on it; **Terminal 5 is closed** for construction through ~2028 ([LAX T5](https://www.flylax.com/terminals/terminal5)).
 - **CLEAR:** Lanes at **T1, T3, T4, T5, T6, T7**, and **TBIT** — still subject to TSA screening; lines can form at peak banks.
 - **Terminal-specific gotcha:** **T7 and T8 share one security checkpoint** — if your gate is in the other building, you still walk airside after clearing once.
 - **Construction:** LAX is mid-transformation (people mover, terminal upgrades) — checkpoint locations and walking routes can shift; check [flylax.com](https://www.flylax.com/) the day of travel.
