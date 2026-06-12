@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
 import { isDatabaseConfigured } from "@/lib/db";
 import { reviewFormSchema } from "@/lib/review-schema";
@@ -62,6 +63,12 @@ export async function POST(request: Request, { params }: RouteParams) {
 
   if (!isDatabaseConfigured()) {
     return NextResponse.json({ error: "Reviews are not configured" }, { status: 503 });
+  }
+
+  const verification = await checkBotId();
+
+  if (verification.isBot) {
+    return NextResponse.json({ error: "Access denied" }, { status: 403 });
   }
 
   let body: unknown;
