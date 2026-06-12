@@ -3,12 +3,11 @@ iata: "HAM"
 name: "Hamburg Airport"
 city: "Hamburg"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.hamburg-airport.de/en/"
   - "https://www.hamburg-airport.de/en/plan-book/travel-tips-info-for-a-relaxed-start-to-your-vacation-36222"
   - "https://www.bundespolizei.de/"
-  - "https://www.vielfliegertreff.de/forum/forums/airports-lounges.12/"
 quickFacts:
   - "Two terminals connected by a 5-minute indoor walkway"
   - "Eurowings and Condor are the main base carriers"
@@ -62,7 +61,7 @@ lounges:
 - **Slot & Fly:** Free reserved security window up to **72 h** before departure — worth booking on Monday/Friday mornings ([HAM travel tips](https://www.hamburg-airport.de/en/plan-book/travel-tips-info-for-a-relaxed-start-to-your-vacation-36222)).
 - **Wi‑Fi:** Free unlimited, no login — genuinely reliable.
 - **Water:** Fountains just past central security in both terminals — bring a refillable bottle.
-- **Power:** Charging areas near T1 gates **C–D** upper level; Vielfliegertreff consensus: Plaza-side lanes beat the central crush at **06:00–08:00**.
+- **Power:** Charging areas near T1 gates **C–D** upper level; side lanes in the Plaza often move faster than the central crush at **06:00–08:00**.
 
 ## Security & Screening Tips
 - Arrive at security 90 minutes before Schengen departures; 120 minutes for non-Schengen.
@@ -71,7 +70,7 @@ lounges:
 - Liquids must be in a single transparent bag; no exceptions at this airport.
 
 ## Best Airport Tricks & Hacks
-- Use **Slot & Fly** to book a free security window — skips the worst Plaza waves (official HAM service; FF reports confirm it beats arriving early and queuing).
+- Use **Slot & Fly** to book a free security window — skips the worst Plaza waves ([HAM travel tips](https://www.hamburg-airport.de/en/plan-book/travel-tips-info-for-a-relaxed-start-to-your-vacation-36222)).
 - Landside bakery **Hauptwache** serves better coffee and sandwiches than any airside outlet.
 - If your flight is delayed, walk to the quieter Terminal 2 departures area for seating.
 - S-Bahn machines accept contactless cards; skip the ticket counter queue.

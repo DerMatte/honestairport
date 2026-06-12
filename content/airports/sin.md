@@ -3,7 +3,7 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.changiairport.com/"
   - "https://www.changiairport.com/en/passenger-guide/transfer-transit.html"
@@ -81,7 +81,7 @@ lounges:
 ## Quick Facts
 - Four terminals connected by free Skytrain (3-5 min between most); T4 optimized for Scoot and Jetstar.
 - **MCT (same ticket, practical floor):**
-  - **T1–T3, Schengen-style same-zone:** **60 min** floor — airline mins can be **45 min**; risky if inbound is late.
+  - **T1–T3, same-terminal domestic/Schengen:** **60 min** floor — airline mins can be **45 min**; risky if inbound is late.
   - **T4 involved or immigration required:** budget **75–90 min** — T4 sits farther out with thinner lounge coverage.
   - **Separate tickets:** **2 h+** minimum with online check-in; **3 h** with checked bags ([Changi transfers](https://www.changiairport.com/en/passenger-guide/transfer-transit.html)).
 - Singapore Airlines and its subsidiaries operate the majority of long-haul flights from T2 and T3.

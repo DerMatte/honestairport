@@ -93,7 +93,7 @@ lounges:
 - T2 and T3 handle some Schengen flights; allow 15 minutes to walk between them.
 - Follow yellow signs for “Transfer” to stay airside; blue signs lead to exit.
 - Moving walkways run the full length of T5; use them during tight connections.
-- **Connections:** On a single SAS ticket, 30 minutes within Europe and 45 minutes on intercontinental routes are airline minimums—traveler consensus says add 15–20 minutes if changing Schengen status or moving T2↔T4/T5 landside on separate tickets.
+- **Connections:** On a single SAS ticket, 30 minutes within Europe and 45 minutes on intercontinental routes are airline minimums — add **15–20 minutes** if changing Schengen status or moving T2↔T4/T5 landside on separate tickets.
 
 ## Lounges, Food & Amenities
 - Kitchen & Table in T5 offers the best value lunch buffet before security.

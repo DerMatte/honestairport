@@ -3,7 +3,7 @@ iata: "PRG"
 name: "Václav Havel Airport Prague"
 city: "Prague"
 country: "Czech Republic"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.prg.aero/"
   - "https://www.prg.aero/en/security"
@@ -90,7 +90,7 @@ lounges:
 - Buy a tram ticket at the machine outside arrivals to skip the bus driver cash hassle.
 - Use the quiet seating area near gate B5 in T2 when all other gates are crowded.
 - Fill a water bottle after security—T2 has free fountains near the lounges.
-- If connecting Schengen to non-Schengen, clear security in T2 then walk to T1 rather than re-clearing.
+- If connecting Schengen to non-Schengen, walk airside to T1 and clear **passport control** at the zone boundary — allow **10+ min**; do not assume a second full security queue if you stay airside on one ticket.
 - Park in P3 short-term for quick drop-offs; P1/P2 fill fast and cost more.
 - Grab a trdelník at the stand near arrivals if you need a quick snack before transport.
 

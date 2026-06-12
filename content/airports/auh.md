@@ -77,7 +77,7 @@ lounges:
 ## Quick Facts
 - Single Terminal A (opened 2023) handles every airline and route.
 - Etihad Airways operates the majority of long-haul flights.
-- **Connections:** Etihad-to-Etihad minimum is 45 minutes since March 2025; US-bound flights require 90 minutes and US preclearance closes 60 minutes before departure—traveler consensus says treat sub-75-minute US connections as reckless.
+- **Connections:** Etihad-to-Etihad minimum is 45 minutes since March 2025; US-bound flights require 90 minutes and US preclearance closes 60 minutes before departure — treat sub-75-minute US connections as too tight.
 - Biometric immigration e-gates clear eligible passengers in under 60 seconds.
 - Pre-security food hall and multiple paid lounges are the strongest amenities.
 - Taxi to Abu Dhabi city center costs AED 80-120 and takes 25-35 minutes.

@@ -3,9 +3,9 @@ iata: "HEL"
 name: "Helsinki Airport"
 city: "Helsinki"
 country: "Finland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
-  - "https://www.finavia.fi/en/helsinki-airport"
+  - "https://www.finavia.fi/en/airports/helsinki-airport/airport/terminals"
   - "https://www.finavia.fi/en/helsinki-airport/security"
   - "https://www.finnair.com/us-en/smooth-travelling-at-helsinki-airport/connecting-flights"
   - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/wi-fi-helsinki-airport"
@@ -95,7 +95,7 @@ lounges:
 - Non-Schengen passengers can use the tax-refund machines immediately after security to skip the queue at departures.
 
 ## Terminals & Navigation
-- Everything is under one roof; follow overhead signs for Schengen (gates 1-29) or non-Schengen (gates 30-55).
+- Everything is under one roof; follow overhead signs for Schengen (gates **5–36**) or non-Schengen (gates **37–55**).
 - Walking time from security to farthest gate is 12-14 minutes with moving walkways.
 - Buses to remote stands depart from the lower level; allow an extra 10 minutes.
 

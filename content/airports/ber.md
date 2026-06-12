@@ -3,12 +3,11 @@ iata: "BER"
 name: "Berlin Brandenburg Airport"
 city: "Berlin"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.berlin-airport.de/en/"
   - "https://www.berlin-airport.de/en/passengers/departures-arrivals/index.php"
   - "https://ber.berlin-airport.de/de/news/2026-05-21-anpassung-siko.html"
-  - "https://www.vielfliegertreff.de/forum/threads/priority-lane-oder-ber-runway-wo-gehts-schneller.155691/"
 quickFacts:
   - "Main terminal opened 2020; replaced Tegel and old Schönefeld"
   - "Terminal 1 handles 90% of flights; Terminal 2 for select low-cost"
@@ -68,7 +67,8 @@ lounges:
 ## Security & Screening Tips
 - Arrive at security no later than 2 hours before departure on weekday mornings.
 - Check the BER app or terminal monitors and walk to whichever checkpoint shows the lowest wait—any lane reaches any gate.
-- Lufthansa Group Fast Lane (Miles & More Frequent Traveller/Senator/HON plus LH Group business/first) uses a dedicated lane; traveler consensus on vielfliegertreff.de says it beats BER Runway on busy weekdays but can still queue when the airport opens extra Prio lanes dynamically.
+- Lufthansa Group Fast Lane (Miles & More Frequent Traveller/Senator/HON plus LH Group business/first) uses a dedicated lane — check live wait times on the BER app before choosing Fast Lane vs CT lanes.
+- **BER Runway discontinued 26 May 2026:** Slot booking for the legacy Runway lanes ended; use CT lanes (areas 1 and 5 in T1) or check monitors for the shortest queue — all checkpoints reach every gate ([BER security update](https://ber.berlin-airport.de/de/news/2026-05-21-anpassung-siko.html)).
 - CT lanes: leave bags packed; legacy lanes still require 100 ml liquids out and laptops out—staff route you; don't assume every queue is CT.
 - Liquids and laptops must come out on non-CT lanes—German screeners enforce EU rules strictly there.
 
@@ -77,7 +77,6 @@ lounges:
 - If your flight is delayed, exit airside and re-clear; the second security pass is often quicker than waiting airside.
 - The quietest seating is on the upper level of the T1 food court, past the escalators.
 - Download the official BER app for gate changes—airline apps lag by 10–15 minutes.
-- **Forum note (vielfliegertreff.de, May 2025–2026):** Many FFers now skip BER Runway entirely since CT lanes opened; Prio/Fast Lane can beat Runway on some weekday middays but backs up at peak—book neither and follow live wait times if CT queues stay under 10 minutes (official BER claim during holiday peaks; verify on monitors).
 - Regional train platform is one level below arrivals; follow blue “Regionalbahn” signs to skip the crowded S-Bahn queues.
 - Late-night arrivals (after 11pm) can reach the city on the N7 or N9 night buses if the S-Bahn has ended.
 - Avoid the central check-in islands; use the outer desks for shorter bag-drop lines.
@@ -85,7 +84,7 @@ lounges:
 ## Terminals & Navigation
 - Terminal 1 is a single long building; walking time from security to farthest gate is 12–15 minutes.
 - Terminal 2 requires a free shuttle bus from outside arrivals; allow 15 extra minutes.
-- All lounges, shops, and most gates sit airside after the single security checkpoint.
+- All lounges, shops, and most gates sit airside after security — multiple CT checkpoints in T1 (and T2) all reach any gate.
 - Moving walkways run only one direction toward the gates; return walks are slower.
 
 ## Lounges, Food & Amenities
@@ -105,5 +104,4 @@ lounges:
 - https://www.berlin-airport.de/en/
 - https://www.berlin-airport.de/en/passengers/departures-arrivals/index.php
 - https://www.bvg.de/en
-- https://www.vielfliegertreff.de/forum/threads/priority-lane-oder-ber-runway-wo-gehts-schneller.155691/
 - https://www.berlin.de/en/traffic/

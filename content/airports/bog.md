@@ -72,7 +72,7 @@ lounges:
 - Lines peak 6-10am and 4-8pm; use the far-left security lanes when possible.
 - Liquids must be in 100ml containers; no exceptions enforced strictly.
 - Have printed or digital boarding pass ready—immigration staff sometimes insist on paper at peak.
-- **Connections:** Intl-intl on one Avianca/LATAM ticket usually stays airside via a dedicated transfer security lane (traveler consensus: 25–45 min gate-to-gate); intl-domestic requires Colombian immigration and a fresh security pass—budget 45–90 minutes; domestic-domestic is 5–20 minutes if gates align.
+- **Connections:** Intl-intl on one Avianca/LATAM ticket usually stays airside via a dedicated transfer security lane (**25–45 min** gate-to-gate practical); intl-domestic requires Colombian immigration and a fresh security pass — budget **45–90 minutes**; domestic-domestic is **5–20 minutes** if gates align.
 
 ## Best Airport Tricks & Hacks
 - Download the Aerocivil app before arrival for live runway and gate data that airlines omit.

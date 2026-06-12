@@ -3,7 +3,7 @@ iata: "DEN"
 name: "Denver International Airport"
 city: "Denver"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.flydenver.com/"
   - "https://www.flydenver.com/security"
@@ -85,7 +85,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the train at the far end of the terminal to grab a seat before crowds pile on.
 - **Checkpoint pick:** United → West Level 6; Southwest/Frontier → East Level 6 — saves backtracking to the wrong side.
-- If connecting from B to C, ride one stop to A then transfer—often faster than direct during peak.
+- If connecting from B to C, ride **one stop forward** on the train (B→C) — routing via A backtracks and adds time.
 - Grab a window seat on the train for the best view of the airfield and mountains.
 - Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
 - Download the flydenver app for real-time train and security wait times.

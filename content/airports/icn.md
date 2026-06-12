@@ -3,14 +3,14 @@ iata: "ICN"
 name: "Incheon International Airport"
 city: "Seoul"
 country: "South Korea"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.airport.kr/ap/en/index.do"
   - "https://www.arex.co.kr/en/"
   - "https://www.airport.kr/ap/en/transfer/generalTransfer/generalTransfer.do"
 quickFacts:
   - "Two terminals linked by free shuttle (15 min); Asiana entirely at T2 from Jan 2026"
-  - "Primary hub for Korean Air (T2) and Asiana (T2); Star Alliance/LCCs mostly T1"
+  - "Primary hub for Korean Air and Asiana (both T2); most other Star Alliance carriers remain at T1"
   - "AREX express train reaches Seoul Station in 43 min"
   - "Strong free Wi-Fi and abundant charging stations"
   - "24-hour transit hotel and capsule options available"
@@ -24,7 +24,7 @@ bentoTips:
     label: "Transfers"
     title: "T1 and T2 are not walkable"
     summary: "Use the free shuttle and budget 12-15 minutes including wait."
-    detail: "Korean Air and SkyTeam use T2, while Star Alliance and many others use T1."
+    detail: "T1 holds most Star Alliance carriers; T2 holds Korean Air, Asiana, and SkyTeam — Star Alliance is split across both terminals since Asiana's T2 move."
   - category: "food"
     label: "Food & rest"
     title: "Use T2 for food, showers, and rest"
@@ -66,7 +66,7 @@ lounges:
 > Fast, no-nonsense reference for clearing ICN with minimal stress and wasted time.
 
 ## Quick Facts
-- **Terminals:** **T1** (Star Alliance, LCCs, many int'l) and **T2** (Korean Air, Asiana, SkyTeam) — **not walkable**; free shuttle **12–15 min** including wait.
+- **Terminals:** **T1** (most Star Alliance except Asiana, LCCs, many int'l) and **T2** (Korean Air, Asiana, SkyTeam) — **not walkable**; free shuttle **12–15 min** including wait.
 - **MCT (same ticket, practical floor — post-Jan 2026 Asiana T2 move):**
   - **T1 → T1 or T2 → T2:** **70 min** floor, **90 min** comfortable.
   - **T1 ↔ T2 (interline, bags through):** **90 min** airline MCT, **2 h** practical — peak **09:00–11:00** adds queues.

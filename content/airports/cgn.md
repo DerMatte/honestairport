@@ -3,7 +3,7 @@ iata: "CGN"
 name: "Flughafen Köln/Bonn"
 city: "Cologne"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-12"
 sources:
   - "https://www.cologne-bonn-airport.com/"
   - "https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check"
@@ -70,7 +70,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the official CGN app for live security wait times and gate changes.
-- **Book CGNGateWay** for a dedicated lane — frequent-flyer forums rate this above showing up blind at 06:30.
+- **Book CGNGateWay** for a dedicated lane — reserve a slot before peak morning departures ([CGN security](https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check)).
 - If T1 security exceeds 25 min without a slot, you're stuck — there is no alternate checkpoint; arrive earlier instead.
 - Landside bakery “Bäckerei Wüst” opens at 04:30 and beats airside prices.
 - Free charging lockers are behind the escalators near gate A in T1.
