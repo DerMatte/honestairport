@@ -3,12 +3,12 @@ iata: "PEK"
 name: "Beijing Capital International Airport"
 city: "Beijing"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.bcia.com.cn/"
   - "https://www.caac.gov.cn/"
 quickFacts:
-  - "Three terminals: T1 (Air China domestic), T2 (Star Alliance), T3 (SkyTeam + international)"
+  - "Three terminals: T1 (Air China domestic), T2 (SkyTeam-heavy), T3 (Star Alliance + most long-haul)"
   - "T3 is the largest and handles most long-haul flights"
   - "Strict security with liquid limits and device checks"
   - "High-speed rail link to city center in 30 minutes"
@@ -23,7 +23,7 @@ bentoTips:
     label: "Transfers"
     title: "Use T3 shuttle only when needed"
     summary: "Free buses between terminals run every 10 minutes but add 15-20 min."
-    detail: "Walk the airside connection between T2 and T3 when possible."
+    detail: "No airside link between T2 and T3 — use the free landside shuttle (every 10 min, 15-20 min ride)."
   - category: "food"
     label: "Food & quiet"
     title: "Eat before security in T3"
@@ -60,9 +60,9 @@ lounges:
 > This page gives the fastest path through Beijing Capital's three terminals, security bottlenecks, and ground links.
 
 ## Quick Facts
-- Three terminals connected by free shuttle buses every 10 minutes.
+- Three terminals connected by free **landside** shuttle buses every 10 minutes — **no airside T2↔T3 link**.
 - **MCT (same ticket):** **90 min** T2↔T3 minimum including shuttle; **2 h** safer — all passengers re-clear security on connections.
-- T3 handles most international and SkyTeam flights; T2 serves Star Alliance.
+- T3 handles most international and **Star Alliance** flights; T2 is **SkyTeam-heavy**.
 - All passengers face full security screening regardless of connection.
 - High-speed Airport Express reaches Dongzhimen in 30 minutes for ¥25.
 - No TSA PreCheck equivalent; arrive early for manual checks.

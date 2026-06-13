@@ -3,7 +3,7 @@ iata: "LAX"
 name: "Los Angeles International Airport"
 city: "Los Angeles"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.flylax.com/"
   - "https://www.flylax.com/wifi"
@@ -19,7 +19,7 @@ quickFacts:
   - "Airside walk T1→T8 is ~2 miles — budget 35–45 min for a full end-to-end hike"
   - "Standard rideshare/taxi pickups use LAX-it (free shuttle from arrivals); premium tiers pick up curbside"
   - "FlyAway buses serve Union Station and Van Nuys only: $12.75 one-way (no cash)"
-  - "In-N-Out is landside (9149 S Sepulveda); Shake Shack is airside in Terminal 3 near Gate 34"
+  - "Terminal 5 closed Oct 2025 for rebuild until ~2028; JetBlue at T1, Spirit at T2 (MSC South gates)"
   - "TSA PreCheck at T1, T4, T6, T7, and TBIT South; CLEAR at most major terminals"
 bentoTips:
   - category: "timing"
@@ -108,8 +108,8 @@ lounges:
 - **Avoid:** Assuming "same airport" means a short walk — **T1 to T7** airside can exceed **30 min** of walking alone.
 
 ## Terminals & Navigation
-- **North cluster (T1–T3 + TBIT):** **T1** (Southwest, JetBlue, Frontier, others), **T2** (LATAM, Virgin Atlantic, Norse, others), **T3** (Delta hub), **TBIT** (most long-haul international). Connected airside via **T1.5**, **T2–T3** walkways, and **T3–TBIT** bridge.
-- **South cluster (T4–T8):** **T4** (American), **T5** (Spirit and others — verify current ops; parts of LAX remain under construction), **T6** (Alaska, Air Canada, Hawaiian), **T7–T8** (United). Connected airside via tunnels and walkways; **TBIT** links via skybridge to **T4**.
+- **North cluster (T1–T3 + TBIT):** **T1** (Southwest, **JetBlue**, Frontier, others), **T2** (**Spirit** check-in; some flights at MSC South/West Gates), **T3** (Delta hub), **TBIT** (most long-haul international). Connected airside via **T1.5**, **T2–T3** walkways, and **T3–TBIT** bridge.
+- **South cluster (T4–T8):** **T4** (American), **T5 closed** (demolished Oct 2025 — reopening ~2028), **T6** (Alaska, Air Canada, Hawaiian), **T7–T8** (United). Connected airside via tunnels and walkways; **TBIT** links via skybridge to **T4**.
 - **American Eagle remote gates (52A–52I):** Airside shuttle from T4 gate area — not a simple walk.
 - **Walking times (order-of-magnitude, post-security):**
   - Adjacent terminals: **10–15 min**

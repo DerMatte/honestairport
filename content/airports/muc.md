@@ -3,7 +3,7 @@ iata: "MUC"
 name: "Munich Airport (Franz Josef Strauss)"
 city: "Munich"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.munich-airport.com/"
   - "https://www.munich-airport.com/connecting-flights-260553"
@@ -86,7 +86,7 @@ lounges:
   - **T1 ↔ T2:** treat **90 min** as minimum; **2 hours** safer in summer/holiday peaks — airside shuttle **5–7 min** plus walking and possible re-screening depending on routing.
 - **Separate tickets / self-transfer:** not a quick connection airport between terminals — budget **3+ hours** landside (bags, check-in, security).
 - **Wi‑Fi:** Free **"Free Wifi – Munich Airport"** — browser registration with email; Passngr app offers auto-login for repeat visitors (per airport site).
-- **Liquids:** EU **100 ml** rule still applies in hand luggage; CT lanes at equipped checkpoints allow **devices and liquids up to 100 ml to stay in the bag** (not a free-for-all on bottle size).
+- **Liquids:** EU **100 ml** rule at conventional lanes; CT-equipped checkpoints allow liquids up to **2 liters per container** and devices to stay in the bag ([MUC security](https://www.munich-airport.com/security-screening-and-passport-control-3949908)).
 
 ## Security & Screening Tips
 - **Terminal 2 is the easy mode:** Central security reopened with full **CT scanner** rollout (completed Apr 2025). Off-peak, most passengers clear quickly; **05:00–08:30** bank departures are the realistic pain window — add **15–25 min** buffer.

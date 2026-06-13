@@ -3,15 +3,18 @@ iata: "PHX"
 name: "Phoenix Sky Harbor International Airport"
 city: "Phoenix"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.skyharbor.com/"
+  - "https://www.skyharbor.com/flying-from-phx/travel-tips/transferring"
+  - "https://www.skyharbor.com/ground-transportation/public-transportation/light-rail-connection"
+  - "https://www.clearme.com/all-locations/phoenix-sky-harbor-international-airport"
   - "https://www.tsa.gov/airports/phoenix-sky-harbor-international-airport"
 quickFacts:
-  - "Terminals 2, 3, and 4 only (Terminal 1 closed)"
+  - "Terminals 3 and 4 only (Terminal 2 closed 2020; Terminal 1 demolished 1991)"
   - "American and Southwest handle the majority of flights"
   - "Free PHX Sky Train connects terminals in 3-5 minutes"
-  - "TSA PreCheck lanes in all terminals; CLEAR at Terminal 4"
+  - "TSA PreCheck lanes in all terminals; CLEAR at Terminals 3 and 4"
   - "Security wait times often spike 5-8am and 3-6pm"
 bentoTips:
   - category: "timing"
@@ -33,7 +36,7 @@ bentoTips:
     label: "Live checks"
     title: "Check Sky Harbor app first"
     summary: "Open the official app for real-time security wait times before leaving the car."
-    detail: "Terminal 4 usually moves fastest; Terminal 2 can lag when only two lanes are open."
+    detail: "Terminal 4 usually moves fastest; Terminal 3 is the smaller active terminal."
 lounges:
   - name: "The Club at PHX"
     terminal: "4"
@@ -61,7 +64,7 @@ lounges:
 > Fast, no-fluff guide to clearing PHX with minimal stress and wasted time.
 
 ## Quick Facts
-- Three active terminals (2, 3, 4) connected by free Sky Train.
+- Two active terminals (**3** and **4**) connected by free Sky Train.
 - American and Southwest dominate; most other carriers use Terminal 4.
 - No airside connection between terminals; re-clear security if changing.
 - Cell phone lot is free and usually has space.
@@ -72,16 +75,15 @@ lounges:
 
 ## Security & Screening Tips
 - Use the TSA app or Sky Harbor app to check live wait times before you park.
-- PreCheck lanes exist in every terminal; CLEAR is Terminal 4 only and fastest.
+- PreCheck lanes exist in every terminal; CLEAR is at **Terminals 3 and 4**.
 - Avoid 5-8am and 3-6pm if possible; lines regularly exceed 30 minutes.
-- Terminal 2 security is smallest and often quickest outside rush hours.
 
 ## Best Airport Tricks & Hacks
 - Park in Terminal 3 garage and take Sky Train to Terminal 4 if flying American—saves circling.
 - Fill water bottles after security at the free fountains near Gate B15 in Terminal 4.
 - Use the quiet seating area past Gate A18 when you have a long layover.
 - Download the PHX app for gate changes and security times instead of airline apps.
-- If your flight is delayed, move to Terminal 3 or 2 for shorter re-screening lines later.
+- If your flight is delayed, move to Terminal 3 for shorter re-screening lines later.
 - Ride-share drivers prefer Terminal 4 lower level; request pickup there even from other terminals.
 - Grab coffee at Cartel Coffee (Terminal 4) before 7am to beat the rush.
 
@@ -101,7 +103,7 @@ lounges:
 - Economy parking is cheapest long-term; free shuttle runs every 10 minutes.
 - Terminal garages fill fast on weekday mornings—use economy if staying over 4 hours.
 - Ride-share pickup is lower level Terminal 4 only; follow signs.
-- Light rail connects directly to Terminal 4 for $2; runs until midnight.
+- Light rail: take the free **PHX Sky Train** from Terminal 3 or 4 to **44th Street PHX Sky Train Station**, then walk to the Valley Metro Rail platform (**$2** fare).
 
 ## Official Sources
 - https://www.skyharbor.com/

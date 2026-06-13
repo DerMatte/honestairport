@@ -3,14 +3,14 @@ iata: "HKG"
 name: "Hong Kong International Airport"
 city: "Hong Kong"
 country: "Hong Kong"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.hongkongairport.com/"
   - "https://www.mtr.com.hk/"
 quickFacts:
   - "Single main terminal with Midfield Concourse; most flights use gates via automated people mover"
   - "Cathay Pacific hub; also serves HK Express, Greater Bay Airlines, and many Asian carriers"
-  - "Immigration and security are combined; expect 20-40 min at peak morning and evening departures"
+  - "Security and immigration are separate steps; expect 20-40 min at peak departures"
   - "Free Wi-Fi is fast and reliable throughout; Octopus card works for all ground transport"
   - "No US-style TSA PreCheck; registered travelers can use e-Channel after enrollment"
 bentoTips:
@@ -26,9 +26,9 @@ bentoTips:
     detail: "Most Cathay and HK Express flights are in the main terminal; transfers under 45 min rarely need landside."
   - category: "food"
     label: "Food"
-    title: "Hit Tim Ho Wan or The Wing before security"
-    summary: "Grab dim sum or lounge access landside to skip the smaller airside options."
-    detail: "Airside choices shrink after 10 p.m.; The Wing and Plaza Premium are the only reliable 24-hour paid lounges."
+    title: "Eat at airport restaurants or Plaza Premium"
+    summary: "Ho Hung Kee and Duddell's airside; Tim Ho Wan is at Hong Kong Station, not the airport."
+    detail: "Airside choices shrink after 10 p.m.; Plaza Premium is a reliable late paid lounge."
   - category: "status"
     label: "Status"
     title: "Check Flight Status in the app first"
@@ -39,14 +39,15 @@ lounges:
     terminal: "1"
     access:
       - "Cathay Pacific First/Business"
-      - "paid day pass"
+      - "oneworld status"
+      - "eligible Cathay lounge passes"
     amenities:
       - "showers"
     bestFor:
       - "Food"
       - "Showers"
     verdict: "worth-it"
-    summary: "Consistent high-quality food and free showers make the paid day pass here a strong option for most travelers."
+    summary: "Flagship Cathay/oneworld lounge — access via eligible status, cabin, or Cathay lounge passes, not a general public day pass."
   - name: "Plaza Premium Lounge"
     terminal: "1"
     access:
@@ -72,7 +73,7 @@ lounges:
   - **Main terminal ↔ Midfield:** Add **10–15 min** for APM plus walk.
   - **Separate tickets:** **2.5 h** minimum — re-clear immigration and security.
 - **Carriers:** Cathay Pacific hub; HK Express, Greater Bay Airlines, dense Asian network.
-- **Immigration + security:** Combined flow; **e-Channel** after enrollment for repeat visitors.
+- **Security then immigration:** Clear airport security first, then immigration (or use e-Channel/Smart Departure where eligible) — these are separate steps.
 - **Wi‑Fi:** Free, fast, stable — no data cap for normal use.
 - **Water:** Refill fountains in departures near gates **1–20** and Midfield — still patchy at far Midfield gates; buy bottled if tight on time.
 - **Power:** Under-seat outlets in Satellite/Midfield seating rows; charge before meal peaks **07:00–10:00**.
@@ -98,8 +99,8 @@ lounges:
 - Common mistake: exiting immigration for a connection—re-entry requires new security screening.
 
 ## Lounges, Food & Amenities
-- The Wing (Cathay) and Plaza Premium offer the best paid day passes; food quality is consistent.
-- Landside Tim Ho Wan serves excellent dim sum before security; airside options are smaller and close earlier.
+- The Wing (Cathay/oneworld status) and Plaza Premium offer the best lounge options; The Wing is not a general walk-in day pass.
+- Ho Hung Kee and Duddell's offer reliable airport dining; **Tim Ho Wan is at Hong Kong Station in Central**, not at HKG.
 - Free showers exist in both paid lounges; no free public showers after security.
 
 ## Ground Transport & Parking

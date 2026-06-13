@@ -3,7 +3,7 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.miami-airport.com/"
   - "https://www.miami-airport.com/wifi.asp"
@@ -47,7 +47,8 @@ lounges:
     verdict: "worth-it"
     summary: "Strong choice for AA flyers or those who can access it free; otherwise the paid entry is only worthwhile if you need a quiet spot before a long flight."
   - name: "Centurion Lounge"
-    terminal: "E"
+    terminal: "D"
+    zone: "near Gate D12"
     access:
       - "Amex Platinum or Centurion card"
       - "paid guest access"
@@ -84,7 +85,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the MIA app before arrival for gate changes and security times.
-- If connecting from D to J, take the MIA Mover to the main terminal then re-clear security only if needed—saves 20+ min vs walking.
+- If connecting from D to J, walk **landside on Level 3** and re-clear security at J — the **MIA Mover** links the terminal to Miami Central Station, not between concourses.
 - For early flights, check bags at the American Airlines remote bag drop on the arrivals level when the main counters are slammed.
 - Quietest seating is the upper level near Gate J17 after security.
 - Avoid the rental car center bus during 3-6pm cruise passenger rushes; walk to the Tri-Rail station instead.
@@ -97,12 +98,12 @@ lounges:
 - The MIA Mover between terminals runs every 3-5 minutes but can be skipped for short connections inside the same concourse.
 
 ## Lounges, Food & Amenities
-- American Airlines Admirals Club in D and the new Centurion Lounge near E are the best paid options.
+- American Airlines Admirals Club in D and the **Centurion Lounge in Concourse D near Gate D12** are the best lounge options.
 - Standout food: La Carreta (Cuban) in the main terminal and La Sandwicherie in concourse D.
 - Quietest non-lounge spot is the seating area past Gate H after the moving walkway.
 
 ## Ground Transport & Parking
-- Tri-Rail from the airport station reaches downtown Miami in 25 minutes for $2.50.
+- Tri-Rail from Miami Central (via MIA Mover from the terminal) reaches downtown on a zone-based fare (**$2.50–$8.75**); total travel commonly **60–100+ minutes**, not 25 minutes.
 - Rental car center is a free 5-minute bus ride; avoid during cruise turnarounds.
 - Short-term parking garage is directly above check-in; long-term is cheaper but requires a shuttle.
 - Uber/Lyft pickup is on the arrivals level; surge pricing is common 4-7pm.

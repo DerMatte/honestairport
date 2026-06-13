@@ -3,7 +3,7 @@ iata: "LAS"
 name: "Harry Reid International Airport"
 city: "Las Vegas"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.harryreidairport.com/"
   - "https://www.harryreidairport.com/AirportServices/WiFi"
@@ -91,7 +91,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - Centurion Lounge in T3 is the best paid option if you have access.
-- Standout quick food: Shake Shack (T3) and In-N-Out (T1 landside).
+- Standout quick food: Shake Shack (T3). **There is no In-N-Out at the airport** — nearest locations are off-airport (e.g., Maryland Pkwy near UNLV).
 - Avoid the central T1 food court—smaller gate-side spots have shorter lines.
 
 ## Ground Transport & Parking

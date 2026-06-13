@@ -3,18 +3,21 @@ iata: "CDG"
 name: "Paris Charles de Gaulle Airport"
 city: "Paris"
 country: "France"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.parisaeroport.fr/en"
   - "https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security"
+  - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/navette/"
   - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/cdgval/"
+  - "https://www.ratp.fr/en/titres-et-tarifs/ticket-paris-region-aeroports"
+  - "https://www.iledefrance-mobilites.fr/en/actualites/fin-roissy-bus"
   - "https://www.ratp.fr/en"
 quickFacts:
   - "Terminals 1, 2A–2G, 3 — 2G is isolated; T2 sub-terminals often need buses"
   - "Air France/SkyTeam hub in T2; plan 2.5–3 h for cross-terminal connections"
-  - "CDGVAL links T1, T2, T3 every 4 min; N1/N2 buses within T2"
+  - "CDGVAL links T1, T2, T3 every 4 min; N1 within T2; N2 for 2F↔2G only"
   - "EES biometric registration adds 10–15 min for first-time non-EU entries"
-  - "RER B to Paris 35–50 min (~€11.45); avoid rush hour if possible"
+  - "RER B to Paris 35–50 min (€14 Paris Region <> Airports ticket from Jan 2026)"
   - "Security peaks 06:00–10:00 and 16:00–20:00 at T2E and T1"
 bentoTips:
   - category: "timing"
@@ -42,9 +45,9 @@ lounges:
     terminal: "2E Hall L"
     zone: "non-Schengen"
     access:
-      - "Priority Pass"
       - "Air France/KLM status"
-      - "paid day pass"
+      - "Flying Blue eligible cabin"
+      - "paid Lounge Option"
     amenities:
       - "showers"
       - "buffet"
@@ -87,7 +90,7 @@ lounges:
   - **EES:** First-time non-EU biometric registration adds **10–15 min** at passport control (operational since 2025–2026).
   - **Separate tickets:** **3–4 h** minimum — bags, exit, re-check, security.
 - **CDGVAL:** Free automated train **T1 ↔ T2 ↔ T3** every **4 min**, **~8 min** loop ([RATP CDGVAL](https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/cdgval/)). Runs **04:00–01:00**; night bus substitute.
-- **Within T2:** **N1 bus** (2A/2B ↔ 2E/2F), **N2 bus** (2F ↔ **2G only** — **2G has no CDGVAL**).
+- **Within T2:** **N1** loops **2A/2C, 2B/2D, 2E, 2F**, PW car park, and SNCF; **N2** links **2F ↔ 2G only** (2G has no CDGVAL).
 - **Wi‑Fi:** Free — registration required.
 - **Liquids:** EU **100 ml** at security; connection passengers may re-screen depending on routing.
 
@@ -100,10 +103,10 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - **Follow yellow "Correspondance / Transfer" signs** — purple is not CDG's color (that's LHR); yellow is consistent.
-- **2A/2B → 2E/2F:** Take **N1/N2 bus** instead of walking when time is tight — walking can exceed **15–20 min**.
-- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common forum-reported misconnect; pad **20+ min**.
+- **2A/2B → 2E/2F:** Take the **N1 shuttle** — walking can exceed **15–20 min** when time is tight.
+- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common misconnect; pad **20+ min**.
 - **Long layover hack:** With **90+ min** and wrong-terminal security queue, some travelers exit and re-enter via a quieter terminal — only with time and valid docs.
-- **RER B tickets:** **€11.45** at airport machines — buy **return in Paris** to skip airport queues on the way back.
+- **RER B tickets:** **€14** Paris Region <> Airports ticket (from Jan 2026) — buy **return in Paris** to skip airport queues on the way back.
 - **Quiet seating:** Upper level **2E Hall L** near gates **50–60** post-security — less retail traffic.
 - **Avoid Terminal 3** unless your ticket requires it — minimal amenities, slow security.
 - **Terminal renumbering (from Sep 2026):** ADP is renaming T2 sub-terminals — verify signage matches boarding pass during transition.
@@ -121,7 +124,7 @@ lounges:
 - **Common mistakes:** Assuming all T2 sections are walkable; missing that **2G needs N2**; booking AF-marketing MCT on a rainy peak day.
 
 ## Lounges, Food & Amenities
-- **Air France 2E Hall L:** Best **paid/PP** lounge — showers, buffet, work space. **Overcrowded** during evening long-haul bank.
+- **Air France 2E Hall L:** Best lounge for eligible Flying Blue/status passengers — showers, buffet, work space. **Overcrowded** during evening long-haul bank. Priority Pass does not apply here.
 - **Air France 2F (Schengen):** Status-only value — skip paid entry unless pinned to 2F.
 - **Food — actually good:** **Ladurée** (2E pastries), **Frenchie To Go** (2E sandwiches), **Paul** bakeries throughout T2. **2G** is calm but limited.
 - **Overrated:** Sit-down airside chains at full menu price during peak.
@@ -130,12 +133,12 @@ lounges:
 - **Pharmacy:** Boots/WHSmith in T2 for adapters and travel-size after security.
 
 ## Ground Transport & Parking
-- **Best value:** **RER B** to central Paris — **35–50 min**, **€11.45** — avoid **07:00–09:00** and **17:00–19:00** crush.
-- **Roissybus:** Alternative to Opéra — check current schedule/fare.
+- **Best value:** **RER B** to central Paris — **35–50 min**, **€14** (Paris Region <> Airports ticket) — avoid **07:00–09:00** and **17:00–19:00** crush.
+- **RoissyBus ended 28 Feb 2026:** From **1 Mar 2026** use **Express line 9517** (via Saint-Denis-Pleyel) or RER B.
 - **Taxi:** Official rank only — **€55–65** flat to central Paris; regulated, beats unlicensed touts.
 - **Uber at arrivals:** Often slower than official taxi queue — taxi rank is the insider pick.
 - **Parking:** Valet at T2 is **€45+/day** — **P3/P4** long-stay cheaper via shuttle.
-- **Express Line 4:** Replaced Roissybus on some routes (Mar 2025) — verify current RATP options.
+- **Express line 9517:** Replaced RoissyBus from **1 Mar 2026** — verify current RATP options.
 
 ## Official Sources
 - [Paris Aéroport](https://www.parisaeroport.fr/en)

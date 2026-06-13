@@ -3,7 +3,7 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
   - "https://www.flychicago.com/ohare/en/At-the-Airport/connecting-flights"
@@ -91,7 +91,7 @@ lounges:
 - Use the post-security walkway from Terminal 1 to Terminal 2 (8–10 minutes) instead of riding the ATS during rush hours.
 - Grab the 4 a.m.–6 a.m. window for shortest security lines even on heavy travel days.
 - Download the Fly Chicago app for real-time ATS and security wait times; it updates every 5 minutes.
-- Terminal 5 arrivals: clear customs first, then re-check bags airside before taking the ATS to avoid re-screening.
+- Terminal 5 arrivals: clear customs and baggage recheck, then take the **landside ATS** to your departure terminal — you must **re-clear TSA** at T1/T2/T3 (or use the limited **Terminal Transfer Bus** 11:30 a.m.–9:30 p.m. for airside T5↔T1/T3 moves).
 - The United Polaris lounge in Terminal 1 accepts day passes after 5 p.m. when under capacity; arrive after 6 p.m. for best odds.
 
 ## Terminals & Navigation
@@ -104,7 +104,7 @@ lounges:
 - United Polaris Lounge (Terminal 1, near gate C18) is the only genuinely quiet paid option with good showers.
 - Garrett Popcorn in Terminal 3 (near gate H4) and Terminal 1 (near B8) is the best quick snack.
 - Tortas Frontera (Terminal 1, B8 and Terminal 3, K4) offers the highest-quality sit-down meal under $20.
-- The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
+- The yoga room in Terminal 3 (Rotunda Mezzanine) is free, rarely crowded, and open **6:00 a.m.–10:00 p.m. daily**.
 
 ## Ground Transport & Parking
 - Blue Line “L” train to downtown is $5 and runs 24/7; 45–55 minutes to the Loop.

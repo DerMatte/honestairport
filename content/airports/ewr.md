@@ -3,7 +3,7 @@ iata: "EWR"
 name: "Newark Liberty International Airport"
 city: "Newark"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-13"
 sources:
   - "https://www.newarkairport.com/"
   - "https://www.tsa.gov/airports/newark-liberty-international-airport"
@@ -26,8 +26,8 @@ bentoTips:
     detail: "AirTrain between terminals runs every 3-5 minutes; avoid if already airside."
   - category: "food"
     label: "Food"
-    title: "Grab at Terminal C Shake Shack"
-    summary: "Reliable, fast option before security in C or post-security in A."
+    title: "Grab at Terminal A Shake Shack"
+    summary: "Shake Shack is post-security in Terminal A; Gallagher's in C is another reliable option."
     detail: "Terminal B has fewer solid choices; eat before heading there."
   - category: "status"
     label: "Status"
@@ -64,7 +64,7 @@ lounges:
 - **Terminals:** **A**, **B**, **C** — **United** hub; int'l focus in **C**; **A** and **B** serve other Star/non-Star carriers.
 - **MCT (same ticket, practical floor):**
   - **Same terminal (United → United in C):** **45 min** floor, **60 min** comfortable.
-  - **Terminal change (one ticket, airside via AirTrain):** **75 min** floor — AirTrain is **3–5 min** but you still re-clear TSA at departure terminal.
+  - **Terminal change (one ticket):** **75 min** floor — United's complimentary **inter-terminal shuttle** (A28, C71, B67) stays airside without re-screening for eligible same-day A↔C connections; **AirTrain is landside** and requires re-clearing TSA.
   - **International → domestic:** CBP + baggage recheck if not through-checked — **2–2.5 h** minimum.
   - **Separate tickets:** **3 h** minimum.
 - **AirTrain:** Free between terminals; **~10 min** to NJ Transit; **PreCheck + CLEAR** at all terminals.
@@ -98,11 +98,11 @@ lounges:
 
 ## Lounges, Food & Amenities
 - United Club in C is the strongest lounge option for eligible passengers.
-- Shake Shack and Gallagher's in C are the most reliable food choices.
+- Shake Shack (**Terminal A, post-security**) and Gallagher's in C are the most reliable food choices.
 - Quiet seating is scarce; head to the far end of C near gate 120 when waiting.
 
 ## Ground Transport & Parking
-- NJ Transit to New York Penn Station costs $15.50 and runs every 20-30 minutes.
+- NJ Transit to New York Penn Station costs **$17.25** (includes AirTrain) and runs every 20-30 minutes.
 - Taxi/Uber pickup is on level 3; expect 15-25 minute waits at peak.
 - Daily parking in P4 is cheapest for multi-day trips; reserve online.
 
