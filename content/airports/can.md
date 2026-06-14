@@ -3,7 +3,7 @@ iata: "CAN"
 name: "Guangzhou Baiyun International Airport"
 city: "Guangzhou"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-14"
 sources:
   - "https://www.baiyunairport.com/"
   - "https://www.gbiac.net/en/"
@@ -30,7 +30,7 @@ bentoTips:
     label: "Food & charge"
     title: "Use T2 for stronger amenities"
     summary: "T2 has Din Tai Fung, a China Southern lounge, showers, and power near gates 50-60."
-    detail: "Tim Ho Wan is the better T1 food fallback; avoid generic noodle stands."
+    detail: "Tao Tao Ju and Guangzhou Restaurant in T2 are reliable dim sum options; avoid generic noodle stands."
   - category: "status"
     label: "Live checks"
     title: "Check the Baiyun app before arrival"
@@ -102,7 +102,7 @@ lounges:
 ## Lounges, Food & Amenities
 - T2 China Southern Lounge (near gate 48) offers decent hot food and showers; access via membership or paid day pass.
 - Best quiet spot: T2 observation deck on level 4 near gate 55.
-- Reliable food: Din Tai Fung (T2) and Tim Ho Wan (T1) for consistent quality; avoid generic noodle stands.
+- Reliable food: Din Tai Fung (T2) and Tao Tao Ju (T2) for consistent Cantonese quality; avoid generic noodle stands.
 - Free showers available in T2 transit hotel on level 3 for long layovers.
 
 ## Ground Transport & Parking

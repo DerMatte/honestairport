@@ -3,10 +3,11 @@ iata: "HKG"
 name: "Hong Kong International Airport"
 city: "Hong Kong"
 country: "Hong Kong"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-14"
 sources:
   - "https://www.hongkongairport.com/"
   - "https://www.mtr.com.hk/"
+  - "https://www.timhowan.com/stores/hong-kong"
 quickFacts:
   - "Single main terminal with Midfield Concourse; most flights use gates via automated people mover"
   - "Cathay Pacific hub; also serves HK Express, Greater Bay Airlines, and many Asian carriers"
@@ -26,9 +27,9 @@ bentoTips:
     detail: "Most Cathay and HK Express flights are in the main terminal; transfers under 45 min rarely need landside."
   - category: "food"
     label: "Food"
-    title: "Hit Tim Ho Wan or The Wing before security"
-    summary: "Grab dim sum or lounge access landside to skip the smaller airside options."
-    detail: "Airside choices shrink after 10 p.m.; The Wing and Plaza Premium are the only reliable 24-hour paid lounges."
+    title: "Use The Wing or Plaza Premium before security"
+    summary: "Airside options are smaller; landside dining is limited at HKG itself."
+    detail: "For famous dim sum, visit Tim Ho Wan at Hong Kong Station on the Airport Express line — it is not inside the airport terminal."
   - category: "status"
     label: "Status"
     title: "Check Flight Status in the app first"
@@ -99,7 +100,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - The Wing (Cathay) and Plaza Premium offer the best paid day passes; food quality is consistent.
-- Landside Tim Ho Wan serves excellent dim sum before security; airside options are smaller and close earlier.
+- **Tim Ho Wan is not at HKG** — the well-known branch is at **Hong Kong Station** on the Airport Express line (in-town, not airside at the airport).
 - Free showers exist in both paid lounges; no free public showers after security.
 
 ## Ground Transport & Parking
