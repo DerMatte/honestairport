@@ -122,6 +122,5 @@ lounges:
 - Cell-phone lot is free for 30 minutes and has real-time flight boards.
 
 ## Official Sources
-- https://www.torontopearson.com/
+- https://www.torontopearson.com/en/transportation-and-parking/up-express
 - https://www.catsa-acsta.gc.ca/
-- https://www.upexpress.com/
