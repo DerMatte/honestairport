@@ -3,12 +3,13 @@ iata: "BER"
 name: "Berlin Brandenburg Airport"
 city: "Berlin"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-15"
 sources:
   - "https://www.berlin-airport.de/en/"
   - "https://www.berlin-airport.de/en/passengers/departures-arrivals/index.php"
   - "https://ber.berlin-airport.de/de/news/2026-05-21-anpassung-siko.html"
-  - "https://www.vielfliegertreff.de/forum/threads/priority-lane-oder-ber-runway-wo-gehts-schneller.155691/"
+  - "https://ber.berlin-airport.de/en/cafes-shops-service/sgs-poi/510-duschen-t1.html"
+  - "https://www.vbb.de/en/driving-information/ber-airport"
 quickFacts:
   - "Main terminal opened 2020; replaced Tegel and old Schönefeld"
   - "Terminal 1 handles 90% of flights; Terminal 2 for select low-cost"
@@ -68,7 +69,7 @@ lounges:
 ## Security & Screening Tips
 - Arrive at security no later than 2 hours before departure on weekday mornings.
 - Check the BER app or terminal monitors and walk to whichever checkpoint shows the lowest wait—any lane reaches any gate.
-- Lufthansa Group Fast Lane (Miles & More Frequent Traveller/Senator/HON plus LH Group business/first) uses a dedicated lane; traveler consensus on vielfliegertreff.de says it beats BER Runway on busy weekdays but can still queue when the airport opens extra Prio lanes dynamically.
+- Lufthansa Group Fast Lane (Miles & More Frequent Traveller/Senator/HON plus LH Group business/first) uses a dedicated lane; on busy weekday mornings it can beat general CT queues, but still backs up when the airport opens extra Prio lanes dynamically — check live wait times.
 - CT lanes: leave bags packed; legacy lanes still require 100 ml liquids out and laptops out—staff route you; don't assume every queue is CT.
 - Liquids and laptops must come out on non-CT lanes—German screeners enforce EU rules strictly there.
 
@@ -77,7 +78,7 @@ lounges:
 - If your flight is delayed, exit airside and re-clear; the second security pass is often quicker than waiting airside.
 - The quietest seating is on the upper level of the T1 food court, past the escalators.
 - Download the official BER app for gate changes—airline apps lag by 10–15 minutes.
-- **Forum note (vielfliegertreff.de, May 2025–2026):** Many FFers now skip BER Runway entirely since CT lanes opened; Prio/Fast Lane can beat Runway on some weekday middays but backs up at peak—book neither and follow live wait times if CT queues stay under 10 minutes (official BER claim during holiday peaks; verify on monitors).
+- **BER Runway ended 26 May 2026:** Slot booking is discontinued — pick the shortest CT lane on terminal monitors instead. During holiday peaks BER has claimed sub-10-minute CT waits; verify on live displays before committing to a queue.
 - Regional train platform is one level below arrivals; follow blue “Regionalbahn” signs to skip the crowded S-Bahn queues.
 - Late-night arrivals (after 11pm) can reach the city on the N7 or N9 night buses if the S-Bahn has ended.
 - Avoid the central check-in islands; use the outer desks for shorter bag-drop lines.
@@ -92,11 +93,11 @@ lounges:
 - The Lufthansa lounge in T1 is the only one worth paying for (€39–59) if you need quiet and showers.
 - Landside food hall near the S-Bahn offers better value and seating than airside options.
 - For a calm wait, use the seating area above the check-in hall; it stays empty until evening.
-- Showers cost €6 and are located next to the luggage storage on the arrivals level.
+- Showers cost **€10** (towel and shampoo included; card payment only) on Terminal 1 arrivals level E0 ([BER showers](https://ber.berlin-airport.de/en/cafes-shops-service/sgs-poi/510-duschen-t1.html)). Lounge shower kits are a separate **€15** fee.
 
 ## Ground Transport & Parking
-- FEX airport express train is fastest to Hauptbahnhof (€9.50, 32 min) but runs only every 30 minutes.
-- S-Bahn line S9 is cheaper (€3.80 with AB ticket) and runs every 10 minutes.
+- **FEX** airport express is fastest to Hauptbahnhof (**~23 min** since Dec 2025 rail upgrades; **€5.00** ABC single ticket, no surcharge) — runs every **15 min** daytime ([VBB BER](https://www.vbb.de/en/driving-information/ber-airport)).
+- S-Bahn line S9 uses the same **ABC €5.00** ticket and runs every **10 min** off-peak.
 - Taxi flat rate to central Berlin is €49–55; avoid during rush hour when the train wins.
 - Short-term parking P1 charges €5 for the first 30 minutes, then €4 per 30 minutes—expensive for pick-ups.
 - Long-term parking P4 is €12 per day; book online for the lowest rate.
@@ -105,5 +106,5 @@ lounges:
 - https://www.berlin-airport.de/en/
 - https://www.berlin-airport.de/en/passengers/departures-arrivals/index.php
 - https://www.bvg.de/en
-- https://www.vielfliegertreff.de/forum/threads/priority-lane-oder-ber-runway-wo-gehts-schneller.155691/
+- https://www.vbb.de/en/driving-information/ber-airport
 - https://www.berlin.de/en/traffic/
