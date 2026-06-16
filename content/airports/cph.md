@@ -3,7 +3,7 @@ iata: "CPH"
 name: "Copenhagen Airport, Kastrup"
 city: "Copenhagen"
 country: "Denmark"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-16"
 sources:
   - "https://www.cph.dk/en"
   - "https://www.cph.dk/en/security"
@@ -51,7 +51,7 @@ lounges:
     verdict: "depends"
     summary: "Worth visiting only with qualifying Star Alliance status; arrive early because it fills up fast."
   - name: "Priority Pass Lounge"
-    terminal: "3"
+    terminal: "C"
     access:
       - "Priority Pass"
     bestFor:

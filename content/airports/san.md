@@ -3,7 +3,7 @@ iata: "SAN"
 name: "San Diego International Airport"
 city: "San Diego"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-16"
 sources:
   - "https://www.san.org/"
   - "https://www.tsa.gov/airports/san-diego-international-airport"
@@ -11,7 +11,7 @@ quickFacts:
   - "Two terminals (T1 and T2) connected airside after security"
   - "Primary base for Southwest; also Alaska, Delta, United, American"
   - "24 million passengers; compact layout 3 miles from downtown"
-  - "No international arrivals facility; all flights pre-cleared"
+  - "International arrivals processed at Terminal 2 via CBP"
   - "TSA PreCheck and CLEAR available at both terminals"
 bentoTips:
   - category: "timing"
@@ -53,7 +53,7 @@ lounges:
 > SAN's two connected terminals and short security times make it one of the fastest major U.S. airports to clear.
 
 ## Quick Facts
-- Two terminals connected by a post-security walkway; no train needed.
+- Two terminals connected by a post-security walkway; international arrivals clear **U.S. Customs and Border Protection in Terminal 2** before baggage claim.
 - Southwest dominates with most flights from Terminal 1.
 - 3 miles from downtown; Uber/Lyft pickup on lower arrivals level.
 - TSA PreCheck lanes at both terminals; CLEAR at Terminal 2.

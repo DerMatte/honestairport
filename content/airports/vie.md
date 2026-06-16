@@ -3,7 +3,7 @@ iata: "VIE"
 name: "Vienna International Airport"
 city: "Vienna"
 country: "Austria"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-16"
 sources:
   - "https://www.viennaairport.com/"
   - "https://www.viennaairport.com/en/passengers/arrival-departure/security"
@@ -26,7 +26,7 @@ bentoTips:
     detail: "Gates B and C are a 12-minute walk from security; D and G add another 8 minutes."
   - category: "food"
     label: "Food"
-    title: "Buy Käsekrainer at the airside market before security"
+    title: "Buy Käsekrainer at the landside market before security"
     summary: "Best value hot meal; open 05:00-22:00."
     detail: "Airside options after security are limited to coffee and packaged snacks."
   - category: "status"
@@ -88,7 +88,7 @@ lounges:
 - Buy a Käsekrainer sausage and beer at the market between check-in rows 5-7 before clearing security.
 - Walk to the far end of Pier C for the quietest seating and power outlets.
 - Use the free luggage trolleys that are allowed airside; they fit in the CAT train.
-- If your flight is delayed, the airside observation deck on level 3 offers free views and seating.
+- If your flight is delayed, the landside visitor terrace on level 3 offers free views and seating.
 - Catch the S7 S-Bahn (€4.40) instead of CAT when you have 45+ minutes and want to save money.
 - Charge devices at the charging tables near gate D21; they are rarely crowded.
 

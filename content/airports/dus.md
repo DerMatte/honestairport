@@ -3,16 +3,17 @@ iata: "DUS"
 name: "Düsseldorf Airport"
 city: "Düsseldorf"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-16"
 sources:
   - "https://www.dus.com/"
   - "https://www.dus.com/en/flight-preparation/security"
+  - "https://www.staralliance.com/en/gold-track"
 quickFacts:
   - "Three terminals (A, B, C) with A and B directly connected"
   - "Eurowings base; also serves Lufthansa, Ryanair, and Condor"
   - "Security lines often exceed 30 minutes in peak morning hours"
   - "Direct S-Bahn and regional trains to Düsseldorf Hauptbahnhof in 10-15 min"
-  - "No TSA PreCheck equivalent; all passengers go through standard screening"
+  - "Star Alliance Gold Track and DUSgateway timed slots available"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -64,13 +65,14 @@ lounges:
 ## Quick Facts
 - Three terminals (A, B, C); A and B are connected airside and landside.
 - Eurowings operates the majority of flights; long-haul uses Terminal C.
-- Security is mandatory for all passengers; no fast-track or PreCheck lanes.
+- Security is mandatory for all passengers; **Star Alliance Gold Track** priority lanes and **DUSgateway** timed slots are available ([Star Alliance Gold Track](https://www.staralliance.com/en/gold-track)).
 - S-Bahn line S11 reaches Düsseldorf city center in 10-15 minutes.
 - Free Wi-Fi is reliable throughout all terminals.
 - Baggage storage and showers are available in Terminal A arrivals.
 
 ## Security & Screening Tips
 - Arrive at security at least 90 minutes before departure during morning and evening peaks.
+- **Star Alliance Gold Track** at concourses A and B for eligible Gold / Star business or first on a member flight.
 - Remove liquids and laptops; trays are required for all items.
 - Families and passengers with reduced mobility can use the dedicated lane at the far left of each checkpoint.
 - Avoid the central security area in Terminal B between 5-8 a.m.; use the A checkpoint instead when possible.
@@ -106,3 +108,4 @@ lounges:
 - https://www.dus.com/
 - https://www.dus.com/en/flight-preparation/security
 - https://www.dus.com/en/getting-here-and-away
+- https://www.staralliance.com/en/gold-track
