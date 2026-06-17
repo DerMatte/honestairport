@@ -3,11 +3,12 @@ iata: "DEN"
 name: "Denver International Airport"
 city: "Denver"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-17"
 sources:
   - "https://www.flydenver.com/"
   - "https://www.flydenver.com/security"
   - "https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den"
+  - "https://www.rtd-denver.com/routes-services/airport"
 quickFacts:
   - "United/Frontier hub; MCT 40 min domestic floor, 60 min int'l on one ticket"
   - "Single Jeppesen Terminal with Concourses A, B, C linked by train"
@@ -85,7 +86,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the train at the far end of the terminal to grab a seat before crowds pile on.
 - **Checkpoint pick:** United → West Level 6; Southwest/Frontier → East Level 6 — saves backtracking to the wrong side.
-- If connecting from B to C, ride one stop to A then transfer—often faster than direct during peak.
+- If connecting from B to C, take the train **one stop forward to C** — do not route via A.
 - Grab a window seat on the train for the best view of the airfield and mountains.
 - Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
 - Download the flydenver app for real-time train and security wait times.
@@ -105,7 +106,7 @@ lounges:
 - Quietest seating is the upper level near the windows overlooking the tarmac.
 
 ## Ground Transport & Parking
-- RTD A Line to Union Station costs $10.50 and runs every 15–30 min; fastest public option.
+- RTD **Airport Day Pass** to Union Station costs **$10** and covers all RTD rides that service day ([RTD airport fares](https://www.rtd-denver.com/routes-services/airport)); A Line runs every 15–30 min.
 - Rideshares pick up on Level 5; expect 10–20 min wait during peak arrival banks.
 - Economy parking is $15/day with free shuttle every 10 min; garage is $32/day but closer.
 - Snow delays hit the A Line hardest—have a backup rideshare ready in winter.
