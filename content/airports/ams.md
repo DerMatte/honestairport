@@ -3,7 +3,7 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-18"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
@@ -14,7 +14,7 @@ quickFacts:
   - "Single terminal with piers A–G; all connected airside after security"
   - "KLM/Delta hub; official MCT 40 min Schengen–Schengen, 50 min with non-Schengen"
   - "Most transfers skip re-security; passport control at Schengen boundary only"
-  - "NS train to Amsterdam Centraal 15–20 min (~€6); every 10 min off-peak"
+  - "NS train to Amsterdam Centraal 15–20 min (~€5.50 e-ticket); every 10 min off-peak"
   - "Security peaks 06:30–08:30 and 17:00–19:00; Short Connection Pass for tight transfers"
   - "Free quiet room with recliners between piers E and F"
 bentoTips:
@@ -102,7 +102,7 @@ lounges:
 - **Bag drop hack:** Online check-in then use far-left **"Bag Drop Only"** counters in Departure Hall 3 — shorter than full-service queues.
 - **Quiet zone:** Escalator down to **lower level between piers E and F** — free recliners, power, fewer crowds. Free **showers** nearby (bring towel or buy at HEMA).
 - **Pier discipline:** Follow **your pier letter** (e.g., "Pier D") — generic "Gates" signs cause backtracking. **D → G** can be **~15 min** at brisk pace.
-- **NS train tickets:** Buy at blue machines on **arrivals level before customs** to skip platform queues — **€5.80–6** to Centraal, **15–20 min** ([NS](https://www.ns.nl/en)).
+- **NS train tickets:** Buy at blue machines on **arrivals level before customs** to skip platform queues — **€5.50** e-ticket to Centraal (**+€1.60** surcharge on disposable paper), **15–20 min** ([NS](https://www.ns.nl/en)).
 - **Long layover landside:** Airport library (free, **24 h**) — exit airside, visit, re-enter via quieter security lane if you have **2+ hours**.
 - **Schiphol app:** Gate changes can lag on overhead screens by **2–3 min** during peaks — app is faster.
 - **Water:** Refill stations airside — bring empty bottle; bottled water is airport-markup priced.
@@ -129,7 +129,7 @@ lounges:
 - **Power:** Pier B and D have good outlet density — charge after security, not at gate during delays.
 
 ## Ground Transport & Parking
-- **Best value:** **NS Intercity** to Amsterdam Centraal — **every 10 min**, **15–20 min**, ~**€6**.
+- **Best value:** **NS Intercity** to Amsterdam Centraal — **every 10 min**, **15–20 min**, **€5.50** e-ticket.
 - **Taxi:** **€45–55**, **25–40 min** depending on traffic — official rank only.
 - **Parking:** **P1** closest (**€4.50/h**); **P3** cheaper (**€3/h**) with free shuttle every **5 min** — shuttle from **04:30**.
 - **Night arrivals:** Trains run late but less frequently — check NS app; taxi after last train.
