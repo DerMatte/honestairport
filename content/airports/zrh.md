@@ -3,10 +3,10 @@ iata: "ZRH"
 name: "Zurich Airport"
 city: "Zurich"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-18"
 sources:
-  - "https://www.zurich.com/"
-  - "https://www.zurich.com/en/passengers"
+  - "https://www.flughafen-zuerich.ch/en"
+  - "https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules"
 quickFacts:
   - "Single terminal complex with docks A, B, and E"
   - "Main hub for SWISS; Star Alliance dominant"
@@ -31,7 +31,7 @@ bentoTips:
     detail: "The Market stays open until 22:00 and has quieter corners near the rail station."
   - category: "status"
     label: "Live checks"
-    title: "Check dock assignment on zurich.com the night before"
+    title: "Check dock assignment on flughafen-zuerich.ch the night before"
     summary: "Gates can shift between A/B and E with little notice."
     detail: "SWISS long-haul almost always uses E; set a phone alert for gate changes."
 lounges:
@@ -39,14 +39,15 @@ lounges:
     terminal: "E"
     zone: "non-Schengen"
     access:
-      - "Star Alliance Gold"
-      - "paid day pass"
+      - "SWISS First Class"
+      - "Lufthansa First Class"
+      - "HON Circle"
     amenities:
       - "showers"
     bestFor:
       - "Relaxation"
     verdict: "worth-it"
-    summary: "The top lounge at ZRH if you can access it via status or a day pass."
+    summary: "Elite-only — First Class or HON Circle on day of travel; no Star Gold or day pass."
   - name: "SWISS Business Lounge"
     terminal: "E"
     zone: "non-Schengen"
@@ -90,7 +91,7 @@ lounges:
 - Avoid Monday and Friday 07:00-08:30 when business travelers create the longest queues.
 
 ## Best Airport Tricks & Hacks
-- Check your dock assignment the evening before on zurich.com; gates sometimes flip between A/B and E.
+- Check your dock assignment the evening before on [flughafen-zuerich.ch](https://www.flughafen-zuerich.ch/en); gates sometimes flip between A/B and E.
 - Landside food at The Market or Runway is cheaper and less crowded than airside.
 - If connecting to E dock, ride the Skymetro even if you have 25 minutes; walking takes longer.
 - Free luggage storage at the rail station level if you have a long layover and want to visit the city.
@@ -105,7 +106,7 @@ lounges:
 - Follow yellow signs for Schengen/non-Schengen; passport control sits between B and E.
 
 ## Lounges, Food & Amenities
-- SWISS Business and First lounges in E dock are the best; access with Star Gold or paid day pass.
+- SWISS Business and First lounges in E dock — First lounge is **First Class / HON only**; Business lounge accepts Star Gold and paid access ([SWISS lounge rules](https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules)).
 - The Market (landside) offers solid Swiss and international options with seating.
 - Quiet zones with charging tables are located near gates 5-10 and in the E-dock upper level.
 - Showers available in the SWISS lounges only.
@@ -117,6 +118,6 @@ lounges:
 - Drop-off is free for 5 minutes at the curbside; longer stays incur a fee.
 
 ## Official Sources
-- https://www.zurich.com/
-- https://www.zurich.com/en/passengers
+- https://www.flughafen-zuerich.ch/en
+- https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules
 - https://www.sbb.ch/en (rail connections)

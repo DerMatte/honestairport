@@ -3,11 +3,13 @@ iata: "AUH"
 name: "Abu Dhabi International Airport"
 city: "Abu Dhabi"
 country: "United Arab Emirates"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-18"
 sources:
   - "https://www.abudhabiairport.ae/en/"
-  - "https://www.darb.ae/"
+  - "https://www.etihad.com/en/abu-dhabi/zayed-international-airport"
   - "https://www.etihadhub.com/en-ae/news/update-on-minimum-connection-times-at-auh"
+  - "https://www.etihad.com/en/abu-dhabi/us-cbp-preclearance"
+  - "https://www.darb.ae/"
 quickFacts:
   - "Single Terminal A opened 2023; all flights under one roof"
   - "Etihad Airways main hub with 30+ million passengers/year capacity"
@@ -77,7 +79,7 @@ lounges:
 ## Quick Facts
 - Single Terminal A (opened 2023) handles every airline and route.
 - Etihad Airways operates the majority of long-haul flights.
-- **Connections:** Etihad-to-Etihad minimum is 45 minutes since March 2025; US-bound flights require 90 minutes and US preclearance closes 60 minutes before departure—traveler consensus says treat sub-75-minute US connections as reckless.
+- **Connections:** Etihad-to-Etihad minimum is **45 minutes** since **30 March 2025**; US-bound flights require **90 minutes** and US preclearance closes **60 minutes** before departure — budget **75+ minutes** for US connections even on one ticket ([Etihad MCT update](https://www.etihadhub.com/en-ae/news/update-on-minimum-connection-times-at-auh), [US preclearance](https://www.etihad.com/en/abu-dhabi/us-cbp-preclearance)).
 - Biometric immigration e-gates clear eligible passengers in under 60 seconds.
 - Pre-security food hall and multiple paid lounges are the strongest amenities.
 - Taxi to Abu Dhabi city center costs AED 80-120 and takes 25-35 minutes.
@@ -116,6 +118,7 @@ lounges:
 
 ## Official Sources
 - https://www.abudhabiairport.ae/en/
-- https://www.darb.ae/ (public transport)
-- https://www.etihad.com/ (main carrier)
-- https://www.etihad.com/en-ae/help/faq/plan-your-trip
+- https://www.etihad.com/en/abu-dhabi/zayed-international-airport
+- https://www.etihadhub.com/en-ae/news/update-on-minimum-connection-times-at-auh
+- https://www.etihad.com/en/abu-dhabi/us-cbp-preclearance
+- https://www.darb.ae/

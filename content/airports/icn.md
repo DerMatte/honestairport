@@ -3,10 +3,11 @@ iata: "ICN"
 name: "Incheon International Airport"
 city: "Seoul"
 country: "South Korea"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-18"
 sources:
   - "https://www.airport.kr/ap/en/index.do"
   - "https://www.arex.co.kr/en/"
+  - "https://www.airportrailroad.com/"
   - "https://www.airport.kr/ap/en/transfer/generalTransfer/generalTransfer.do"
 quickFacts:
   - "Two terminals linked by free shuttle (15 min); Asiana entirely at T2 from Jan 2026"
@@ -74,7 +75,7 @@ lounges:
 - **Wi‑Fi:** Free, reliable; I‑Pass registration optional for faster reconnect.
 - **Water:** Refill fountains in T2 **4F** rest zone and T1 near gate **40**; bring an empty bottle.
 - **Power:** Plentiful at gates; T2 **4F** rest zone has the best layover seating + outlets.
-- **AREX:** Express to Seoul Station **43 min** (**₩9,500**); inter-terminal train landside only.
+- **AREX:** Express to Seoul Station **43 min** from T1 (**₩13,000** adult on-site; **₩9,500** child 6–12); inter-terminal train landside only ([AREX](https://www.arex.co.kr/en/)).
 
 ## Security & Screening Tips
 - Expect full liquids screening and shoe removal; 100 ml rule strictly enforced.
@@ -104,7 +105,7 @@ lounges:
 - Quietest spot: T2 rest zone on the 4th floor near the transit hotel.
 
 ## Ground Transport & Parking
-- AREX express is fastest and cheapest to Seoul Station (₩9,500, 43 min); runs every 15–30 min.
+- AREX express is fastest to Seoul Station (**₩13,000** adult, **43 min** from T1); runs every 15–30 min.
 - KAL limousine buses are comfortable for specific hotel drops but slower in traffic.
 - Taxis to central Seoul cost ₩60,000–80,000; use official stand to avoid overcharges.
 - Short-term parking is expensive; long-term lots are cheaper but require shuttle.
@@ -112,3 +113,4 @@ lounges:
 ## Official Sources
 - https://www.airport.kr/ap/en/index.do
 - https://www.arex.co.kr/en/
+- https://www.airportrailroad.com/

@@ -3,15 +3,16 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-18"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
   - "https://www.narita-airport.jp/en/security/"
 quickFacts:
-  - "Two terminals; Terminal 1 handles ANA, Terminal 2 handles JAL and most international carriers"
+  - "Three terminals (T1, T2, T3); T3 has no train station — shuttle or walk to T2"
+  - "T1: ANA/Star Alliance; T2: JAL/oneworld; T3: LCCs (Jetstar, Peach, etc.)"
   - "Immigration and customs routinely take 45-90 minutes on arrival"
-  - "JR Narita Express reaches Tokyo Station in 53 minutes"
+  - "JR Narita Express reaches Tokyo Station in 53 minutes (from T1/T2 stations)"
   - "Free Wi-Fi is reliable but requires re-authentication every 2 hours"
   - "No TSA PreCheck equivalent; all passengers go through standard screening"
 bentoTips:
@@ -61,13 +62,15 @@ lounges:
 > Narita’s long immigration lines and distant terminals reward travelers who plan exact timing and movement rather than hoping for speed.
 
 ## Quick Facts
-- Two terminals connected by free shuttle bus every 15 minutes (10-minute ride).
+- **Three terminals** (T1, T2, T3) connected by free shuttle bus every **5–15 min** (~**10 min** ride T1↔T2).
+- **T3 has no train station** — take the free shuttle (**3–5 min**) or walk (**~9 min**) to **Terminal 2** for JR/Keisei trains ([NRT transit](https://www.narita-airport.jp/en/transit/)).
 - **MCT (same ticket, practical floor):**
   - **Same terminal** (T1↔T1 or T2↔T2): **60 min** floor — **75 min** if gates are far apart.
   - **T1 ↔ T2:** landside shuttle only — no airside link; budget **2 h+** including re-security and immigration if required.
-  - **International arrival → domestic connection:** immigration + baggage — **2.5 h** minimum ([NRT transit](https://www.narita-airport.jp/en/transit/)).
-- Terminal 1: ANA and Star Alliance; Terminal 2: JAL, oneworld, and most U.S. carriers.
-- Narita Express and Keisei Skyliner both depart from basement levels of each terminal.
+  - **T3 involved:** add **15–20 min** to reach T1/T2 train stations or inter-terminal shuttle.
+  - **International arrival → domestic connection:** immigration + baggage — **2.5 h** minimum.
+- Terminal 1: ANA and Star Alliance; Terminal 2: JAL, oneworld, and most U.S. carriers; Terminal 3: LCCs.
+- Narita Express and Keisei lines depart from basement stations at **T1** and **T2** only.
 - Currency exchange rates inside are 3-5% worse than in Tokyo; withdraw cash at 7-Eleven ATMs.
 - No airside transit between terminals without clearing immigration.
 - **Wi‑Fi:** Free **FreeWiFi-NARITA** — browser registration; re-authenticate every ~2 hours.
@@ -85,13 +88,14 @@ lounges:
 - Use Terminal 2’s 5F observation deck for free views and quiet seating when flights are delayed.
 - Grab a bento from Lawson or FamilyMart on arrival instead of waiting in restaurant lines.
 - Download offline maps; paid international roaming is unnecessary inside the terminals.
-- If connecting to Haneda, take the direct limousine bus from Terminal 2 rather than going into Tokyo.
+- **T3 train trap:** Arriving T3? Shuttle to T2 before buying N'EX or Skyliner tickets — no station at T3.
 - Charge devices at the free power banks near gates 50-60 in Terminal 1; they are rarely occupied.
 - Skip paid lounges; Terminal 2’s paid shower rooms (¥1,100) are cleaner and faster than lounge access.
 
 ## Terminals & Navigation
-- Terminal 1 and 2 are 2 km apart; the shuttle stops at both arrivals and departures levels.
-- Walking between terminals is not practical with luggage; always take the bus.
+- Terminals 1, 2, and 3 are spread across the airport; free shuttles connect all three.
+- **T3 → trains:** Walk or shuttle to **Terminal 2** station — budget **10–15 min** before your train departure.
+- Walking T2↔T3 is possible (~**500 m**) but impractical with heavy luggage; use the shuttle.
 - Gates in Terminal 2 are split into North and South wings; allow 12 minutes to walk between them.
 
 ## Lounges, Food & Amenities
