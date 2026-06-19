@@ -3,13 +3,13 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-19"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
   - "https://www.narita-airport.jp/en/security/"
 quickFacts:
-  - "Two terminals; Terminal 1 handles ANA, Terminal 2 handles JAL and most international carriers"
+  - "Three terminals (T1, T2, T3); trains serve T1 and T2 only — T3 uses shuttle/walk to T2 station"
   - "Immigration and customs routinely take 45-90 minutes on arrival"
   - "JR Narita Express reaches Tokyo Station in 53 minutes"
   - "Free Wi-Fi is reliable but requires re-authentication every 2 hours"
@@ -61,13 +61,13 @@ lounges:
 > Narita’s long immigration lines and distant terminals reward travelers who plan exact timing and movement rather than hoping for speed.
 
 ## Quick Facts
-- Two terminals connected by free shuttle bus every 15 minutes (10-minute ride).
+- Three terminals (T1, T2, T3) connected by free shuttle bus every 15 minutes (10-minute ride). **T3 has no train station** — walk or shuttle to T2 for Narita Express/Skyliner.
 - **MCT (same ticket, practical floor):**
   - **Same terminal** (T1↔T1 or T2↔T2): **60 min** floor — **75 min** if gates are far apart.
   - **T1 ↔ T2:** landside shuttle only — no airside link; budget **2 h+** including re-security and immigration if required.
   - **International arrival → domestic connection:** immigration + baggage — **2.5 h** minimum ([NRT transit](https://www.narita-airport.jp/en/transit/)).
 - Terminal 1: ANA and Star Alliance; Terminal 2: JAL, oneworld, and most U.S. carriers.
-- Narita Express and Keisei Skyliner both depart from basement levels of each terminal.
+- Narita Express and Keisei Skyliner depart from basement levels at **T1 and T2**; from **T3**, take the shuttle to T2 station first.
 - Currency exchange rates inside are 3-5% worse than in Tokyo; withdraw cash at 7-Eleven ATMs.
 - No airside transit between terminals without clearing immigration.
 - **Wi‑Fi:** Free **FreeWiFi-NARITA** — browser registration; re-authenticate every ~2 hours.

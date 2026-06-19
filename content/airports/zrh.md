@@ -3,10 +3,11 @@ iata: "ZRH"
 name: "Zurich Airport"
 city: "Zurich"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-19"
 sources:
-  - "https://www.zurich.com/"
-  - "https://www.zurich.com/en/passengers"
+  - "https://www.flughafen-zuerich.ch/"
+  - "https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules"
+  - "https://www.sbb.ch/en"
 quickFacts:
   - "Single terminal complex with docks A, B, and E"
   - "Main hub for SWISS; Star Alliance dominant"
@@ -39,14 +40,15 @@ lounges:
     terminal: "E"
     zone: "non-Schengen"
     access:
-      - "Star Alliance Gold"
-      - "paid day pass"
+      - "SWISS First Class"
+      - "Lufthansa First Class"
+      - "HON Circle"
     amenities:
       - "showers"
     bestFor:
       - "Relaxation"
     verdict: "worth-it"
-    summary: "The top lounge at ZRH if you can access it via status or a day pass."
+    summary: "Top lounge at ZRH — First Class or HON only; no Star Gold or day pass."
   - name: "SWISS Business Lounge"
     terminal: "E"
     zone: "non-Schengen"
@@ -90,7 +92,7 @@ lounges:
 - Avoid Monday and Friday 07:00-08:30 when business travelers create the longest queues.
 
 ## Best Airport Tricks & Hacks
-- Check your dock assignment the evening before on zurich.com; gates sometimes flip between A/B and E.
+- Check your dock assignment the evening before on [flughafen-zuerich.ch](https://www.flughafen-zuerich.ch/); gates sometimes flip between A/B and E.
 - Landside food at The Market or Runway is cheaper and less crowded than airside.
 - If connecting to E dock, ride the Skymetro even if you have 25 minutes; walking takes longer.
 - Free luggage storage at the rail station level if you have a long layover and want to visit the city.
@@ -105,7 +107,8 @@ lounges:
 - Follow yellow signs for Schengen/non-Schengen; passport control sits between B and E.
 
 ## Lounges, Food & Amenities
-- SWISS Business and First lounges in E dock are the best; access with Star Gold or paid day pass.
+- **SWISS First Lounge (A and E):** First Class (SWISS/Lufthansa) or **HON Circle** only — no Star Gold, no day pass ([SWISS lounge rules](https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules)).
+- **SWISS Senator / Business lounges:** Default for Star Alliance Gold and business class; paid day passes available on some contract lounges — verify before travel.
 - The Market (landside) offers solid Swiss and international options with seating.
 - Quiet zones with charging tables are located near gates 5-10 and in the E-dock upper level.
 - Showers available in the SWISS lounges only.
@@ -117,6 +120,6 @@ lounges:
 - Drop-off is free for 5 minutes at the curbside; longer stays incur a fee.
 
 ## Official Sources
-- https://www.zurich.com/
-- https://www.zurich.com/en/passengers
+- https://www.flughafen-zuerich.ch/
+- https://www.swiss.com/ch/en/fly/airport/lounges/admission-rules
 - https://www.sbb.ch/en (rail connections)

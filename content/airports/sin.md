@@ -3,7 +3,7 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-19"
 sources:
   - "https://www.changiairport.com/"
   - "https://www.changiairport.com/en/passenger-guide/transfer-transit.html"
@@ -11,7 +11,7 @@ sources:
 quickFacts:
   - "Four terminals (T1-T4) linked by Skytrain; T4 newest and fastest for low-cost carriers"
   - "Handles 65+ million passengers yearly; Singapore Airlines is dominant hub carrier"
-  - "Free unlimited Wi-Fi, 24-hour cinemas, and public butterfly garden in every terminal"
+  - "Free unlimited Wi-Fi, 24-hour cinemas, and Butterfly Garden in T3 transit"
   - "Jewel Changi (between T1-T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
   - "Consistently ranked world's best airport; security screening averages under 15 minutes"
 bentoTips:

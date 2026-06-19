@@ -3,7 +3,7 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-19"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
@@ -14,7 +14,7 @@ quickFacts:
   - "Single terminal with piers A–G; all connected airside after security"
   - "KLM/Delta hub; official MCT 40 min Schengen–Schengen, 50 min with non-Schengen"
   - "Most transfers skip re-security; passport control at Schengen boundary only"
-  - "NS train to Amsterdam Centraal 15–20 min (~€6); every 10 min off-peak"
+  - "NS train to Amsterdam Centraal 15–20 min (~€5.50); every 10 min off-peak"
   - "Security peaks 06:30–08:30 and 17:00–19:00; Short Connection Pass for tight transfers"
   - "Free quiet room with recliners between piers E and F"
 bentoTips:
@@ -129,7 +129,7 @@ lounges:
 - **Power:** Pier B and D have good outlet density — charge after security, not at gate during delays.
 
 ## Ground Transport & Parking
-- **Best value:** **NS Intercity** to Amsterdam Centraal — **every 10 min**, **15–20 min**, ~**€6**.
+- **Best value:** **NS Intercity/Sprinter** to Amsterdam Centraal — **every 10 min**, **15–20 min**, **€5.50** (2nd class e-ticket or OVpay contactless).
 - **Taxi:** **€45–55**, **25–40 min** depending on traffic — official rank only.
 - **Parking:** **P1** closest (**€4.50/h**); **P3** cheaper (**€3/h**) with free shuttle every **5 min** — shuttle from **04:30**.
 - **Night arrivals:** Trains run late but less frequently — check NS app; taxi after last train.

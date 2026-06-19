@@ -3,11 +3,13 @@ iata: "CGN"
 name: "Flughafen Köln/Bonn"
 city: "Cologne"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-19"
 sources:
   - "https://www.cologne-bonn-airport.com/"
   - "https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check"
   - "https://www.cologne-bonn-airport.com/en/company/next-chapter.html"
+  - "https://www.gorheinland.com/rheinlandtarif"
+  - "https://www.bahn.de/"
 quickFacts:
   - "Single central security in T1; CT upgrade rolling out through summer 2026"
   - "Primary base for Eurowings and Ryanair"
@@ -85,7 +87,7 @@ T1 handles Eurowings, Lufthansa, and most international flights. T2 is Ryanair-h
 The Eurowings Lounge in T1 (airside) offers decent breakfast and showers for €35 day pass. For food, Hans im Glück (T1 airside) serves reliable burgers. Quiet seating is on the upper level near gate C; avoid the noisy central atrium. Water fountains are next to every restroom.
 
 ## Ground Transport & Parking
-S-Bahn line 13 is fastest and cheapest to Cologne. Taxi rank is outside T1 arrivals (€25-30 to city center). Long-term parking P8 is €4.50/day with free shuttle every 15 min. Avoid the kiss-and-fly zone during rush hours; use the multi-storey P1/P2 instead.
+S-Bahn **S13/S19** to Cologne Hauptbahnhof (**~15 min**, Rheinlandtarif **Preisstufe 1b €4.00** from 1 Jun 2026 per [Rheinlandtarif](https://www.gorheinland.com/rheinlandtarif)). Taxi rank is outside T1 arrivals (€25-30 to city center). Long-term parking P8 is €4.50/day with free shuttle every 15 min. Avoid the kiss-and-fly zone during rush hours; use the multi-storey P1/P2 instead.
 
 ## Official Sources
 - https://www.cologne-bonn-airport.com/
