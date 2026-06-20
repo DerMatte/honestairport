@@ -3,13 +3,13 @@ iata: "MSP"
 name: "Minneapolis–Saint Paul International Airport"
 city: "Minneapolis"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.mspairport.com/"
   - "https://www.tsa.gov/airports/minneapolis-saint-paul-international-airport"
 quickFacts:
   - "Delta hub with two terminals: 1 (Lindbergh) and 2 (Humphrey)"
-  - "Free tram connects terminals in 5 minutes"
+  - "No airside link between T1 and T2; use free METRO Blue Line landside and re-clear TSA"
   - "TSA PreCheck and CLEAR available at both terminals"
   - "Peak security lines 6–9 a.m. and 4–7 p.m."
   - "Light rail reaches downtown Minneapolis in 25 minutes"
@@ -23,7 +23,7 @@ bentoTips:
     label: "Terminal"
     title: "Use Terminal 1 for Delta"
     summary: "Stay in Terminal 1 unless your airline explicitly departs from Terminal 2."
-    detail: "Tram ride is fast but adds a transfer step; most connections stay inside Terminal 1."
+    detail: "T1 and T2 have no airside connection; changing terminals requires exiting security and re-screening."
   - category: "food"
     label: "Food"
     title: "Hit the C concourse"
@@ -61,9 +61,9 @@ lounges:
 
 ## Quick Facts
 - Delta operates the vast majority of flights from Terminal 1.
-- **MCT (same ticket):** **45 min** airline minimum on T1-only connections — treat **60 min** as floor; **75 min** if changing terminals via tram.
+- **MCT (same ticket):** **45 min** airline minimum on T1-only connections — treat **60 min** as floor; **90 min+** if changing terminals (exit security, METRO Blue Line, re-clear TSA).
 - Terminal 2 serves Sun Country, JetBlue, Allegiant, and a few others.
-- Free tram runs every 3–5 minutes between terminals.
+- No airside connection between T1 and T2; the free METRO Blue Line connects terminals landside (re-clear TSA after switching).
 - Light rail (Blue Line) stops at both terminals and reaches downtown in 25 minutes.
 - Short-term parking sits directly above Terminal 1; long-term lots require a shuttle.
 - **Wi‑Fi:** Free **MSP-WiFi** — browser login; reliable throughout.
@@ -79,7 +79,7 @@ lounges:
 - Park in the Terminal 1 short-term garage on level 3 or 4 for fastest access to the tram.
 - Download the MSP app and enable push notifications for gate changes before you leave the car.
 - Grab coffee at Caribou in the C concourse before clearing security if your flight is on the far side of Terminal 1.
-- When connecting from Terminal 2 to Terminal 1, stay airside and ride the tram instead of re-clearing security.
+- When connecting from Terminal 2 to Terminal 1, exit security, ride the free METRO Blue Line between terminals, then re-clear TSA at your departure terminal.
 - Light rail to downtown is cheaper and faster than rideshares during rush hour.
 - If your flight is delayed more than 90 minutes, exit security and re-enter at the less-crowded checkpoint.
 - Ski and bike check-in happens at the far end of Terminal 1 baggage claim—allow an extra 15 minutes.
@@ -87,7 +87,7 @@ lounges:
 ## Terminals & Navigation
 - Terminal 1 handles nearly all connections; walking times between farthest gates average 12–15 minutes.
 - Terminal 2 is small—everything is within a 5-minute walk once you clear security.
-- The free tram is reliable but adds 5–7 minutes including waits; use it only when switching terminals.
+- Terminal changes require exiting security, riding the METRO Blue Line (free, ~5 min), and re-clearing TSA — budget 45–60 minutes total.
 
 ## Lounges, Food & Amenities
 - Delta Sky Club in Terminal 1 Concourse F offers the best lounge food and showers.

@@ -3,7 +3,7 @@ iata: "BOS"
 name: "Boston Logan International Airport"
 city: "Boston"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.massport.com/logan-airport/"
   - "https://www.tsa.gov/airports/boston-logan-international-airport"
@@ -30,7 +30,7 @@ bentoTips:
   - category: "food"
     label: "Food"
     title: "Legal Sea Foods in C"
-    summary: "Grab chowder or lobster roll at Legal Sea Foods in Terminal C pre-security."
+    summary: "Grab chowder or lobster roll at Legal Sea Foods in Terminal C post-security."
     detail: "Reliable and fast; other solid options include Bonchon (B) and Shake Shack (E)."
   - category: "status"
     label: "Live checks"
@@ -94,7 +94,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - Delta Sky Club in A is the only major lounge; access via Delta status or day pass.
-- Legal Sea Foods (C, pre-security) remains the most consistent sit-down option.
+- Legal Sea Foods (C, post-security) remains the most consistent sit-down option.
 - For quick bites, Bonchon (B) and Shake Shack (E arrivals) outperform generic chains.
 - Charging tables with USB-C and outlets are scattered near gates in C; scarce in A and B.
 

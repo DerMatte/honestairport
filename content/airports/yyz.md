@@ -3,12 +3,12 @@ iata: "YYZ"
 name: "Toronto Pearson International Airport"
 city: "Toronto"
 country: "Canada"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.torontopearson.com/"
   - "https://www.catsa-acsta.gc.ca/"
 quickFacts:
-  - "Two terminals (T1 and T3) linked by free Link Train (5 min)"
+  - "Two terminals (T1 and T3) linked by landside Terminal Link train (5 min)"
   - "Air Canada hub; WestJet and Porter also major"
   - "CATSA security; NEXUS and CLEAR available"
   - "UP Express reaches Union Station in 25 minutes"
@@ -21,9 +21,9 @@ bentoTips:
     detail: "Security lines routinely exceed 45 minutes during morning and evening peaks."
   - category: "terminal"
     label: "Transfers"
-    title: "Use Link Train, not walking"
-    summary: "T1-T3 connection is fastest by train."
-    detail: "Walking takes 20+ minutes and requires security re-clear if switching sides."
+    title: "Terminal Link is landside only"
+    summary: "T1↔T3 transfers require exiting security and full re-screening."
+    detail: "Ride the free Terminal Link train between terminals, then re-clear CATSA at your departure terminal."
   - category: "food"
     label: "Food & quiet"
     title: "T1 Concourse F for real meals"
@@ -75,10 +75,10 @@ lounges:
 > One concise reference for moving through Toronto Pearson with minimal wasted time.
 
 ## Quick Facts
-- Two terminals (T1 and T3) connected by free Link Train every 4-6 minutes.
+- Two terminals (T1 and T3) connected by the free landside Terminal Link train every 4-6 minutes.
 - **MCT (same ticket, practical floor):**
   - **Same terminal, airside:** **60 min** domestic; **75 min** international with passport control.
-  - **T1 ↔ T3:** Link Train **5 min** + walk — budget **90 min** minimum; re-security usually not required on through-checked bags.
+  - **T1 ↔ T3:** exit security, Terminal Link **5 min**, re-screen — budget **90 min** minimum.
   - **Separate tickets:** **2.5 h+** with baggage reclaim.
 - Air Canada operates the majority of flights from T1; most others use T3.
 - CATSA manages security; NEXUS and CLEAR lanes exist in both terminals.
@@ -94,8 +94,8 @@ lounges:
 - Liquids must still follow the 100 ml rule; no trusted-traveler exemption applies.
 
 ## Best Airport Tricks & Hacks
-- Board the Link Train at the first stop you reach; it loops and saves backtracking.
-- T1 domestic and international departures share the same security zone—stay airside if connecting.
+- Board the Terminal Link at the first stop you reach; it loops and saves backtracking.
+- T1↔T3 connections require exiting security, riding the landside Terminal Link, and full re-screening at your departure terminal.
 - Download the Toronto Pearson app for gate changes and bag-claim updates before landing.
 - Use the free cell-phone lot (5-minute drive) instead of circling arrivals.
 - T3 has fewer food options after 9 p.m.; eat in T1 if your flight is flexible.
@@ -104,7 +104,7 @@ lounges:
 
 ## Terminals & Navigation
 - T1 handles Air Canada and Star Alliance; T3 handles everyone else.
-- Link Train runs 24/7 between T1 and T3; no ticket needed.
+- Terminal Link (landside) runs 24/7 between T1 and T3; no ticket needed — you must exit security to use it.
 - Minimum connection time is 60 minutes domestic, 90 minutes international.
 - Both terminals have clear signage; follow the colored lines on the floor for baggage claim.
 

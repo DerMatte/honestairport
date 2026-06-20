@@ -3,12 +3,12 @@ iata: "RDU"
 name: "Raleigh-Durham International Airport"
 city: "Raleigh"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.rdu.com/"
   - "https://www.tsa.gov/airports/raleigh-durham-international-airport"
 quickFacts:
-  - "Two terminals (T1 and T2) connected by a 5-minute covered walkway"
+  - "Two terminals (T1 and T2) linked by landside walkway only — no airside connection"
   - "Major airlines: Delta (T2), American (T2), United (T1), Southwest (T1)"
   - "TSA PreCheck and CLEAR available at both terminals"
   - "Security wait times average 15-30 min; peaks before 9am and 5-7pm"
@@ -21,9 +21,9 @@ bentoTips:
     detail: "Hit the 6:30-8:30am and 4:30-7pm peaks only if you have PreCheck."
   - category: "terminal"
     label: "Transfers"
-    title: "Walk between terminals"
-    summary: "Use the enclosed walkway instead of the shuttle."
-    detail: "Takes 5 minutes and avoids weather and bus waits."
+    title: "Walk between terminals landside"
+    summary: "Use the enclosed walkway only before or after security — not post-security."
+    detail: "T1 and T2 have no airside link; changing terminals requires exiting security and re-clearing TSA."
   - category: "food"
     label: "Food & quiet"
     title: "Grab coffee at T2"
@@ -52,7 +52,7 @@ lounges:
 > Two compact terminals and predictable security make RDU one of the easiest major airports for quick turns.
 
 ## Quick Facts
-- Terminals 1 and 2 linked by a 5-minute indoor walkway with moving walkways.
+- Terminals 1 and 2 linked by a 5-minute indoor landside walkway; no airside connection between them.
 - Delta and American dominate Terminal 2; United and Southwest use Terminal 1.
 - TSA PreCheck lanes at both terminals; CLEAR only at Terminal 2.
 - Free cell phone lot sits 2 minutes from both terminals with live flight displays.
@@ -74,10 +74,10 @@ lounges:
 - If your flight is in Terminal 1, check in at Terminal 2 first for shorter bag-drop lines when American or Delta are slow.
 - Download the RDU app for gate-change alerts that beat airline push notifications.
 - The short-term garage (closest to Terminal 2) has the fastest exit during evening rush.
-- Southwest flyers: use Terminal 1 security then walk to Terminal 2 if the T1 line is backed up.
+- Southwest flyers: if T1 security is backed up, you cannot walk airside to T2 — exit and use the landside walkway, then re-clear TSA.
 
 ## Terminals & Navigation
-- Walkway between T1 and T2 is climate-controlled and clearly signed; no need for the outdoor shuttle.
+- Walkway between T1 and T2 is climate-controlled and landside only; you must exit security to use it.
 - Terminal 2 is larger and has more gates—allow 8 minutes to walk from security to farthest gates.
 - Common mistake: following signs for “Terminal 1 Departures” when already airside in Terminal 2.
 

@@ -3,7 +3,7 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.miami-airport.com/"
   - "https://www.miami-airport.com/wifi.asp"
@@ -24,7 +24,7 @@ bentoTips:
     label: "Concourses"
     title: "Long walks are part of MIA"
     summary: "The farthest gates can take 20-25 minutes from security."
-    detail: "For D-J transfers, the MIA Mover route can save time, but only re-clear security when needed."
+    detail: "For cross-concourse walks, allow 15–25 minutes; the MIA Mover serves the Rental Car Center, not concourses."
   - category: "food"
     label: "Food"
     title: "Pre-order the good local stops"
@@ -47,7 +47,8 @@ lounges:
     verdict: "worth-it"
     summary: "Strong choice for AA flyers or those who can access it free; otherwise the paid entry is only worthwhile if you need a quiet spot before a long flight."
   - name: "Centurion Lounge"
-    terminal: "E"
+    terminal: "D"
+    zone: "near Gate D12"
     access:
       - "Amex Platinum or Centurion card"
       - "paid guest access"
@@ -66,11 +67,12 @@ lounges:
 - American Airlines dominates; most international flights use concourses D, E, and J.
 - **MCT (same ticket, practical floor):**
   - **Same concourse:** **45–60 min** can work if inbound is on time — still risky during AA banks.
-  - **Cross-concourse** (e.g. D → J): budget **75–90 min** including MIA Mover and possible re-security.
+  - **Cross-concourse** (e.g. D → J): budget **75–90 min** on foot; no airside train between concourses.
   - **International arrival → domestic connection:** customs + baggage + re-screen — **2 h** minimum; **2.5 h** safer in peaks.
   - **Separate tickets:** treat as a new departure — **3 h+** with baggage reclaim.
-- One linear terminal; airside connections require the MIA Mover or long walks.
-- No airside train between all concourses—plan for 15-25 min walks.
+- One linear terminal; concourses D–J connect by long airside walkways only.
+- No airside train between concourses — plan for 15-25 min walks.
+- The MIA Mover runs to the Rental Car Center, not between concourses.
 - Busiest periods: early morning departures to Europe and evening arrivals from Latin America.
 - **Wi‑Fi:** Free **MIA-WiFi** — browser login; sessions expire (~2 h); re-authenticate as needed ([MIA Wi‑Fi](https://www.miami-airport.com/wifi.asp)).
 - **Power:** USB outlets at many gate clusters; competition is fierce during delays — charge right after security, not at the gate.
@@ -84,7 +86,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the MIA app before arrival for gate changes and security times.
-- If connecting from D to J, take the MIA Mover to the main terminal then re-clear security only if needed—saves 20+ min vs walking.
+- If connecting from D to J, walk airside through the concourse corridors — budget 20+ minutes; the MIA Mover does not connect concourses.
 - For early flights, check bags at the American Airlines remote bag drop on the arrivals level when the main counters are slammed.
 - Quietest seating is the upper level near Gate J17 after security.
 - Avoid the rental car center bus during 3-6pm cruise passenger rushes; walk to the Tri-Rail station instead.
@@ -94,10 +96,10 @@ lounges:
 - All passenger processing happens in one building; concourses are lettered D-J.
 - Walking from security to the farthest gate (J) takes 20-25 minutes.
 - International arrivals must clear customs then re-check bags for connections.
-- The MIA Mover between terminals runs every 3-5 minutes but can be skipped for short connections inside the same concourse.
+- Concourses connect by airside walkways; the MIA Mover serves the Rental Car Center only.
 
 ## Lounges, Food & Amenities
-- American Airlines Admirals Club in D and the new Centurion Lounge near E are the best paid options.
+- American Airlines Admirals Club in D and the Centurion Lounge near Gate D12 (Concourse D) are the best paid options.
 - Standout food: La Carreta (Cuban) in the main terminal and La Sandwicherie in concourse D.
 - Quietest non-lounge spot is the seating area past Gate H after the moving walkway.
 

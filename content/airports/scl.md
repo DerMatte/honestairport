@@ -3,7 +3,7 @@ iata: "SCL"
 name: "Arturo Merino Benítez International Airport"
 city: "Santiago"
 country: "Chile"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.aeropuertosantiago.cl/"
   - "https://www.aeropuertosantiago.cl/en/security"
@@ -12,7 +12,6 @@ quickFacts:
   - "T1 handles all international flights; T2 is domestic"
   - "30-45 minutes from downtown by car or bus"
   - "Security lines often exceed 45 minutes at peaks"
-  - "High altitude (1,500 ft) can affect aircraft performance"
 bentoTips:
   - category: "timing"
     label: "Timing"

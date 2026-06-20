@@ -3,7 +3,7 @@ iata: "CLT"
 name: "Charlotte Douglas International Airport"
 city: "Charlotte"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.cltairport.com/"
   - "https://www.tsa.gov/airports/charlotte-douglas-international-airport"
@@ -90,7 +90,7 @@ lounges:
 ## Ground Transport & Parking
 - Daily garage is $24/day; economy lot is $14/day with free shuttle every 10 minutes.
 - Rideshare pickup is on the lower arrivals level; follow signs to avoid circling.
-- Light-rail (LYNX) Blue Line stops at the airport station; 20-minute ride to Uptown.
+- CATS Route 5 Sprinter connects to the airport; transfer to LYNX Blue Line at Charlotte Transportation Center for Uptown (LYNX does not serve CLT directly).
 
 ## Official Sources
 - https://www.cltairport.com/

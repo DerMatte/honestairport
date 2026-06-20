@@ -3,7 +3,7 @@ iata: "SEA"
 name: "Seattle-Tacoma International Airport"
 city: "Seattle"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.portseattle.org/sea-tac"
   - "https://www.tsa.gov/airports/seattle-tacoma-international-airport"
@@ -26,9 +26,9 @@ bentoTips:
     detail: "Works best for A-to-D connections; avoid during peak if you have heavy bags."
   - category: "food"
     label: "Food & quiet"
-    title: "Hit D14 before security"
-    summary: "Grab Ivar's or Beecher's at D14 then clear security with less crowding."
-    detail: "Best when your gate is in C or D; skip if flying out of A."
+    title: "Eat post-security in C or Central"
+    summary: "Ivar's is in the Central Terminal; Beecher's is at Concourse C near C3."
+    detail: "Both are airside only — clear security first, then grab food on the way to your gate."
   - category: "status"
     label: "Live checks"
     title: "Check the Port app"
@@ -92,7 +92,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the tram to Concourse D first, then walk back to your gate to skip the longest moving-walkway crowds.
 - Download the Port of Seattle app and enable notifications for security wait times before leaving your hotel.
-- Eat at D14 (Ivar's or Beecher's) before clearing security when your flight departs from C or D.
+- Eat post-security at Ivar's in the Central Terminal or Beecher's at Concourse C (C3) on the way to C or D gates.
 - Use the south-end restrooms near Gate C2; they stay cleaner and quieter than the central ones.
 - For early flights, park at the main garage and take the elevator straight to the tram level to avoid ticketing lines.
 - If connecting from international to domestic, clear customs then immediately re-clear security at the A checkpoint.
@@ -106,7 +106,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - The Club at SEA (paid day pass) near C2 offers solid Wi-Fi and showers but fills by mid-morning.
-- Best quick food: Ivar's fish & chips at D14 or the ramen shop at C2.
+- Best quick food: Ivar's fish & chips (Central Terminal, post-security) or Beecher's at Concourse C (C3); ramen at C2 is also solid.
 - Quietest seating is the window alcoves past Gate A9; power outlets are plentiful there.
 - Avoid the central food court after 11am; lines spill into walkways.
 

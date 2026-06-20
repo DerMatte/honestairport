@@ -3,7 +3,7 @@ iata: "DFW"
 name: "Dallas/Fort Worth International Airport"
 city: "Dallas"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.dfwairport.com/"
   - "https://www.tsa.gov/airports/dallas-fort-worth-international-airport"
@@ -103,7 +103,7 @@ lounges:
 - DART Orange Line rail reaches Terminal A in 45 minutes from downtown Dallas; $3 fare.
 - Terminal Link shuttle runs every 10 minutes between terminals and rental car center.
 - Economy parking ($9/day) requires 10-minute shuttle; Terminal B garage ($24/day) is worth it for short trips.
-- Rideshares pick up on upper level of Terminal A only; avoid during 4–7 p.m. surge pricing.
+- Rideshares pick up on the upper level of every terminal (A–E); avoid during 4–7 p.m. surge pricing.
 
 ## Official Sources
 - https://www.dfwairport.com/

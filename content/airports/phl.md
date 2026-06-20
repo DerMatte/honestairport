@@ -3,7 +3,7 @@ iata: "PHL"
 name: "Philadelphia International Airport"
 city: "Philadelphia"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.phl.org/"
   - "https://www.tsa.gov/airports/philadelphia-international-airport"
@@ -40,7 +40,6 @@ lounges:
     access:
       - "Amex Platinum"
       - "Amex Centurion"
-      - "Priority Pass"
     hours: "05:00-21:00"
     amenities:
       - "Showers"

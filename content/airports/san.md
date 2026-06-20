@@ -3,7 +3,7 @@ iata: "SAN"
 name: "San Diego International Airport"
 city: "San Diego"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.san.org/"
   - "https://www.tsa.gov/airports/san-diego-international-airport"
@@ -11,7 +11,7 @@ quickFacts:
   - "Two terminals (T1 and T2) connected airside after security"
   - "Primary base for Southwest; also Alaska, Delta, United, American"
   - "24 million passengers; compact layout 3 miles from downtown"
-  - "No international arrivals facility; all flights pre-cleared"
+  - "Federal Inspection Station for international arrivals; not all flights are pre-cleared"
   - "TSA PreCheck and CLEAR available at both terminals"
 bentoTips:
   - category: "timing"
@@ -56,10 +56,11 @@ lounges:
 - Two terminals connected by a post-security walkway; no train needed.
 - Southwest dominates with most flights from Terminal 1.
 - 3 miles from downtown; Uber/Lyft pickup on lower arrivals level.
+- International arrivals use the Federal Inspection Station; not all flights are pre-cleared.
 - TSA PreCheck lanes at both terminals; CLEAR at Terminal 2.
 - Cell phone lot on the north side offers free 30-minute wait with flight monitors.
 - **Wi‑Fi:** Free **SAN-WiFi** — browser login; reliable.
-- **Power:** T2 observation deck upper level and Gate A25 area — charge before Southwest banks.
+- **Power:** T2 observation deck upper level and gates 30–40 area — charge before Southwest banks.
 - **Water:** Refill fountains post-security in both terminals — bring an empty bottle.
 
 ## Security & Screening Tips

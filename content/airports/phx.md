@@ -3,12 +3,12 @@ iata: "PHX"
 name: "Phoenix Sky Harbor International Airport"
 city: "Phoenix"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.skyharbor.com/"
   - "https://www.tsa.gov/airports/phoenix-sky-harbor-international-airport"
 quickFacts:
-  - "Terminals 2, 3, and 4 only (Terminal 1 closed)"
+  - "Terminals 3 and 4 only (Terminal 2 closed permanently Feb 2020)"
   - "American and Southwest handle the majority of flights"
   - "Free PHX Sky Train connects terminals in 3-5 minutes"
   - "TSA PreCheck lanes in all terminals; CLEAR at Terminal 4"
@@ -33,7 +33,7 @@ bentoTips:
     label: "Live checks"
     title: "Check Sky Harbor app first"
     summary: "Open the official app for real-time security wait times before leaving the car."
-    detail: "Terminal 4 usually moves fastest; Terminal 2 can lag when only two lanes are open."
+    detail: "Terminal 4 usually moves fastest; Terminal 3 is the smaller alternative."
 lounges:
   - name: "The Club at PHX"
     terminal: "4"
@@ -61,7 +61,7 @@ lounges:
 > Fast, no-fluff guide to clearing PHX with minimal stress and wasted time.
 
 ## Quick Facts
-- Three active terminals (2, 3, 4) connected by free Sky Train.
+- Two active terminals (3 and 4) connected by free Sky Train; Terminal 2 closed permanently in Feb 2020.
 - American and Southwest dominate; most other carriers use Terminal 4.
 - No airside connection between terminals; re-clear security if changing.
 - Cell phone lot is free and usually has space.
@@ -74,19 +74,18 @@ lounges:
 - Use the TSA app or Sky Harbor app to check live wait times before you park.
 - PreCheck lanes exist in every terminal; CLEAR is Terminal 4 only and fastest.
 - Avoid 5-8am and 3-6pm if possible; lines regularly exceed 30 minutes.
-- Terminal 2 security is smallest and often quickest outside rush hours.
 
 ## Best Airport Tricks & Hacks
 - Park in Terminal 3 garage and take Sky Train to Terminal 4 if flying American—saves circling.
 - Fill water bottles after security at the free fountains near Gate B15 in Terminal 4.
 - Use the quiet seating area past Gate A18 when you have a long layover.
 - Download the PHX app for gate changes and security times instead of airline apps.
-- If your flight is delayed, move to Terminal 3 or 2 for shorter re-screening lines later.
+- If your flight is delayed, move to Terminal 3 for shorter re-screening lines later.
 - Ride-share drivers prefer Terminal 4 lower level; request pickup there even from other terminals.
 - Grab coffee at Cartel Coffee (Terminal 4) before 7am to beat the rush.
 
 ## Terminals & Navigation
-- Sky Train runs every 3 minutes between all terminals; use it instead of walking.
+- Sky Train runs every 3 minutes between Terminal 3 and Terminal 4; use it instead of walking.
 - Terminal 4 is largest and has the most gates and amenities.
 - Walking between Terminal 3 and 4 takes 12-15 minutes outdoors—avoid in summer heat.
 - No airside connections; allow 45 minutes minimum for connections requiring re-screening.
