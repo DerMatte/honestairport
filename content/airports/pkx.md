@@ -3,14 +3,14 @@ iata: "PKX"
 name: "Beijing Daxing International Airport"
 city: "Beijing"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.daxingairport.com/"
   - "https://www.caac.gov.cn/"
 quickFacts:
   - "Opened September 2019, star-shaped terminal by Zaha Hadid"
   - "Primary hub for China Eastern, Beijing Capital, and China Southern"
-  - "High-speed rail reaches Beijing South Station in 20 minutes"
+  - "Daxing Airport Express reaches Caoqiao in ~19-22 min; Beijing South needs metro transfers (~35-46 min)"
   - "Three runways; designed for 72 million passengers annually"
   - "Domestic and international in single connected terminal"
 bentoTips:
@@ -63,7 +63,7 @@ lounges:
 
 ## Quick Facts
 - Single massive terminal handles all flights; no inter-terminal transfers needed.
-- High-speed rail (Daxing Airport Express) runs every 10–15 minutes to Beijing South.
+- Daxing Airport Express runs every 10–15 minutes to Caoqiao (~19–22 min); Beijing South requires metro transfers (~35–46 min total).
 - China Eastern and Beijing Capital base most operations here; Air China uses PEK.
 - Free Wi-Fi requires Chinese phone number verification; VPN recommended for foreign SIMs.
 - Taxis and ride-hailing only from designated Level 1 curb; no street hails.
@@ -81,7 +81,7 @@ lounges:
 - Download the “Beijing Daxing Airport” WeChat mini-program before arrival for live queue times.
 - Use the central atrium escalators to reach Level 4 food court quickly from any gate.
 - High-speed rail tickets can be bought with Alipay or WeChat Pay at machines; cash not accepted.
-- If your flight is delayed, ride the rail to Beijing South for better food and return on a later train.
+- If your flight is delayed, ride the Airport Express to Caoqiao for better food and return on a later train.
 - Power outlets are scarce at gates; charging tables sit only in the central hall near information desks.
 - Avoid taxi touts inside arrivals; official dispatch is on Level 1 and issues printed receipts.
 - Keep your passport and boarding pass together; staff scan both at multiple points.
@@ -99,7 +99,7 @@ lounges:
 - Free water refill stations exist near every restroom cluster.
 
 ## Ground Transport & Parking
-- High-speed rail is fastest and cheapest to central Beijing; 20 minutes to South Station.
+- Daxing Airport Express to Caoqiao is fastest (~19–22 min); Beijing South needs metro transfers (~35–46 min total).
 - Official taxis charge fixed airport rates; Didi ride-hailing requires Chinese app registration.
 - Short-term parking (P1–P3) fills by 09:00; long-term lots require shuttle bus.
 - Metro Line 19 connects but adds 50 minutes versus rail; use only if heading to southwest Beijing.

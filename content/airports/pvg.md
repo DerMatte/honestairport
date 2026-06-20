@@ -3,7 +3,7 @@ iata: "PVG"
 name: "Shanghai Pudong International Airport"
 city: "Shanghai"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.shanghaiairport.com/"
   - "https://www.shmetro.com/"
@@ -35,7 +35,7 @@ bentoTips:
     summary: "Real-time security wait times and gate changes appear faster than boards."
     detail: "Use when your airline app shows delays; airport Wi-Fi requires Chinese number login."
 lounges:
-  - name: "Dragonair Lounge"
+  - name: "Cathay Pacific Lounge"
     terminal: "T2"
     zone: "Star Alliance / international"
     access:
@@ -45,7 +45,7 @@ lounges:
       - "Work"
       - "Relax"
     verdict: "worth-it"
-    summary: "Strongest paid option for Star Alliance passengers in T2."
+    summary: "Strongest paid option for Star Alliance passengers in T2, near Gate D69."
   - name: "The Lounge"
     terminal: "T2"
     zone: "non-Schengen"
@@ -55,7 +55,7 @@ lounges:
     bestFor:
       - "Work"
     verdict: "depends"
-    summary: "Solid Priority Pass fallback in T2 when Dragonair is full."
+    summary: "Solid Priority Pass fallback in T2 when Cathay Pacific Lounge is full."
   - name: "Air China Lounge"
     terminal: "T1"
     zone: "international"
@@ -107,7 +107,7 @@ lounges:
 ## Lounges, Food & Amenities
 - T2 Level 4 has the best food density: Din Tai Fung, Nanxiang, and local noodle stalls.
 - Quiet seating areas exist near gates 60-70 in T2 after 9 p.m. when crowds thin.
-- Dragonair Lounge in T2 is the strongest paid option for Star Alliance passengers.
+- Cathay Pacific Lounge in T2 (near Gate D69) is the strongest paid option for Star Alliance passengers.
 - Avoid T1 food court after security—limited choices and long lines.
 
 ## Ground Transport & Parking

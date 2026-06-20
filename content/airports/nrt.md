@@ -3,7 +3,7 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
@@ -76,7 +76,7 @@ lounges:
 
 ## Security & Screening Tips
 - Remove all liquids and laptops; bins are scarce and staff do not provide trays.
-- Shoe removal is mandatory; wear slip-ons to save time.
+- Shoe removal is required only for thick-soled shoes, boots, and ankle-covering footwear—not routine sneakers or sandals.
 - Peak congestion hits 07:00-09:00 and 16:00-19:00; arrive at security no later than 2 hours before departure.
 - Families and elderly travelers can request assistance lanes at both terminals.
 

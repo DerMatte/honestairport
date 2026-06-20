@@ -3,7 +3,7 @@ iata: "DOH"
 name: "Hamad International Airport"
 city: "Doha"
 country: "Qatar"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.dohaairport.com/"
   - "https://www.dohaairport.com/en/security"
@@ -97,7 +97,7 @@ lounges:
 - The Orchard garden (Concourse D) offers quiet seating and decent food — not a lounge, but the best public calm spot.
 - Al Mourjan Business Lounge (near gate A) has excellent showers and à-la-carte dining for eligible QR/oneworld passengers.
 - **Overrated:** Main food court between A and B at peak — crowded and overpriced.
-- Free nap pods are located near gate C8; first-come, first-served.
+- Paid Sleepover pods near gates C30/C31 and C40; free rest available in Quiet Rooms (not free nap pods near C8).
 
 ## Ground Transport & Parking
 - Metro Red Line is fastest and cheapest to downtown (QR 2–6).

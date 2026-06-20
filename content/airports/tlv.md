@@ -3,7 +3,7 @@ iata: "TLV"
 name: "Ben Gurion International Airport"
 city: "Tel Aviv"
 country: "Israel"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.iaa.gov.il/en/"
   - "https://www.iaa.gov.il/en/passengers/security/"
@@ -83,8 +83,7 @@ lounges:
 ## Terminals & Navigation
 - All international flights use Terminal 3; the walk from train station to check-in is 8 minutes.
 - Terminal 1 sits 1.5 km away—use the free shuttle only if your airline explicitly lists it.
-- Gates are numbered 1–15 (domestic) and 21–33 (international); moving walkways cover most distance.
-- Allow 15 minutes to clear the final passport control when walking to gates.
+- Gates sit in concourses B, C, D, and E (typically numbered 2–9); allow 15 minutes to clear the final passport control when walking to gates.
 
 ## Lounges, Food & Amenities
 - The Dan Lounge in Terminal 3 (after security) offers decent hot food and showers for $45 day pass.

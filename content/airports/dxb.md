@@ -3,14 +3,14 @@ iata: "DXB"
 name: "Dubai International Airport"
 city: "Dubai"
 country: "United Arab Emirates"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.dubaiairports.ae/"
   - "https://www.dubaiairports.ae/information/transfers"
   - "https://www.marhabaservices.com/ae/english/guides/tips-for-dubai-international-airport-connections.html"
   - "https://www.rta.ae/"
 quickFacts:
-  - "Three terminals: T1 (most int'l), T2 (flydubai/regional), T3 (Emirates only)"
+  - "Three terminals: T1 (most int'l), T2 (flydubai/regional), T3 (Emirates, flydubai, United, Air Canada, and others)"
   - "T3 internal metro links concourses A/B/C; T1↔T3 transfers need bus or Metro (landside)"
   - "Emirates same-ticket connections within T3 can be tight but usually efficient"
   - "Separate tickets require immigration + baggage — budget 3–5 h for terminal changes"
@@ -80,7 +80,7 @@ lounges:
 > World's busiest international hub — smooth for Emirates-to-Emirates in T3, unforgiving when you change terminals or hold separate tickets.
 
 ## Quick Facts
-- **Terminals:** **T3** (Emirates + Qantas exclusively; concourses **A**, **B**, **C**), **T1** (most other international carriers; **D gates** via airside train), **T2** (flydubai, regional/charter, **F gates**).
+- **Terminals:** **T3** (Emirates hub plus flydubai, United, Air Canada, and others; concourses **A**, **B**, **C**), **T1** (most other international carriers; **D gates** via airside train), **T2** (flydubai, regional/charter, **F gates**). Qantas ended its own DXB flights in March 2018.
 - **MCT (same ticket, practical floor):**
   - **T3 → T3** (Emirates connection, bags through): **90 min** floor, **2 h** comfortable — concourse changes add time.
   - **T3 concourse change (B/C → A):** Add **15–25 min** for internal metro/bus.

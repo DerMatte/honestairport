@@ -3,7 +3,7 @@ iata: "AUH"
 name: "Abu Dhabi International Airport"
 city: "Abu Dhabi"
 country: "United Arab Emirates"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.abudhabiairport.ae/en/"
   - "https://www.darb.ae/"
@@ -11,7 +11,7 @@ sources:
 quickFacts:
   - "Single Terminal A opened 2023; all flights under one roof"
   - "Etihad Airways main hub with 30+ million passengers/year capacity"
-  - "Etihad hub; Etihad-to-Etihad MCT 45 min (90 min for US-bound with preclearance)"
+  - "Etihad hub; Etihad-to-Etihad MCT 45 min (90 min recommended for US-bound; US CBP preclearance temporarily closed)"
   - "Biometric e-gates for UAE residents and GCC nationals"
   - "Strong food hall pre-security plus multiple Etihad lounges"
   - "30-minute taxi to city center; no direct metro link"
@@ -77,7 +77,7 @@ lounges:
 ## Quick Facts
 - Single Terminal A (opened 2023) handles every airline and route.
 - Etihad Airways operates the majority of long-haul flights.
-- **Connections:** Etihad-to-Etihad minimum is 45 minutes since March 2025; US-bound flights require 90 minutes and US preclearance closes 60 minutes before departure—traveler consensus says treat sub-75-minute US connections as reckless.
+- **Connections:** Etihad-to-Etihad minimum is 45 minutes since March 2025; US-bound flights need 90 minutes. US CBP preclearance at Zayed International is temporarily closed—US-bound passengers clear immigration on arrival in the US.
 - Biometric immigration e-gates clear eligible passengers in under 60 seconds.
 - Pre-security food hall and multiple paid lounges are the strongest amenities.
 - Taxi to Abu Dhabi city center costs AED 80-120 and takes 25-35 minutes.

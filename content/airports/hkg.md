@@ -3,14 +3,14 @@ iata: "HKG"
 name: "Hong Kong International Airport"
 city: "Hong Kong"
 country: "Hong Kong"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.hongkongairport.com/"
   - "https://www.mtr.com.hk/"
 quickFacts:
   - "Single main terminal with Midfield Concourse; most flights use gates via automated people mover"
   - "Cathay Pacific hub; also serves HK Express, Greater Bay Airlines, and many Asian carriers"
-  - "Immigration and security are combined; expect 20-40 min at peak morning and evening departures"
+  - "Check-in, security, and immigration are separate steps; expect 20-40 min at peak morning and evening departures"
   - "Free Wi-Fi is fast and reliable throughout; Octopus card works for all ground transport"
   - "No US-style TSA PreCheck; registered travelers can use e-Channel after enrollment"
 bentoTips:
@@ -26,9 +26,9 @@ bentoTips:
     detail: "Most Cathay and HK Express flights are in the main terminal; transfers under 45 min rarely need landside."
   - category: "food"
     label: "Food"
-    title: "Hit Tim Ho Wan or The Wing before security"
-    summary: "Grab dim sum or lounge access landside to skip the smaller airside options."
-    detail: "Airside choices shrink after 10 p.m.; The Wing and Plaza Premium are the only reliable 24-hour paid lounges."
+    title: "Hit Tim Ho Wan landside before security"
+    summary: "Grab dim sum in the public hall before clearing security."
+    detail: "Airside choices shrink after 10 p.m.; The Wing (airside, near Gates 1-4) and Plaza Premium are the only reliable 24-hour paid lounges."
   - category: "status"
     label: "Status"
     title: "Check Flight Status in the app first"
@@ -72,7 +72,7 @@ lounges:
   - **Main terminal ↔ Midfield:** Add **10–15 min** for APM plus walk.
   - **Separate tickets:** **2.5 h** minimum — re-clear immigration and security.
 - **Carriers:** Cathay Pacific hub; HK Express, Greater Bay Airlines, dense Asian network.
-- **Immigration + security:** Combined flow; **e-Channel** after enrollment for repeat visitors.
+- **Departure flow:** Check-in → security → immigration are **separate steps**; **e-Channel** after enrollment speeds repeat immigration.
 - **Wi‑Fi:** Free, fast, stable — no data cap for normal use.
 - **Water:** Refill fountains in departures near gates **1–20** and Midfield — still patchy at far Midfield gates; buy bottled if tight on time.
 - **Power:** Under-seat outlets in Satellite/Midfield seating rows; charge before meal peaks **07:00–10:00**.
@@ -98,7 +98,7 @@ lounges:
 - Common mistake: exiting immigration for a connection—re-entry requires new security screening.
 
 ## Lounges, Food & Amenities
-- The Wing (Cathay) and Plaza Premium offer the best paid day passes; food quality is consistent.
+- The Wing (Cathay, airside near Gates 1-4) and Plaza Premium offer the best paid day passes; food quality is consistent.
 - Landside Tim Ho Wan serves excellent dim sum before security; airside options are smaller and close earlier.
 - Free showers exist in both paid lounges; no free public showers after security.
 

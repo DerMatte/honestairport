@@ -3,7 +3,7 @@ iata: "RUH"
 name: "King Khalid International Airport"
 city: "Riyadh"
 country: "Saudi Arabia"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.riyadhairports.com/"
   - "https://www.gaca.gov.sa/"
@@ -22,8 +22,8 @@ bentoTips:
   - category: "terminal"
     label: "Terminal"
     title: "Confirm terminal on booking"
-    summary: "T5 and T3 are 1.2 km apart with no free shuttle between them."
-    detail: "Use the airport app or boarding pass to verify; taxi between terminals costs 25-40 SAR."
+    summary: "T5 and T3 are 1.2 km apart; free inter-terminal shuttle connects T5 with T1–T4."
+    detail: "Shuttle runs every 10–15 min; confirm your terminal on the boarding pass before heading out."
   - category: "food"
     label: "Food"
     title: "Eat before security in T5"
@@ -68,7 +68,7 @@ lounges:
 ## Quick Facts
 - Five terminals with T5 handling most Saudia international and domestic flights.
 - **MCT (T3/T5 change):** no airside link — taxi/shuttle + re-clear; budget **2 h+** minimum between terminals.
-- T1-T4 serve other carriers; walking between T3 and T5 takes 15-20 minutes.
+- Free inter-terminal shuttle connects T5 with T1–T4 (including T3) every 10–15 min; walking between T3 and T5 takes 15–20 minutes if you skip the bus.
 - Free Wi-Fi is reliable but requires a Saudi mobile number for full speed.
 - **Power:** Family rooms in T5 near gate 5 have outlets; older T1/T2 are sparse.
 - **Water:** Refill fountains in T5 post-security; buy landside in T5 departures before late-night flights.
@@ -92,8 +92,7 @@ lounges:
 
 ## Terminals & Navigation
 - T5 is the newest and most comfortable; T1 and T2 feel dated and have fewer seats.
-- Free inter-terminal buses run every 15 minutes but skip T5 after midnight.
-- Minimum connection time is 90 minutes domestic-to-international; allow 2 hours if changing terminals.
+- Free inter-terminal shuttle connects T5 with T1–T4 every 10–15 min; minimum connection time is 90 minutes domestic-to-international—allow 2 hours if changing terminals.
 
 ## Lounges, Food & Amenities
 - Saudia Alfursan Lounge in T5 is the best option for eligible passengers; food is above average.
