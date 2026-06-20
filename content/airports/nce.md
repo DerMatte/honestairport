@@ -3,7 +3,7 @@ iata: "NCE"
 name: "Nice Côte d'Azur Airport"
 city: "Nice"
 country: "France"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.nice.aeroport.fr/"
   - "https://www.nice.aeroport.fr/en/passengers/security"
@@ -11,7 +11,7 @@ quickFacts:
   - "Two terminals (T1 international/low-cost, T2 mainly Air France) connected by free shuttle"
   - "Serves 14M+ passengers; busiest routes to Paris, London, Amsterdam"
   - "Security wait times average 15-40 min; peaks 6-9am and 4-7pm"
-  - "Tram line 2 reaches city center in 20 min for €1.50"
+  - "Tram line 2 reaches city center in 20 min for €1.70"
   - "No US-style TSA PreCheck; EU registered traveler program available"
 bentoTips:
   - category: "timing"
@@ -90,7 +90,7 @@ lounges:
 - Charging stations and quiet zones are concentrated near gates A50-A70 in T2.
 
 ## Ground Transport & Parking
-- Tram line 2 from Terminal 1 is cheapest and fastest to city center (€1.50, 20 min).
+- Tram line 2 from Terminal 1 is cheapest and fastest to city center (€1.70, 20 min).
 - Taxis to Nice center cost €30-40; fixed rate to Cannes or Monaco available at rank.
 - Short-term parking P1/P2 is €3.50 per hour; long-term P6 is €12 per day but requires shuttle.
 - Book valet or off-site parking in advance during July-August high season.

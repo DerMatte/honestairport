@@ -3,7 +3,7 @@ iata: "STN"
 name: "London Stansted Airport"
 city: "London"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.stanstedairport.com/"
   - "https://www.stanstedairport.com/security"
@@ -11,7 +11,7 @@ quickFacts:
   - "Single terminal serving 25+ million passengers, dominated by Ryanair"
   - "Security queues frequently exceed 45 minutes during morning and evening peaks"
   - "Stansted Express train reaches London Liverpool Street in 47 minutes"
-  - "No airside connection between gates; all movement is landside"
+  - "Gates connected airside via Stansted Airport Transit System"
   - "Ryanair and easyJet account for over 85% of flights"
 bentoTips:
   - category: "timing"
@@ -21,9 +21,9 @@ bentoTips:
     detail: "Security bottlenecks hit hardest 05:30-09:00 and 17:00-21:00."
   - category: "terminal"
     label: "Terminal"
-    title: "Stay landside until boarding"
-    summary: "All gates require a return through security if you leave."
-    detail: "No airside walkway between zones; plan accordingly."
+    title: "Use the airside transit system"
+    summary: "Gates are linked after security via the Stansted Airport Transit System."
+    detail: "Leaving airside requires full re-screening to return."
   - category: "food"
     label: "Food"
     title: "Eat before security"
@@ -35,8 +35,9 @@ bentoTips:
     summary: "Use the official Stansted app for live gate and queue data."
     detail: "Avoid third-party sites that lag during disruptions."
 lounges:
-  - name: "Escape Lounge"
+  - name: "Essence by Escape Lounges"
     terminal: "Main Terminal"
+    zone: "international"
     access:
       - "Priority Pass"
       - "paid entry"
@@ -45,7 +46,7 @@ lounges:
     bestFor:
       - "Food"
     verdict: "worth-it"
-    summary: "The landside Escape Lounge offers better value with hot food than the overpriced airside options."
+    summary: "Airside lounge near Gates 1-19 with better value than most gate-area food options."
   - name: "Airside Lounge 1"
     terminal: "Main Terminal"
     zone: "international"
@@ -60,7 +61,7 @@ lounges:
 
 # STN Airport Guide
 
-> Stansted rewards travelers who treat it like a Ryanair bus station: arrive early, stay landside, and move fast.
+> Stansted rewards travelers who treat it like a Ryanair bus station: arrive early, use the airside transit system, and move fast.
 
 ## Quick Facts
 - One terminal, two security halls; Ryanair dominates every gate.
@@ -90,12 +91,12 @@ lounges:
 ## Terminals & Navigation
 - Everything happens in one building; follow purple signs for departures and green for arrivals.
 - Walking time from security to farthest gate is 12-15 minutes; allow extra if you need to clear immigration first.
-- No internal train or people mover—flat walking only.
+- Gates are connected airside via the Stansted Airport Transit System.
 
 ## Lounges, Food & Amenities
-- The Escape Lounge landside offers better value than the two airside options and includes hot food.
+- Essence by Escape Lounges (airside, near Gates 1-19) offers better value than most gate-area food options; the former landside Escape Lounge is closed.
 - For actual meals, the landside food court (Pret, Itsu, Tortilla) beats the overpriced airside branches.
-- Quietest seating is on the upper level near the observation deck, open 24 hours.
+- Quietest seating is on the upper level near check-in; no official public observation deck inside the terminal.
 
 ## Ground Transport & Parking
 - Stansted Express is fastest to central London; buy return tickets for the lowest per-trip cost.

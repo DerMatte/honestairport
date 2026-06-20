@@ -3,7 +3,7 @@ iata: "HEL"
 name: "Helsinki Airport"
 city: "Helsinki"
 country: "Finland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.finavia.fi/en/helsinki-airport"
   - "https://www.finavia.fi/en/helsinki-airport/security"
@@ -29,9 +29,9 @@ bentoTips:
     detail: "Non-Schengen flights require extra passport control—factor 10 minutes."
   - category: "food"
     label: "Food"
-    title: "Eat at Kitchen & Co"
-    summary: "Grab Nordic salmon or reindeer at gate 30-35 before security lines form."
-    detail: "Open 05:00-22:00; cheaper and faster than airside cafés."
+    title: "Eat at Tori Kitchen & Cafe"
+    summary: "Grab Nordic salmon or reindeer airside near gates 22-26."
+    detail: "Open 05:00-22:00; cheaper and faster than other airside cafés."
   - category: "status"
     label: "Status"
     title: "Use Finavia app"
@@ -95,12 +95,12 @@ lounges:
 - Non-Schengen passengers can use the tax-refund machines immediately after security to skip the queue at departures.
 
 ## Terminals & Navigation
-- Everything is under one roof; follow overhead signs for Schengen (gates 1-29) or non-Schengen (gates 30-55).
+- Everything is under one roof; follow overhead signs for Schengen (gates 5-36) or non-Schengen (gates 37-55).
 - Walking time from security to farthest gate is 12-14 minutes with moving walkways.
 - Buses to remote stands depart from the lower level; allow an extra 10 minutes.
 
 ## Lounges, Food & Amenities
-- Kitchen & Co (pre-security) offers the best value salmon plates and quick service.
+- Tori Kitchen & Cafe (airside, near gates 22-26) offers the best value salmon plates and quick service.
 - Olo Bar airside serves excellent Finnish craft beer and small plates with runway views.
 - The Finnair Lounge (non-Schengen) is solid for oneworld Sapphire and above; buffet is replenished frequently.
 - Free charging tables and quiet seating are scattered near gates 20-25.

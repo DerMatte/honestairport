@@ -3,7 +3,7 @@ iata: "MAD"
 name: "Adolfo Suárez Madrid–Barajas Airport"
 city: "Madrid"
 country: "Spain"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.aena.es/en/madrid-barajas.html"
   - "https://www.aena.es/en/passengers/security.html"
@@ -62,7 +62,7 @@ lounges:
 - Four passenger terminals; T4/T4S handle ~70 % of long-haul traffic.
 - **MCT (same ticket, practical floor):**
   - **T4 ↔ T4S (Iberia):** **60 min** floor — PTS train adds **12 min**; **75 min** safer.
-  - **T1–T3 ↔ T4:** free AENA bus — budget **90 min** minimum, **2 h** in peaks.
+  - **T1–T3 ↔ T4:** free AENA bus **landside** — budget **90 min** minimum, **2 h** in peaks; re-clear security on arrival.
   - **Separate tickets:** **3 h+** landside with baggage reclaim.
 - Iberia hub; oneworld members use T4, most low-cost carriers use T1–T3.
 - Free AENA shuttle bus runs 24/7 between all terminals every 10–15 min.
@@ -80,15 +80,15 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Download the free AENA app and enable push notifications for real-time gate and bus updates.
 - If connecting from T1–T3 to T4, take the free bus rather than walking; it stops directly at the T4 departures level.
-- T4 has free showers in the T4S satellite (airside, near gates S1–S4); bring your own towel.
+- T4 has paid showers in the T4S satellite (airside, near gates S1–S4); no free public showers.
 - Renfe cercanías tickets bought at machines are €2.60 to Atocha; avoid taxi touts inside arrivals.
 - For early flights, the 24-hour McDonald’s in T4 landside is the only reliable hot food after midnight.
 - T4 has quiet seating on the upper level near the Iberia VIP lounge entrance—rarely crowded.
-- If your flight is delayed, the free AENA bus lets you move to T1–T3 for cheaper food without re-clearing security.
+- If your flight is delayed, the free AENA bus lets you move to T1–T3 for cheaper food — but you must exit airside and re-clear security.
 
 ## Terminals & Navigation
 - T4 and T4S are linked by an automatic train (3 min) after security; allow 12 min total.
-- T1–T3 are clustered; walking between them takes 8–12 min via covered walkways.
+- T1–T3 are clustered and connected by covered walkways; **T1–T3 and T4/T4S are not connected airside** — use the free AENA bus landside and re-clear security.
 - Common mistake: arriving at T1 for an Iberia flight—confirm terminal on booking or AENA app.
 
 ## Lounges, Food & Amenities
@@ -98,7 +98,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Metro Line 8: €3 to Nuevos Ministerios, 25 min; runs 6 a.m.–1:30 a.m.
-- Taxi flat rate to city center is €30; avoid during rush hour (7:30–9:30 a.m.).
+- Taxi flat rate to city center (inside M-30) is €33 (from Jan 2026); avoid during rush hour (7:30–9:30 a.m.).
 - Long-term parking P1–P4 costs €18–22/day; reserve online for 10 % discount.
 
 ## Official Sources

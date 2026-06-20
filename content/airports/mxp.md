@@ -3,7 +3,7 @@ iata: "MXP"
 name: "Milan Malpensa Airport"
 city: "Milan"
 country: "Italy"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.milanomalpensa-airport.com/en/"
   - "https://www.milanomalpensa-airport.com/en/passengers/security"
@@ -91,7 +91,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Malpensa Express (red line) is best for Centrale; blue line for Cadorna.
-- Taxi flat rate to Milan center is €95; avoid unofficial drivers.
+- Taxi flat rate to Milan center is €114; avoid unofficial drivers.
 - Short-term parking P1/P2 costs €3.50/h; long-term P5/P6 is €12/day.
 - Bus to Milan (Autostradale) departs every 20 min; €10 cash only.
 

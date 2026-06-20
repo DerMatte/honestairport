@@ -3,12 +3,13 @@ iata: "VIE"
 name: "Vienna International Airport"
 city: "Vienna"
 country: "Austria"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.viennaairport.com/"
+  - "https://www.viennaairport.com/en/passengers/arrival__departure/transfer"
   - "https://www.viennaairport.com/en/passengers/arrival-departure/security"
 quickFacts:
-  - "Single terminal building with Piers B, C, D, G"
+  - "Single terminal building with Piers B, C, D, F (Schengen) and G (non-Schengen)"
   - "Hub for Austrian Airlines and Eurowings Europe"
   - "CAT express train reaches city center in 16 minutes"
   - "Security opens 2.5 hours before departure"
@@ -36,7 +37,7 @@ bentoTips:
     detail: "Works offline once downloaded; essential during winter weather disruptions."
 lounges:
   - name: "Austrian Airlines Lounge"
-    terminal: "Pier C"
+    terminal: "Pier G"
     zone: "non-Schengen"
     access:
       - "€39 day pass"
@@ -49,7 +50,7 @@ lounges:
       - "Relaxation"
       - "Showers"
     verdict: "worth-it"
-    summary: "The only paid lounge worth considering at VIE thanks to real food and working showers for €39."
+    summary: "The main non-Schengen lounge with hot food and showers; day pass around €39 when eligible."
   - name: "Austrian Airlines Lounge"
     terminal: "Pier B"
     zone: "Schengen"
@@ -59,7 +60,7 @@ lounges:
     bestFor:
       - "Work"
     verdict: "depends"
-    summary: "Fine if you already have free access via status or ticket, otherwise skip in favor of Pier C."
+    summary: "Fine if you already have free access via status or ticket; Schengen-side option for short connections."
 ---
 
 # VIE Airport Guide
@@ -67,8 +68,8 @@ lounges:
 > One terminal, fast security, and a 16-minute train ride make VIE one of Europe's least stressful major airports when you know the shortcuts.
 
 ## Quick Facts
-- Single terminal complex with Piers B, C, D, G; all check-in and baggage claim in one building.
-- **MCT (same ticket):** **45 min** Schengen–Schengen floor; **60 min** with non-Schengen passport control at Pier C/G.
+- Single terminal complex with Piers **B, C, D, F** (Schengen) and **G** (non-Schengen); all check-in and baggage claim in one building.
+- **MCT (same ticket):** **45 min** Schengen–Schengen floor; **60 min** with non-Schengen passport control at Pier G.
 - Austrian Airlines operates the majority of long-haul and connecting flights.
 - CAT train (€14.90) departs every 30 minutes and reaches Wien Mitte in 16 minutes.
 - Security is located after check-in; boarding passes required to enter.
@@ -93,13 +94,13 @@ lounges:
 - Charge devices at the charging tables near gate D21; they are rarely crowded.
 
 ## Terminals & Navigation
-- All flights use the same terminal; follow yellow signs for Piers B/C (Schengen) or D/G (non-Schengen).
+- Follow yellow signs for Piers **B/C/D/F** (Schengen) or **G** (non-Schengen).
 - Security to farthest gate (G) takes 20 minutes at normal walking pace.
 - Moving walkways run only in one direction; reverse them only during major disruptions.
 - Passport control for arrivals is fast except when multiple wide-body flights land together.
 
 ## Lounges, Food & Amenities
-- The Austrian Airlines Lounge in Pier C is the best paid option (€39 day pass) with hot food and showers.
+- The Austrian Airlines Lounge in **Pier G** is the main non-Schengen option (€39 day pass when eligible) with hot food and showers.
 - Skip the overpriced airside cafés; the only solid choice is the small market before security.
 - Quietest seating is the row of benches near gate C39 overlooking the apron.
 - Showers are available in the paid lounges only; no free public showers exist.

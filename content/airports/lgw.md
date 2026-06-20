@@ -3,7 +3,7 @@ iata: "LGW"
 name: "London Gatwick Airport"
 city: "London"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.gatwickairport.com/"
   - "https://www.gatwickairport.com/at-the-airport/security"
@@ -83,7 +83,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Book the free North Terminal short-stay car park and walk to the terminal if your flight is from South; the shuttle is often quicker than circling for South spaces.
-- Use the free shower in the North Terminal arrivals (level 1) after a red-eye; it’s rarely busy.
+- Paid showers are available in lounges and at the Sofitel Arrive & Refresh; no free public showers.
 - If you have a long layover, take the free shuttle to the opposite terminal for better food and seating, then return.
 - Thameslink trains to central London are £3-4 cheaper than Gatwick Express and only 8 minutes slower.
 - The Premier Inn next to the station offers day rooms from £49 if you need a nap between flights.

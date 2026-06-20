@@ -3,28 +3,28 @@ iata: "DUB"
 name: "Dublin Airport"
 city: "Dublin"
 country: "Ireland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.dublinairport.com/"
   - "https://www.dublinairport.com/security"
   - "https://www.dublinairport.com/at-the-airport/facilities/wifi-printing-services"
   - "https://www.dublinairport.com/at-the-airport/facilities/drinking-water-stations"
 quickFacts:
-  - "Two terminals (T1 domestic/short-haul, T2 long-haul) connected by covered walkway"
+  - "Two terminals (T1 short-haul/LCC, T2 Aer Lingus/long-haul/US) linked airside after security"
   - "Aer Lingus hub; Ryanair primary base"
   - "Security wait times often 15-40 min; online check-in mandatory for most carriers"
-  - "No US preclearance; all US flights require full Irish exit screening"
+  - "US Preclearance operates in T2 for eligible US-bound flights"
   - "AirCoach and 747 bus run 24/7 to city centre (€8-10)"
 bentoTips:
   - category: "timing"
     label: "Timing"
     title: "Arrive 2.5 h early"
-    summary: "Security peaks 05:00-08:00 and 16:00-19:00; add 30 min buffer."
-    detail: "T2 US-bound flights add another 20 min on average."
+    summary: "Reach security no later than 90 min before departure; add time for T2 US Preclearance."
+    detail: "T2 US-bound flights with Preclearance add another 20 min on average."
   - category: "terminal"
     label: "Terminal"
     title: "Use T2 for US flights"
-    summary: "T2 handles all Aer Lingus long-haul and most US departures."
+    summary: "T2 handles Aer Lingus long-haul and US flights with Preclearance."
     detail: "T1 is faster for Ryanair and short-haul but has fewer food options after security."
   - category: "food"
     label: "Food"
@@ -66,11 +66,11 @@ lounges:
 > Dublin Airport is compact but security and US-bound screening create predictable bottlenecks; this guide shows exactly where to save time.
 
 ## Quick Facts
-- **Terminals:** T1 (Ryanair, easyJet, most short-haul) and T2 (Aer Lingus, long-haul, all US flights) linked by **8-min** covered walkway — both require separate security if you switch terminals airside.
+- **Terminals:** T1 (Ryanair, easyJet, most short-haul/LCC) and T2 (Aer Lingus, long-haul, US flights with Preclearance) linked **airside after security** via an **8-min** covered walkway.
 - **MCT (same ticket, practical floor):**
   - **Same terminal, Schengen/UK short-haul:** **60 min** floor, **75 min** comfortable.
-  - **T1 ↔ T2 connection (one ticket):** **90 min** floor — exit/re-enter security; walkway is fast, queues are not.
-  - **US-bound departures (T2):** Add **20–30 min** for secondary screening after main security.
+  - **T1 ↔ T2 connection (one ticket):** **75 min** floor — passport control if changing zones; airside walkway is fast.
+  - **US-bound departures (T2, Preclearance):** Add **20–30 min** for US immigration and security screening.
   - **Separate tickets:** **2.5–3 h** minimum (immigration, bags, re-check).
 - **Wi‑Fi:** Free unlimited **Dublin Airport Wi-Fi** — no registration ([DAA Wi-Fi](https://www.dublinairport.com/at-the-airport/facilities/wifi-printing-services)); can slow during morning banks.
 - **Water:** **27** free refill stations landside and airside in both terminals ([DAA water stations](https://www.dublinairport.com/at-the-airport/facilities/drinking-water-stations)) — bring an empty bottle.
@@ -81,20 +81,20 @@ lounges:
 - Online check-in and bag drop 24 h ahead; arrive with boarding pass on phone.
 - Fast-track (€12) worth it only on US flights or when app shows >30 min wait.
 - Liquids in 100 ml clear bag strictly enforced; no exceptions at either terminal.
-- US-bound passengers face secondary screening after regular security; keep laptop and liquids easily accessible.
+- US-bound passengers with Preclearance clear US immigration and customs in T2 before departure; keep documents and carry-on items accessible.
 
 ## Best Airport Tricks & Hacks
 - Download the official Dublin Airport app for live security cameras and bus times.
-- If connecting from T1 to T2, exit landside and re-enter T2; often faster than the walkway during peaks.
+- If connecting from T1 to T2, use the airside walkway after security; allow time for passport control if changing zones.
 - The 747 bus stops at both terminals and runs every 10-15 min; buy ticket on phone to skip queue.
 - T2 has a quiet seating area on the mezzanine level above the main concourse after security.
 - Bring a refillable bottle — **27** automatic refill stations marked on the airport map (both terminals, pre- and post-security).
 - Avoid the short-stay car park; use Express Park & Ride for stays over 3 h.
 
 ## Terminals & Navigation
-- T1: Ryanair, easyJet, most short-haul. Security usually quicker but food limited.
-- T2: Aer Lingus, long-haul, all US flights. Larger but more crowded.
-- Walking time between terminals landside is 12 min; airside 8 min via moving walkway.
+- T1: Ryanair, easyJet, most short-haul/LCC. Security usually quicker but food limited.
+- T2: Aer Lingus, long-haul, US flights with Preclearance. Larger but more crowded.
+- Walking time between terminals landside is 12 min; airside 8 min via moving walkway after security.
 - Gates in T2 are spread out; allow 15 min from security to farthest gates.
 
 ## Lounges, Food & Amenities

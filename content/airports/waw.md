@@ -3,7 +3,7 @@ iata: "WAW"
 name: "Warsaw Chopin Airport"
 city: "Warsaw"
 country: "Poland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.chopinairport.pl/en"
   - "https://www.chopinairport.pl/en/passenger/security"
@@ -64,7 +64,7 @@ lounges:
 
 ## Quick Facts
 - Single terminal with Piers A (Schengen) and B (non-Schengen)
-- **MCT (same ticket):** **45 min** Schengen–Schengen; **60 min** A↔B with passport control and possible re-screen.
+- **MCT (same ticket):** **45 min** Schengen–Schengen; **60 min** A↔B with passport control only (no full re-screening on through ticket).
 - LOT Polish Airlines hub with Star Alliance priority
 - SKM rail reaches city center in 20 min for 4.40 PLN
 - All non-Schengen flights require passport control after security
@@ -90,7 +90,7 @@ lounges:
 
 ## Terminals & Navigation
 - One building only; Piers A and B are connected post-security by a short walkway.
-- Schengen to non-Schengen connections require full re-screening—allow 45 min minimum.
+- Schengen to non-Schengen connections require passport control only on through tickets — allow 45 min minimum.
 - Walking time from check-in to farthest gate is under 12 min.
 
 ## Lounges, Food & Amenities

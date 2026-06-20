@@ -3,7 +3,7 @@ iata: "FCO"
 name: "Leonardo da Vinci–Fiumicino Airport"
 city: "Rome"
 country: "Italy"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.adr.it/fiumicino"
   - "https://www.adr.it/en/fiumicino/security"
@@ -104,7 +104,7 @@ lounges:
 - Leonardo Express train leaves every 15 min from T3 basement; 32 min to Termini, €14 one-way.
 - Terravision or SIT buses are cheaper (€7-8) but take 45-60 min and stop at multiple hotels.
 - Short-term parking (P1-P4) costs €5 per hour; long-term P5-P7 is €12 per day if booked online.
-- Taxi flat rate to central Rome is €48 (fixed, includes luggage); avoid touts outside arrivals.
+- Taxi flat rate to central Rome (within Aurelian Walls) is €55 (fixed, includes luggage); avoid touts outside arrivals.
 
 ## Official Sources
 - https://www.adr.it/fiumicino

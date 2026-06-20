@@ -3,14 +3,14 @@ iata: "BUD"
 name: "Budapest Ferenc Liszt International Airport"
 city: "Budapest"
 country: "Hungary"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.bud.hu/"
   - "https://www.bud.hu/en/passengers/security"
 quickFacts:
   - "Terminals 2A (Schengen) and 2B (non-Schengen) linked by 5-minute walkway"
   - "Primary base for Wizz Air and Ryanair"
-  - "Bus 100E reaches Deák Ferenc tér in 35 minutes for €2.50"
+  - "Bus 100E reaches Deák Ferenc tér in 35 minutes for 2500 HUF"
   - "Security averages 20 minutes; morning peaks hit 45+"
   - "Schengen MCT after shared security: 30 min floor; 2A↔2B adds 5 min walk"
   - "Free Wi-Fi (BUD Free); power tables between security and gates"
@@ -110,7 +110,7 @@ lounges:
 - Free charging tables line the windows between security and gates.
 
 ## Ground Transport & Parking
-- 100E bus (€2.50, every 15-20 min) beats taxis in traffic and cost.
+- 100E bus (2500 HUF, every 15-20 min) beats taxis in traffic and cost.
 - Official taxi rank uses fixed fares; Budapest city center is €25-30.
 - Short-term parking (€3/hour) sits directly outside departures; long-term lots require a free shuttle.
 - Train to Nyugati station exists but requires a bus transfer and is rarely faster than 100E.

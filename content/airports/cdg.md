@@ -3,7 +3,7 @@ iata: "CDG"
 name: "Paris Charles de Gaulle Airport"
 city: "Paris"
 country: "France"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.parisaeroport.fr/en"
   - "https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security"
@@ -14,7 +14,7 @@ quickFacts:
   - "Air France/SkyTeam hub in T2; plan 2.5–3 h for cross-terminal connections"
   - "CDGVAL links T1, T2, T3 every 4 min; N1/N2 buses within T2"
   - "EES biometric registration adds 10–15 min for first-time non-EU entries"
-  - "RER B to Paris 35–50 min (~€11.45); avoid rush hour if possible"
+  - "RER B to Paris 35–50 min (~€14); avoid rush hour if possible"
   - "Security peaks 06:00–10:00 and 16:00–20:00 at T2E and T1"
 bentoTips:
   - category: "timing"
@@ -101,9 +101,9 @@ lounges:
 ## Best Airport Tricks & Hacks
 - **Follow yellow "Correspondance / Transfer" signs** — purple is not CDG's color (that's LHR); yellow is consistent.
 - **2A/2B → 2E/2F:** Take **N1/N2 bus** instead of walking when time is tight — walking can exceed **15–20 min**.
-- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common forum-reported misconnect; pad **20+ min**.
+- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common misconnect; pad **20+ min**.
 - **Long layover hack:** With **90+ min** and wrong-terminal security queue, some travelers exit and re-enter via a quieter terminal — only with time and valid docs.
-- **RER B tickets:** **€11.45** at airport machines — buy **return in Paris** to skip airport queues on the way back.
+- **RER B tickets:** **€14** (Ticket Paris Région <> Aéroports, from Jan 2026) at airport machines — buy **return in Paris** to skip airport queues on the way back.
 - **Quiet seating:** Upper level **2E Hall L** near gates **50–60** post-security — less retail traffic.
 - **Avoid Terminal 3** unless your ticket requires it — minimal amenities, slow security.
 - **Terminal renumbering (from Sep 2026):** ADP is renaming T2 sub-terminals — verify signage matches boarding pass during transition.
@@ -127,10 +127,10 @@ lounges:
 - **Overrated:** Sit-down airside chains at full menu price during peak.
 - **2026 note:** Re-check **Sep 2026 terminal renumbering** at CDG — signage may not match older boarding passes.
 - **Power:** 2E upper levels have charging clusters — grab after security.
-- **Pharmacy:** Boots/WHSmith in T2 for adapters and travel-size after security.
+- **Pharmacy:** French pharmacies (pharmacie) in T2 for adapters and travel-size after security.
 
 ## Ground Transport & Parking
-- **Best value:** **RER B** to central Paris — **35–50 min**, **€11.45** — avoid **07:00–09:00** and **17:00–19:00** crush.
+- **Best value:** **RER B** to central Paris — **35–50 min**, **€14** (Ticket Paris Région <> Aéroports, from Jan 2026) — avoid **07:00–09:00** and **17:00–19:00** crush.
 - **Roissybus:** Alternative to Opéra — check current schedule/fare.
 - **Taxi:** Official rank only — **€55–65** flat to central Paris; regulated, beats unlicensed touts.
 - **Uber at arrivals:** Often slower than official taxi queue — taxi rank is the insider pick.

@@ -3,7 +3,7 @@ iata: "ATH"
 name: "Athens International Airport Eleftherios Venizelos"
 city: "Athens"
 country: "Greece"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.aia.gr/"
   - "https://www.aia.gr/en/passenger/ground-transportation"
@@ -11,7 +11,7 @@ quickFacts:
   - "Single terminal serving all flights; easy navigation"
   - "Major hub for Aegean Airlines and easyJet"
   - "Metro Line 3 reaches Syntagma in ~40 min; dedicated airport ticket €9 one-way"
-  - "Aegean/Star Alliance hub; Schengen A gates vs non-Schengen B gates in one building"
+  - "Aegean/Star Alliance hub; non-Schengen A gates vs Schengen B gates in one building"
   - "Security lines peak 05:00-08:00 and 18:00-21:00"
   - "Free unlimited Wi-Fi throughout"
 bentoTips:
@@ -72,7 +72,7 @@ lounges:
 - Single terminal with all check-in, security, and gates in one building.
 - Aegean Airlines dominates; Star Alliance lounge access available.
 - Metro Line 3 to Syntagma takes ~40 minutes; airport-only ticket is €9 (standard city tickets do not cover the airport segment).
-- Schengen (A) and non-Schengen (B) gates are clearly separated but connected airside.
+- Non-Schengen (A) and Schengen (B) gates are clearly separated but connected airside.
 - Free Wi-Fi is reliable and fast; no login required after first use.
 - Power posts under the escalators near the metro entrance are the most reliable charging spots.
 - Water fountains are sparse airside—fill before security or buy at landside kiosks.
@@ -93,7 +93,7 @@ lounges:
 - Skip the flat-rate taxi (~€40 daytime per official tariff) and take the X95 bus (~€5.50–6) if metro is delayed or after midnight when Line 3 stops.
 
 ## Terminals & Navigation
-Single terminal with check-in on level 1, security on level 2, and gates split into A (Schengen) and B (non-Schengen). Walking time from security to farthest gate is 10-12 minutes. Follow overhead signs; moving walkways run only toward the B gates.
+Single terminal with check-in on level 1, security on level 2, and gates split into A (non-Schengen) and B (Schengen). Walking time from security to farthest gate is 10-12 minutes. Follow overhead signs; moving walkways run in the underground link between Main and Satellite.
 - **Connections:** Same-terminal transfers on one ticket usually need 45–60 minutes if crossing Schengen/non-Schengen (passport control); Schengen-to-Schengen can work in ~30 minutes if gates cooperate—Aegean protects single-ticket connections but summer banks get tight.
 
 ## Lounges, Food & Amenities

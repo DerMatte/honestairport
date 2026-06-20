@@ -3,7 +3,7 @@ iata: "OSL"
 name: "Oslo Airport, Gardermoen"
 city: "Oslo"
 country: "Norway"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://avinor.no/en/osl/oslo-airport/"
   - "https://avinor.no/en/security/"
@@ -100,7 +100,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Airport Express train is fastest and most reliable to Oslo; buy return tickets for a discount.
-- Vy regional trains are cheaper but slower and require a change at Oslo S during peak hours.
+- Vy regional trains run directly to Oslo S and are cheaper than the Airport Express; journey time is similar.
 - Short-term parking directly outside arrivals costs 80 NOK for the first 30 minutes; use the P1 or P2 garages for longer stays.
 - Taxi ranks are well organized but expensive—book via the app to avoid overcharging.
 

@@ -3,7 +3,7 @@ iata: "GLA"
 name: "Glasgow Airport"
 city: "Glasgow"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.glasgowairport.com/"
   - "https://www.gov.uk/guidance/airport-security"
@@ -12,7 +12,7 @@ quickFacts:
   - "Primary base for easyJet and Loganair"
   - "30 minutes by taxi to Glasgow city centre"
   - "No airside train link; bus or taxi only"
-  - "Security closes at 21:00 for last departures"
+  - "Airport operates 24/7; security opens for scheduled flights up to 3 h before departure"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -28,7 +28,7 @@ bentoTips:
     label: "Food"
     title: "Use the mezzanine before security"
     summary: "The best coffee and seating is upstairs in the departures hall."
-    detail: "Airside options are limited and close early; eat landside if your flight is after 20:00."
+    detail: "Airside options are limited late evening; eat landside if your flight is after 20:00."
   - category: "status"
     label: "Status"
     title: "Check the app for gate changes"
@@ -54,9 +54,9 @@ lounges:
 - **Single terminal** — all domestic and international flights under one roof.
 - **MCT (same ticket):** **45 min** floor for same-zone connections; **60 min** if changing passport areas — walks are short but morning peaks kill queues.
 - **Carriers:** easyJet, British Airways, Ryanair, Loganair.
-- **Security hours:** **04:00–21:00**; last international departures usually **~22:30**.
+- **Security:** Opens for scheduled flights up to **3 h** before departure; airport operates **24/7**.
 - **Wi‑Fi:** Free with captive portal — adequate for gate alerts.
-- **Water:** Refill points landside near departures mezzanine; airside fountains limited and close with shops after **21:00**.
+- **Water:** Refill points landside near departures mezzanine; airside fountains limited near some gates.
 - **Power:** Upper-level seating between gates **C–D** has the best outlet density.
 - **No rail at airport** — **First Bus 500** or taxi to city; Paisley Gilmour Street via bus link.
 
@@ -84,7 +84,7 @@ lounges:
 ## Lounges, Food & Amenities
 - The Escape Lounge is small and often crowded; skip it unless you have a long delay.
 - Best coffee and seating is the mezzanine café landside before security.
-- Airside food is limited to a Wetherspoons and a sandwich bar that close by 21:00.
+- Airside food is limited to a Wetherspoons and a sandwich bar that close late evening.
 - Quietest seating is the row of chairs opposite gate A1.
 
 ## Ground Transport & Parking

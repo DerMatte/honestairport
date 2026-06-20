@@ -3,7 +3,7 @@ iata: "CPH"
 name: "Copenhagen Airport, Kastrup"
 city: "Copenhagen"
 country: "Denmark"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.cph.dk/en"
   - "https://www.cph.dk/en/security"
@@ -85,7 +85,6 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Download the official CPH app; it pushes gate numbers 15–20 min before the boards.
 - If connecting to a non-Schengen flight, stay airside—re-clearing adds 25 min.
-- Free showers are located near gate C30; bring your own towel or buy one at the kiosk.
 - Buy DSB train ticket from machines before the platform; contactless works but machines are faster.
 - Quiet seating with charging is upstairs in the transfer area between B and C.
 - SAS lounge (for eligible passengers) is past security in B; it has better food than the paid lounges.

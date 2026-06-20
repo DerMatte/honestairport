@@ -3,7 +3,7 @@ iata: "EDI"
 name: "Edinburgh Airport"
 city: "Edinburgh"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.edinburghairport.com/"
   - "https://www.edinburghairport.com/at-the-airport/security"
@@ -73,7 +73,7 @@ lounges:
 - Download the Edinburgh Airport app for live security wait times and gate alerts.
 - Landside food court (before security) stays open later than most airside outlets.
 - Use the free “drop-off” zone for 10 minutes if someone is collecting you; longer stays trigger charges.
-- Book the tram in advance via the airport site for a small discount and guaranteed seat.
+- Book tram tickets in advance only if buying 10+ tickets (10% discount); no standard individual pre-purchase discount.
 - If your flight is delayed, stay airside—re-entering requires full security again.
 - Priority security lanes are sold by some airlines at check-in; worth it only on peak mornings.
 - The multi-storey car park link bridge is covered and heated—use it in rain instead of the open walkway.
@@ -86,7 +86,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - No premium lounges worth the fee; the Escape Lounge is small and often crowded.
-- Best food is landside: Dishoom, The Scottish Market, or BrewDog.
+- Best food is landside: The Scottish Market or BrewDog.
 - Airside quietest seating is near gates 15–18 after 9pm.
 - Showers available in the Escape Lounge only; otherwise limited facilities.
 

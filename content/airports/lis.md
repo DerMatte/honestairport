@@ -3,14 +3,14 @@ iata: "LIS"
 name: "Humberto Delgado Airport"
 city: "Lisbon"
 country: "Portugal"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-20"
 sources:
   - "https://www.aeroportolisboa.pt/en/lis/home"
   - "https://www.ana.pt/en/lis/home"
 quickFacts:
   - "Single main terminal (T1) handles 95% of flights; T2 only for select low-cost carriers"
   - "TAP Air Portugal hub with fast connections in Schengen area"
-  - "Metro red line reaches city center in 20 minutes for €1.65"
+  - "Metro red line reaches city center in 20 minutes (€1.72 Zapping / €1.92 contactless / €1.90 single, from Jan 2026)"
   - "Security lines peak 6-9am and 4-7pm; average wait 25-40 minutes"
   - "Free Wi-Fi throughout; power outlets scarce near gates"
 bentoTips:
@@ -58,7 +58,7 @@ lounges:
 - One primary terminal (T1) for almost all flights; T2 serves only Ryanair and a few others.
 - **MCT (same ticket):** **45 min** Schengen–Schengen official; **60–75 min** with passport control or T2 involvement — don't cut it close.
 - TAP Air Portugal operates the majority of long-haul and Schengen connections.
-- Red-line metro to downtown in 20 minutes (€1.65); Aerobus is slower and more expensive.
+- Red-line metro to downtown in 20 minutes (€1.72 Zapping / €1.92 contactless / €1.90 single, from Jan 2026); Aerobus is slower and more expensive.
 - Security and immigration are combined; no separate PreCheck equivalent.
 - Free unlimited Wi-Fi; limited power outlets near most gates.
 - **Water:** Refill fountains post-security near gates 20 and 46 — bring an empty bottle.
