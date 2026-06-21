@@ -3,13 +3,13 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-21"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
   - "https://www.narita-airport.jp/en/security/"
 quickFacts:
-  - "Two terminals; Terminal 1 handles ANA, Terminal 2 handles JAL and most international carriers"
+  - "Three terminals (T1, T2, T3); T3 is LCC-only with no dedicated train station — use T2/3 station or walk from T2"
   - "Immigration and customs routinely take 45-90 minutes on arrival"
   - "JR Narita Express reaches Tokyo Station in 53 minutes"
   - "Free Wi-Fi is reliable but requires re-authentication every 2 hours"
@@ -27,8 +27,8 @@ bentoTips:
     detail: "Free shuttle between terminals takes 10 minutes; allow 25 minutes if carrying luggage."
   - category: "food"
     label: "Food & quiet"
-    title: "Ramen at Menya Musashi before security"
-    summary: "Terminal 2, 4F has the best bowl; eat before clearing immigration on departure."
+    title: "Ramen at Menya Kookai before security"
+    summary: "Terminal 2, 4F landside has a reliable tonkotsu bowl; eat before clearing immigration on departure."
     detail: "Post-security options are limited and crowded; avoid if your flight boards soon."
   - category: "status"
     label: "Live checks"
@@ -61,7 +61,7 @@ lounges:
 > Narita’s long immigration lines and distant terminals reward travelers who plan exact timing and movement rather than hoping for speed.
 
 ## Quick Facts
-- Two terminals connected by free shuttle bus every 15 minutes (10-minute ride).
+- **Three terminals:** T1 (ANA/Star Alliance), T2 (JAL/oneworld and most U.S. carriers), T3 (LCCs). **T3 has no train station** — use **Narita Airport Terminal 2·3 Station** or the T2↔T3 walkway (~5 min).
 - **MCT (same ticket, practical floor):**
   - **Same terminal** (T1↔T1 or T2↔T2): **60 min** floor — **75 min** if gates are far apart.
   - **T1 ↔ T2:** landside shuttle only — no airside link; budget **2 h+** including re-security and immigration if required.
@@ -96,7 +96,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - ANA Lounge in Terminal 1 is the strongest paid option; Priority Pass works at Terminal 2’s Plaza Premium.
-- Menya Musashi (Terminal 2, 4F) serves excellent tonkotsu ramen before security.
+- Menya Kookai (Terminal 2, 4F landside) serves reliable tonkotsu ramen before security.
 - Terminal 1’s 5F has the quietest seating with power outlets and minimal foot traffic.
 - Showers in Terminal 2 cost ¥1,100 for 30 minutes and include towels.
 

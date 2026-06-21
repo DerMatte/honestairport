@@ -3,16 +3,15 @@ iata: "LHR"
 name: "London Heathrow Airport"
 city: "London"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-21"
 sources:
   - "https://www.heathrow.com/"
-  - "https://www.heathrow.com/airport-guide/wifi-and-internet"
   - "https://www.heathrow.com/connecting-flights"
-  - "https://www.heathrow.com/airport-guide/security"
+  - "https://www.heathrow.com/at-the-airport/security-and-baggage/hand-baggage-and-liquids"
+  - "https://www.heathrow.com/airport-guide/wifi-and-internet"
   - "https://www.heathrow.com/transport-and-directions"
   - "https://tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"
   - "https://www.britishairways.com/information/airport-information/flight-connections"
-  - "https://news.aa.com/news/news-details/2025/Cleared-to-connect-American-Airlines-pilots-streamlined-security-program-in-collaboration-with-US-and-UK-governments-OPS-OTH-02/"
 quickFacts:
   - "4 active terminals (2, 3, 4, 5); not all are connected airside"
   - "BA hub in Terminal 5; Star Alliance heavy in Terminal 2"
@@ -85,14 +84,14 @@ lounges:
 - **Separate tickets:** BA recommends **at least 4 hours** — you must collect bags, change terminals landside, and check in again.
 - **Wi‑Fi:** Free `_Heathrow Wi-Fi`; registration required, sessions expire (re-login periodically) ([Heathrow Wi‑Fi](https://www.heathrow.com/airport-guide/wifi-and-internet)).
 - **Water:** Refill stations airside in T2, T3, and T5 — bring an empty bottle; Heathrow retail pricing on bottled water is steep.
-- **Liquids on connections:** In **Terminals 2, 3, and 5**, connecting passengers may keep **liquids up to 2 litres** and large electronics **inside** cabin baggage at connection security ([Heathrow connecting flights](https://www.heathrow.com/connecting-flights)). **Terminal 4** upgrades are ongoing — you may still need liquids in **100 ml** containers and electronics out; follow staff directions.
+- **Liquids on connections:** In **all terminals (T2, T3, T4, and T5)**, connecting passengers may keep **liquids up to 2 litres per container** and large electronics **inside** cabin baggage at connection security since **24 Jan 2026** ([Heathrow hand baggage & liquids](https://www.heathrow.com/at-the-airport/security-and-baggage/hand-baggage-and-liquids)).
 
 ## Security & Screening Tips
 - **Connection security is real:** Heathrow's official policy is that **all connecting passengers go through security again** at the departure terminal — budget queue time, not just walking time ([Heathrow connecting flights](https://www.heathrow.com/connecting-flights)).
 - **One Stop Security (OSS) pilot — narrow exception:** Select **US→LHR** inbound flights from **Atlanta (ATL)** and **Dallas/Fort Worth (DFW)** on participating carriers (American, British Airways, Delta, Virgin Atlantic) may connect **T3 or T5 international-to-international** without a second security check via dedicated airside coaches. This is a **limited pilot** — confirm eligibility with your airline; everyone else follows standard re-screening.
 - **Peak pain windows:** Early morning (roughly 06:30–09:30) and late afternoon/evening (16:00–19:00) are consistently slower; add buffer on Mondays and holiday peaks.
 - **Fast Track:** Paid lanes via the Heathrow app can help when your flight is soon and queues spike — prices vary by terminal/time (verify in app).
-- **Liquids at connection security:** In **T2/T3/T5**, liquids up to **2 litres** can stay in your bag; in **T4**, assume **100 ml** containers in a **1-litre clear bag** if staff ask you to remove liquids — follow on-site signage.
+- **Liquids at connection security:** All terminals now allow liquids **up to 2 litres per container** in cabin bags at connection security — follow on-site signage if staff ask you to remove items.
 - **Terminal 5** is usually smoother for BA-to-BA connections; **Terminals 2 and 3** can feel slower when multiple long-haul banks depart together.
 
 ## Best Airport Tricks & Hacks

@@ -3,10 +3,12 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-21"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
   - "https://www.flychicago.com/ohare/en/At-the-Airport/connecting-flights"
+  - "https://www.flychicago.com/ohare/myflight/security/Pages/TSA.aspx"
+  - "https://www.flychicago.com/ohare/ServicesAmenities/amenities/Pages/yoga.aspx"
   - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
 quickFacts:
   - "Four terminals: 1, 2, 3, and 5"
@@ -82,7 +84,7 @@ lounges:
 
 ## Security & Screening Tips
 - Enroll in CLEAR + TSA PreCheck; the combined lane at Terminal 1 is usually the fastest.
-- Avoid the main Terminal 3 checkpoint 5–7 p.m.; use the satellite checkpoint near Gate K8 instead.
+- Avoid the main Terminal 3 checkpoint 5–7 p.m.; try the **CP7/7A or CP8** side checkpoints on the landside departures level instead of queuing at the central hall.
 - International arrivals in Terminal 5: Global Entry kiosks cut wait times by 60–75 % on most days.
 - Peak congestion hits 6–9 a.m. and 3–8 p.m.; arrive at security no more than 75 minutes before departure if PreCheck.
 
@@ -104,7 +106,7 @@ lounges:
 - United Polaris Lounge (Terminal 1, near gate C18) is the only genuinely quiet paid option with good showers.
 - Garrett Popcorn in Terminal 3 (near gate H4) and Terminal 1 (near B8) is the best quick snack.
 - Tortas Frontera (Terminal 1, B8 and Terminal 3, K4) offers the highest-quality sit-down meal under $20.
-- The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
+- The **Yoga Room on Terminal 3 Rotunda Mezzanine** is free and open **6:00 a.m.–10:00 p.m.** daily ([Fly Chicago](https://www.flychicago.com/ohare/ServicesAmenities/amenities/Pages/yoga.aspx)).
 
 ## Ground Transport & Parking
 - Blue Line “L” train to downtown is $5 and runs 24/7; 45–55 minutes to the Loop.

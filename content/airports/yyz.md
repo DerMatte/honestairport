@@ -3,15 +3,17 @@ iata: "YYZ"
 name: "Toronto Pearson International Airport"
 city: "Toronto"
 country: "Canada"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-21"
 sources:
   - "https://www.torontopearson.com/"
+  - "https://www.torontopearson.com/en/transportation-and-parking/up-express"
   - "https://www.catsa-acsta.gc.ca/"
+  - "https://www.newswire.ca/news-releases/introducing-yyz-express-a-new-program-to-book-your-security-spot-in-line-ahead-of-time-814022199.html"
 quickFacts:
   - "Two terminals (T1 and T3) linked by free Link Train (5 min)"
   - "Air Canada hub; WestJet and Porter also major"
-  - "CATSA security; NEXUS and CLEAR available"
-  - "UP Express reaches Union Station in 25 minutes"
+  - "CATSA security; NEXUS available; YYZ Express for free virtual security queuing"
+  - "UP Express reaches Union Station in 28 minutes"
   - "Peak congestion 6-9 a.m. and 4-7 p.m."
 bentoTips:
   - category: "timing"
@@ -33,7 +35,7 @@ bentoTips:
     label: "Live checks"
     title: "Check CATSA wait times"
     summary: "Use the airport app before leaving home."
-    detail: "Lines can swing 15-60 minutes; NEXUS/CLEAR users skip the worst queues."
+    detail: "Lines can swing 15-60 minutes; NEXUS members and YYZ Express users skip the worst queues."
 lounges:
   - name: "Air Canada Maple Leaf Lounge"
     terminal: "Terminal 1"
@@ -81,15 +83,15 @@ lounges:
   - **T1 ↔ T3:** Link Train **5 min** + walk — budget **90 min** minimum; re-security usually not required on through-checked bags.
   - **Separate tickets:** **2.5 h+** with baggage reclaim.
 - Air Canada operates the majority of flights from T1; most others use T3.
-- CATSA manages security; NEXUS and CLEAR lanes exist in both terminals.
-- UP Express train departs every 15 minutes and reaches Union Station in 25 minutes.
+- CATSA manages security; **NEXUS** dedicated lanes exist in both terminals. **YYZ Express** offers free virtual security queuing — not CLEAR Plus membership lanes.
+- UP Express train departs every 15 minutes and reaches Union Station in **28 minutes** ($12.35 / $9.25 PRESTO).
 - Free Wi-Fi is reliable; cell service is strong throughout.
 - **Power:** Quiet zones near gates A22 and F22 have charging ports — grab early during Air Canada banks.
 - **Water:** Refill fountains post-security in T1 Concourse F and T3 near C32.
 
 ## Security & Screening Tips
 - Check the CATSA app or airport site for live wait times before departing home.
-- NEXUS and CLEAR members should head straight to their dedicated lanes in T1 or T3.
+- NEXUS members should head straight to their dedicated lanes in T1 or T3; book **YYZ Express** online for a free security time slot during peaks.
 - Avoid 6-9 a.m. and 4-7 p.m. if possible; those windows regularly exceed 40 minutes.
 - Liquids must still follow the 100 ml rule; no trusted-traveler exemption applies.
 
