@@ -3,18 +3,19 @@ iata: "CDG"
 name: "Paris Charles de Gaulle Airport"
 city: "Paris"
 country: "France"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-22"
 sources:
   - "https://www.parisaeroport.fr/en"
   - "https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security"
   - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/cdgval/"
-  - "https://www.ratp.fr/en"
+  - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/navette/"
+  - "https://www.ratp.fr/en/titres-et-tarifs/ticket-paris-region-aeroports"
 quickFacts:
   - "Terminals 1, 2A–2G, 3 — 2G is isolated; T2 sub-terminals often need buses"
   - "Air France/SkyTeam hub in T2; plan 2.5–3 h for cross-terminal connections"
   - "CDGVAL links T1, T2, T3 every 4 min; N1/N2 buses within T2"
   - "EES biometric registration adds 10–15 min for first-time non-EU entries"
-  - "RER B to Paris 35–50 min (~€11.45); avoid rush hour if possible"
+  - "RER B to Paris 35–50 min (~€14); avoid rush hour if possible"
   - "Security peaks 06:00–10:00 and 16:00–20:00 at T2E and T1"
 bentoTips:
   - category: "timing"
@@ -100,10 +101,10 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - **Follow yellow "Correspondance / Transfer" signs** — purple is not CDG's color (that's LHR); yellow is consistent.
-- **2A/2B → 2E/2F:** Take **N1/N2 bus** instead of walking when time is tight — walking can exceed **15–20 min**.
-- **2G schedule trap:** N2 runs on a **fixed schedule** — missing a shuttle is a common forum-reported misconnect; pad **20+ min**.
+- **2A/2B → 2E/2F:** Take the **N1** shuttle when walking is tight — walking can exceed **15–20 min**.
+- **2G schedule trap:** **N2** (2F ↔ 2G only) runs on a **fixed schedule** every **~8 min** (05:30–23:00) — missing a shuttle is a common misconnect; pad **20+ min** ([RATP N1/N2 shuttles](https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/navette/)).
 - **Long layover hack:** With **90+ min** and wrong-terminal security queue, some travelers exit and re-enter via a quieter terminal — only with time and valid docs.
-- **RER B tickets:** **€11.45** at airport machines — buy **return in Paris** to skip airport queues on the way back.
+- **RER B tickets:** **€14** (Paris Région <> Airports ticket from 1 Jan 2026) — load onto Navigo Easy or a phone wallet; buy **return in Paris** to skip airport queues on the way back ([RATP airport ticket](https://www.ratp.fr/en/titres-et-tarifs/ticket-paris-region-aeroports)).
 - **Quiet seating:** Upper level **2E Hall L** near gates **50–60** post-security — less retail traffic.
 - **Avoid Terminal 3** unless your ticket requires it — minimal amenities, slow security.
 - **Terminal renumbering (from Sep 2026):** ADP is renaming T2 sub-terminals — verify signage matches boarding pass during transition.
@@ -130,7 +131,7 @@ lounges:
 - **Pharmacy:** Boots/WHSmith in T2 for adapters and travel-size after security.
 
 ## Ground Transport & Parking
-- **Best value:** **RER B** to central Paris — **35–50 min**, **€11.45** — avoid **07:00–09:00** and **17:00–19:00** crush.
+- **Best value:** **RER B** to central Paris — **35–50 min**, **€14** — avoid **07:00–09:00** and **17:00–19:00** crush.
 - **Roissybus:** Alternative to Opéra — check current schedule/fare.
 - **Taxi:** Official rank only — **€55–65** flat to central Paris; regulated, beats unlicensed touts.
 - **Uber at arrivals:** Often slower than official taxi queue — taxi rank is the insider pick.
@@ -141,5 +142,6 @@ lounges:
 - [Paris Aéroport](https://www.parisaeroport.fr/en)
 - [Security wait times](https://www.parisaeroport.fr/en/passengers/preparing-your-trip/security)
 - [CDGVAL (RATP)](https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/cdgval/)
-- [RER B (RATP)](https://www.ratp.fr/en)
+- [Paris Région <> Airports ticket (RER B)](https://www.ratp.fr/en/titres-et-tarifs/ticket-paris-region-aeroports)
+- [N1/N2 terminal shuttles](https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/navette/)
 - Re-check sub-terminal assignment and EES readiness before every trip — 2G connections and Sep 2026 renumbering are active failure modes.

@@ -3,7 +3,7 @@ iata: "DEN"
 name: "Denver International Airport"
 city: "Denver"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-22"
 sources:
   - "https://www.flydenver.com/"
   - "https://www.flydenver.com/security"
@@ -85,7 +85,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the train at the far end of the terminal to grab a seat before crowds pile on.
 - **Checkpoint pick:** United → West Level 6; Southwest/Frontier → East Level 6 — saves backtracking to the wrong side.
-- If connecting from B to C, ride one stop to A then transfer—often faster than direct during peak.
+- If connecting from B to C, take the **direct** train to C — do not detour via A.
 - Grab a window seat on the train for the best view of the airfield and mountains.
 - Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
 - Download the flydenver app for real-time train and security wait times.
@@ -105,9 +105,9 @@ lounges:
 - Quietest seating is the upper level near the windows overlooking the tarmac.
 
 ## Ground Transport & Parking
-- RTD A Line to Union Station costs $10.50 and runs every 15–30 min; fastest public option.
+- RTD **Airport Day Pass** to Union Station costs **$10** and covers unlimited rides including the A Line ([RTD day pass](https://www.rtd-denver.com/fares-passes/passes-and-ticket-books/day-pass)).
 - Rideshares pick up on Level 5; expect 10–20 min wait during peak arrival banks.
-- Economy parking is $15/day with free shuttle every 10 min; garage is $32/day but closer.
+- Economy shuttle lots (Pikes Peak / Longs Peak) are **$10/day** with free 24/7 shuttle; East/West Economy Lots are **$17/day** — garage is **$35/day** but closer ([DEN parking](https://www.flydenver.com/parking)).
 - Snow delays hit the A Line hardest—have a backup rideshare ready in winter.
 
 ## Official Sources
