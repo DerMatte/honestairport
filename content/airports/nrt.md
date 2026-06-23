@@ -3,13 +3,15 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-23"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
   - "https://www.narita-airport.jp/en/security/"
+  - "https://japantravel.navitime.com/en/area/jp/guide/NTJnews0061-en/"
 quickFacts:
-  - "Two terminals; Terminal 1 handles ANA, Terminal 2 handles JAL and most international carriers"
+  - "Three terminals (T1, T2, T3); T3 has no train station — use shuttle to T2 for rail"
+  - "Terminal 1 handles ANA/Star Alliance; Terminal 2 handles JAL and most other international carriers"
   - "Immigration and customs routinely take 45-90 minutes on arrival"
   - "JR Narita Express reaches Tokyo Station in 53 minutes"
   - "Free Wi-Fi is reliable but requires re-authentication every 2 hours"
@@ -27,9 +29,9 @@ bentoTips:
     detail: "Free shuttle between terminals takes 10 minutes; allow 25 minutes if carrying luggage."
   - category: "food"
     label: "Food & quiet"
-    title: "Ramen at Menya Musashi before security"
-    summary: "Terminal 2, 4F has the best bowl; eat before clearing immigration on departure."
-    detail: "Post-security options are limited and crowded; avoid if your flight boards soon."
+    title: "Ramen at Menya Kookai (T2, 4F landside)"
+    summary: "Terminal 2 fourth floor has the best pre-security ramen bowl at NRT."
+    detail: "Eat before clearing immigration on departure; T3 has udon in the food court instead."
   - category: "status"
     label: "Live checks"
     title: "Check flight status on the official app"
@@ -61,12 +63,12 @@ lounges:
 > Narita’s long immigration lines and distant terminals reward travelers who plan exact timing and movement rather than hoping for speed.
 
 ## Quick Facts
-- Two terminals connected by free shuttle bus every 15 minutes (10-minute ride).
+- **Three terminals** (T1, T2, T3) connected by free shuttle buses every **~10–15 min** ([NRT guide](https://japantravel.navitime.com/en/area/jp/guide/NTJhowto0066-en/)). **T3 has no train station** — walk or shuttle to **T2** for Narita Express/Skyliner.
 - **MCT (same ticket, practical floor):**
-  - **Same terminal** (T1↔T1 or T2↔T2): **60 min** floor — **75 min** if gates are far apart.
-  - **T1 ↔ T2:** landside shuttle only — no airside link; budget **2 h+** including re-security and immigration if required.
+  - **Same terminal** (T1↔T1, T2↔T2, or T3↔T3): **60 min** floor — **75 min** if gates are far apart.
+  - **Cross-terminal:** landside shuttle only — no airside link; budget **2 h+** including re-security and immigration if required.
   - **International arrival → domestic connection:** immigration + baggage — **2.5 h** minimum ([NRT transit](https://www.narita-airport.jp/en/transit/)).
-- Terminal 1: ANA and Star Alliance; Terminal 2: JAL, oneworld, and most U.S. carriers.
+- Terminal 1: ANA and Star Alliance; Terminal 2: JAL, oneworld, and most U.S. carriers; Terminal 3: mainly LCCs.
 - Narita Express and Keisei Skyliner both depart from basement levels of each terminal.
 - Currency exchange rates inside are 3-5% worse than in Tokyo; withdraw cash at 7-Eleven ATMs.
 - No airside transit between terminals without clearing immigration.
@@ -96,7 +98,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - ANA Lounge in Terminal 1 is the strongest paid option; Priority Pass works at Terminal 2’s Plaza Premium.
-- Menya Musashi (Terminal 2, 4F) serves excellent tonkotsu ramen before security.
+- Menya Kookai (Terminal 2, 4F landside) serves excellent pork-and-chicken broth ramen before security.
 - Terminal 1’s 5F has the quietest seating with power outlets and minimal foot traffic.
 - Showers in Terminal 2 cost ¥1,100 for 30 minutes and include towels.
 
