@@ -3,11 +3,12 @@ iata: "HEL"
 name: "Helsinki Airport"
 city: "Helsinki"
 country: "Finland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-24"
 sources:
   - "https://www.finavia.fi/en/helsinki-airport"
   - "https://www.finavia.fi/en/helsinki-airport/security"
   - "https://www.finnair.com/us-en/smooth-travelling-at-helsinki-airport/connecting-flights"
+  - "https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic"
   - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/wi-fi-helsinki-airport"
   - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/hot-and-cold-drinking-water"
 quickFacts:
@@ -29,9 +30,9 @@ bentoTips:
     detail: "Non-Schengen flights require extra passport control—factor 10 minutes."
   - category: "food"
     label: "Food"
-    title: "Eat at Kitchen & Co"
-    summary: "Grab Nordic salmon or reindeer at gate 30-35 before security lines form."
-    detail: "Open 05:00-22:00; cheaper and faster than airside cafés."
+    title: "Picnic at Gate 30"
+    summary: "New Schengen-side Picnic offers pre-order pickup and familiar Finnish plates."
+    detail: "Opened Mar 2026 near Gate 30 — better than fighting the central airside rush."
   - category: "status"
     label: "Status"
     title: "Use Finavia app"
@@ -100,7 +101,7 @@ lounges:
 - Buses to remote stands depart from the lower level; allow an extra 10 minutes.
 
 ## Lounges, Food & Amenities
-- Kitchen & Co (pre-security) offers the best value salmon plates and quick service.
+- **Picnic (Schengen, Gate 30):** Best-value airside meals with **Click, Collect & Fly** pre-order ([Finavia Picnic](https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic)).
 - Olo Bar airside serves excellent Finnish craft beer and small plates with runway views.
 - The Finnair Lounge (non-Schengen) is solid for oneworld Sapphire and above; buffet is replenished frequently.
 - Free charging tables and quiet seating are scattered near gates 20-25.
@@ -116,4 +117,5 @@ lounges:
 - [Finnair connecting flights & MCT](https://www.finnair.com/us-en/smooth-travelling-at-helsinki-airport/connecting-flights)
 - [Wi-Fi](https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/wi-fi-helsinki-airport)
 - [Drinking water stations](https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/hot-and-cold-drinking-water)
+- [Picnic restaurant (Gate 30)](https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic)
 - [VR Ring Rail Line](https://www.vr.fi/en)

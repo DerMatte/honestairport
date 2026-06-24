@@ -3,10 +3,11 @@ iata: "ZRH"
 name: "Zurich Airport"
 city: "Zurich"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-24"
 sources:
   - "https://www.zurich.com/"
   - "https://www.zurich.com/en/passengers"
+  - "https://www.swiss.com/ch/en/fly/airport/lounges/lounges-zurich.solo_continue"
 quickFacts:
   - "Single terminal complex with docks A, B, and E"
   - "Main hub for SWISS; Star Alliance dominant"
@@ -39,14 +40,14 @@ lounges:
     terminal: "E"
     zone: "non-Schengen"
     access:
-      - "Star Alliance Gold"
-      - "paid day pass"
+      - "SWISS or Lufthansa First Class"
+      - "HON Circle"
     amenities:
       - "showers"
     bestFor:
       - "Relaxation"
     verdict: "worth-it"
-    summary: "The top lounge at ZRH if you can access it via status or a day pass."
+    summary: "Top lounge at ZRH — SWISS/Lufthansa First Class and HON Circle only; not sold as a day pass."
   - name: "SWISS Business Lounge"
     terminal: "E"
     zone: "non-Schengen"

@@ -3,15 +3,16 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-24"
 sources:
   - "https://www.changiairport.com/"
+  - "https://www.changiairport.com/en/experience/attractions-directory/butterfly-garden.html"
   - "https://www.changiairport.com/en/passenger-guide/transfer-transit.html"
   - "https://www.caas.gov.sg/"
 quickFacts:
   - "Four terminals (T1-T4) linked by Skytrain; T4 newest and fastest for low-cost carriers"
   - "Handles 65+ million passengers yearly; Singapore Airlines is dominant hub carrier"
-  - "Free unlimited Wi-Fi, 24-hour cinemas, and public butterfly garden in every terminal"
+  - "Free unlimited Wi-Fi; Butterfly Garden in T3 transit; 24-hour cinemas in all terminals"
   - "Jewel Changi (between T1-T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
   - "Consistently ranked world's best airport; security screening averages under 15 minutes"
 bentoTips:
@@ -85,7 +86,7 @@ lounges:
   - **T4 involved or immigration required:** budget **75–90 min** — T4 sits farther out with thinner lounge coverage.
   - **Separate tickets:** **2 h+** minimum with online check-in; **3 h** with checked bags ([Changi transfers](https://www.changiairport.com/en/passenger-guide/transfer-transit.html)).
 - Singapore Airlines and its subsidiaries operate the majority of long-haul flights from T2 and T3.
-- Free 24-hour cinemas, gaming zones, and outdoor gardens available airside in all terminals.
+- Free 24-hour cinemas, gaming zones, and outdoor gardens available airside in all terminals; **Butterfly Garden is T3 transit only** ([Changi](https://www.changiairport.com/en/experience/attractions-directory/butterfly-garden.html)).
 - Jewel Changi adds 10 hectares of retail and the HSBC Rain Vortex between T1 and T3.
 - MRT, taxis, and buses depart from basement levels; no long security queues outside peak 07:00-09:00 and 19:00-21:00.
 - **Wi‑Fi:** Free unlimited **@ChangiAirport** — no login on most networks; fast and reliable throughout.
@@ -99,7 +100,8 @@ lounges:
 - Families and elderly travelers get priority lanes at T1-T3; request at entry.
 
 ## Best Airport Tricks & Hacks
-- Watch a full movie in the free 24-hour cinemas (T1-T4) when layover exceeds 3 hours—seats are comfortable and dark.
+- From T1/T2/T4, Skytrain to **T3** for the **Butterfly Garden** (transit area, Levels 2–3) — allow **20+ min** each way on tight connections.
+- Watch a full movie in the free 24-hour cinemas (T1–T4) when layover exceeds 3 hours—seats are comfortable and dark.
 - Use Jewel's HSBC Rain Vortex viewing deck on Level 5 for photos and quiet space; best before security.
 - Free foot reflexology stations in T2 and T3 airside work well for 2-hour layovers; no appointment needed.
 - Download the Changi app for real-time Skytrain and gate info; works offline after initial load.
@@ -126,6 +128,7 @@ lounges:
 
 ## Official Sources
 - https://www.changiairport.com/
+- [Butterfly Garden (T3 transit)](https://www.changiairport.com/en/experience/attractions-directory/butterfly-garden.html)
 - [Changi transfer guide](https://www.changiairport.com/en/passenger-guide/transfer-transit.html)
 - https://www.caas.gov.sg/
 - https://www.singaporeair.com/ (for Singapore Airlines terminal and lounge details)

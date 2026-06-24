@@ -3,7 +3,7 @@ iata: "YYZ"
 name: "Toronto Pearson International Airport"
 city: "Toronto"
 country: "Canada"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-24"
 sources:
   - "https://www.torontopearson.com/"
   - "https://www.catsa-acsta.gc.ca/"
@@ -11,7 +11,7 @@ quickFacts:
   - "Two terminals (T1 and T3) linked by free Link Train (5 min)"
   - "Air Canada hub; WestJet and Porter also major"
   - "CATSA security; NEXUS and CLEAR available"
-  - "UP Express reaches Union Station in 25 minutes"
+  - "UP Express reaches Union Station in 28 minutes ($12.35 / $9.25 PRESTO)"
   - "Peak congestion 6-9 a.m. and 4-7 p.m."
 bentoTips:
   - category: "timing"
@@ -81,8 +81,8 @@ lounges:
   - **T1 ↔ T3:** Link Train **5 min** + walk — budget **90 min** minimum; re-security usually not required on through-checked bags.
   - **Separate tickets:** **2.5 h+** with baggage reclaim.
 - Air Canada operates the majority of flights from T1; most others use T3.
-- CATSA manages security; NEXUS and CLEAR lanes exist in both terminals.
-- UP Express train departs every 15 minutes and reaches Union Station in 25 minutes.
+- CATSA manages security; NEXUS and CLEAR lanes exist in both terminals — **no CLEAR Plus lanes at YYZ** (use YYZ Express virtual queue if eligible).
+- UP Express departs every 15 minutes and reaches Union Station in **28 minutes** ([UP Express](https://www.upexpress.com/en)).
 - Free Wi-Fi is reliable; cell service is strong throughout.
 - **Power:** Quiet zones near gates A22 and F22 have charging ports — grab early during Air Canada banks.
 - **Water:** Refill fountains post-security in T1 Concourse F and T3 near C32.
@@ -115,7 +115,7 @@ lounges:
 - Quiet zones with charging ports exist near gates A22 and F22 in T1.
 
 ## Ground Transport & Parking
-- UP Express is fastest and most reliable to downtown ($12.35 one-way).
+- UP Express is fastest and most reliable to downtown — **$12.35** one-way, **$9.25** with PRESTO tap ([PRESTO fares](https://www.upexpress.com/en/ways-to-pay/presto-fares)).
 - Taxi flat rate to downtown is $60-70; rideshares are usually cheaper but variable.
 - Terminal parking costs $5-6 per half-hour; daily max is $35-40.
 - Cell-phone lot is free for 30 minutes and has real-time flight boards.
