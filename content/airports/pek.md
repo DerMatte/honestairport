@@ -3,13 +3,14 @@ iata: "PEK"
 name: "Beijing Capital International Airport"
 city: "Beijing"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-25"
 sources:
   - "https://www.bcia.com.cn/"
   - "https://www.caac.gov.cn/"
 quickFacts:
-  - "Three terminals: T1 (Air China domestic), T2 (Star Alliance), T3 (SkyTeam + international)"
-  - "T3 is the largest and handles most long-haul flights"
+  - "Two active terminals in 2026: T2 (SkyTeam) and T3 (Star Alliance + most int'l)"
+  - "Terminal 1 is suspended — verify T2 vs T3 on every boarding pass"
+  - "T3 is the main international terminal; T2↔T3 transfers require landside shuttle (no airside link)"
   - "Strict security with liquid limits and device checks"
   - "High-speed rail link to city center in 30 minutes"
   - "Peak congestion 06:00-09:00 and 17:00-20:00"
@@ -21,9 +22,9 @@ bentoTips:
     detail: "Avoid 6-9 AM and 5-8 PM windows when lines double."
   - category: "terminal"
     label: "Transfers"
-    title: "Use T3 shuttle only when needed"
-    summary: "Free buses between terminals run every 10 minutes but add 15-20 min."
-    detail: "Walk the airside connection between T2 and T3 when possible."
+    title: "Use T2↔T3 shuttle only"
+    summary: "Free buses every ~10 min but add 15–20 min; there is no airside walkway between T2 and T3."
+    detail: "T1 is suspended in 2026 — your flight will be T2 or T3 only."
   - category: "food"
     label: "Food & quiet"
     title: "Eat before security in T3"
@@ -60,9 +61,9 @@ lounges:
 > This page gives the fastest path through Beijing Capital's three terminals, security bottlenecks, and ground links.
 
 ## Quick Facts
-- Three terminals connected by free shuttle buses every 10 minutes.
-- **MCT (same ticket):** **90 min** T2↔T3 minimum including shuttle; **2 h** safer — all passengers re-clear security on connections.
-- T3 handles most international and SkyTeam flights; T2 serves Star Alliance.
+- **Active terminals (2026):** **T2** (SkyTeam — China Eastern, Delta, KLM, etc.) and **T3** (Star Alliance hub — Air China international, United, Lufthansa, ANA, etc.). **T1 is suspended** for scheduled passenger flights.
+- **MCT (same ticket):** **90 min** T2↔T3 minimum including landside shuttle and re-security; **2 h** safer — there is **no airside link** between T2 and T3.
+- T3 handles most international long-haul; T2 serves SkyTeam and select domestic/international carriers.
 - All passengers face full security screening regardless of connection.
 - High-speed Airport Express reaches Dongzhimen in 30 minutes for ¥25.
 - No TSA PreCheck equivalent; arrive early for manual checks.
@@ -81,14 +82,13 @@ lounges:
 - Download the BCIA app and bind your passport before arrival for faster status.
 - Landside T3 has superior food; eat before clearing security.
 - Free luggage wrapping stations sit near T3 check-in rows 1-10.
-- Use the free T2-T3 airside walkway instead of the bus when connecting.
+- Use the free **landside** T2↔T3 shuttle bus (~10 min) — do not assume an airside walkway between terminals.
 - Charge devices at the quiet seating area behind T3 gate 35.
 - Book Airport Express tickets via WeChat to skip the machine line.
 - If delayed, the capsule hotel in T3 basement offers 4-hour blocks for ¥200.
 
 ## Terminals & Navigation
-- T1-T2 are adjacent; T3 is 2 km away via shuttle.
-- Walking time between T2 and T3 airside is 12-15 minutes.
+- T2 and T3 are **~3 km apart** via landside shuttle only; T1 is not in use for scheduled flights in 2026.
 - Follow yellow signs for international connections; blue for domestic.
 - Common mistake: taking the wrong shuttle bus and adding 20 minutes.
 
