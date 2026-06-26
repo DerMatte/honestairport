@@ -3,11 +3,12 @@ iata: "CGN"
 name: "Flughafen Köln/Bonn"
 city: "Cologne"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-26"
 sources:
   - "https://www.cologne-bonn-airport.com/"
   - "https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check"
   - "https://www.cologne-bonn-airport.com/en/company/next-chapter.html"
+  - "https://www.kvb.koeln/abos-und-tickets/preise-und-preisstufen.html"
 quickFacts:
   - "Single central security in T1; CT upgrade rolling out through summer 2026"
   - "Primary base for Eurowings and Ryanair"
@@ -59,7 +60,7 @@ lounges:
 - Eurowings and Ryanair dominate; Star Alliance uses T1.
 - **Security rebuild (2025–2026):** CT scanners rolling out through summer 2026 — liquids/laptops stay in bags once your lane is converted ([CGN Next Chapter](https://www.cologne-bonn-airport.com/en/company/next-chapter.html)).
 - **CGNGateWay:** Free timed security slots up to **100 days** ahead — the insider move on Monday-morning Eurowings banks.
-- S-Bahn line 13 runs every 20 min to Cologne city center (€3.20).
+- S-Bahn **S13/S19** runs every **20 min** to Cologne Hauptbahnhof (**~15 min**); **Rheinlandtarif Preisstufe 1b** within Cologne is **€4.00** from 1 Jun 2026 ([KVB Rheinlandtarif](https://www.kvb.koeln/abos-und-tickets/preise-und-preisstufen.html)).
 - **Wi‑Fi:** Free airport-wide. **Water:** Fountains next to every restroom airside and landside.
 
 ## Security & Screening Tips
@@ -70,7 +71,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the official CGN app for live security wait times and gate changes.
-- **Book CGNGateWay** for a dedicated lane — frequent-flyer forums rate this above showing up blind at 06:30.
+- **Book CGNGateWay** for a dedicated lane — free timed slots up to **100 days** ahead ([CGN security](https://www.cologne-bonn-airport.com/en/passengers/travel-preparation/security-check)).
 - If T1 security exceeds 25 min without a slot, you're stuck — there is no alternate checkpoint; arrive earlier instead.
 - Landside bakery “Bäckerei Wüst” opens at 04:30 and beats airside prices.
 - Free charging lockers are behind the escalators near gate A in T1.

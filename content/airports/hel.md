@@ -3,19 +3,19 @@ iata: "HEL"
 name: "Helsinki Airport"
 city: "Helsinki"
 country: "Finland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-26"
 sources:
   - "https://www.finavia.fi/en/helsinki-airport"
   - "https://www.finavia.fi/en/helsinki-airport/security"
   - "https://www.finnair.com/us-en/smooth-travelling-at-helsinki-airport/connecting-flights"
-  - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/wi-fi-helsinki-airport"
-  - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/hot-and-cold-drinking-water"
+  - "https://www.finavia.fi/en/newsroom/2026/new-restaurant-and-shop-area-opened-helsinki-airport-atmospheric-combination-nordic"
+  - "https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic"
 quickFacts:
   - "Single terminal complex split into Schengen and non-Schengen zones"
   - "Finnair hub with strong connections to Asia and Europe"
   - "Ring Rail Line reaches Helsinki Central in 27 minutes"
   - "Security wait times average 10-20 minutes outside peaks"
-  - "Free showers and quiet zones available airside"
+  - "Picnic café-restaurant at Gate 30 (Schengen, opened Mar 2026) with pre-order pickup"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -29,9 +29,9 @@ bentoTips:
     detail: "Non-Schengen flights require extra passport control—factor 10 minutes."
   - category: "food"
     label: "Food"
-    title: "Eat at Kitchen & Co"
-    summary: "Grab Nordic salmon or reindeer at gate 30-35 before security lines form."
-    detail: "Open 05:00-22:00; cheaper and faster than airside cafés."
+    title: "Eat at Picnic Gate 30"
+    summary: "New Schengen dining zone at gate 30 — baguettes, salads, and Click Collect & Fly pre-orders."
+    detail: "Opened March 2026; pre-order online and pick up airside on the way to your gate."
   - category: "status"
     label: "Status"
     title: "Use Finavia app"
@@ -100,8 +100,8 @@ lounges:
 - Buses to remote stands depart from the lower level; allow an extra 10 minutes.
 
 ## Lounges, Food & Amenities
-- Kitchen & Co (pre-security) offers the best value salmon plates and quick service.
-- Olo Bar airside serves excellent Finnish craft beer and small plates with runway views.
+- **Picnic (Gate 30, Schengen):** New forest-themed retail zone opened **March 2026** — baguettes, salads, and **Click Collect & Fly** pre-orders airside ([Finavia](https://www.finavia.fi/en/newsroom/2026/new-restaurant-and-shop-area-opened-helsinki-airport-atmospheric-combination-nordic)).
+- Kitchen & Co (landside) remains strong pre-security; Olo Bar airside serves Finnish craft beer with runway views.
 - The Finnair Lounge (non-Schengen) is solid for oneworld Sapphire and above; buffet is replenished frequently.
 - Free charging tables and quiet seating are scattered near gates 20-25.
 
