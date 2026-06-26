@@ -3,12 +3,13 @@ iata: "DOH"
 name: "Hamad International Airport"
 city: "Doha"
 country: "Qatar"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-26"
 sources:
   - "https://www.dohaairport.com/"
   - "https://www.dohaairport.com/en/security"
+  - "https://dohahamadairport.com/press-releases/news/hamad-international-airport-unveils-state-art-concourses-d-and-e-elevating"
 quickFacts:
-  - "Single terminal with four concourses (A–D); all flights under one roof"
+  - "Single terminal with five concourses (A–E); D and E opened in 2025 expansion"
   - "Qatar Airways hub; 45+ million passengers in 2024"
   - "Security opens 3 h before departure; biometric gates available for eligible passengers"
   - "Qatar Airways hub; MCT 45 min int'l–int'l floor, 90 min comfortable"
@@ -36,24 +37,33 @@ bentoTips:
     summary: "Verify gate on the big boards right after check-in; gates can shift 30+ min."
     detail: "Use the airport app only after you pass security—earlier updates are unreliable."
 lounges:
-  - name: "The Orchard"
-    terminal: "Concourse D"
-    amenities:
-      - "quiet seating"
-      - "international buffet"
-    bestFor:
-      - "Quiet"
-    verdict: "worth-it"
-    summary: "Head here for the best quiet seating and reliable buffet among ordinary-traveler options."
-  - name: "Al Mourjan Business Lounge"
-    terminal: "A"
+  - name: "Al Mourjan Business Lounge (South)"
+    terminal: "Main"
+    zone: "Concourse A, Level 3"
+    access:
+      - "Qatar Airways business class"
+      - "oneworld business"
     amenities:
       - "showers"
       - "à-la-carte dining"
     bestFor:
       - "Relax"
     verdict: "worth-it"
-    summary: "Worth seeking out if you can access it for the showers and proper dining."
+    summary: "Main South lounge on Level 3, Duty Free Plaza South (left of the Lamp Bear) — showers and proper dining for eligible passengers."
+  - name: "Al Mourjan Business Lounge – The Garden"
+    terminal: "Main"
+    zone: "North expansion, Concourse C"
+    access:
+      - "Qatar Airways business class"
+      - "oneworld business"
+    amenities:
+      - "showers"
+      - "quiet rooms"
+    bestFor:
+      - "Sleep"
+      - "Relax"
+    verdict: "worth-it"
+    summary: "Newer North lounge near The Orchard garden — calmer than South at peak banks if you qualify."
 ---
 
 # DOH Airport Guide
@@ -61,7 +71,7 @@ lounges:
 > One terminal, fast security, and direct metro access make DOH unusually efficient when you know the patterns.
 
 ## Quick Facts
-- Single terminal with concourses A–D; no bus gates.
+- Single terminal with concourses **A–E** (D and E completed the 2025 expansion); contact gates dominate — bus gates are rare.
 - **MCT (Qatar Airways hub):**
   - **Int'l → int'l airside:** **45 min** marketed minimum; plan **90 min** in evening banks (18:00–22:00).
   - **Connection security:** All transfers hit a **transit screening** — queue time beats walking distance here.
@@ -95,7 +105,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - The Orchard garden (Concourse D) offers quiet seating and decent food — not a lounge, but the best public calm spot.
-- Al Mourjan Business Lounge (near gate A) has excellent showers and à-la-carte dining for eligible QR/oneworld passengers.
+- **Al Mourjan South** (Level 3, Duty Free Plaza South, Concourse A) and **Al Mourjan – The Garden** (North expansion, near Concourse C/The Orchard) offer showers and à-la-carte dining for eligible QR/oneworld business passengers ([Qatar Airways lounge details](https://www.qatarairways.com/)).
 - **Overrated:** Main food court between A and B at peak — crowded and overpriced.
 - Free nap pods are located near gate C8; first-come, first-served.
 

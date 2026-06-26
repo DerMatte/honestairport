@@ -3,7 +3,7 @@ iata: "MAD"
 name: "Adolfo Suárez Madrid–Barajas Airport"
 city: "Madrid"
 country: "Spain"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-26"
 sources:
   - "https://www.aena.es/en/madrid-barajas.html"
   - "https://www.aena.es/en/passengers/security.html"
@@ -84,7 +84,6 @@ lounges:
 - Renfe cercanías tickets bought at machines are €2.60 to Atocha; avoid taxi touts inside arrivals.
 - For early flights, the 24-hour McDonald’s in T4 landside is the only reliable hot food after midnight.
 - T4 has quiet seating on the upper level near the Iberia VIP lounge entrance—rarely crowded.
-- If your flight is delayed, the free AENA bus lets you move to T1–T3 for cheaper food without re-clearing security.
 
 ## Terminals & Navigation
 - T4 and T4S are linked by an automatic train (3 min) after security; allow 12 min total.

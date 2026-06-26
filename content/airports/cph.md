@@ -3,7 +3,7 @@ iata: "CPH"
 name: "Copenhagen Airport, Kastrup"
 city: "Copenhagen"
 country: "Denmark"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-26"
 sources:
   - "https://www.cph.dk/en"
   - "https://www.cph.dk/en/security"
@@ -11,7 +11,7 @@ sources:
 quickFacts:
   - "Single terminal with piers A, B, C; all under one roof"
   - "Primary hub for SAS Scandinavian Airlines and Norwegian"
-  - "Train to Copenhagen Central Station: 12–14 min, 36 DKK"
+  - "Train to Copenhagen Central Station: 12–14 min, 30 DKK (3-zone single)"
   - "Security opens 2.5 h before departure for most flights"
   - "SAS hub MCT: 30 min Schengen; 45 min intercontinental; EES adds 10–60 min"
   - "Free Wi-Fi; power outlets plentiful at gates"
@@ -50,14 +50,15 @@ lounges:
       - "Showers"
     verdict: "depends"
     summary: "Worth visiting only with qualifying Star Alliance status; arrive early because it fills up fast."
-  - name: "Priority Pass Lounge"
-    terminal: "3"
+  - name: "Aspire Lounge"
+    terminal: "Main"
+    zone: "between piers A and B"
     access:
       - "Priority Pass"
     bestFor:
       - "Work"
-    verdict: "skip"
-    summary: "Limited independent options exist, so ordinary travelers are usually better off with airside food options like GRØD or LagerBar."
+    verdict: "depends"
+    summary: "Main independent Priority Pass option between piers A and B; Carlsberg Aviator Lounge shares the same area."
 ---
 
 # CPH Airport Guide
@@ -102,7 +103,7 @@ lounges:
 - For a calm sit-down meal, go to the upper level near gate A15—fewer crowds than the central food court.
 
 ## Ground Transport & Parking
-- Train to Copenhagen Central: 12 min, 36 DKK; buy at the DSB machine or use Rejsekort.
+- Train to Copenhagen Central: **12 min**, **30 DKK** (3-zone single ticket); buy at DSB machines or use Rejsekort ([CPH transport](https://www.cph.dk/en)).
 - Taxi rank is outside arrivals; fixed price to city center is ~250 DKK.
 - Short-term parking P4/P9 is closest; long-term P13 is cheaper but requires bus transfer.
 - Avoid driving during morning rush (07:00–09:00); the E20 often backs up.
