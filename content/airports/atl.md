@@ -3,7 +3,7 @@ iata: "ATL"
 name: "Hartsfield-Jackson Atlanta International Airport"
 city: "Atlanta"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-27"
 sources:
   - "https://www.atl.com/"
   - "https://www.tsa.gov/airports/hartsfield-jackson-atlanta-international-airport"
@@ -76,7 +76,7 @@ lounges:
 - Delta dominates; most gates in Concourses A–F and T.
 - International Terminal handles separate arrivals for non-precleared flights.
 - Plane Train runs every 2–3 minutes; 5–12 minute rides between farthest points.
-- **Connections (Delta on one ticket):** Airline minimums are 35 minutes domestic-domestic (45 on widebody inbound), 40 minutes domestic-international, and 85 minutes any international arrival—traveler consensus treats 60–90 minutes domestic and 2+ hours international as sane buffers, especially intl-domestic where you clear CBP and re-screen at E/F.
+- **Connections (Delta on one ticket):** Airline minimums are 35 minutes domestic-domestic (45 on widebody inbound), 40 minutes domestic-international, and 85 minutes any international arrival—budget **60–90 minutes** domestic and **2+ hours** international as sane buffers, especially intl-domestic where you clear CBP and re-screen at E/F.
 - Security lines peak 5–8 a.m. and 4–7 p.m.; PreCheck lanes move faster.
 - Free Wi-Fi and charging ports throughout; water refill stations near most restrooms.
 

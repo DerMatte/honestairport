@@ -3,15 +3,16 @@ iata: "SYD"
 name: "Sydney Kingsford Smith International Airport"
 city: "Sydney"
 country: "Australia"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-27"
 sources:
   - "https://www.sydneyairport.com.au/"
   - "https://www.homeaffairs.gov.au/"
+  - "https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport"
 quickFacts:
   - "Three terminals: T1 international, T2 domestic (Virgin, Jetstar, Rex), T3 domestic (Qantas)"
   - "International arrivals require 45-60 min for immigration and baggage on busy days"
   - "T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride"
-  - "Train station under T2/T3; 13 min to Central, $19.50 peak single fare"
+  - "Train station under T2/T3; ~13 min to Central; ~$21–22 adult Opal off-peak (access fee + rail)"
   - "No TSA PreCheck equivalent; SmartGate for eligible e-passport holders"
 bentoTips:
   - category: "timing"
@@ -69,7 +70,7 @@ lounges:
 - **MCT (same ticket):** **60 min** T2/T3 domestic; **90 min** domestic→T1 international including re-security and immigration.
 - International arrivals require 45-60 min for immigration and baggage on busy days
 - T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride
-- Train station under T2/T3; 13 min to Central, $19.50 peak single fare
+- Train station under T2/T3; **~13 min** to Central; **~$21–22** adult Opal off-peak (**$17.92** station access fee + rail component per [Transport NSW](https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport))
 - No TSA PreCheck equivalent; SmartGate for eligible e-passport holders
 - **Wi‑Fi:** Free **Sydney Airport WiFi** — registration required; reliable.
 - **Power:** Scarce airside at T1 gates 8–20 — charge landside level 3 before security.
@@ -85,7 +86,7 @@ lounges:
 - Download the Sydney Airport app for live security wait times before you leave the hotel.
 - If flying Qantas domestic then international same day, check bags through at T3 and walk the 1.5 km to T1.
 - Landside food at T1 level 3 is cheaper and better than anything past security.
-- Train to Central is fastest before 7 am; after 10 pm Uber from T1 ranks is often quicker and similar price.
+- Train to Central is fastest before 7 am; off-peak Opal fare is **~$21**, peak **~$22** (access fee + rail) — after 10 pm Uber from T1 ranks is often quicker.
 - Free shower facilities in T1 arrivals (level 1) for long layovers—bring your own towel.
 - T2-T3 shuttle runs every 10 min but stops at midnight; plan for taxi if arriving late.
 - Power outlets are scarce airside at T1 gates 8-20; charge at landside before security.

@@ -3,13 +3,13 @@ iata: "HEL"
 name: "Helsinki Airport"
 city: "Helsinki"
 country: "Finland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-27"
 sources:
   - "https://www.finavia.fi/en/helsinki-airport"
   - "https://www.finavia.fi/en/helsinki-airport/security"
   - "https://www.finnair.com/us-en/smooth-travelling-at-helsinki-airport/connecting-flights"
-  - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/wi-fi-helsinki-airport"
-  - "https://www.finavia.fi/en/airports/helsinki-airport/airport/services-facilities/hot-and-cold-drinking-water"
+  - "https://www.finavia.fi/en/newsroom/2026/new-restaurant-and-shop-area-opened-helsinki-airport-atmospheric-combination-nordic"
+  - "https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic"
 quickFacts:
   - "Single terminal complex split into Schengen and non-Schengen zones"
   - "Finnair hub with strong connections to Asia and Europe"
@@ -29,9 +29,9 @@ bentoTips:
     detail: "Non-Schengen flights require extra passport control—factor 10 minutes."
   - category: "food"
     label: "Food"
-    title: "Eat at Kitchen & Co"
-    summary: "Grab Nordic salmon or reindeer at gate 30-35 before security lines form."
-    detail: "Open 05:00-22:00; cheaper and faster than airside cafés."
+    title: "Eat at Picnic near Gate 30"
+    summary: "New Schengen-side Picnic (opened Mar 2026) offers pre-order pickup for your flight."
+    detail: "Open 05:00–22:00; Click, Collect & Fly beats airside café queues."
   - category: "status"
     label: "Status"
     title: "Use Finavia app"
@@ -100,7 +100,7 @@ lounges:
 - Buses to remote stands depart from the lower level; allow an extra 10 minutes.
 
 ## Lounges, Food & Amenities
-- Kitchen & Co (pre-security) offers the best value salmon plates and quick service.
+- **Picnic** near **Gate 30** (Schengen, opened **Mar 2026**) is the standout airside option — pre-order via Click, Collect & Fly ([Finavia Picnic](https://www.finavia.fi/en/airports/helsinki-airport/dining/picnic)).
 - Olo Bar airside serves excellent Finnish craft beer and small plates with runway views.
 - The Finnair Lounge (non-Schengen) is solid for oneworld Sapphire and above; buffet is replenished frequently.
 - Free charging tables and quiet seating are scattered near gates 20-25.
