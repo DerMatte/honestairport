@@ -3,10 +3,11 @@ iata: "ORD"
 name: "Chicago O'Hare International Airport"
 city: "Chicago"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-28"
 sources:
   - "https://www.flychicago.com/ohare/home.page"
   - "https://www.flychicago.com/ohare/en/At-the-Airport/connecting-flights"
+  - "https://www.flychicago.com/ohare/ServicesAmenities/amenities/Pages/yoga.aspx"
   - "https://www.tsa.gov/airports/chicago-ohare-international-airport"
 quickFacts:
   - "Four terminals: 1, 2, 3, and 5"
@@ -70,7 +71,7 @@ lounges:
 - United dominates Terminals 1 and 2; American uses Terminal 3; Terminal 5 is international.
 - **MCT (same ticket, practical floor):**
   - **Same terminal** (T1↔T2 United, T3 AA): **60 min** floor — **75–90 min** in peaks.
-  - **T5 international → T1/T2/T3:** no airside link — ATS + security; budget **90 min** minimum, **2 h** safer ([ORD connections](https://www.flychicago.com/ohare/en/At-the-Airport/connecting-flights)).
+  - **T5 international → T1/T2/T3:** no airside link — ATS + security; budget **90 min** minimum, **2 h** safer; **T5 intl-domestic connections require re-screening** ([ORD connections](https://www.flychicago.com/ohare/en/At-the-Airport/connecting-flights)).
   - **Separate tickets:** collect bags, change terminals landside — **3 h+** minimum.
 - The free Airport Transit System (ATS) runs 24/7 between terminals and the rental car center.
 - Security lines in Terminal 1 are longest before 8 a.m. and 4–7 p.m.
@@ -104,7 +105,7 @@ lounges:
 - United Polaris Lounge (Terminal 1, near gate C18) is the only genuinely quiet paid option with good showers.
 - Garrett Popcorn in Terminal 3 (near gate H4) and Terminal 1 (near B8) is the best quick snack.
 - Tortas Frontera (Terminal 1, B8 and Terminal 3, K4) offers the highest-quality sit-down meal under $20.
-- The yoga room in Terminal 3 (near gate K12) is free, rarely crowded, and open 24/7.
+- The yoga room on **Terminal 3 Rotunda Mezzanine** (near the Urban Garden) is free, **6:00 a.m.–10:00 p.m.** ([ORD Yoga Room](https://www.flychicago.com/ohare/ServicesAmenities/amenities/Pages/yoga.aspx)).
 
 ## Ground Transport & Parking
 - Blue Line “L” train to downtown is $5 and runs 24/7; 45–55 minutes to the Loop.

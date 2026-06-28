@@ -3,12 +3,13 @@ iata: "DOH"
 name: "Hamad International Airport"
 city: "Doha"
 country: "Qatar"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-28"
 sources:
   - "https://www.dohaairport.com/"
   - "https://www.dohaairport.com/en/security"
+  - "https://dohahamadairport.com/lounge/al-mourjan-business-lounge-garden"
 quickFacts:
-  - "Single terminal with four concourses (A–D); all flights under one roof"
+  - "Single terminal with concourses A–E; northern extension adds D/E and The Orchard garden"
   - "Qatar Airways hub; 45+ million passengers in 2024"
   - "Security opens 3 h before departure; biometric gates available for eligible passengers"
   - "Qatar Airways hub; MCT 45 min int'l–int'l floor, 90 min comfortable"
@@ -27,8 +28,8 @@ bentoTips:
     detail: "Works best when your connection is under 90 min; avoid if you have mobility issues."
   - category: "food"
     label: "Food & quiet"
-    title: "Head to The Orchard"
-    summary: "Grab a quiet meal and charging seat at The Orchard in Concourse D."
+    title: "Head to The Orchard garden"
+    summary: "Grab a quiet meal and charging seat at the public indoor garden in the northern concourses."
     detail: "Open 24 h; far less crowded than the main food court near gates A."
   - category: "status"
     label: "Live checks"
@@ -36,16 +37,16 @@ bentoTips:
     summary: "Verify gate on the big boards right after check-in; gates can shift 30+ min."
     detail: "Use the airport app only after you pass security—earlier updates are unreliable."
 lounges:
-  - name: "The Orchard"
-    terminal: "Concourse D"
+  - name: "Al Mourjan Business Lounge – The Garden"
+    terminal: "C/D/E area"
     amenities:
-      - "quiet seating"
-      - "international buffet"
+      - "showers"
+      - "à-la-carte dining"
     bestFor:
-      - "Quiet"
+      - "Relax"
     verdict: "worth-it"
-    summary: "Head here for the best quiet seating and reliable buffet among ordinary-traveler options."
-  - name: "Al Mourjan Business Lounge"
+    summary: "New northern lounge overlooking The Orchard garden — for eligible QR/oneworld premium passengers."
+  - name: "Al Mourjan Business Lounge (South)"
     terminal: "A"
     amenities:
       - "showers"
@@ -53,7 +54,7 @@ lounges:
     bestFor:
       - "Relax"
     verdict: "worth-it"
-    summary: "Worth seeking out if you can access it for the showers and proper dining."
+    summary: "Original central lounge near Concourse A for eligible QR/oneworld premium passengers."
 ---
 
 # DOH Airport Guide
@@ -61,7 +62,7 @@ lounges:
 > One terminal, fast security, and direct metro access make DOH unusually efficient when you know the patterns.
 
 ## Quick Facts
-- Single terminal with concourses A–D; no bus gates.
+- Single terminal with concourses **A–E**; northern extension (C/D/E) linked by internal train from the central atrium.
 - **MCT (Qatar Airways hub):**
   - **Int'l → int'l airside:** **45 min** marketed minimum; plan **90 min** in evening banks (18:00–22:00).
   - **Connection security:** All transfers hit a **transit screening** — queue time beats walking distance here.
@@ -80,7 +81,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the Doha Airport app for gate push notifications after security only.
-- Charge devices at The Orchard (Concourse D) or the quiet lounge near gate C12.
+- Charge devices at **The Orchard** public garden (northern concourses) or quiet seating near gate C12.
 - Buy a metro card at the station inside arrivals for seamless city transfer.
 - If your connection is under 60 min, stay airside and use the internal train — but **transit security** is still the bottleneck, not the people-mover.
 - Free luggage wrapping is available near check-in row 4—useful for onward connections.
@@ -94,8 +95,8 @@ lounges:
 - Common mistake: following signs for “Departures” instead of your specific concourse letter.
 
 ## Lounges, Food & Amenities
-- The Orchard garden (Concourse D) offers quiet seating and decent food — not a lounge, but the best public calm spot.
-- Al Mourjan Business Lounge (near gate A) has excellent showers and à-la-carte dining for eligible QR/oneworld passengers.
+- **The Orchard** indoor garden (northern concourses) offers quiet seating and retail — public, not a lounge.
+- **Al Mourjan Business Lounge (South)** near Concourse **A** and **Al Mourjan – The Garden** overlooking The Orchard (northern **C/D/E** area) serve eligible QR/oneworld premium passengers ([HIA lounge info](https://dohahamadairport.com/lounge/al-mourjan-business-lounge-garden)).
 - **Overrated:** Main food court between A and B at peak — crowded and overpriced.
 - Free nap pods are located near gate C8; first-come, first-served.
 
