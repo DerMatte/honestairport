@@ -3,15 +3,16 @@ iata: "SYD"
 name: "Sydney Kingsford Smith International Airport"
 city: "Sydney"
 country: "Australia"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-29"
 sources:
   - "https://www.sydneyairport.com.au/"
   - "https://www.homeaffairs.gov.au/"
+  - "https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport"
 quickFacts:
   - "Three terminals: T1 international, T2 domestic (Virgin, Jetstar, Rex), T3 domestic (Qantas)"
   - "International arrivals require 45-60 min for immigration and baggage on busy days"
   - "T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride"
-  - "Train station under T2/T3; 13 min to Central, $19.50 peak single fare"
+  - "Train station under T2/T3; ~13 min to Central; ~$21–22 adult peak (Opal access fee + rail)"
   - "No TSA PreCheck equivalent; SmartGate for eligible e-passport holders"
 bentoTips:
   - category: "timing"
@@ -69,7 +70,7 @@ lounges:
 - **MCT (same ticket):** **60 min** T2/T3 domestic; **90 min** domestic→T1 international including re-security and immigration.
 - International arrivals require 45-60 min for immigration and baggage on busy days
 - T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride
-- Train station under T2/T3; 13 min to Central, $19.50 peak single fare
+- Train station under T2/T3; ~13 min to Central, **~$21–22 adult peak** on Opal (station access fee **$17.92** + rail component)
 - No TSA PreCheck equivalent; SmartGate for eligible e-passport holders
 - **Wi‑Fi:** Free **Sydney Airport WiFi** — registration required; reliable.
 - **Power:** Scarce airside at T1 gates 8–20 — charge landside level 3 before security.
@@ -107,4 +108,5 @@ lounges:
 
 ## Official Sources
 - https://www.sydneyairport.com.au/
+- https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport
 - https://www.homeaffairs.gov.au/
