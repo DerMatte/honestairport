@@ -3,15 +3,16 @@ iata: "SYD"
 name: "Sydney Kingsford Smith International Airport"
 city: "Sydney"
 country: "Australia"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-30"
 sources:
   - "https://www.sydneyairport.com.au/"
+  - "https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport"
   - "https://www.homeaffairs.gov.au/"
 quickFacts:
   - "Three terminals: T1 international, T2 domestic (Virgin, Jetstar, Rex), T3 domestic (Qantas)"
   - "International arrivals require 45-60 min for immigration and baggage on busy days"
   - "T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride"
-  - "Train station under T2/T3; 13 min to Central, $19.50 peak single fare"
+  - "Train station under T2/T3; 13 min to Central, ~$21 off-peak / ~$22 peak (Opal incl. station access fee)"
   - "No TSA PreCheck equivalent; SmartGate for eligible e-passport holders"
 bentoTips:
   - category: "timing"
@@ -69,7 +70,7 @@ lounges:
 - **MCT (same ticket):** **60 min** T2/T3 domestic; **90 min** domestic→T1 international including re-security and immigration.
 - International arrivals require 45-60 min for immigration and baggage on busy days
 - T2-T3 connected by free 10-min shuttle; T1 is 1.5 km walk or short bus ride
-- Train station under T2/T3; 13 min to Central, $19.50 peak single fare
+- Train station under T2/T3; 13 min to Central, **~$21 off-peak / ~$22 peak** with Opal or contactless (includes station access fee + rail)
 - No TSA PreCheck equivalent; SmartGate for eligible e-passport holders
 - **Wi‑Fi:** Free **Sydney Airport WiFi** — registration required; reliable.
 - **Power:** Scarce airside at T1 gates 8–20 — charge landside level 3 before security.
@@ -101,7 +102,7 @@ lounges:
 - Quietest seating: T1 level 3 near check-in rows 20-30 before security.
 
 ## Ground Transport & Parking
-- Train from T2/T3 station is cheapest and fastest to city during daylight hours.
+- Train from T2/T3 station: **~$21 off-peak / ~$22 peak** to Central with Opal or contactless ([Transport NSW](https://transportnsw.info/travel-info/airport-travel/getting-to-from-sydney-airport)); single-trip paper tickets cost more.
 - Taxi rank at T1 is efficient; rideshare pickup is on level 1 arrivals.
 - Short-term parking at T1 is $12 for first 30 min, then steep—use only for drop-off.
 

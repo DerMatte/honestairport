@@ -3,9 +3,10 @@ iata: "MIA"
 name: "Miami International Airport"
 city: "Miami"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-30"
 sources:
   - "https://www.miami-airport.com/"
+  - "https://www.miami-airport.com/Centurion_Lounge.asp"
   - "https://www.miami-airport.com/wifi.asp"
   - "https://www.tsa.gov/airports/miami-international-airport"
 quickFacts:
@@ -47,7 +48,8 @@ lounges:
     verdict: "worth-it"
     summary: "Strong choice for AA flyers or those who can access it free; otherwise the paid entry is only worthwhile if you need a quiet spot before a long flight."
   - name: "Centurion Lounge"
-    terminal: "E"
+    terminal: "D"
+    zone: "near Gate D12, 4th floor"
     access:
       - "Amex Platinum or Centurion card"
       - "paid guest access"
@@ -97,7 +99,7 @@ lounges:
 - The MIA Mover between terminals runs every 3-5 minutes but can be skipped for short connections inside the same concourse.
 
 ## Lounges, Food & Amenities
-- American Airlines Admirals Club in D and the new Centurion Lounge near E are the best paid options.
+- American Airlines Admirals Club in D and the Centurion Lounge in **Concourse D near Gate D12** (4th floor) are the best paid options.
 - Standout food: La Carreta (Cuban) in the main terminal and La Sandwicherie in concourse D.
 - Quietest non-lounge spot is the seating area past Gate H after the moving walkway.
 
