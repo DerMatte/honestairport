@@ -3,7 +3,7 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
@@ -101,8 +101,8 @@ lounges:
 - Showers in Terminal 2 cost ¥1,100 for 30 minutes and include towels.
 
 ## Ground Transport & Parking
-- Narita Express is fastest to Tokyo Station (¥3,070 reserved); book seats in advance during peak hours.
-- Keisei Skyliner reaches Ueno in 41 minutes for ¥2,570; better if staying in northern Tokyo.
+- Narita Express is fastest to Tokyo Station (**¥3,140** reserved); book seats in advance during peak hours.
+- Keisei Skyliner reaches Ueno in 41 minutes for **¥2,580**; better if staying in northern Tokyo.
 - Taxi to central Tokyo costs ¥20,000-25,000 and takes 60-90 minutes depending on traffic.
 - Short-term parking is ¥210 per 30 minutes; long-term lots are cheaper but require shuttle.
 

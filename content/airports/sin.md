@@ -3,7 +3,7 @@ iata: "SIN"
 name: "Singapore Changi Airport"
 city: "Singapore"
 country: "Singapore"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.changiairport.com/"
   - "https://www.changiairport.com/en/passenger-guide/transfer-transit.html"
@@ -11,7 +11,7 @@ sources:
 quickFacts:
   - "Four terminals (T1-T4) linked by Skytrain; T4 newest and fastest for low-cost carriers"
   - "Handles 65+ million passengers yearly; Singapore Airlines is dominant hub carrier"
-  - "Free unlimited Wi-Fi, 24-hour cinemas, and public butterfly garden in every terminal"
+  - "Free unlimited Wi-Fi; T3 butterfly garden and 24-hour movie theatre"
   - "Jewel Changi (between T1-T3) features HSBC Rain Vortex and 280+ retail/dining outlets"
   - "Consistently ranked world's best airport; security screening averages under 15 minutes"
 bentoTips:
@@ -85,7 +85,7 @@ lounges:
   - **T4 involved or immigration required:** budget **75–90 min** — T4 sits farther out with thinner lounge coverage.
   - **Separate tickets:** **2 h+** minimum with online check-in; **3 h** with checked bags ([Changi transfers](https://www.changiairport.com/en/passenger-guide/transfer-transit.html)).
 - Singapore Airlines and its subsidiaries operate the majority of long-haul flights from T2 and T3.
-- Free 24-hour cinemas, gaming zones, and outdoor gardens available airside in all terminals.
+- **T3 only:** Free **24-hour movie theatre** (Transit Level 3) and **Butterfly Garden** (Transit Levels 2–3); other terminals have different amenities.
 - Jewel Changi adds 10 hectares of retail and the HSBC Rain Vortex between T1 and T3.
 - MRT, taxis, and buses depart from basement levels; no long security queues outside peak 07:00-09:00 and 19:00-21:00.
 - **Wi‑Fi:** Free unlimited **@ChangiAirport** — no login on most networks; fast and reliable throughout.
@@ -99,7 +99,7 @@ lounges:
 - Families and elderly travelers get priority lanes at T1-T3; request at entry.
 
 ## Best Airport Tricks & Hacks
-- Watch a full movie in the free 24-hour cinemas (T1-T4) when layover exceeds 3 hours—seats are comfortable and dark.
+- Watch a full movie in the **free 24-hour cinema in Terminal 3** when your layover exceeds 3 hours—seats are comfortable and dark.
 - Use Jewel's HSBC Rain Vortex viewing deck on Level 5 for photos and quiet space; best before security.
 - Free foot reflexology stations in T2 and T3 airside work well for 2-hour layovers; no appointment needed.
 - Download the Changi app for real-time Skytrain and gate info; works offline after initial load.
@@ -119,7 +119,7 @@ lounges:
 - Free luggage wrapping and charging lockers available in all terminals near transfer desks.
 
 ## Ground Transport & Parking
-- MRT is cheapest and fastest to city center (S$2.50, 45 min); runs 05:30-23:00.
+- MRT is cheapest to city center (~**S$2.00–2.30** adult, ~30–50 min with Tanah Merah transfer); first train **05:31** Mon–Sat / **05:59** Sun & PH, last train **~23:18–00:06** depending on direction.
 - Taxi queue at T1-T3 basement is well-managed; fixed airport surcharge applies after 22:00.
 - Book private transfer only if traveling with multiple bags—public options are reliable and frequent.
 - Short-term parking at T3 is most convenient for quick drop-offs; rates rise sharply after 2 hours.

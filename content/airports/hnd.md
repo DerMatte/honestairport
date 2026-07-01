@@ -3,7 +3,7 @@ iata: "HND"
 name: "Tokyo International Airport (Haneda)"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.tokyo-airport-bldg.co.jp/en/"
   - "https://www.haneda-airport.jp/en/"
@@ -80,7 +80,7 @@ lounges:
 > Fast, reliable access to Tokyo with minimal hassle when you know the terminal layout and transport options.
 
 ## Quick Facts
-- **Terminals:** **T1** (JAL domestic), **T2** (ANA domestic), **T3** (international + Peach/Jetstar/Spring).
+- **Terminals:** **T1** (JAL domestic), **T2** (ANA domestic), **T3** (international + Peach).
 - **MCT (same ticket, practical floor — JAL/ANA published mins):**
   - **International → international (T3):** **60 min** floor, **75 min** comfortable.
   - **International → domestic (T3 → T1/T2):** **80–90 min** airline min ([JAL HND transit](https://www.jal.co.jp/content/www/wwwjalcojp/jp/en/inter/airport/hnd/transit/)); **2 h** safer with checked bags.

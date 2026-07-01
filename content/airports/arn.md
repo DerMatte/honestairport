@@ -3,7 +3,7 @@ iata: "ARN"
 name: "Stockholm Arlanda Airport"
 city: "Stockholm"
 country: "Sweden"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.swedavia.se/arlanda/"
   - "https://www.swedavia.se/arlanda/security-and-customs/"
@@ -28,9 +28,9 @@ bentoTips:
     detail: "Works only for Schengen-to-Schengen or non-Schengen-to-non-Schengen moves."
   - category: "food"
     label: "Food & quiet"
-    title: "Eat at Kitchen & Table in T5"
-    summary: "Grab the weekday lunch buffet before security for 145 SEK."
-    detail: "Quietest seating is the far end of T4 near gate 64 after 20:00."
+    title: "Eat at Taste by Nordrest in T5"
+    summary: "After-security lunch buffet at Gate E6 from 10:30 (~192–219 SEK)."
+    detail: "The Social Bar & Bistro in SkyCity (landside) is dinner-focused, not a weekday lunch buffet."
   - category: "status"
     label: "Live checks"
     title: "Check Swedavia app for queue times"
@@ -96,7 +96,7 @@ lounges:
 - **Connections:** On a single SAS ticket, 30 minutes within Europe and 45 minutes on intercontinental routes are airline minimums—traveler consensus says add 15–20 minutes if changing Schengen status or moving T2↔T4/T5 landside on separate tickets.
 
 ## Lounges, Food & Amenities
-- Kitchen & Table in T5 offers the best value lunch buffet before security.
+- **Taste by Nordrest** (T5 airside, Gate E6) offers lunch buffet from **10:30** (~**192–219 SEK**).
 - O’Learys in T4 has reliable Wi-Fi and power outlets for long layovers.
 - The quietest seating is the far end of T4 near gate 64 after shops close.
 - SAS Gold lounge in T5 is the only one worth paying for if you lack status.

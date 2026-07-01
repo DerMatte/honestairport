@@ -3,7 +3,7 @@ iata: "SFO"
 name: "San Francisco International Airport"
 city: "San Francisco"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.flysfo.com/"
   - "https://www.tsa.gov/airports/sfo"
@@ -74,12 +74,12 @@ lounges:
 > SFO rewards travelers who know the AirTrain shortcuts, BART link, and United-heavy gate patterns.
 
 ## Quick Facts
-- Four terminals (A, B, C, G) connected airside and by frequent AirTrain.
+- Four terminals (**Harvey Milk T1, T2, T3, International Terminal**) with boarding areas A–G connected airside and by AirTrain.
 - **MCT (same ticket, practical floor):**
   - **Adjacent terminals** (G↔A): **60 min** floor — walk is **8–10 min** airside.
   - **Cross-terminal** (G→International): **75–90 min** including possible re-security.
   - **International arrival → domestic:** full re-screen — **2 h** minimum.
-- United operates the majority of flights from Terminal G and parts of A/B.
+- United operates most flights from **Terminal 3** (Boarding Area F) and the **International Terminal** (Boarding Area G).
 - BART station sits directly beneath the International Terminal for seamless regional access.
 - TSA PreCheck lanes exist in every terminal; CLEAR is also widespread.
 - International arrivals require full re-screening for most domestic connections.
@@ -88,12 +88,12 @@ lounges:
 
 ## Security & Screening Tips
 - PreCheck and CLEAR cut wait times to under 10 minutes at all terminals.
-- Avoid main checkpoint rushes 6-9 AM and 4-7 PM; use the less crowded G-side PreCheck when possible.
-- Families and oversized bags slow Terminal G lines most; arrive earlier if traveling with either.
+- Avoid main checkpoint rushes 6-9 AM and 4-7 PM; use the less crowded International Terminal PreCheck when possible.
+- Families and oversized bags slow International Terminal lines most; arrive earlier if traveling with either.
 - No need to remove shoes or laptops in PreCheck lanes at SFO.
 
 ## Best Airport Tricks & Hacks
-- Walk from Terminal G to A instead of riding AirTrain when your connection is under 25 minutes.
+- Walk between **International Terminal (G)** and **Terminal 3 (F)** instead of riding AirTrain when your connection is under 25 minutes.
 - Download the MySFO app and enable gate alerts; United changes gates more than any other carrier here.
 - Grab food in Terminal 2 before security if your flight departs from G; options are better and less crowded.
 - Use the BART station for any Bay Area destination; it beats rideshares on price and traffic.
@@ -108,7 +108,7 @@ lounges:
 - Common mistake: riding AirTrain when adjacent terminals are faster on foot.
 
 ## Lounges, Food & Amenities
-- United Club in Terminal G offers solid food and showers; expect crowds during bank departures.
+- United Club in the **International Terminal (Boarding Area G)** offers solid food and showers; expect crowds during bank departures.
 - Terminal 2 pre-security has the best casual dining: The Plant Cafe and Napa Farms Market.
 - Quiet seating clusters exist near Gate G3 and in the International Terminal upper level after 9 PM.
 - Avoid the food court in Terminal A after 8 PM; most outlets close early.
@@ -116,7 +116,7 @@ lounges:
 ## Ground Transport & Parking
 - BART is fastest and cheapest to downtown or East Bay; trains run every 10-20 minutes.
 - Rideshares pick up on the departures level; allow 15 extra minutes during rush hours.
-- Short-term parking in the closest domestic garage costs $3 for the first 30 minutes, then $6 per hour.
+- Domestic Garage short-stay: **$4 per 30 minutes**, **$39 max per 24 hours** ([SFO parking](https://www.flysfo.com/passengers/parking/domestic-hourly)).
 - Cell phone lot is free and well-marked; use it instead of circling.
 
 ## Official Sources

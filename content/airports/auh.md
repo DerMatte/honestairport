@@ -3,10 +3,10 @@ iata: "AUH"
 name: "Abu Dhabi International Airport"
 city: "Abu Dhabi"
 country: "United Arab Emirates"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
-  - "https://www.abudhabiairport.ae/en/"
-  - "https://www.darb.ae/"
+  - "https://www.zayedinternationalairport.ae/en/"
+  - "https://www.zayedinternationalairport.ae/en/Transport/Parking"
   - "https://www.etihadhub.com/en-ae/news/update-on-minimum-connection-times-at-auh"
 quickFacts:
   - "Single Terminal A opened 2023; all flights under one roof"
@@ -111,7 +111,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Official taxi rank is the fastest exit; ride-hailing pickup is one level below and can add 10 minutes.
-- Long-term parking is AED 50 per day; short-term is AED 25 for the first 3 hours.
+- Short-term parking (Terminal A): **AED 25** for **16–30 min**, **AED 55** up to **3 h**, **AED 125** up to **24 h**; pre-booked long-stay from **AED 225** for 2–3 days ([Zayed International parking](https://www.zayedinternationalairport.ae/en/Transport/Parking)).
 - Intercity buses to Dubai leave every 30-60 minutes from the ground transport center.
 
 ## Official Sources

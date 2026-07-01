@@ -3,7 +3,7 @@ iata: "AMS"
 name: "Amsterdam Airport Schiphol"
 city: "Amsterdam"
 country: "Netherlands"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.schiphol.nl/"
   - "https://www.schiphol.nl/en/security/"
@@ -131,7 +131,7 @@ lounges:
 ## Ground Transport & Parking
 - **Best value:** **NS Intercity** to Amsterdam Centraal — **every 10 min**, **15–20 min**, ~**€6**.
 - **Taxi:** **€45–55**, **25–40 min** depending on traffic — official rank only.
-- **Parking:** **P1** closest (**€4.50/h**); **P3** cheaper (**€3/h**) with free shuttle every **5 min** — shuttle from **04:30**.
+- **Parking:** Drive-up **€2.60 per 20 min**, **€57.50 per 24 h** for P1/P3; P3 shuttle runs **24/7** every **10 min** ([Schiphol parking](https://www.schiphol.nl/en/parking/parking-rates-without-a-reservation/)).
 - **Night arrivals:** Trains run late but less frequently — check NS app; taxi after last train.
 - **Rush hour:** A4/A10 clog **07:00–09:30** and **16:30–19:00** — train beats road to Centraal.
 

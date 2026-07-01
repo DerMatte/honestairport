@@ -3,9 +3,11 @@ iata: "HKG"
 name: "Hong Kong International Airport"
 city: "Hong Kong"
 country: "Hong Kong"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.hongkongairport.com/"
+  - "https://www.hongkongairport.com/en/shop-dine/dining/ho-hung-kee"
+  - "https://www.cathaypacific.com/cx/en_US/manage-booking/travel-extras/lounge-pass.html"
   - "https://www.mtr.com.hk/"
 quickFacts:
   - "Single main terminal with Midfield Concourse; most flights use gates via automated people mover"
@@ -26,9 +28,9 @@ bentoTips:
     detail: "Most Cathay and HK Express flights are in the main terminal; transfers under 45 min rarely need landside."
   - category: "food"
     label: "Food"
-    title: "Hit Tim Ho Wan or The Wing before security"
-    summary: "Grab dim sum or lounge access landside to skip the smaller airside options."
-    detail: "Airside choices shrink after 10 p.m.; The Wing and Plaza Premium are the only reliable 24-hour paid lounges."
+    title: "Eat landside or use eligible lounge access"
+    summary: "Ho Hung Kee (Arrivals L5) serves reliable noodles before security."
+    detail: "Plaza Premium near Gate 60 is 24 hours; The Wing First closes with last Cathay departure (~00:30–03:20)."
   - category: "status"
     label: "Status"
     title: "Check Flight Status in the app first"
@@ -39,14 +41,14 @@ lounges:
     terminal: "1"
     access:
       - "Cathay Pacific First/Business"
-      - "paid day pass"
+      - "Cathay lounge pass (eligible bookings)"
     amenities:
       - "showers"
     bestFor:
       - "Food"
       - "Showers"
     verdict: "worth-it"
-    summary: "Consistent high-quality food and free showers make the paid day pass here a strong option for most travelers."
+    summary: "Flagship Cathay lounge — access via eligible cabin/status or Cathay lounge pass, not a general walk-up day pass."
   - name: "Plaza Premium Lounge"
     terminal: "1"
     access:
@@ -76,7 +78,7 @@ lounges:
 - **Wi‑Fi:** Free, fast, stable — no data cap for normal use.
 - **Water:** Refill fountains in departures near gates **1–20** and Midfield — still patchy at far Midfield gates; buy bottled if tight on time.
 - **Power:** Under-seat outlets in Satellite/Midfield seating rows; charge before meal peaks **07:00–10:00**.
-- **Lounges after 22:00:** Only **The Wing** and **Plaza Premium** reliably open late.
+- **Lounges after 22:00:** **Plaza Premium** (near Gate 60) is **24 hours**; **The Wing, First** runs until last Cathay departure; **The Wing, Business** is closed for renovation (~2027 reopen).
 
 ## Security & Screening Tips
 - Expect 25-40 minutes at peak (07:00-10:00 and 18:00-21:00); liquids in 100 ml rule strictly enforced.
@@ -98,8 +100,8 @@ lounges:
 - Common mistake: exiting immigration for a connection—re-entry requires new security screening.
 
 ## Lounges, Food & Amenities
-- The Wing (Cathay) and Plaza Premium offer the best paid day passes; food quality is consistent.
-- Landside Tim Ho Wan serves excellent dim sum before security; airside options are smaller and close earlier.
+- The Wing (Cathay) requires eligible cabin/status or a **Cathay lounge pass**; Plaza Premium accepts Priority Pass and paid entry.
+- **Ho Hung Kee** (Arrivals Level 5, landside) serves reliable noodles before security; airside options are smaller and close earlier.
 - Free showers exist in both paid lounges; no free public showers after security.
 
 ## Ground Transport & Parking
