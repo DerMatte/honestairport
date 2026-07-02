@@ -3,10 +3,11 @@ iata: "SYD"
 name: "Sydney Kingsford Smith International Airport"
 city: "Sydney"
 country: "Australia"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-02"
 sources:
   - "https://www.sydneyairport.com.au/"
   - "https://www.homeaffairs.gov.au/"
+  - "https://transportnsw.info/tickets-fares/getting-to-from-sydney-airport"
 quickFacts:
   - "Three terminals: T1 international, T2 domestic (Virgin, Jetstar, Rex), T3 domestic (Qantas)"
   - "International arrivals require 45-60 min for immigration and baggage on busy days"
@@ -101,7 +102,7 @@ lounges:
 - Quietest seating: T1 level 3 near check-in rows 20-30 before security.
 
 ## Ground Transport & Parking
-- Train from T2/T3 station is cheapest and fastest to city during daylight hours.
+- Train from T2/T3 to the city: **~$21 off-peak / ~$22 peak** adult with Opal or contactless (rail fare plus **$17.92** station access fee each way) — fastest option during daylight ([Transport NSW](https://transportnsw.info/tickets-fares/getting-to-from-sydney-airport)).
 - Taxi rank at T1 is efficient; rideshare pickup is on level 1 arrivals.
 - Short-term parking at T1 is $12 for first 30 min, then steep—use only for drop-off.
 

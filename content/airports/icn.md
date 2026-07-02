@@ -3,7 +3,7 @@ iata: "ICN"
 name: "Incheon International Airport"
 city: "Seoul"
 country: "South Korea"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-02"
 sources:
   - "https://www.airport.kr/ap/en/index.do"
   - "https://www.arex.co.kr/en/"
@@ -24,7 +24,7 @@ bentoTips:
     label: "Transfers"
     title: "T1 and T2 are not walkable"
     summary: "Use the free shuttle and budget 12-15 minutes including wait."
-    detail: "Korean Air and SkyTeam use T2, while Star Alliance and many others use T1."
+    detail: "Korean Air uses T2; Asiana moved entirely to T2 from 14 Jan 2026; Star Alliance and many others remain in T1."
   - category: "food"
     label: "Food & rest"
     title: "Use T2 for food, showers, and rest"
@@ -104,7 +104,7 @@ lounges:
 - Quietest spot: T2 rest zone on the 4th floor near the transit hotel.
 
 ## Ground Transport & Parking
-- AREX express is fastest and cheapest to Seoul Station (₩9,500, 43 min); runs every 15–30 min.
+- AREX Express is fastest to Seoul Station (**₩13,000** on-site adult, ~₩11,400 online; **43 min** from T1); runs every 15–30 min. All-Stop AREX is cheaper (~₩4,750 via T-money) but slower.
 - KAL limousine buses are comfortable for specific hotel drops but slower in traffic.
 - Taxis to central Seoul cost ₩60,000–80,000; use official stand to avoid overcharges.
 - Short-term parking is expensive; long-term lots are cheaper but require shuttle.
