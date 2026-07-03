@@ -3,14 +3,15 @@ iata: "FRA"
 name: "Frankfurt Airport"
 city: "Frankfurt"
 country: "Germany"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-03"
 sources:
   - "https://www.frankfurt-airport.com/"
   - "https://www.frankfurt-airport.com/en/flights-and-transfer/terminal-3.html"
   - "https://www.frankfurt-airport.com/en/flights/check-in-security.html"
+  - "https://www.fraport.com/en/newsroom/press-releases/2026/q2/new-sky-line-people-mover-now-running-again.html"
   - "https://www.staralliance.com/en/gold-track"
+  - "https://www.rmv.de/c/en/tickets/your-ticket/tickets-overview/single-tickets/single-ticket"
   - "https://www.bahn.de/"
-  - "https://www.vielfliegertreff.de/forum/forums/airports-lounges.12/"
 quickFacts:
   - "Terminal 3 replaced Terminal 2 from April–June 2026; verify terminal on every trip"
   - "SkyLine people mover links T1 and T3 in 8–10 min (every ~2 min)"
@@ -88,16 +89,16 @@ lounges:
   - **T1 ↔ T3, crossing Schengen boundary:** **90–120 min**.
   - **EES (Entry/Exit System):** First-time non-EU biometric registration since Oct 2025 adds **20–30 min** on arrivals — pad international connections.
   - **Separate tickets:** **3+ hours** minimum (bags, check-in, full security).
-- **SkyLine:** Free automated train **T1 ↔ T3** every **~2 min**, ride **8–10 min** ([FRA Terminal 3](https://www.frankfurt-airport.com/en/flights-and-transfer/terminal-3.html)). Runs around the clock. **Walking between terminals is not practical.**
+- **SkyLine:** Free automated train **T1 ↔ T3** every **~2 min**, ride **8–10 min** ([FRA Terminal 3](https://www.frankfurt-airport.com/en/flights-and-transfer/terminal-3.html)). **Suspended nightly 23:00–04:00** — shuttle buses replace the train overnight ([Fraport SkyLine update](https://www.fraport.com/en/newsroom/press-releases/2026/q2/new-sky-line-people-mover-now-running-again.html)). **Walking between terminals is not practical.**
 - **Wi‑Fi:** Free but browser login; sessions expire (~2 h) — re-authenticate as needed.
 - **Liquids:** EU **100 ml** rule at conventional lanes; **T3 CT scanners** allow **liquids up to 2 L** and devices **in bag** ([FRA T3 security](https://www.frankfurt-airport.com/en/flights-and-transfer/terminal-3.html)). T1 lanes vary — follow staff direction.
 
 ## Security & Screening Tips
 - **Peak pain:** **06:00–09:00** and **16:00–20:00** — add **15–25 min** beyond normal; Monday mornings and holiday banks are worst.
-- **Fast Lane (flight-linked):** When your flight appears on the **Fast Lane display** at the checkpoint, use it — **no pre-purchase** required for eligible flights ([FRA security](https://www.frankfurt-airport.com/en/flights/check-in-security.html)). Many FF reports confirm this beats paid third-party fast track.
+- **Fast Lane (flight-linked):** When your flight appears on the **Fast Lane display** at the checkpoint, use it — **no pre-purchase** required for eligible flights ([FRA security](https://www.frankfurt-airport.com/en/flights/check-in-security.html)).
 - **Star Alliance Gold Track:** Dedicated lanes at **T1 and T3** for Gold / Star business or first on a member flight ([Star Alliance Gold Track](https://www.staralliance.com/en/gold-track)).
 - **Lufthansa First / Senator:** Separate **First Class check-in + security** in T1 — worth the walk when main hall queues spike.
-- **T1 checkpoint hack:** Avoid central security **07:00–08:30**; **A-West** or **B** side lanes are often shorter (many FF reports).
+- **T1 checkpoint hack:** Avoid central security **07:00–08:30**; **A-West** or **B** side lanes are often shorter during the morning bank.
 - **T3 connection trap:** Arriving T1 and departing T3 (or reverse) means **security re-screen at the departure terminal** even on one ticket — queue time dominates, not SkyLine time.
 - **Families / PRM:** Dedicated lanes exist — ask staff rather than queuing in the main hall.
 
@@ -105,9 +106,9 @@ lounges:
 - **Verify terminal before every trip:** T3 rollout moved **57 airlines** from T2 across Apr–Jun 2026 — assignments can still shift; check boarding pass **day-of**.
 - **SkyLine routing:** From T1, follow **"Terminal 3 G, H, J"** signs to the SkyLine station near the Fernbahnhof area — **works best** when you have **60+ min** after landing; **avoid** assuming sub-30-min T1↔T3 connections.
 - **Security hop (long layover only):** If T1 queues are brutal and you have **3+ hours**, some experienced travelers exit landside and re-enter via a quieter checkpoint — only viable with time to spare and no immigration complications.
-- **T1 food court skip:** Walk to **Z-gates Gourmet market** or **Aroma bakery near A40** — same chains, shorter lines than the central food court (Vielfliegertreff consensus).
+- **T1 food court skip:** Walk to **Z-gates Gourmet market** or **Aroma bakery near A40** — same chains, shorter lines than the central food court.
 - **Quiet seating:** Upper level T1 near gates **A50–A60** when lounges are full; less retail traffic than the Z-gates duty-free corridor.
-- **Rail insider:** **S8/S9** to Frankfurt Hbf every **15 min** (~**€5.10**); **ICE** long-distance from **Fernbahnhof** (T1 lower level) — book at [bahn.de](https://www.bahn.de/) to skip counter queues.
+- **Rail insider:** **S8/S9** to Frankfurt Hbf every **15 min** (~**€6.90** city↔airport); **ICE** long-distance from **Fernbahnhof** (T1 lower level) — book at [bahn.de](https://www.bahn.de/) to skip counter queues ([RMV airport fare](https://www.rmv.de/c/en/tickets/your-ticket/tickets-overview/single-tickets/single-ticket)).
 - **Late arrival:** S-Bahn until ~**01:00**; after that **night bus N5** to city — check RMV app for live departures.
 - **Water:** Refill stations airside in T1 near A-West/B lanes and T3 CT area — density still uneven; bottled water is peak-priced at Z-gates.
 - **Wi‑Fi:** Free **FRA-WIFI** — browser login, **~2 h** sessions; re-authenticate during long layovers.
@@ -137,7 +138,7 @@ lounges:
 - **Power:** Grab outlets right after security — gate areas get competitive during delays.
 
 ## Ground Transport & Parking
-- **Fastest to Frankfurt center:** **S8/S9** to Hauptbahnhof (**10–15 min**, ~**€5.10**); runs frequently until ~**01:00**.
+- **Fastest to Frankfurt center:** **S8/S9** to Hauptbahnhof (**10–15 min**, **€6.90** city↔airport); runs frequently until ~**01:00**.
 - **Long-distance rail:** **ICE** from **Fernbahnhof** (T1) — Cologne **~1 h 10**, Munich **~3 h 20** ([bahn.de](https://www.bahn.de/)).
 - **Taxi:** **20–25 min** off-peak, **€35–45** to city — use official ranks only; rush hour loses to rail.
 - **Parking:** **P1/P2** short-stay **€5** first 30 min; **P8/P9** long-stay **€35–45/day** — book online for multi-day.

@@ -3,9 +3,10 @@ iata: "SEA"
 name: "Seattle-Tacoma International Airport"
 city: "Seattle"
 country: "United States"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-03"
 sources:
   - "https://www.portseattle.org/sea-tac"
+  - "https://theclubairportlounges.com/lounges/sea-the-club-concourse-a"
   - "https://www.tsa.gov/airports/seattle-tacoma-international-airport"
 quickFacts:
   - "Alaska Airlines primary hub; Delta secondary hub"
@@ -26,9 +27,9 @@ bentoTips:
     detail: "Works best for A-to-D connections; avoid during peak if you have heavy bags."
   - category: "food"
     label: "Food & quiet"
-    title: "Hit D14 before security"
-    summary: "Grab Ivar's or Beecher's at D14 then clear security with less crowding."
-    detail: "Best when your gate is in C or D; skip if flying out of A."
+    title: "Eat airside in your concourse"
+    summary: "Beecher's in C and Rel'Lish in D beat the central terminal rush."
+    detail: "Ivar's Seafood Bar is airside in Concourse C — not available before security."
   - category: "status"
     label: "Live checks"
     title: "Check the Port app"
@@ -36,7 +37,7 @@ bentoTips:
     detail: "Refresh before you leave home; ignore if you already have PreCheck."
 lounges:
   - name: "The Club at SEA"
-    terminal: "C"
+    terminal: "A"
     access:
       - "Priority Pass"
       - "paid day pass"
@@ -46,7 +47,7 @@ lounges:
     bestFor:
       - "Work"
     verdict: "depends"
-    summary: "Worth a visit with free Priority Pass access but expect crowds by mid-morning."
+    summary: "Worth a visit with free Priority Pass access; also a second location in the South Satellite above Gate S9."
   - name: "Alaska Airlines Lounge"
     terminal: "A"
     access:
@@ -92,7 +93,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the tram to Concourse D first, then walk back to your gate to skip the longest moving-walkway crowds.
 - Download the Port of Seattle app and enable notifications for security wait times before leaving your hotel.
-- Eat at D14 (Ivar's or Beecher's) before clearing security when your flight departs from C or D.
+- Eat airside in your departure concourse — **Beecher's** (C) and **Rel'Lish Burger Lounge** (D) are reliable; **Ivar's Seafood Bar** is airside in **Concourse C** only.
 - Use the south-end restrooms near Gate C2; they stay cleaner and quieter than the central ones.
 - For early flights, park at the main garage and take the elevator straight to the tram level to avoid ticketing lines.
 - If connecting from international to domestic, clear customs then immediately re-clear security at the A checkpoint.
@@ -105,15 +106,15 @@ lounges:
 - Common mistake: following signs for "Gates" instead of the tram when heading to D.
 
 ## Lounges, Food & Amenities
-- The Club at SEA (paid day pass) near C2 offers solid Wi-Fi and showers but fills by mid-morning.
-- Best quick food: Ivar's fish & chips at D14 or the ramen shop at C2.
+- The Club at SEA (**Concourse A** opposite Gate A11, plus **South Satellite** mezzanine above Gate S9) offers solid Wi-Fi and showers but fills by mid-morning ([The Club SEA](https://theclubairportlounges.com/lounges/sea-the-club-concourse-a)).
+- Best quick food: **Beecher's** mac & cheese in C, **Rel'Lish** burgers in D, or **Ivar's Seafood Bar** in C.
 - Quietest seating is the window alcoves past Gate A9; power outlets are plentiful there.
 - Avoid the central food court after 11am; lines spill into walkways.
 
 ## Ground Transport & Parking
 - Link light rail is fastest and cheapest to downtown ($3, 35-40 min); trains run every 8-10 minutes.
 - Rideshare pickup is on the 4th floor of the garage; expect 5-10 minute waits at peak.
-- Garage parking costs $38/day; the economy lot is $28/day with a free shuttle every 15 minutes.
+- Garage parking costs **$32/day** general (Floors 1–3, 5–8); reserved Floor 4 is **$39/day**; the economy lot is **$28/day** with a free shuttle every 15 minutes.
 - Avoid rideshare during Sounders or Seahawks game days; light rail stays reliable.
 
 ## Official Sources
