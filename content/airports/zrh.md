@@ -3,10 +3,12 @@ iata: "ZRH"
 name: "Zurich Airport"
 city: "Zurich"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-04"
 sources:
   - "https://www.zurich.com/"
   - "https://www.zurich.com/en/passengers"
+  - "https://www.swiss.com/ch/en/customer-support/faq/lounge-voucher.solo_continue"
+  - "https://www.sbb.ch/en"
 quickFacts:
   - "Single terminal complex with docks A, B, and E"
   - "Main hub for SWISS; Star Alliance dominant"
@@ -39,14 +41,14 @@ lounges:
     terminal: "E"
     zone: "non-Schengen"
     access:
-      - "Star Alliance Gold"
-      - "paid day pass"
+      - "SWISS or Lufthansa First Class"
+      - "HON Circle"
     amenities:
       - "showers"
     bestFor:
       - "Relaxation"
     verdict: "worth-it"
-    summary: "The top lounge at ZRH if you can access it via status or a day pass."
+    summary: "The top lounge at ZRH — First Class or HON Circle only; no day pass."
   - name: "SWISS Business Lounge"
     terminal: "E"
     zone: "non-Schengen"
@@ -105,7 +107,8 @@ lounges:
 - Follow yellow signs for Schengen/non-Schengen; passport control sits between B and E.
 
 ## Lounges, Food & Amenities
-- SWISS Business and First lounges in E dock are the best; access with Star Gold or paid day pass.
+- **SWISS First Lounge (E dock):** **First Class / HON only** — no Star Gold, no day pass ([SWISS](https://www.swiss.com/ch/en/customer-support/faq/lounge-voucher.solo_continue)).
+- **SWISS Senator / Business lounges:** Star Gold, Senator status, or purchasable lounge vouchers.
 - The Market (landside) offers solid Swiss and international options with seating.
 - Quiet zones with charging tables are located near gates 5-10 and in the E-dock upper level.
 - Showers available in the SWISS lounges only.
@@ -119,4 +122,4 @@ lounges:
 ## Official Sources
 - https://www.zurich.com/
 - https://www.zurich.com/en/passengers
-- https://www.sbb.ch/en (rail connections)
+- https://www.sbb.ch/en

@@ -3,7 +3,7 @@ iata: "PEK"
 name: "Beijing Capital International Airport"
 city: "Beijing"
 country: "China"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-04"
 sources:
   - "https://www.bcia.com.cn/"
   - "https://www.caac.gov.cn/"
@@ -81,14 +81,13 @@ lounges:
 - Download the BCIA app and bind your passport before arrival for faster status.
 - Landside T3 has superior food; eat before clearing security.
 - Free luggage wrapping stations sit near T3 check-in rows 1-10.
-- Use the free T2-T3 airside walkway instead of the bus when connecting.
+- **T2 ↔ T3:** No airside link — exit security, take the free landside shuttle (10–15 min), then re-check and re-screen. Budget **90–120 min** minimum for inter-terminal connections.
 - Charge devices at the quiet seating area behind T3 gate 35.
 - Book Airport Express tickets via WeChat to skip the machine line.
 - If delayed, the capsule hotel in T3 basement offers 4-hour blocks for ¥200.
 
 ## Terminals & Navigation
-- T1-T2 are adjacent; T3 is 2 km away via shuttle.
-- Walking time between T2 and T3 airside is 12-15 minutes.
+- T1 and T2 are adjacent (10–15 min walk); T3 is **2 km** away via landside shuttle only — there is **no airside T2↔T3 walkway**.
 - Follow yellow signs for international connections; blue for domestic.
 - Common mistake: taking the wrong shuttle bus and adding 20 minutes.
 
