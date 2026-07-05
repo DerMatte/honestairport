@@ -8,6 +8,7 @@ sources:
   - "https://www.dubaiairports.ae/"
   - "https://www.dubaiairports.ae/information/transfers"
   - "https://www.marhabaservices.com/ae/english/guides/tips-for-dubai-international-airport-connections.html"
+  - "https://dubaiairports.ae/experiences/services/details/showers"
   - "https://www.rta.ae/"
 quickFacts:
   - "Three terminals: T1 (most int'l), T2 (flydubai/regional), T3 (Emirates, flydubai, United, Air Canada, and others)"
@@ -99,15 +100,16 @@ lounges:
 - **Separate tickets:** Must clear **passport control**, collect bags, check in again — no airside shortcut ([DXB transfers](https://www.dubaiairports.ae/information/transfers)).
 
 ## Best Airport Tricks & Hacks
+- Download the Dubai Airports app for real-time gate and security wait times before you arrive.
 - **Emirates connection flow:** Follow **Connections** signs immediately after landing — bags transfer automatically on one ticket; still check **both** arrival and departure concourse on boarding pass.
 - **Concourse A trap:** **A gates** (A380) require the **internal airport train** from B/C — budget **20–30 min** gate-to-gate even without security.
-- **T3 internal movement:** Walk between **B ↔ C**; train/bus to **A** and between **A ↔ C** (Bus Connection A6 or connections desk E in B).
+- **T3 internal movement:** Walk between **B ↔ C**; train/bus to **A** and between **A ↔ C** (Bus Connection A6 or connections desk E in B). Use moving walkways to shave **5–7 min** on long pier hikes.
 - **Inter-terminal bus:** Free, **~30 min** frequency — don't cut a **2 h** connection involving T1↔T3; experienced travelers want **3 h+**.
 - **Metro (landside T1↔T3):** Red Line stations at T1 and T3 — useful if you've exited airside; **does not serve T2**.
-- **Free showers (T3 Concourse B):** Rarely crowded before **07:00** — bring towel or buy at duty-free.
+- **Free showers (T3 Concourse B):** Between gates **B13 and B19** ([DXB showers](https://dubaiairports.ae/experiences/services/details/showers)) — bring towel and toiletries; rarely crowded before **07:00**.
 - **Nol card:** Buy **Nol Silver** at airport Metro station for seamless city travel — works on buses too.
 - **Power:** Quiet charging near gates **B30–B40** in T3 vs. crowded central areas.
-- **Avoid:** Assuming T1 and T3 are "connected" like a single terminal; booking **90 min** self-transfer T3→T1; using unofficial taxi touts at arrivals.
+- **Avoid:** Assuming T1 and T3 are "connected" like a single terminal; booking **90 min** self-transfer T3→T1; T2 food courts during **14:00–17:00** rush; unofficial taxi touts at arrivals.
 
 ## Terminals & Navigation
 - **T3 scale:** One of the world's largest terminals — farthest B to A gates can exceed **30 min** with train waits.

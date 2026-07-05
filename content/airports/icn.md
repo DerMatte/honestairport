@@ -9,8 +9,9 @@ sources:
   - "https://www.arex.co.kr/en/"
   - "https://www.airport.kr/ap/en/transfer/generalTransfer/generalTransfer.do"
 quickFacts:
-  - "Two terminals linked by free shuttle (~18 min ride); Asiana entirely at T2 from Jan 2026"
-  - "Traffic split roughly 50:50 between T1 and T2; T2 has Korean Air, Asiana, and SkyTeam"
+  - "Two terminals linked by free shuttle (~18 min ride); not walkable"
+  - "T2: Korean Air, Asiana (from Jan 2026), Jin Air, and SkyTeam partners"
+  - "T1: Many Star Alliance carriers (except Asiana) plus other international airlines"
   - "AREX express train reaches Seoul Station in 43 min"
   - "Strong free Wi-Fi and abundant charging stations"
   - "24-hour transit hotel and capsule options available"
@@ -24,7 +25,7 @@ bentoTips:
     label: "Transfers"
     title: "T1 and T2 are not walkable"
     summary: "Use the free shuttle and budget ~18 minutes for the ride plus wait time."
-    detail: "After Asiana's Jan 2026 move to T2, traffic is roughly 50:50; T2 holds Korean Air, Asiana, and SkyTeam."
+    detail: "Korean Air, Asiana, and SkyTeam use T2; many Star Alliance and other carriers use T1 — Asiana moved to T2 in Jan 2026."
   - category: "food"
     label: "Food & rest"
     title: "Use T2 for food, showers, and rest"
@@ -66,15 +67,18 @@ lounges:
 > Fast, no-nonsense reference for clearing ICN with minimal stress and wasted time.
 
 ## Quick Facts
-- **Terminals:** **T1** and **T2** split traffic roughly **50:50** since Asiana moved to T2 (Jan 2026); **T2** holds Korean Air, Asiana, and SkyTeam — **not walkable**; free shuttle ride **~18 min** plus wait.
+- **Terminals:** **T1** and **T2** are separate buildings **2 km apart** — **not walkable**; free shuttle every **5–10 min**, ride **~18 min** plus wait.
+- **T2:** Korean Air, **Asiana (relocated Jan 2026)**, Jin Air, and SkyTeam partners.
+- **T1:** Many Star Alliance carriers (except Asiana), plus other international airlines.
 - **MCT (same ticket, practical floor — post-Jan 2026 Asiana T2 move):**
   - **T1 → T1 or T2 → T2:** **70 min** floor, **90 min** comfortable.
   - **T1 ↔ T2 (interline, bags through):** **90 min** airline MCT, **2 h** practical — peak **09:00–11:00** adds queues.
   - **Separate tickets:** **4 h** minimum — immigration, bags, re-check ([Incheon transfer guidance](https://www.airport.kr/ap/en/transfer/generalTransfer/generalTransfer.do)).
+- Security and immigration are efficient but slow during **06:00–09:00** and **18:00–22:00** peaks.
 - **Wi‑Fi:** Free, reliable; I‑Pass registration optional for faster reconnect.
 - **Water:** Refill fountains in T2 **4F** rest zone and T1 near gate **40**; bring an empty bottle.
 - **Power:** Plentiful at gates; T2 **4F** rest zone has the best layover seating + outlets.
-- **AREX:** Express to Seoul Station **43 min** (**₩13,000** on-site; discounted online); inter-terminal train landside only.
+- **AREX:** Express to Seoul Station **43 min** (**₩13,000** on-site; discounted online); buses and taxis depart from arrivals level of each terminal.
 
 ## Security & Screening Tips
 - Expect full liquids screening and shoe removal; 100 ml rule strictly enforced.
@@ -94,7 +98,7 @@ lounges:
 ## Terminals & Navigation
 - T1 and T2 are 2 km apart; free shuttle ride takes ~18 min plus wait time.
 - Walking between terminals is not practical—always use the shuttle.
-- Traffic is split roughly 50:50 between T1 and T2 since Asiana moved to T2 in Jan 2026.
+- Traffic splits between T1 and T2 by airline — check your carrier, not alliance alone; roughly 50:50 since Asiana moved to T2 in Jan 2026.
 - Clear signage in English and Korean; follow color-coded lines for departures vs arrivals.
 
 ## Lounges, Food & Amenities

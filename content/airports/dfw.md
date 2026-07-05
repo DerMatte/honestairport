@@ -103,7 +103,7 @@ lounges:
 - DART Orange Line rail reaches Terminal A in 45 minutes from downtown Dallas; $3 fare.
 - Terminal Link shuttle runs every 10 minutes between terminals and rental car center.
 - Economy parking ($9/day) requires 10-minute shuttle; Terminal B garage ($24/day) is worth it for short trips.
-- Rideshares pick up on the upper level of every terminal (A–E); avoid during 4–7 p.m. surge pricing.
+- Rideshare pickup is on the **lower level at each terminal** (Passenger Pick-Up signs); confirm your terminal in the app — not Terminal A only. Avoid during 4–7 p.m. surge pricing.
 
 ## Official Sources
 - https://www.dfwairport.com/

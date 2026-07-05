@@ -10,6 +10,7 @@ sources:
   - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/cdgval/"
   - "https://www.bonjour-ratp.fr/en/aeroports/roissy-charles-de-gaulle/acces/navette/"
   - "https://www.iledefrance-mobilites.fr/en/tickets-fares/detail/orly-airport-ticket"
+  - "https://www.iledefrance-mobilites.fr/en/titres-et-tarifs/detail/ticket-paris-region-aeroports"
   - "https://www.ratp.fr/en"
 quickFacts:
   - "Terminals 1, 2A–2G, 3 — 2G is isolated; T2 sub-terminals often need buses"
@@ -101,11 +102,12 @@ lounges:
 - **2G passengers:** Clear security in your origin sub-terminal, then **N2 bus to 2G** — allow **20 min** minimum from 2E/2F.
 
 ## Best Airport Tricks & Hacks
+- Download the Paris Aéroport app for real-time gate and security data before committing to a checkpoint.
 - **Follow yellow "Correspondance / Transfer" signs** — purple is not CDG's color (that's LHR); yellow is consistent.
 - **2A/2B → 2E/2F:** Take **N1/N2 bus** instead of walking when time is tight — walking can exceed **15–20 min**.
 - **2G schedule trap:** N2 runs on a **fixed schedule** (roughly every 8 min daytime, ends ~23:00) — missing a shuttle is a common misconnect; pad **20+ min**.
 - **Long layover hack:** With **90+ min** and wrong-terminal security queue, some travelers exit and re-enter via a quieter terminal — only with time and valid docs.
-- **RER B tickets:** **€14** adult **Ticket Paris Région <> Aéroports** (valid zones 1–5, 2 h transfers) — load onto **Navigo Easy** or a transport app; no paper version from Jan 2026 ([Île-de-France Mobilités](https://www.iledefrance-mobilites.fr/en/tickets-fares/detail/orly-airport-ticket)). Buy **return in Paris** to skip airport queues on the way back.
+- **RER B tickets:** **€14** adult **Ticket Paris Région <> Aéroports** (valid zones 1–5, 2 h transfers) — load onto **Navigo Easy** or a transport app; no paper version from Jan 2026 ([Île-de-France Mobilités](https://www.iledefrance-mobilites.fr/en/titres-et-tarifs/detail/ticket-paris-region-aeroports)). Buy **return in Paris** to skip airport queues on the way back.
 - **Quiet seating:** Upper level **2E Hall L** near gates **50–60** post-security — less retail traffic.
 - **Avoid Terminal 3** unless your ticket requires it — minimal amenities, slow security.
 - **Terminal renumbering (from Sep 2026):** ADP is renaming T2 sub-terminals — verify signage matches boarding pass during transition.
@@ -134,7 +136,7 @@ lounges:
 ## Ground Transport & Parking
 - **Best value:** **RER B** to central Paris — **35–50 min**, **€14** (Ticket Paris Région <> Aéroports) — avoid **07:00–09:00** and **17:00–19:00** crush.
 - **Roissybus:** Alternative to Opéra — check current schedule/fare.
-- **Taxi:** Official rank only — **€55–65** flat to central Paris; regulated, beats unlicensed touts.
+- **Taxi:** Official rank only — **€55–65** flat to central Paris (right-bank vs left-bank may vary); regulated, beats unlicensed touts.
 - **Uber at arrivals:** Often slower than official taxi queue — taxi rank is the insider pick.
 - **Parking:** Valet at T2 is **€45+/day** — **P3/P4** long-stay cheaper via shuttle.
 - **Express Line 4:** Replaced Roissybus on some routes (Mar 2025) — verify current RATP options.

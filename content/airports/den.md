@@ -9,12 +9,12 @@ sources:
   - "https://www.flydenver.com/security"
   - "https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den"
 quickFacts:
-  - "United/Frontier hub; MCT 40 min domestic floor, 60 min int'l on one ticket"
+  - "Hub for United and Frontier Airlines"
   - "Single Jeppesen Terminal with Concourses A, B, C linked by train"
-  - "Level 6 East + West checkpoints (34 CT lanes); laptops/liquids stay in bags"
-  - "Great Hall renovation through 2027 — check construction alerts"
-  - "PreCheck and CLEAR available at both checkpoints"
-  - "Free Wi-Fi reliable; cell signal strong throughout"
+  - "Level 6 East/West checkpoints with CT scanners (Level 5 closed)"
+  - "PreCheck and CLEAR at East and West checkpoints (Level 6)"
+  - "Largest US airport by land area"
+  - "Direct flights to Europe and Asia"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -65,26 +65,20 @@ lounges:
 
 ## Quick Facts
 - One main terminal feeds three concourses via underground train (5–8 min rides).
-- **MCT (United hub, one ticket):**
-  - **Domestic → domestic:** **40 min** floor, **60 min** comfortable (train ride included).
-  - **Domestic → international:** **60 min** floor.
-  - **International → domestic:** **90 min+** — customs adds time; pad **2 h** in peaks.
 - United dominates Concourse B; Frontier and Southwest split A and C.
-- **Security (2025–2026):** Two **Level 6** checkpoints — **East** (opened Aug 2025) and **West** (Feb 2024), **17 lanes each** with **CT scanners** — leave laptops and liquids in bags ([TSA](https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den)). Old Level 5 lanes are closed.
-- **Great Hall Program** runs through **2027** — eight more lanes on Level 5 north open late summer 2026; expect wayfinding changes.
-- **Wi‑Fi:** Free and reliable. **Water:** Refill stations post-security on concourses; fill before boarding the train for long gate walks.
+- Security lines peak 5–8 a.m. and 4–7 p.m.; **East and West checkpoints on Level 6** both offer PreCheck/CLEAR.
+- Free airport Wi-Fi is reliable; cell signal is strong throughout.
 - The automated train runs 24/7 with no security re-screening between concourses.
-- Long walks are common; moving walkways help but still budget 20–30 min between distant gates.
+- Long walks are common; moving walkways help but still budget 20–30 min between gates.
 
 ## Security & Screening Tips
-- Use **Level 6 West** near United counters for Concourse B; **Level 6 East** near Southwest for A/C — both open **3 a.m.–1 a.m.**
+- Use **East or West Security on Level 6** — the old Level 5 checkpoints are closed. West is closer to United (Concourse B); East suits Southwest (Concourse C).
 - CLEAR + PreCheck combo is fastest; CLEAR alone still beats standard lines during rushes.
-- **CT lanes:** Electronics and compliant liquids stay in bags — don't unpack out of habit.
-- Arrive 90 min early for domestic, 2.5 hours for international; add 30 min during snow or construction.
+- Both Level 6 checkpoints use **CT scanners in every lane** — you can often leave laptops and compliant liquids in your bag, but TSA officers may still ask you to remove items.
+- Arrive 90 min early for domestic, 2.5 hours for international; add 30 min during snow.
 
 ## Best Airport Tricks & Hacks
 - Board the train at the far end of the terminal to grab a seat before crowds pile on.
-- **Checkpoint pick:** United → West Level 6; Southwest/Frontier → East Level 6 — saves backtracking to the wrong side.
 - If connecting from B to C, board the AGTS train **toward Concourse C** — one continuous ride through A; do not get off at A to transfer.
 - Grab a window seat on the train for the best view of the airfield and mountains.
 - Use the free hotel shuttle loop to escape the terminal for 20 min of fresh air when delayed.
@@ -113,7 +107,5 @@ lounges:
 ## Official Sources
 - https://www.flydenver.com/
 - https://www.flydenver.com/security
-- https://www.flydenver.com/about-den/projects-and-infrastructure/great-hall-program/
-- https://www.tsa.gov/news/press/releases/2025/08/04/tsa-begin-operations-new-east-security-checkpoint-den
 - https://www.flydenver.com/parking
 - https://www.rtd-denver.com/airport/
