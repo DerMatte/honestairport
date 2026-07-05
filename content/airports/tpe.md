@@ -3,7 +3,7 @@ iata: "TPE"
 name: "Taoyuan International Airport"
 city: "Taipei"
 country: "Taiwan"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-07-01"
 sources:
   - "https://www.taoyuan-airport.com.tw/"
   - "https://www.taoyuan-airport.com.tw/en/flight/security.html"
@@ -22,8 +22,8 @@ bentoTips:
   - category: "terminal"
     label: "Terminal"
     title: "Confirm terminal before arrival"
-    summary: "EVA and Starlux use T2; China Airlines uses T1 or T2 depending on route."
-    detail: "Confirm your terminal on the boarding pass—China Airlines splits flights across both terminals."
+    summary: "**EVA uses T2 only**; China Airlines and Starlux operate from **both T1 and T2** — check your ticket."
+    detail: "Shuttle between terminals takes 8-12 minutes; do not rely on signage alone."
   - category: "food"
     label: "Food"
     title: "Eat before security in T2"
@@ -65,7 +65,7 @@ lounges:
 ## Quick Facts
 - Two terminals linked by free shuttle buses running every 5-10 minutes.
 - **MCT (same ticket, T1↔T2):** shuttle **8–12 min** — budget **75 min** minimum including immigration peaks; **90 min** safer.
-- EVA Air and Starlux use T2; China Airlines operates from T1 or T2 depending on route—check your boarding pass.
+- EVA Air, Starlux, and China Airlines dominate; most U.S. flights depart from T2.
 - Direct MRT to Taipei Main Station costs NT$160 and takes 35-40 minutes.
 - Free, fast Wi-Fi available everywhere; no login required.
 - **Power:** 4th-floor observation deck in T1; gate C6 shower area in T2 — charge early.
@@ -88,7 +88,7 @@ lounges:
 - If connecting to a domestic flight, exit and re-enter rather than using the slow transfer bus.
 
 ## Terminals & Navigation
-- T1 handles legacy carriers; T2 is newer and used by EVA, Starlux, and many international flights. China Airlines uses both terminals route-dependent.
+- T1 handles most legacy carriers; T2 is newer and used by EVA, Starlux, and many international flights.
 - Walking time between farthest gates in T2 is 12-15 minutes; T1 is slightly smaller.
 - Free shuttle stops are clearly marked outside both terminals; do not walk between them.
 - Common mistake: assuming all EVA flights are in T2—double-check your boarding pass.

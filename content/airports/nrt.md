@@ -3,7 +3,7 @@ iata: "NRT"
 name: "Narita International Airport"
 city: "Tokyo"
 country: "Japan"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-06-27"
 sources:
   - "https://www.narita-airport.jp/en/"
   - "https://www.narita-airport.jp/en/transit/"
@@ -27,8 +27,8 @@ bentoTips:
     detail: "Free shuttle between terminals takes 10 minutes; allow 25 minutes if carrying luggage."
   - category: "food"
     label: "Food & quiet"
-    title: "Ramen at Menya Musashi before security"
-    summary: "Terminal 2, 4F has the best bowl; eat before clearing immigration on departure."
+    title: "Ramen at Menya Kookai before security"
+    summary: "Terminal 2, 4F landside has the best bowl; eat before clearing immigration on departure."
     detail: "Post-security options are limited and crowded; avoid if your flight boards soon."
   - category: "status"
     label: "Live checks"
@@ -76,7 +76,7 @@ lounges:
 
 ## Security & Screening Tips
 - Remove all liquids and laptops; bins are scarce and staff do not provide trays.
-- Shoe removal is required only for thick-soled shoes, boots, and ankle-covering footwear—not routine sneakers or sandals.
+- Shoe removal is mandatory; wear slip-ons to save time.
 - Peak congestion hits 07:00-09:00 and 16:00-19:00; arrive at security no later than 2 hours before departure.
 - Families and elderly travelers can request assistance lanes at both terminals.
 
@@ -96,7 +96,7 @@ lounges:
 
 ## Lounges, Food & Amenities
 - ANA Lounge in Terminal 1 is the strongest paid option; Priority Pass works at Terminal 2’s Plaza Premium.
-- Menya Musashi (Terminal 2, 4F) serves excellent tonkotsu ramen before security.
+- Menya Kookai (Terminal 2, 4F landside) serves reliable ramen before security ([NRT dining](https://www.narita-airport.jp/en/)).
 - Terminal 1’s 5F has the quietest seating with power outlets and minimal foot traffic.
 - Showers in Terminal 2 cost ¥1,100 for 30 minutes and include towels.
 

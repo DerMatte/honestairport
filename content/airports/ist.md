@@ -3,7 +3,7 @@ iata: "IST"
 name: "Istanbul Airport"
 city: "Istanbul"
 country: "Turkey"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-06-14"
 sources:
   - "https://www.istanbul-airport.com/"
   - "https://www.dhmi.gov.tr/"
@@ -11,7 +11,7 @@ sources:
 quickFacts:
   - "Single massive terminal complex handling all international and domestic flights"
   - "Primary hub for Turkish Airlines with extensive long-haul network"
-  - "Metro M11 and high-speed train links to city center in 30-45 minutes"
+  - "Metro M11 to Gayrettepe (~35 min); Havaist airport buses to city districts"
   - "One of the world's largest airport terminals by floor area"
   - "Strict liquid and security screening with frequent peak-hour queues"
 bentoTips:
@@ -107,13 +107,11 @@ lounges:
 - Quiet seating areas exist on the upper level of Zone E away from retail traffic.
 
 ## Ground Transport & Parking
-- M11 metro runs every 6–10 minutes to Gayrettepe in 30 minutes for the lowest cost.
-- High-speed train to Istanbul city center takes 45 minutes and avoids traffic.
-- Havaist buses to Taksim or Kadıköy are reliable and run 24 hours; buy tickets on the app.
+- **M11 metro** runs to **Gayrettepe** in ~**35 min** — the fastest public option; there is **no high-speed train** directly from IST to the city center.
+- **Havaist** airport buses serve Taksim, Kadıköy, and other districts 24 hours; buy tickets on the app.
 - Official airport taxis use fixed rates—insist on the meter or pre-agreed price to avoid scams.
 - Short-term parking is expensive; long-term lots are cheaper but require a shuttle.
 
 ## Official Sources
 - https://www.istanbul-airport.com/
 - https://www.dhmi.gov.tr/
-- https://www.tcdd.gov.tr/ (high-speed train schedules)

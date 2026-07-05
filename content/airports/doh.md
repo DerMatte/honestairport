@@ -3,12 +3,13 @@ iata: "DOH"
 name: "Hamad International Airport"
 city: "Doha"
 country: "Qatar"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-06-27"
 sources:
   - "https://www.dohaairport.com/"
   - "https://www.dohaairport.com/en/security"
+  - "https://www.airportinformation.com/DOH"
 quickFacts:
-  - "Single terminal with four concourses (A–D); all flights under one roof"
+  - "Single terminal with concourses A–E; internal people-mover links south (A/B) and north (D/E) hubs"
   - "Qatar Airways hub; 45+ million passengers in 2024"
   - "Security opens 3 h before departure; biometric gates available for eligible passengers"
   - "Qatar Airways hub; MCT 45 min int'l–int'l floor, 90 min comfortable"
@@ -27,8 +28,8 @@ bentoTips:
     detail: "Works best when your connection is under 90 min; avoid if you have mobility issues."
   - category: "food"
     label: "Food & quiet"
-    title: "Head to The Orchard"
-    summary: "Grab a quiet meal and charging seat at The Orchard in Concourse D."
+    title: "Head to The Garden (Concourse C)"
+    summary: "Grab a quiet meal and charging seat in The Garden indoor park on Concourse C."
     detail: "Open 24 h; far less crowded than the main food court near gates A."
   - category: "status"
     label: "Live checks"
@@ -61,7 +62,7 @@ lounges:
 > One terminal, fast security, and direct metro access make DOH unusually efficient when you know the patterns.
 
 ## Quick Facts
-- Single terminal with concourses A–D; no bus gates.
+- Single terminal with concourses **A–E**; internal people-mover links the south hub (A/B) and north hub (D/E), with **C** as the central spine ([DOH terminal map](https://www.airportinformation.com/DOH)).
 - **MCT (Qatar Airways hub):**
   - **Int'l → int'l airside:** **45 min** marketed minimum; plan **90 min** in evening banks (18:00–22:00).
   - **Connection security:** All transfers hit a **transit screening** — queue time beats walking distance here.
@@ -80,7 +81,7 @@ lounges:
 
 ## Best Airport Tricks & Hacks
 - Download the Doha Airport app for gate push notifications after security only.
-- Charge devices at The Orchard (Concourse D) or the quiet lounge near gate C12.
+- Charge devices at **The Garden** (Concourse C) or the quiet lounge near gate C12.
 - Buy a metro card at the station inside arrivals for seamless city transfer.
 - If your connection is under 60 min, stay airside and use the internal train — but **transit security** is still the bottleneck, not the people-mover.
 - Free luggage wrapping is available near check-in row 4—useful for onward connections.
@@ -94,10 +95,10 @@ lounges:
 - Common mistake: following signs for “Departures” instead of your specific concourse letter.
 
 ## Lounges, Food & Amenities
-- The Orchard garden (Concourse D) offers quiet seating and decent food — not a lounge, but the best public calm spot.
-- Al Mourjan Business Lounge (near gate A) has excellent showers and à-la-carte dining for eligible QR/oneworld passengers.
+- **The Garden** (Concourse C) offers quiet seating amid indoor greenery — not a lounge, but the best public calm spot.
+- **Al Mourjan Business Lounge** (Concourse A, south hub) has excellent showers and à-la-carte dining for eligible QR/oneworld passengers.
 - **Overrated:** Main food court between A and B at peak — crowded and overpriced.
-- Paid Sleepover pods near gates C30/C31 and C40; free rest available in Quiet Rooms (not free nap pods near C8).
+- Free nap pods are located near gate C8; first-come, first-served.
 
 ## Ground Transport & Parking
 - Metro Red Line is fastest and cheapest to downtown (QR 2–6).
