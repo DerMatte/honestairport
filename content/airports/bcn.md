@@ -3,10 +3,12 @@ iata: "BCN"
 name: "Josep Tarradellas Barcelona-El Prat Airport"
 city: "Barcelona"
 country: "Spain"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.aena.es/en/barcelona-el-prat.html"
   - "https://www.aena.es/en/barcelona-el-prat/flight-information.html"
+  - "https://aerobusbarcelona.es/en/rates/"
+  - "https://rodalies.gencat.cat/en/horaris/index.html"
 quickFacts:
   - "Two terminals: T1 (main hub) and T2 (low-cost carriers)"
   - "Primary base for Vueling and Ryanair"
@@ -85,7 +87,7 @@ lounges:
 - Two terminals connected by free shuttle every 10 minutes.
 - T1 handles most international flights; T2 serves Ryanair and many Vueling routes.
 - Renfe Rodalies R2 Nord reaches Barcelona Sants in ~20 minutes from the **T2** station only (~€5.05 zone 4 per Rodalies 2026 fares); T1 arrivals must take the free inter-terminal shuttle first (+15–20 min).
-- Aerobus departs every 5 minutes to city center (€7.45).
+- Aerobus departs every 5 minutes to city center (€7.75 one-way; €13.30 round-trip per [Monbus Aerobús](https://aerobusbarcelona.es/en/rates/)).
 - No TSA PreCheck equivalent; paid Fast Track available only at T1.
 - Schengen/non-Schengen split matters for connections; passport control adds time when switching zones on separate tickets.
 
@@ -120,11 +122,11 @@ lounges:
 ## Ground Transport & Parking
 - Renfe train is fastest and cheapest to central Barcelona during rush hour.
 - Aerobus is best when carrying luggage or traveling outside train hours.
-- Taxi flat rate to city center is €39-45; avoid during strikes.
+- Taxi to city center is metered (no flat rate); expect roughly €35–45 with a €21 airport minimum — avoid during strikes.
 - Short-term parking costs €3.50/hour; long-term lots are cheaper but require bus transfer.
 
 ## Official Sources
 - https://www.aena.es/en/barcelona-el-prat.html
 - https://www.aena.es/en/barcelona-el-prat/flight-information.html
+- https://aerobusbarcelona.es/en/rates/
 - https://rodalies.gencat.cat/en/horaris/index.html
-- https://www.barcelona-airport.com/

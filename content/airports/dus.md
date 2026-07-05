@@ -3,7 +3,7 @@ iata: "DUS"
 name: "Düsseldorf Airport"
 city: "Düsseldorf"
 country: "Germany"
-lastUpdated: "2026-06-16"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.dus.com/"
   - "https://www.dus.com/en/flight-preparation/security"
@@ -81,7 +81,7 @@ lounges:
 - Download the official DUS app before arrival for real-time security wait times and gate info.
 - If your flight departs from C, clear security in A/B first then take the free bus from gate level.
 - Landside food court in Terminal A (before security) has better value than any airside option.
-- Use the S-Bahn instead of taxis for city center trips; machines accept cards and the ride is under €3.
+- Use the S-Bahn instead of taxis for city center trips; machines accept cards and the ride is €3.80 (Preisstufe A).
 - For early flights, the Radisson Blu hotel connected to Terminal C offers day-use rooms with shower access.
 - Check the departure boards in the train station level; some gates are a 12-minute walk from security.
 - Avoid the single elevator at the C bus stop during rush; use the escalators on the far side.
@@ -99,7 +99,7 @@ lounges:
 - Showers are available in the Terminal A arrivals for €8; bring your own towel.
 
 ## Ground Transport & Parking
-- S-Bahn S11 runs every 20 minutes to Düsseldorf Hauptbahnhof (€2.90).
+- S-Bahn S11 runs every 20 minutes to Düsseldorf Hauptbahnhof (€3.80 VRR Preisstufe A as of 2026).
 - Taxi rank is outside Terminal B; expect €20-25 to the city center with no surge pricing.
 - Short-term parking P1/P2 costs €4 per hour; long-term P8/P9 is €18 per day with free shuttle.
 - Drop-off is free for 5 minutes at the departures curb; longer stays trigger €3 fees.

@@ -3,10 +3,11 @@ iata: "GVA"
 name: "Geneva Airport"
 city: "Geneva"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.gva.ch/en/"
   - "https://www.gva.ch/en/passengers/security"
+  - "https://www.gva.ch/en/passengers/access-and-transport/trains/train-access"
 quickFacts:
   - "Single terminal with Schengen and non-Schengen zones on the same level"
   - "Primary base for Swiss and easyJet; few long-haul flights"
@@ -97,7 +98,7 @@ Single terminal. Check-in and baggage claim on level 0, security on level 1, gat
 - Avoid the overpriced airside Starbucks; the landside cafeteria near arrivals has better coffee and lower prices.
 
 ## Ground Transport & Parking
-- Train is fastest and cheapest into Geneva (CHF 3.50 with city ticket).
+- Train is fastest and cheapest into Geneva (CHF 3.00 Unireso Zone 10 ticket per [GVA](https://www.gva.ch/en/passengers/access-and-transport/trains/train-access)).
 - Taxi to city center costs CHF 35-40 and takes 15-20 minutes depending on traffic.
 - Short-term parking P1/P2 is expensive; use P3 or P4 for stays over three hours and take the free shuttle.
 - Rental cars are located one level below arrivals; return is well signed.

@@ -3,10 +3,11 @@ iata: "PMI"
 name: "Palma de Mallorca Airport"
 city: "Palma de Mallorca"
 country: "Spain"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.aena.es/en/palma-de-mallorca.html"
   - "https://www.aena.es/en/palma-de-mallorca/transport.html"
+  - "https://mobipalma.mobi/mobilitat/transport/taxi/usuaris-taxi/tarifas-taxi/"
 quickFacts:
   - "Single terminal building split into Modules A, B, and C"
   - "Primary base for Ryanair and easyJet; heavy seasonal charter traffic"
@@ -56,7 +57,7 @@ lounges:
 ## Quick Facts
 - Single terminal with three modules (A, B, C) connected by long corridors.
 - Dominant carriers: Ryanair (Module A), easyJet and Vueling (Module B).
-- 8 km from Palma; EMT bus 1 runs every 15 min, €5; taxi flat rate €25–30.
+- 8 km from Palma; EMT bus 1 runs every 15 min, €5; taxi metered (~€17 minimum from airport, typically €25–35 to central Palma).
 - No train or people-mover between modules; all transfers are walking.
 - Peak season (Jun–Sep) sees frequent 45–60 min security waits.
 - Free Wi-Fi is reliable but requires captcha every 45 min.
@@ -89,7 +90,7 @@ lounges:
 - Public departures level has a decent supermarket (OpenCor) for water and snacks before security.
 
 ## Ground Transport & Parking
-- Taxi rank is outside arrivals; insist on the official flat rate to Palma.
+- Taxi rank is outside arrivals; official taxis are metered (€16.95 airport minimum per Balearic tariff — confirm the meter is running).
 - Bus 1 to Plaça d’Espanya is fastest and cheapest; runs 05:00–23:00.
 - Long-stay parking P4 costs €8.50/day; book online for 10 % discount and guaranteed shuttle.
 

@@ -3,10 +3,11 @@ iata: "MAD"
 name: "Adolfo Suárez Madrid–Barajas Airport"
 city: "Madrid"
 country: "Spain"
-lastUpdated: "2026-06-26"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.aena.es/en/madrid-barajas.html"
   - "https://www.aena.es/en/passengers/security.html"
+  - "https://www.madrid.es/portales/munimadrid/es/Inicio/Movilidad-y-transportes/Taxi/"
 quickFacts:
   - "Terminals T1–T4; T4 and T4S handle most long-haul and Iberia flights"
   - "Security lines peak 6–9 a.m. and 4–7 p.m.; fast-track available via Iberia or paid options"
@@ -97,7 +98,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Metro Line 8: €3 to Nuevos Ministerios, 25 min; runs 6 a.m.–1:30 a.m.
-- Taxi flat rate to city center is €30; avoid during rush hour (7:30–9:30 a.m.).
+- Taxi flat rate to city center (inside M-30) is €33 per Madrid Tarifa 4 (2026); avoid during rush hour (7:30–9:30 a.m.).
 - Long-term parking P1–P4 costs €18–22/day; reserve online for 10 % discount.
 
 ## Official Sources

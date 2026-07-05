@@ -3,11 +3,13 @@ iata: "BRU"
 name: "Brussels Airport"
 city: "Brussels"
 country: "Belgium"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.brusselsairport.be/"
   - "https://www.brusselsairport.be/en/passengers/departures/security"
   - "https://www.brusselsairport.be/en/passengers/at-the-airport/services/overview/keep-in-touch-services"
+  - "https://www.brusselsairport.be/en/passenger/mobility/public-transport/train"
+  - "https://www.belgiantrain.be/en/tickets-and-railcards/airports/brussels-airport"
 quickFacts:
   - "Single terminal with A/B/C piers; 25 min walk end-to-end"
   - "Brussels Airlines hub; easy connections to most European cities"
@@ -60,7 +62,7 @@ lounges:
 - Main carriers: Brussels Airlines, TUI fly, Ryanair, easyJet
 - Security lines split by Schengen/non-Schengen; non-Schengen usually longer
 - **MCT (practical):** Same pier, Schengen–Schengen on one ticket — **40 min** floor, **60 min** comfortable. Pier change or non-Schengen adds **30–45 min** for passport control and possible re-screen.
-- Direct train to Brussels city centre every 10-15 min, €9.80 one-way
+- Direct train to Brussels city centre every 10-15 min; approximately €11–18 one-way to Central/Midi (includes the €6.90 airport supplement in standard tickets)
 - **Wi‑Fi:** Free unlimited — select **Brussels Airport Free Wi-Fi**, accept terms. **BRUce** (app/site) shows live security waits.
 - **Water:** Fountains landside level 0 and airside pier B past gate B30; skip €3+ bottled water at pier A shops.
 - Baggage claim is fast; most flights clear in under 20 minutes

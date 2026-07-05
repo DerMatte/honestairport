@@ -3,7 +3,7 @@ iata: "BER"
 name: "Berlin Brandenburg Airport"
 city: "Berlin"
 country: "Germany"
-lastUpdated: "2026-07-04"
+lastUpdated: "2026-07-05"
 sources:
   - "https://www.berlin-airport.de/en/"
   - "https://www.berlin-airport.de/en/passengers/departures-arrivals/index.php"
@@ -99,7 +99,7 @@ lounges:
 ## Ground Transport & Parking
 - **FEX** airport express is fastest to Hauptbahnhof (**~23 min**, **€5.00** Berlin ABC single) and runs every **15 min** ([FEX](https://www.dbregio-berlin-brandenburg.de/db-regio-no/Fahren/flughafenexpress/flughafenexpress-en)).
 - S-Bahn **S9** and regional trains use the same **ABC €5.00** ticket ([VBB BER](https://www.vbb.de/en/driving-information/ber-airport)) and run more frequently than FEX to some districts.
-- Taxi flat rate to central Berlin is €49–55; avoid during rush hour when the train wins.
+- Taxi to central Berlin is metered (no flat rate); expect roughly €58–70 to Mitte/Alexanderplatz — avoid during rush hour when the train wins.
 - Short-term parking P1 charges €5 for the first 30 minutes, then €4 per 30 minutes—expensive for pick-ups.
 - Long-term parking P4 is €12 per day; book online for the lowest rate.
 
