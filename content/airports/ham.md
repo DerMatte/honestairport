@@ -3,7 +3,7 @@ iata: "HAM"
 name: "Hamburg Airport"
 city: "Hamburg"
 country: "Germany"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-07-04"
 sources:
   - "https://www.hamburg-airport.de/en/"
   - "https://www.hamburg-airport.de/en/plan-book/travel-tips-info-for-a-relaxed-start-to-your-vacation-36222"
@@ -61,7 +61,7 @@ lounges:
 - **Slot & Fly:** Free reserved security window up to **72 h** before departure — worth booking on Monday/Friday mornings ([HAM travel tips](https://www.hamburg-airport.de/en/plan-book/travel-tips-info-for-a-relaxed-start-to-your-vacation-36222)).
 - **Wi‑Fi:** Free unlimited, no login — genuinely reliable.
 - **Water:** Fountains just past central security in both terminals — bring a refillable bottle.
-- **Power:** Charging areas near T1 gates **C–D** upper level; side lanes near the Plaza often beat the central crush at **06:00–08:00**.
+- **Power:** Charging areas near T1 gates **C–D** upper level; side lanes off the Plaza can beat the central crush at **06:00–08:00**.
 
 ## Security & Screening Tips
 - Arrive at security 90 minutes before Schengen departures; 120 minutes for non-Schengen.

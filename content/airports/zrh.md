@@ -3,10 +3,12 @@ iata: "ZRH"
 name: "Zurich Airport"
 city: "Zurich"
 country: "Switzerland"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-07-04"
 sources:
   - "https://www.zurich.com/"
   - "https://www.zurich.com/en/passengers"
+  - "https://www.swiss.com/ch/en/customer-support/faq/lounge-voucher.solo_continue"
+  - "https://www.sbb.ch/en"
 quickFacts:
   - "Single terminal complex with docks A, B, and E"
   - "Main hub for SWISS; Star Alliance dominant"
@@ -39,14 +41,14 @@ lounges:
     terminal: "E"
     zone: "non-Schengen"
     access:
-      - "SWISS First class"
+      - "SWISS or Lufthansa First Class"
       - "HON Circle"
     amenities:
       - "showers"
     bestFor:
       - "Relaxation"
     verdict: "worth-it"
-    summary: "Top lounge at ZRH for First class and HON Circle members only — paid vouchers do not apply here."
+    summary: "The top lounge at ZRH — SWISS or Lufthansa First Class or HON Circle only; paid vouchers do not apply here."
   - name: "SWISS Business Lounge"
     terminal: "E"
     zone: "non-Schengen"
@@ -105,8 +107,8 @@ lounges:
 - Follow yellow signs for Schengen/non-Schengen; passport control sits between B and E.
 
 ## Lounges, Food & Amenities
-- SWISS First Lounge (E dock) is for First class and HON Circle only; paid vouchers apply to Business lounges, not First.
-- SWISS Business Lounge in E dock is the best paid option; access with Star Gold or paid Business lounge voucher.
+- **SWISS First Lounge (E dock):** **SWISS or Lufthansa First Class / HON only** — no Star Gold, no day pass; paid vouchers apply to Business lounges, not First ([SWISS](https://www.swiss.com/ch/en/customer-support/faq/lounge-voucher.solo_continue)).
+- **SWISS Senator / Business lounges:** Star Gold, Senator status, or purchasable lounge vouchers.
 - The Market (landside) offers solid Swiss and international options with seating.
 - Quiet zones with charging tables are located near gates 5-10 and in the E-dock upper level.
 - Showers available in the SWISS lounges only.
@@ -120,4 +122,4 @@ lounges:
 ## Official Sources
 - https://www.zurich.com/
 - https://www.zurich.com/en/passengers
-- https://www.sbb.ch/en (rail connections)
+- https://www.sbb.ch/en

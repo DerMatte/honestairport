@@ -3,10 +3,12 @@ iata: "SEA"
 name: "Seattle-Tacoma International Airport"
 city: "Seattle"
 country: "United States"
-lastUpdated: "2026-06-20"
+lastUpdated: "2026-07-04"
 sources:
   - "https://www.portseattle.org/sea-tac"
   - "https://www.tsa.gov/airports/seattle-tacoma-international-airport"
+  - "https://theclubairportlounges.com/lounges/sea-the-club-concourse-a"
+  - "https://www.portseattle.org/sea-tac/parking"
 quickFacts:
   - "Alaska Airlines primary hub; Delta secondary hub"
   - "Single terminal with Concourses A, B, C, D"
@@ -26,9 +28,9 @@ bentoTips:
     detail: "Works best for A-to-D connections; avoid during peak if you have heavy bags."
   - category: "food"
     label: "Food & quiet"
-    title: "Eat post-security in C or Central"
-    summary: "Ivar's is in the Central Terminal; Beecher's is at Concourse C near C3."
-    detail: "Both are airside only — clear security first, then grab food on the way to your gate."
+    title: "Eat post-security before your gate"
+    summary: "Ivar's in the Central Terminal; Beecher's at Concourse C near C3; ramen at C2."
+    detail: "All airside — clear security first. Best when your gate is in C or D; allow time for the tram if departing from A or B."
   - category: "status"
     label: "Live checks"
     title: "Check the Port app"
@@ -36,7 +38,7 @@ bentoTips:
     detail: "Refresh before you leave home; ignore if you already have PreCheck."
 lounges:
   - name: "The Club at SEA"
-    terminal: "C"
+    terminal: "A"
     access:
       - "Priority Pass"
       - "paid day pass"
@@ -46,7 +48,7 @@ lounges:
     bestFor:
       - "Work"
     verdict: "depends"
-    summary: "Worth a visit with free Priority Pass access but expect crowds by mid-morning."
+    summary: "Worth a visit with free Priority Pass access; also available in the South Satellite (Concourse S)."
   - name: "Alaska Airlines Lounge"
     terminal: "A"
     access:
@@ -92,7 +94,7 @@ lounges:
 ## Best Airport Tricks & Hacks
 - Board the tram to Concourse D first, then walk back to your gate to skip the longest moving-walkway crowds.
 - Download the Port of Seattle app and enable notifications for security wait times before leaving your hotel.
-- Eat post-security at Ivar's in the Central Terminal or Beecher's at Concourse C (C3) on the way to C or D gates.
+- Eat post-security at **Ivar's** in the Central Terminal, **Beecher's** at Concourse C (C3), or the ramen shop at **C2** on the way to C or D gates.
 - Use the south-end restrooms near Gate C2; they stay cleaner and quieter than the central ones.
 - For early flights, park at the main garage and take the elevator straight to the tram level to avoid ticketing lines.
 - If connecting from international to domestic, clear customs then immediately re-clear security at the A checkpoint.
@@ -105,15 +107,15 @@ lounges:
 - Common mistake: following signs for "Gates" instead of the tram when heading to D.
 
 ## Lounges, Food & Amenities
-- The Club at SEA (paid day pass) near C2 offers solid Wi-Fi and showers but fills by mid-morning.
-- Best quick food: Ivar's fish & chips (Central Terminal, post-security) or Beecher's at Concourse C (C3); ramen at C2 is also solid.
+- **The Club at SEA** has locations in **Concourse A** (opposite A11) and the **South Satellite** (near S9); both accept Priority Pass but fill by mid-morning.
+- Best quick food: **Ivar's** fish & chips (Central Terminal, post-security), **Beecher's** at Concourse C (C3), or the ramen shop at C2.
 - Quietest seating is the window alcoves past Gate A9; power outlets are plentiful there.
 - Avoid the central food court after 11am; lines spill into walkways.
 
 ## Ground Transport & Parking
 - Link light rail is fastest and cheapest to downtown ($3, 35-40 min); trains run every 8-10 minutes.
 - Rideshare pickup is on the 4th floor of the garage; expect 5-10 minute waits at peak.
-- Garage parking costs $38/day; the economy lot is $28/day with a free shuttle every 15 minutes.
+- Garage General Parking is **$32/day** (hourly $5, capped daily); Reserved Floor 4 is $39/day.
 - Avoid rideshare during Sounders or Seahawks game days; light rail stays reliable.
 
 ## Official Sources
