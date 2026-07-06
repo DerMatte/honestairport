@@ -3,10 +3,11 @@ iata: "DOH"
 name: "Hamad International Airport"
 city: "Doha"
 country: "Qatar"
-lastUpdated: "2026-06-27"
+lastUpdated: "2026-07-06"
 sources:
   - "https://www.dohaairport.com/"
   - "https://www.dohaairport.com/en/security"
+  - "https://www.qr.com.qa/media/Qatar%20Rail%20Fares%20Policy%20-%20ENG%20-%2005-08-2024.pdf"
   - "https://www.airportinformation.com/DOH"
 quickFacts:
   - "Single terminal with concourses A–E; internal people-mover links south (A/B) and north (D/E) hubs"
@@ -14,7 +15,7 @@ quickFacts:
   - "Security opens 3 h before departure; biometric gates available for eligible passengers"
   - "Qatar Airways hub; MCT 45 min int'l–int'l floor, 90 min comfortable"
   - "Free 2-hour Wi-Fi; faster paid tier available"
-  - "Metro Red Line connects directly to city center in 30 min"
+  - "Metro Red Line: QR 2 single journey, QR 6 day cap (Standard Class)"
 bentoTips:
   - category: "timing"
     label: "Timing"
@@ -71,7 +72,7 @@ lounges:
 - Free fast-track available via Qatar Airways app for eligible passengers.
 - **Wi‑Fi:** **2 h free** (re-auth as needed); paid faster tier for long layovers.
 - **Water:** Scarce airside — fill before the transit security checkpoint.
-- 30-minute metro ride to Msheireb or West Bay; trains every 5–10 min.
+- **Metro:** Red Line **QR 2** per journey (Standard Class), **QR 6** daily cap — buy a reusable Travel Pass at station vending machines ([Qatar Rail fares](https://www.qr.com.qa/media/Qatar%20Rail%20Fares%20Policy%20-%20ENG%20-%2005-08-2024.pdf)).
 
 ## Security & Screening Tips
 - Arrive at security 3 h before departure; the 18:00–22:00 bank creates the longest lines.
@@ -101,8 +102,8 @@ lounges:
 - Free nap pods are located near gate C8; first-come, first-served.
 
 ## Ground Transport & Parking
-- Metro Red Line is fastest and cheapest to downtown (QR 2–6).
-- Taxis use fixed rates: QR 50–80 to West Bay, QR 100–120 to Souq Waqif.
+- Metro Red Line is fastest and cheapest to downtown (**QR 2** per ride, **QR 6** day cap on Standard Class Travel Pass).
+- Karwa taxis are **metered** from the official rank — **QR 40–70** typical to West Bay / Souq Waqif depending on traffic and time of day (not a fixed airport tariff).
 - Valet parking at departures is QR 50 for the first 4 h; long-term lots are cheaper but require a shuttle.
 - Avoid rideshares during shift changes (03:00–05:00); taxis are more reliable then.
 

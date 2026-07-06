@@ -3,15 +3,17 @@ iata: "IST"
 name: "Istanbul Airport"
 city: "Istanbul"
 country: "Turkey"
-lastUpdated: "2026-06-14"
+lastUpdated: "2026-07-06"
 sources:
   - "https://www.istanbul-airport.com/"
   - "https://www.dhmi.gov.tr/"
   - "https://www.istanbul-airport.com/en/flight/transfer"
+  - "https://en.bilet.com/blog/istanbul-public-transportation-fares-2026-full-list"
+  - "https://www.hava.ist/"
 quickFacts:
   - "Single massive terminal complex handling all international and domestic flights"
   - "Primary hub for Turkish Airlines with extensive long-haul network"
-  - "Metro M11 to Gayrettepe (~35 min); Havaist airport buses to city districts"
+  - "Metro M11 to Gayrettepe ~30 min (~₺42 Istanbulkart single ride); Havaist buses 24 h to city districts"
   - "One of the world's largest airport terminals by floor area"
   - "Strict liquid and security screening with frequent peak-hour queues"
 bentoTips:
@@ -72,7 +74,7 @@ lounges:
 - **Wi‑Fi:** Free high-speed — registration via SMS or passport scan.
 - **Water:** Buy after security — limited free refill; fountains exist but inconsistent in satellites.
 - **Power:** Upper level **Zone E** away from retail — best quiet charging during delays.
-- **Metro M11** to Gayrettepe **~30 min**; Havaist buses **24 h**.
+- **Metro M11** to **Gayrettepe** **~30 min** — **₺42** single ride with Istanbulkart (plus transfer fares if continuing on M2/T1); runs **06:00–00:00** daily.
 
 ## Security & Screening Tips
 - Arrive at least 3 hours before long-haul flights; security lines form fastest at entrances A and D.
@@ -87,7 +89,7 @@ lounges:
 - Use the free tram between main terminal and satellite only if your gate is in the far satellites.
 - Buy a bottled water after security—prices are lower than in the airside cafés.
 - For early flights, sleep in the landside arrivals area; it is quieter than airside.
-- Havaist bus tickets bought via app are 20 % cheaper than at the counter.
+- Havaist round-trip tickets bought online via the app include a **10%** discount; pay at boarding with contactless card or app QR code (cash not accepted on most routes).
 - Skip the main food court; head to the quieter Zone E cafés for better seating and similar prices.
 
 ## Terminals & Navigation
@@ -107,9 +109,9 @@ lounges:
 - Quiet seating areas exist on the upper level of Zone E away from retail traffic.
 
 ## Ground Transport & Parking
-- **M11 metro** runs to **Gayrettepe** in ~**35 min** — the fastest public option; there is **no high-speed train** directly from IST to the city center.
-- **Havaist** airport buses serve Taksim, Kadıköy, and other districts 24 hours; buy tickets on the app.
-- Official airport taxis use fixed rates—insist on the meter or pre-agreed price to avoid scams.
+- **M11 metro** runs to **Gayrettepe** in ~**30 min** — **₺42** with Istanbulkart for the M11 leg; add transfer fares (~₺31) if continuing to Taksim/Sultanahmet on M2/T1.
+- **Havaist** airport buses serve Taksim, Kadıköy, and other districts **24 hours**; route fares typically **₺170–420** — buy via app or tap contactless at boarding.
+- Official airport taxis use **metered** fares (no universal flat rate); agree on destination before boarding or use the airport taxi desk.
 - Short-term parking is expensive; long-term lots are cheaper but require a shuttle.
 
 ## Official Sources

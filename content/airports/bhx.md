@@ -3,11 +3,12 @@ iata: "BHX"
 name: "Birmingham Airport"
 city: "Birmingham"
 country: "United Kingdom"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-06"
 sources:
   - "https://www.birminghamairport.co.uk/"
   - "https://www.birminghamairport.co.uk/security/"
   - "https://www.birminghamairport.co.uk/at-the-airport/express-lane/"
+  - "https://www.birminghamairport.co.uk/at-the-airport/lounges/no1-lounge/"
 quickFacts:
   - "Single terminal serving all flights"
   - "Major base for easyJet, Ryanair and TUI"
@@ -41,7 +42,7 @@ lounges:
     terminal: "Main Terminal"
     access:
       - "Priority Pass"
-      - "Paid entry £28"
+      - "Paid entry from ~£34 pre-book"
     amenities:
       - "hot food"
       - "showers"
@@ -49,7 +50,7 @@ lounges:
       - "Work"
       - "Relaxation"
     verdict: "worth-it"
-    summary: "The only paid lounge worth the £28 fee with hot food and showers."
+    summary: "The only paid lounge worth the fee with hot food and showers — from ~£34 pre-booked online."
 ---
 
 # BHX Airport Guide
@@ -86,12 +87,12 @@ lounges:
 - Common mistake: following signs to “Gates A” when your flight is actually at a B or C gate—check the letter first.
 
 ## Lounges, Food & Amenities
-- The No1 Lounge (airside) is the only paid lounge worth the £28 fee; it has hot food and showers.
+- The No1 Lounge (airside) is the only paid lounge worth the fee (from **~£34** pre-booked online, **~£40+** walk-up); it has hot food and showers.
 - Best landside food is at The Village: Purecraft Bar & Kitchen or Tortilla.
 - Quietest seating is the row of chairs opposite gate B42; power sockets and fewer announcements.
 
 ## Ground Transport & Parking
-- Train is fastest: £3.50 single to New Street, runs 05:00-23:30.
+- Train is fastest: from **~£2.80** advance / **~£4.70** off-peak walk-up to New Street (~10 min via Air-Rail Link); last trains typically around **23:30**.
 - Bus 24 to city centre costs £2.50 and takes 35 minutes; useful when trains are delayed.
 - Short Stay Express parking is £3.50 for 30 minutes; Long Stay is £8.50 per day but requires the free shuttle.
 

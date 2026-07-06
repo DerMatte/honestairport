@@ -3,10 +3,11 @@ iata: "AGP"
 name: "Málaga-Costa del Sol Airport"
 city: "Málaga"
 country: "Spain"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-06"
 sources:
   - "https://www.aena.es/en/malaga-costa-del-sol.html"
   - "https://www.aena.es/en/passengers/security.html"
+  - "https://www.renfe.com/"
 quickFacts:
   - "Primary terminal is T3; T2 used for select flights and connected by walkway"
   - "Major base for Ryanair, easyJet, Vueling and Norwegian"
@@ -91,7 +92,7 @@ lounges:
 
 ## Ground Transport & Parking
 - Cercanías C1 from the T3 underground station reaches María Zambrano in 8 minutes (~€1.80 zones 1–2 per AENA/Renfe); trains run about every 20 minutes—buy at station machines, not airside kiosks.
-- Taxi to city center costs €20-25 with fixed rate; avoid unofficial drivers outside arrivals.
+- Official airport taxis are **metered** with a **~€5.50** airport pickup supplement — typical downtown run **€18–28** day / **€22–35** night (not a fixed city fare).
 - Short-term parking P1 fills by 09:00 in summer; use P2 or P4 and take the free shuttle.
 - Rental cars are located in a separate building; allow 15 extra minutes for the bus transfer.
 

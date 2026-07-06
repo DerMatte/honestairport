@@ -3,14 +3,15 @@ iata: "GVA"
 name: "Geneva Airport"
 city: "Geneva"
 country: "Switzerland"
-lastUpdated: "2026-06-10"
+lastUpdated: "2026-07-06"
 sources:
   - "https://www.gva.ch/en/"
   - "https://www.gva.ch/en/passengers/security"
+  - "https://www.tpg.ch/en/ticket-fares"
 quickFacts:
   - "Single terminal with Schengen and non-Schengen zones on the same level"
   - "Primary base for Swiss and easyJet; few long-haul flights"
-  - "Train to Geneva Cornavin station takes 7 minutes, runs every 10-15 min"
+  - "Train to Genève-Cornavin: 7 min; Unireso Zone 10 ticket CHF 3.00 (free 80-min ticket at baggage claim)"
   - "Security rarely exceeds 15-20 minutes outside 06:30-09:00 and 16:00-19:00 peaks"
   - "Free unlimited Wi-Fi and clean, compact layout"
 bentoTips:
@@ -80,7 +81,7 @@ lounges:
 - Passport control for non-Schengen flights can back up if two wide-bodies depart close together.
 
 ## Best Airport Tricks & Hacks
-- Buy a Swiss City Ticket at the train station for combined airport-to-city rail plus tram/bus day pass.
+- Pick up the **free 80-minute Unireso ticket** at the TPG machine in baggage claim for your first ride; otherwise buy a **Zone 10** ticket (**CHF 3.00**, 60 min) at the airport station.
 - Check in online and head straight to the bag-drop machines on the upper level to skip the main counters.
 - Landside bakery (La Brioche Dorée) sells better sandwiches than anything after security.
 - If your flight is delayed, stay landside longer—free Wi-Fi and seating are superior before security.
@@ -97,7 +98,7 @@ Single terminal. Check-in and baggage claim on level 0, security on level 1, gat
 - Avoid the overpriced airside Starbucks; the landside cafeteria near arrivals has better coffee and lower prices.
 
 ## Ground Transport & Parking
-- Train is fastest and cheapest into Geneva (CHF 3.50 with city ticket).
+- Train is fastest and cheapest into Geneva (**CHF 3.00** Unireso Zone 10 single, 60 min — covers airport station to Cornavin and onward tram/bus within the zone).
 - Taxi to city center costs CHF 35-40 and takes 15-20 minutes depending on traffic.
 - Short-term parking P1/P2 is expensive; use P3 or P4 for stays over three hours and take the free shuttle.
 - Rental cars are located one level below arrivals; return is well signed.
