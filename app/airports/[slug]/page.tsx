@@ -59,19 +59,39 @@ export async function generateMetadata({
     }
 
     const { name, iata, city, country } = guideContent.frontmatter;
+    const description = `Traveler guide for ${name} in ${city}, ${country}: security tips, terminal navigation, lounges, food, and ground transport.`;
     return {
       title: `${name} (${iata}) Airport Guide`,
-      description: `Traveler guide for ${name} in ${city}, ${country}: security tips, terminal navigation, lounges, food, and ground transport.`,
+      description,
+      alternates: {
+        canonical: `/airports/${slug}`,
+      },
+      openGraph: {
+        title: `${name} (${iata}) Airport Guide`,
+        description,
+        type: "article",
+        url: `/airports/${slug}`,
+      },
+      twitter: {
+        card: "summary_large_image",
+      },
     };
   }
 
   return {
     title: `${airport.shortName} (${airport.iata}) Airport Guide`,
     description: `${airport.name} guide with Airportist Score, current disruption status, amenities, transport options, reviews, and traveler tips.`,
+    alternates: {
+      canonical: `/airports/${slug}`,
+    },
     openGraph: {
       title: `${airport.shortName} - HonestAirport`,
       description: airport.summary,
       type: "article",
+      url: `/airports/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
     },
   };
 }

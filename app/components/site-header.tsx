@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { AirportSearchPanel } from "@/app/components/airport-search-panel";
 import { Button } from "@/components/ui/button";
-import type { Airport } from "@/lib/types";
+import type { AirportSearchEntry } from "@/lib/airport-search";
 import {
   Popover,
   PopoverContent,
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/sheet";
 
 interface SiteHeaderProps {
-  airports: Airport[];
+  airports: AirportSearchEntry[];
 }
 
 export function SiteHeader({ airports }: SiteHeaderProps) {
