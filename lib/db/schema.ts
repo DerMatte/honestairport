@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   check,
   index,
+  jsonb,
   pgTable,
   smallint,
   text,
@@ -9,6 +10,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
+import type { AirportBentoTip, AirportLounge } from "@/lib/airport-guides";
 
 export const airportReviews = pgTable(
   "airport_reviews",
@@ -36,3 +38,42 @@ export const airportReviews = pgTable(
 
 export type AirportReviewRow = typeof airportReviews.$inferSelect;
 export type NewAirportReviewRow = typeof airportReviews.$inferInsert;
+
+export const airportGuides = pgTable("airport_guides", {
+  iata: varchar("iata", { length: 3 }).primaryKey(),
+  name: text("name").notNull(),
+  city: text("city").notNull(),
+  country: text("country").notNull(),
+  // ISO date string, mirrors the `lastUpdated` frontmatter field.
+  lastUpdated: text("last_updated").notNull(),
+  sources: jsonb("sources").$type<string[]>().notNull().default([]),
+  quickFacts: jsonb("quick_facts").$type<string[]>().notNull().default([]),
+  bentoTips: jsonb("bento_tips").$type<AirportBentoTip[]>().notNull().default([]),
+  lounges: jsonb("lounges").$type<AirportLounge[]>().notNull().default([]),
+  // Markdown body (everything below the frontmatter).
+  content: text("content").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/**
+ * Snapshot of the previous row taken on every guide upsert. Replaces the
+ * rollback/audit trail Git provided when guides lived in the repo.
+ */
+export const airportGuideRevisions = pgTable(
+  "airport_guide_revisions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    iata: varchar("iata", { length: 3 }).notNull(),
+    snapshot: jsonb("snapshot").$type<AirportGuideRow>().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("airport_guide_revisions_iata_created_at_idx").on(
+      table.iata,
+      table.createdAt.desc(),
+    ),
+  ],
+);
+
+export type AirportGuideRow = typeof airportGuides.$inferSelect;
+export type NewAirportGuideRow = typeof airportGuides.$inferInsert;

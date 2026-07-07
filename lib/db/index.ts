@@ -40,8 +40,15 @@ export function getDb(): NodePgDatabase<typeof schema> {
     throw new Error("DATABASE_URL is not set");
   }
 
+  // Keep the pool small: build prerender workers each create their own pool,
+  // and managed Postgres has a hard cap on connection slots. Queries here are
+  // tiny single-row lookups, so 2 connections per process is plenty.
   globalForDb.reviewsDb ??= drizzle(
-    new Pool({ ...buildPoolConfig(connectionString), max: 5 }),
+    new Pool({
+      ...buildPoolConfig(connectionString),
+      max: 2,
+      idleTimeoutMillis: 5_000,
+    }),
     { schema },
   );
 

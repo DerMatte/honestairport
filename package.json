@@ -11,6 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:dev": "tsx scripts/dev-postgres.ts",
+    "db:seed": "tsx scripts/seed-airport-guides.ts",
+    "guide": "tsx scripts/guide.ts",
     "generate:airport": "tsx --env-file-if-exists=.env.local scripts/generate-airport.ts",
     "generate:airports": "tsx --env-file-if-exists=.env.local scripts/generate-airports-batch.ts",
     "generate:lounges": "tsx --env-file-if-exists=.env.local scripts/generate-lounges.ts",

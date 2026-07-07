@@ -31,8 +31,10 @@ interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Every airport with a page is known at build time; anything else is a 404.
-export const dynamicParams = false;
+// Guides live in Postgres and change without a deploy: prerender known
+// airports at build time, serve new ones on demand, and refresh via the
+// airport-guides cache tag (plus this timed fallback).
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const guideIatas = await getAllAirportIatas();

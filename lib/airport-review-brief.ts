@@ -32,9 +32,18 @@ Write like an experienced frequent flyer sharing hard-won airport knowledge:
 8. **Food & amenities** — standout options vs. traps; order-ahead hacks where relevant
 9. **News & changes** — recent terminal openings, rule changes, strike/disruption patterns (only if verified)
 
+## Where guides live and how to edit them
+
+Guides are stored in Postgres (DATABASE_URL is available in the environment), not as repo files. Use the guide CLI:
+- \`pnpm guide list\` — all guides with IATA and lastUpdated
+- \`pnpm guide show LHR /tmp/lhr.md\` — export a guide as markdown (frontmatter + body) to a file
+- \`pnpm guide save /tmp/lhr.md\` — validate, write back to the database, and refresh the live site
+
+Edit the exported markdown file, then save it. Saves are rejected if frontmatter or the required sections are invalid, and every save keeps a revision snapshot for rollback.
+
 ## Page structure to preserve
 
-Each file under \`content/airports/*.md\` must keep:
+Each guide must keep:
 - YAML frontmatter: iata, name, city, country, lastUpdated, sources, quickFacts
 - Body headings (in order): Quick Facts, Security & Screening Tips, Best Airport Tricks & Hacks,
   Terminals & Navigation, Lounges Food & Amenities, Ground Transport & Parking, Official Sources
@@ -59,12 +68,12 @@ export function buildAirportReviewPrompt(options?: {
   forumContext?: AirportReviewForumContext;
 }): string {
   const scope = options?.iata
-    ? `Focus this run on **${options.iata.toUpperCase()}** (\`content/airports/${options.iata.toLowerCase()}.md\`). Still skim other pages only if you spot cross-airport inconsistencies.`
-    : "Review **every** file in `content/airports/*.md`.";
+    ? `Focus this run on **${options.iata.toUpperCase()}** (\`pnpm guide show ${options.iata.toUpperCase()}\`). Still skim other guides only if you spot cross-airport inconsistencies.`
+    : "Review **every** guide (`pnpm guide list`), starting with the oldest `lastUpdated`.";
 
   const output = options?.openPr
     ? "Open a pull request with a clear summary of what changed and why."
-    : "Apply edits directly in the working tree. Do not commit unless explicitly asked.";
+    : "Save each improved guide back to the database with `pnpm guide save`. Do not commit repo files.";
 
   const forumSection = buildForumContextSection(options?.forumContext);
 
@@ -81,7 +90,7 @@ ${forumSection}
 ${scope}
 
 For each page:
-1. Read the current Markdown file and compare it to the style bar above.
+1. Export the guide (\`pnpm guide show <IATA> /tmp/<iata>.md\`) and compare it to the style bar above.
 2. Research recent, reputable updates (official airport site, transport operators, alliance pages).
 3. When forum activity is listed below, read those threads and fold in verified or well-supported traveler tips.
 4. Expand thin or placeholder sections with practical frequent-flyer detail.

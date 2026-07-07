@@ -1,115 +1,37 @@
 #!/usr/bin/env tsx
 /**
- * Validate every airport guide in content/airports/.
+ * Validate every airport guide stored in Postgres.
  *
- * Catches the failure mode where a guide with malformed frontmatter or a
- * drifted section heading silently renders incomplete: frontmatter is
- * checked against a zod schema, and the markdown body is run through the
- * same section extraction the site uses, asserting all four guide sections
- * are found.
- *
- * Runs as part of `pnpm build`; any error fails the build.
+ * Writes already validate at save time (see upsertAirportGuide); this catches
+ * rows edited out-of-band (manual SQL, migrations) before they ship. Runs as
+ * part of `pnpm build`; any error fails the build.
  *
  * Usage:
  *   pnpm validate:content
  */
-
-import fs from "node:fs/promises";
-import path from "node:path";
-import { z } from "zod";
 import {
-  getAirportContent,
-  getAirportGuideSummary,
-  type AirportGuideSections,
-} from "../lib/airport-content";
+  fetchAllAirportGuideRows,
+  rowToAirportContent,
+  validateAirportGuide,
+} from "../lib/airport-guides";
+import { loadLocalEnv } from "./load-env";
 
-const CONTENT_DIR = path.join(process.cwd(), "content/airports");
-
-const nonEmptyString = z.string().trim().min(1);
-
-const bentoTipSchema = z.object({
-  category: z.enum(["timing", "terminal", "food", "status"]),
-  label: nonEmptyString,
-  title: nonEmptyString,
-  summary: nonEmptyString,
-  detail: nonEmptyString.optional(),
-});
-
-const loungeSchema = z.object({
-  name: nonEmptyString,
-  terminal: nonEmptyString,
-  zone: nonEmptyString.optional(),
-  access: z.array(nonEmptyString).optional(),
-  hours: nonEmptyString.optional(),
-  amenities: z.array(nonEmptyString).optional(),
-  bestFor: z.array(nonEmptyString).optional(),
-  verdict: z.enum(["worth-it", "depends", "skip"]).optional(),
-  summary: nonEmptyString,
-});
-
-const frontmatterSchema = z.object({
-  iata: z.string().regex(/^[A-Z]{3}$/, "must be a 3-letter uppercase IATA code"),
-  name: nonEmptyString,
-  city: nonEmptyString,
-  country: nonEmptyString,
-  lastUpdated: z.iso.date(),
-  sources: z.array(z.url()).min(1),
-  quickFacts: z.array(nonEmptyString).min(1),
-  bentoTips: z.array(bentoTipSchema).min(1),
-  lounges: z.array(loungeSchema).min(1),
-});
-
-const REQUIRED_SECTIONS: Array<{ key: keyof AirportGuideSections; label: string }> = [
-  { key: "airportTricks", label: "Best Airport Tricks & Hacks" },
-  { key: "terminalNavigation", label: "Terminals & Navigation" },
-  { key: "groundTransport", label: "Ground Transport & Parking" },
-  { key: "loungesAmenities", label: "Lounges, Food & Amenities" },
-];
-
-async function validateFile(file: string): Promise<string[]> {
-  const errors: string[] = [];
-  const iata = file.replace(/\.md$/, "").toUpperCase();
-
-  const content = await getAirportContent(iata);
-  if (!content) {
-    return ["file could not be read or parsed"];
-  }
-
-  const result = frontmatterSchema.safeParse(content.frontmatter);
-  if (!result.success) {
-    for (const issue of result.error.issues) {
-      const at = issue.path.length > 0 ? issue.path.join(".") : "frontmatter";
-      errors.push(`frontmatter ${at}: ${issue.message}`);
-    }
-  } else if (result.data.iata !== iata) {
-    errors.push(`frontmatter iata "${result.data.iata}" does not match filename "${file}"`);
-  }
-
-  const summary = getAirportGuideSummary(content);
-  for (const { key, label } of REQUIRED_SECTIONS) {
-    const section = summary.sections[key];
-    if (!section || section.items.length === 0) {
-      errors.push(`section "## ${label}" is missing or empty (heading drift?)`);
-    }
-  }
-
-  return errors;
-}
+loadLocalEnv();
 
 async function main() {
-  const files = (await fs.readdir(CONTENT_DIR)).filter((f) => f.endsWith(".md")).sort();
+  const rows = await fetchAllAirportGuideRows();
 
-  if (files.length === 0) {
-    console.error(`No guides found in ${CONTENT_DIR}`);
+  if (rows.length === 0) {
+    console.error("No airport guides found in the database (is DATABASE_URL set and seeded?).");
     process.exit(1);
   }
 
   let failed = 0;
-  for (const file of files) {
-    const errors = await validateFile(file);
+  for (const row of rows.sort((a, b) => a.iata.localeCompare(b.iata))) {
+    const errors = validateAirportGuide(rowToAirportContent(row));
     if (errors.length > 0) {
       failed += 1;
-      console.error(`✗ content/airports/${file}`);
+      console.error(`✗ ${row.iata}`);
       for (const error of errors) {
         console.error(`    ${error}`);
       }
@@ -117,11 +39,12 @@ async function main() {
   }
 
   if (failed > 0) {
-    console.error(`\n${failed} of ${files.length} guides failed validation.`);
+    console.error(`\n${failed} of ${rows.length} guides failed validation.`);
     process.exit(1);
   }
 
-  console.log(`✓ All ${files.length} airport guides are valid.`);
+  console.log(`✓ All ${rows.length} airport guides are valid.`);
+  process.exit(0);
 }
 
 main().catch((error) => {

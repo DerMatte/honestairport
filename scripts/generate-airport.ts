@@ -11,14 +11,17 @@
 
 import { streamText } from "ai";
 import { createGateway } from "@ai-sdk/gateway";
-import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  airportGuideExists,
+  parseAirportGuideMarkdown,
+  upsertAirportGuide,
+} from "../lib/airport-guides";
 import { loadLocalEnv } from "./load-env";
+import { requestSiteRevalidation } from "./revalidate-site";
 
 loadLocalEnv();
-
-export const CONTENT_DIR = path.join(process.cwd(), "content/airports");
 
 export function buildAirportGenerationPrompt(iata: string, extraInstructions = ""): string {
   const normalizedIata = iata.toUpperCase();
@@ -106,15 +109,7 @@ ${extraInstructions ? `Additional focus: ${extraInstructions}` : ""}
 Output ONLY the raw Markdown file (frontmatter + body). No explanations before or after.`;
 }
 
-export async function airportContentExists(iata: string): Promise<boolean> {
-  const filepath = path.join(CONTENT_DIR, `${iata.toLowerCase()}.md`);
-  try {
-    await fs.access(filepath);
-    return true;
-  } catch {
-    return false;
-  }
-}
+export { airportGuideExists as airportContentExists };
 
 export async function generateAirportPage(iata: string, extraInstructions = "") {
   const normalizedIata = iata.toUpperCase();
@@ -131,16 +126,14 @@ export async function generateAirportPage(iata: string, extraInstructions = "") 
   });
 
   const text = await result.text;
-  const filename = `${normalizedIata.toLowerCase()}.md`;
-  const filepath = path.join(CONTENT_DIR, filename);
 
-  await fs.mkdir(CONTENT_DIR, { recursive: true });
-  await fs.writeFile(filepath, text.trim() + "\n");
+  // Validates the guide and snapshots any previous version before writing.
+  const row = await upsertAirportGuide(parseAirportGuideMarkdown(text.trim()));
+  await requestSiteRevalidation();
 
-  console.log(`✅ Generated ${filepath}`);
-  console.log("⚠️  Please review carefully for accuracy before committing.");
+  console.log(`✅ Generated guide for ${row.iata} (stored in Postgres)`);
 
-  return filepath;
+  return row.iata;
 }
 
 const isDirectRun =

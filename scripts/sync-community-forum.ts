@@ -8,7 +8,7 @@
  *   pnpm sync:forum --reset           # forget seen items (re-detect all RSS entries)
  */
 
-import { getAllAirportIatas } from "../lib/airport-content";
+import { listAirportGuideIatas } from "../lib/airport-guides";
 import {
   loadCommunityForumState,
   saveCommunityForumState,
@@ -31,9 +31,9 @@ async function main() {
     console.log("Reset community forum sync state.");
   }
 
-  const knownIatas = await getAllAirportIatas();
+  const knownIatas = await listAirportGuideIatas();
   if (knownIatas.length === 0) {
-    console.log("No airport pages found under content/airports/.");
+    console.log("No airport guides found in the database.");
     process.exit(0);
   }
 
@@ -55,7 +55,7 @@ async function main() {
     if (result.changedAirports.length > 0) {
       console.log(`Queued for review: ${result.changedAirports.join(", ")}`);
     } else {
-      console.log("No matches for airports in content/airports/.");
+      console.log("No matches for airports with guides in the database.");
     }
 
     if (result.referenceActivity.length > 0) {

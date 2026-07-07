@@ -3,6 +3,8 @@ import { getAirportContent, getAllAirportIatas } from "@/lib/airport-content";
 import { getAirportSlugs } from "@/lib/airport-utils";
 import { SITE_URL } from "@/lib/site";
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const guideIatas = await getAllAirportIatas();
   const slugs = new Set([
