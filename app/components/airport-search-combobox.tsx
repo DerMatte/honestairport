@@ -353,11 +353,7 @@ export function AirportSearchDialog({
   } | null>(null);
 
   useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setLocationFilter(null);
-      return;
-    }
+    if (!open) return;
 
     const frame = window.requestAnimationFrame(() => {
       inputRef.current?.focus();
@@ -365,6 +361,14 @@ export function AirportSearchDialog({
 
     return () => window.cancelAnimationFrame(frame);
   }, [open]);
+
+  function handleOpenChange(next: boolean) {
+    if (!next) {
+      setQuery("");
+      setLocationFilter(null);
+    }
+    onOpenChange(next);
+  }
 
   function focusSearchInput(event: Event) {
     event.preventDefault();
@@ -382,14 +386,14 @@ export function AirportSearchDialog({
   }
 
   function handleSelectAirport(airport: SearchableLocation) {
-    onOpenChange(false);
+    handleOpenChange(false);
     router.push(`/airports/${airport.slug}`);
   }
 
   return (
     <CommandDialog
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={handleOpenChange}
       title="Search airports"
       description="Search airports by code, name, city, or country."
       className="max-w-2xl overflow-hidden rounded-2xl border-border/70 p-0 shadow-2xl shadow-primary/10 sm:max-w-3xl"
