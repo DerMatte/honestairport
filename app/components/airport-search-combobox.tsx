@@ -12,7 +12,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
 import {
@@ -165,7 +164,7 @@ function SearchResults({
 
   const showExamples = !normalizedQuery && !locationFilter && examples !== null;
   const showUnifiedLocations = Boolean(normalizedQuery);
-  const showAirportGroup = airportResults.length > 0;
+  const showAirportGroup = !showExamples && airportResults.length > 0;
 
   const hasResults =
     showExamples ||
@@ -465,8 +464,8 @@ export function AirportDirectorySearch({
 
   return (
     <div className="relative">
-      <div className="rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/5 ring-1 ring-primary/5">
-        <Command shouldFilter={false} className="rounded-none bg-transparent">
+      <Command shouldFilter={false} className="rounded-none bg-transparent">
+        <div className="rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/5 ring-1 ring-primary/5">
           <InlineSearchBar
             query={inputQuery}
             locationFilter={locationFilter}
@@ -478,22 +477,21 @@ export function AirportDirectorySearch({
             }}
             showSearchIcon
           />
+        </div>
 
-          {showPanel ? (
-            <>
-              <CommandSeparator />
-              <SearchResults
-                query={inputQuery}
-                airports={airports}
-                locationFilter={locationFilter}
-                onSelectAirport={handleSelectAirport}
-                onSelectLocation={handleSelectLocation}
-                listClassName="max-h-72"
-              />
-            </>
-          ) : null}
-        </Command>
-      </div>
+        {showPanel ? (
+          <div className="absolute top-[calc(100%+0.5rem)] z-50 w-full overflow-hidden rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/5">
+            <SearchResults
+              query={inputQuery}
+              airports={airports}
+              locationFilter={locationFilter}
+              onSelectAirport={handleSelectAirport}
+              onSelectLocation={handleSelectLocation}
+              listClassName="max-h-72"
+            />
+          </div>
+        ) : null}
+      </Command>
     </div>
   );
 }
