@@ -3,14 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
-import { AirportGuideArticle } from "@/app/components/airport-guide-article";
-import { AirportGuideSources } from "@/app/components/airport-guide-sources";
-import { AirportLoungeGrid } from "@/app/components/airport-lounges";
-import { AirportReviews } from "@/app/components/airport-reviews";
-import {
-  AirportLiveStatusPanel,
-  AirportLiveStatusProvider,
-} from "@/app/components/airport-live-status-loader";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Badge } from "@/components/ui/badge";
@@ -305,41 +297,13 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
           <AirportTipBento guideTips={guide.importantTips} />
         </section>
 
-        <AirportLiveStatusProvider iata={frontmatter.iata}>
-          <section aria-labelledby="live-status-heading" className="mt-10 space-y-3">
-            <div>
-              <p className="text-sm font-medium text-primary">Live airport status</p>
-              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight">
-                Current operations
-              </h2>
-            </div>
-            <AirportLiveStatusPanel className="mb-0" />
-          </section>
-        </AirportLiveStatusProvider>
-
-        {guide.lounges.length ? (
-          <section aria-labelledby="lounges-heading" className="mt-10 space-y-3">
-            <div>
-              <p className="text-sm font-medium text-primary">Lounges</p>
-              <h2 id="lounges-heading" className="text-2xl font-semibold tracking-tight">
-                Where to wait in comfort
-              </h2>
-            </div>
-            <AirportLoungeGrid lounges={guide.lounges} />
-          </section>
-        ) : null}
-
-        <section className="mt-10 max-w-4xl">
-          <AirportGuideArticle content={guideContent.content} />
+        <section className="mt-10">
+          <AirportDetailTabs
+            iata={frontmatter.iata}
+            guide={guide}
+            guideMarkdown={guideContent.content}
+          />
         </section>
-
-        {guide.sourceLinks.length ? (
-          <section className="mt-6 max-w-4xl">
-            <AirportGuideSources sources={guide.sourceLinks} />
-          </section>
-        ) : null}
-
-        <AirportReviews iata={frontmatter.iata} showHeading className="mt-10 max-w-4xl" />
       </div>
     </div>
   );

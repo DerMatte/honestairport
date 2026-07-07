@@ -15,6 +15,7 @@ import {
   Utensils,
   Wifi,
 } from "lucide-react";
+import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
@@ -49,8 +50,13 @@ import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-con
 import type { Airport, AmenityCategory } from "@/lib/types";
 
 interface AirportDetailTabsProps {
-  airport: Airport;
+  /** Curated airport record; omit for guide-only airports. */
+  airport?: Airport;
   guide?: AirportGuideSummary | null;
+  /** Required when no curated airport record is passed. */
+  iata?: string;
+  /** Full markdown guide body; when set, renders a Full Guide tab. */
+  guideMarkdown?: string;
 }
 
 function amenityIcon(category: AmenityCategory) {
@@ -174,23 +180,51 @@ function TransportIcon({ type }: { type: Airport["transport"][number]["type"] })
   }
 }
 
-export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
+export function AirportDetailTabs({
+  airport,
+  guide,
+  iata: iataProp,
+  guideMarkdown,
+}: AirportDetailTabsProps) {
+  const iata = airport?.iata ?? iataProp;
+
+  if (!iata) {
+    return null;
+  }
+
   const guideSections = guide?.sections;
   const hasGettingThereGuide = Boolean(
     guideSections?.terminalNavigation?.items.length ||
       guideSections?.groundTransport?.items.length,
   );
+  const showGettingThere = Boolean(airport) || hasGettingThereGuide;
+  const showLounges = Boolean(
+    airport ||
+      guide?.lounges.length ||
+      guideSections?.loungesAmenities?.items.length,
+  );
+  const showAmenities = Boolean(airport?.amenities.length);
+  const showTips = Boolean(
+    airport?.tips.length || guideSections?.airportTricks?.items.length,
+  );
 
   return (
-    <AirportLiveStatusProvider iata={airport.iata}>
+    <AirportLiveStatusProvider iata={iata}>
       <Tabs defaultValue="overview" className="gap-6">
         <div className="overflow-x-auto pb-1">
           <TabsList className="w-max" variant="line">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="getting-there">Getting There</TabsTrigger>
-            <TabsTrigger value="lounges">Lounges</TabsTrigger>
-            <TabsTrigger value="amenities">Amenities</TabsTrigger>
-            <TabsTrigger value="tips">Traveler Tips</TabsTrigger>
+            {showGettingThere ? (
+              <TabsTrigger value="getting-there">Getting There</TabsTrigger>
+            ) : null}
+            {showLounges ? <TabsTrigger value="lounges">Lounges</TabsTrigger> : null}
+            {showAmenities ? (
+              <TabsTrigger value="amenities">Amenities</TabsTrigger>
+            ) : null}
+            {showTips ? <TabsTrigger value="tips">Traveler Tips</TabsTrigger> : null}
+            {guideMarkdown ? (
+              <TabsTrigger value="guide">Full Guide</TabsTrigger>
+            ) : null}
             <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
             <TabsTrigger value="reviews">Reviews & Photos</TabsTrigger>
           </TabsList>
@@ -214,7 +248,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
                 <div>
                   <CardTitle>Guide quick facts</CardTitle>
                   <CardDescription>
-                    Pulled from the editorial markdown guide for {airport.iata}.
+                    Pulled from the editorial markdown guide for {iata}.
                   </CardDescription>
                 </div>
                 <Badge variant="outline" className="rounded-full">
@@ -244,6 +278,8 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
           </Card>
         ) : null}
 
+        {airport ? (
+        <>
         <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
           <Card>
             <CardHeader>
@@ -313,6 +349,8 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
             </CardContent>
           </Card>
         </div>
+        </>
+        ) : null}
       </TabsContent>
 
       <TabsContent value="getting-there" className="space-y-4">
@@ -334,7 +372,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
         ) : null}
 
         <div className="grid gap-4 md:grid-cols-3">
-          {airport.transport.map((option) => (
+          {airport?.transport.map((option) => (
             <Card key={`${option.type}-${option.name}`} className="h-full">
               <CardHeader>
                 <div className="mb-2 flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
@@ -378,7 +416,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
         {!guide?.lounges.length && !guideSections?.loungesAmenities?.items.length ? (
           <Card>
             <CardContent className="p-6 text-sm text-muted-foreground">
-              No lounge intel yet for {airport.iata}. Check the official airport site for
+              No lounge intel yet for {iata}. Check the official airport site for
               current lounge locations and access rules.
             </CardContent>
           </Card>
@@ -386,7 +424,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
       </TabsContent>
 
       <TabsContent value="amenities" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {airport.amenities.map((amenity) => (
+        {airport?.amenities.map((amenity) => (
           <Card key={amenity.id}>
             <CardHeader>
               <div className="flex items-start justify-between gap-3">
@@ -422,7 +460,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
           title="Editorial guide tricks"
         />
 
-        {airport.tips.map((tip, index) => (
+        {airport?.tips.map((tip, index) => (
           <Card key={tip.id}>
             <CardContent className="grid gap-4 p-5 md:grid-cols-[80px_1fr]">
               <div>
@@ -468,6 +506,12 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
         ))}
       </TabsContent>
 
+      {guideMarkdown ? (
+        <TabsContent value="guide" className="max-w-4xl">
+          <AirportGuideArticle content={guideMarkdown} />
+        </TabsContent>
+      ) : null}
+
       <TabsContent value="disruptions">
         <Card>
           <CardHeader>
@@ -485,9 +529,13 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
         </Card>
       </TabsContent>
 
-      <TabsContent value="reviews" className="grid gap-4 lg:grid-cols-[1fr_360px]">
-        <AirportReviews iata={airport.iata} seedReviews={airport.reviews} />
+      <TabsContent
+        value="reviews"
+        className={cn("grid gap-4", airport && "lg:grid-cols-[1fr_360px]")}
+      >
+        <AirportReviews iata={iata} seedReviews={airport?.reviews} />
 
+        {airport ? (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -527,6 +575,7 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
             ))}
           </CardContent>
         </Card>
+        ) : null}
       </TabsContent>
       </Tabs>
     </AirportLiveStatusProvider>
