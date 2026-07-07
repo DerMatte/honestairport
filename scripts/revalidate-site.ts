@@ -9,7 +9,7 @@ import { loadLocalEnv } from "./load-env";
 
 loadLocalEnv();
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://honestairport.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.honestairport.com";
 
 export async function requestSiteRevalidation(): Promise<void> {
   const secret = process.env.REVALIDATE_SECRET;
