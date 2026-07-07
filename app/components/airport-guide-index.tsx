@@ -13,8 +13,10 @@ export async function AirportGuideIndex() {
   return (
     <section aria-labelledby="guide-index-heading" className="mx-auto max-w-7xl px-6 pb-16">
       <div className="mb-6">
-        <p className="text-sm font-medium text-primary">Editorial guides</p>
-        <h2 id="guide-index-heading" className="text-2xl font-semibold tracking-tight">
+        <p className="text-sm font-medium tracking-wide text-primary uppercase">
+          Editorial guides
+        </p>
+        <h2 id="guide-index-heading" className="mt-1 text-3xl tracking-tight">
           All airport guides
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
@@ -28,7 +30,7 @@ export async function AirportGuideIndex() {
           <li key={airport.iata}>
             <Link
               href={`/airports/${airport.iata.toLowerCase()}`}
-              className="group flex h-full items-start justify-between gap-3 rounded-2xl border bg-card/95 p-4 shadow-sm transition hover:border-primary/40 hover:shadow-md"
+              className="group flex h-full items-start justify-between gap-3 rounded-2xl border border-border/70 bg-card/95 p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10"
             >
               <div>
                 <div className="flex items-center gap-2">

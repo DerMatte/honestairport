@@ -109,7 +109,7 @@ export default async function AirportPage({ params }: AirportPageProps) {
   const guide = await getAirportGuideSummaryByIata(airport.iata);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -138,7 +138,7 @@ export default async function AirportPage({ params }: AirportPageProps) {
               </Badge>
               <DisruptionBadge status={airport.disruption.status} />
             </div>
-            <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
               {airport.name}
             </h1>
             <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
@@ -150,19 +150,19 @@ export default async function AirportPage({ params }: AirportPageProps) {
             </p>
           </div>
 
-          <Card className="border-border/70 bg-card/95 shadow-xl shadow-foreground/5">
+          <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
             <CardContent className="p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <div className="text-sm text-muted-foreground">Airportist Score</div>
                   <div className="mt-1 flex items-end gap-2">
-                    <span className="font-mono text-6xl font-semibold tracking-tight">
+                    <span className="font-mono text-6xl font-semibold tracking-tight text-primary">
                       {airport.airportistScore.toFixed(1)}
                     </span>
                     <span className="pb-2 text-muted-foreground">/ 10</span>
                   </div>
                 </div>
-                <div className="flex size-14 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
+                <div className="flex size-14 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
                   <Star className="size-6 fill-current" aria-hidden="true" />
                 </div>
               </div>
@@ -235,7 +235,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -266,7 +266,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 Editorial guide
               </Badge>
             </div>
-            <h1 className="mt-5 max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
               {frontmatter.name}
             </h1>
             <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
@@ -275,7 +275,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             </p>
           </div>
 
-          <Card className="border-border/70 bg-card/95 shadow-xl shadow-foreground/5">
+          <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
             <CardContent className="p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>

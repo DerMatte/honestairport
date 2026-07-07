@@ -100,18 +100,15 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
         </p>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-4">
-        {tips.map((tip, index) => {
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        {tips.map((tip) => {
           const style = categoryStyles[tip.category];
 
           return (
             <Card
               key={tip.id}
               size="sm"
-              className={cn(
-                "border-border/70 bg-card/95 shadow-sm",
-                index === 0 && "md:col-span-2",
-              )}
+              className="border-border/70 bg-card/95 shadow-sm transition hover:border-primary/25 hover:shadow-md"
             >
               <CardHeader className="gap-2">
                 <div className="flex items-start justify-between gap-3">

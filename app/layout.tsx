@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/app/components/site-header";
 import { getAirportSearchEntries } from "@/lib/airport-search";
@@ -15,6 +16,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -51,7 +58,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a
@@ -60,10 +67,15 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
-          <div className="mx-auto flex h-14 max-w-5xl items-center gap-4 px-6">
-            <Link href="/" className="shrink-0 text-xl font-semibold tracking-tight">
-              HonestAirport
+        <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+          <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
+            <Link href="/" className="flex shrink-0 items-center gap-2.5">
+              <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                <Plane className="size-4 -rotate-45" aria-hidden="true" />
+              </span>
+              <span className="font-heading text-xl font-medium tracking-tight">
+                HonestAirport
+              </span>
             </Link>
             <SiteHeader airports={airports} />
           </div>
@@ -71,8 +83,20 @@ export default async function RootLayout({
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <footer className="border-t border-border px-6 py-8 text-center text-xs text-muted-foreground">
-          Airportist Scores are editorial mock data for this starter. Always verify live rules, terminals, and operational alerts with official airport and airline sources.
+        <footer className="border-t border-border/60 bg-card/60">
+          <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6 py-10 text-center">
+            <span className="flex items-center gap-2 text-sm font-medium">
+              <span className="flex size-6 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                <Plane className="size-3 -rotate-45" aria-hidden="true" />
+              </span>
+              HonestAirport
+            </span>
+            <p className="max-w-2xl text-xs leading-5 text-muted-foreground">
+              Airportist Scores are editorial mock data for this starter. Always
+              verify live rules, terminals, and operational alerts with official
+              airport and airline sources.
+            </p>
+          </div>
         </footer>
         <Analytics />
       </body>

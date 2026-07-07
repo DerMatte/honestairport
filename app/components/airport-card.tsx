@@ -19,7 +19,7 @@ export function AirportCard({ airport }: AirportCardProps) {
 
   return (
     <Link href={`/airports/${airport.slug}`} className="group block h-full">
-      <Card className="h-full border-border/70 bg-card/95 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-foreground/5">
+      <Card className="h-full border-border/70 bg-card/95 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10">
         <CardHeader className="gap-3">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -37,12 +37,12 @@ export function AirportCard({ airport }: AirportCardProps) {
                 {airport.city}, {airport.country}
               </p>
             </div>
-            <div className="rounded-2xl border bg-background px-3 py-2 text-center shadow-sm">
-              <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
+            <div className="rounded-2xl border border-primary/15 bg-primary/5 px-3 py-2 text-center shadow-sm">
+              <div className="flex items-center justify-center gap-1 text-xs text-primary">
                 <Star className="size-3 fill-current" aria-hidden="true" />
                 Score
               </div>
-              <div className="font-mono text-2xl font-semibold">
+              <div className="font-mono text-2xl font-semibold text-primary">
                 {airport.airportistScore.toFixed(1)}
               </div>
             </div>
@@ -83,7 +83,7 @@ export function AirportCard({ airport }: AirportCardProps) {
             <Clock3 className="size-3.5" aria-hidden="true" />
             {airport.stats.averageSecurityMinutes} min avg security
           </span>
-          <span className="flex items-center gap-1 text-foreground">
+          <span className="flex items-center gap-1 font-medium text-primary">
             View guide
             <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </span>

@@ -215,7 +215,7 @@ function AirportSearchCombobox({
   }
 
   return (
-    <div className="rounded-2xl border bg-card p-2 shadow-xl shadow-foreground/5">
+    <div className="rounded-2xl border border-border/70 bg-card p-2 shadow-xl shadow-primary/5 ring-1 ring-primary/5">
       <div className="grid gap-2 sm:grid-cols-[150px_1fr]">
         <Select
           value={filters.searchScope}
@@ -450,13 +450,16 @@ export function AirportDirectory({ airports }: AirportDirectoryProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,var(--muted),transparent_34%),linear-gradient(180deg,var(--background),var(--background))]">
-      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-16">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_10%,transparent),transparent),radial-gradient(circle_at_top_left,var(--muted),transparent_34%)]">
+      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
         <div className="flex flex-col justify-center">
-          <Badge variant="outline" className="mb-5 w-fit rounded-full">
+          <Badge
+            variant="outline"
+            className="mb-6 w-fit rounded-full border-primary/25 bg-primary/5 px-3 py-1 text-primary"
+          >
             HonestAirport beta · Airportist Score inside
           </Badge>
-          <h1 className="max-w-4xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl lg:text-7xl">
             Airport intel that feels like a calm frequent flyer in your pocket.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
@@ -472,16 +475,16 @@ export function AirportDirectory({ airports }: AirportDirectoryProps) {
             />
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
-            <Badge variant="secondary" className="rounded-full">
+          <div className="mt-7 flex flex-wrap gap-2.5 text-sm text-muted-foreground">
+            <Badge variant="secondary" className="rounded-full px-3 py-1">
               {airports.length} curated airports
             </Badge>
             {topAirport ? (
-              <Badge variant="secondary" className="rounded-full">
+              <Badge variant="secondary" className="rounded-full px-3 py-1">
                 Top score: {topAirport.iata} {topAirport.airportistScore.toFixed(1)}
               </Badge>
             ) : null}
-            <Badge variant="secondary" className="rounded-full">
+            <Badge variant="secondary" className="rounded-full px-3 py-1">
               Flighty-style disruption signals
             </Badge>
           </div>
