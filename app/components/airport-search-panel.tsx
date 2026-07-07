@@ -3,27 +3,30 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
-import { filterAndSortAirports } from "@/lib/airport-utils";
 import { cn } from "@/lib/utils";
-import type { Airport, AirportFilters } from "@/lib/types";
+import type { AirportSearchEntry } from "@/lib/airport-search";
 
 interface AirportSearchPanelProps {
-  airports: Airport[];
+  airports: AirportSearchEntry[];
   onSelect?: () => void;
   autoFocus?: boolean;
   className?: string;
 }
 
-function searchFilters(query: string): AirportFilters {
-  return {
-    query,
-    searchScope: "all",
-    minimumScore: 0,
-    regions: [],
-    amenities: [],
-    disruptionStatuses: [],
-    sort: "highest-score",
-  };
+function normalize(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+function matchRank(airport: AirportSearchEntry, query: string): number {
+  if (normalize(airport.iata) === query) return 0;
+  if (normalize(airport.city).startsWith(query)) return 1;
+  if (normalize(airport.name).includes(query)) return 2;
+  if (normalize(`${airport.city} ${airport.country}`).includes(query)) return 3;
+  return -1;
 }
 
 export function AirportSearchPanel({
@@ -35,8 +38,15 @@ export function AirportSearchPanel({
   const [query, setQuery] = useState("");
 
   const results = useMemo(() => {
-    if (!query.trim()) return airports.slice(0, 6);
-    return filterAndSortAirports(airports, searchFilters(query)).slice(0, 8);
+    const normalizedQuery = normalize(query);
+    if (!normalizedQuery) return airports.slice(0, 6);
+
+    return airports
+      .map((airport) => ({ airport, rank: matchRank(airport, normalizedQuery) }))
+      .filter(({ rank }) => rank >= 0)
+      .sort((a, b) => a.rank - b.rank)
+      .slice(0, 8)
+      .map(({ airport }) => airport);
   }, [airports, query]);
 
   return (
@@ -72,8 +82,8 @@ export function AirportSearchPanel({
                 <span className="text-sm font-medium">{airport.name}</span>
               </div>
               <div className="mt-0.5 text-xs text-muted-foreground">
-                {airport.city}, {airport.country} · Score{" "}
-                {airport.airportistScore.toFixed(1)}
+                {airport.city}, {airport.country}
+                {airport.score !== undefined ? ` · Score ${airport.score.toFixed(1)}` : null}
               </div>
             </Link>
           ))
