@@ -20,6 +20,7 @@ TravelGuide is a Next.js 16 App Router site serving per-airport knowledge pages.
 - `pnpm generate:airport` — requires `AI_GATEWAY_API_KEY` in `.env.local`.
 - `pnpm review:airports` — requires `CURSOR_API_KEY` in `.env.local`.
 - `pnpm sync:images <IATA>|--next` — sources 5-12 Wikimedia Commons photos per airport (grok CLI curates), uploads to Vercel Blob (`BLOB_READ_WRITE_TOKEN`), writes `airport_images` rows. Runs on the VPS cron at :15/:45 alongside the guide generator.
+- `pnpm sync:ratings <IATA>|--next|--all` — fetches each airport's Google Maps aggregate rating + review count via ScrapingBee (`SCRAPINGBEE_API_KEY`), writes `airport_google_ratings` rows (30-day freshness window); pages show it as "Google rating" next to the Airportist Score. `scripts/sync-google-ratings-cron.sh` is the VPS cron wrapper.
 - These are not needed for the core web app.
 
 ### Key caveats

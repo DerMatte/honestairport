@@ -23,6 +23,11 @@ import {
   rowToAirportImage,
   type AirportImage,
 } from "./airport-images";
+import {
+  fetchAirportGoogleRatingRow,
+  rowToAirportGoogleRating,
+  type AirportGoogleRating,
+} from "./google-ratings";
 
 export type {
   AirportBentoTip,
@@ -38,9 +43,11 @@ export type {
 
 export { getAirportGuideSummary } from "./airport-guides";
 export type { AirportImage } from "./airport-images";
+export type { AirportGoogleRating } from "./google-ratings";
 
 export const AIRPORT_GUIDES_CACHE_TAG = "airport-guides";
 export const AIRPORT_IMAGES_CACHE_TAG = "airport-images";
+export const AIRPORT_GOOGLE_RATINGS_CACHE_TAG = "airport-google-ratings";
 
 const getCachedAirportGuideRow = unstable_cache(
   async (iata: string) => fetchAirportGuideRow(iata),
@@ -60,9 +67,22 @@ const getCachedAirportImageRows = unstable_cache(
   { tags: [AIRPORT_IMAGES_CACHE_TAG] },
 );
 
+const getCachedAirportGoogleRatingRow = unstable_cache(
+  async (iata: string) => fetchAirportGoogleRatingRow(iata),
+  ["airport-google-rating-by-iata"],
+  { tags: [AIRPORT_GOOGLE_RATINGS_CACHE_TAG] },
+);
+
 export async function getAirportImages(iata: string): Promise<AirportImage[]> {
   const rows = await getCachedAirportImageRows(iata.toUpperCase());
   return rows.map(rowToAirportImage);
+}
+
+export async function getAirportGoogleRating(
+  iata: string,
+): Promise<AirportGoogleRating | null> {
+  const row = await getCachedAirportGoogleRatingRow(iata.toUpperCase());
+  return row ? rowToAirportGoogleRating(row) : null;
 }
 
 export async function getAirportContent(iata: string): Promise<AirportContent | null> {

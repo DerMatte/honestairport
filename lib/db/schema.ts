@@ -5,6 +5,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  real,
   smallint,
   text,
   timestamp,
@@ -112,3 +113,23 @@ export const airportImages = pgTable(
 
 export type AirportImageRow = typeof airportImages.$inferSelect;
 export type NewAirportImageRow = typeof airportImages.$inferInsert;
+
+/**
+ * Google Maps aggregate rating per airport, fetched by the ratings sync
+ * script (ScrapingBee Google API). One row per airport, replaced on each
+ * sync; `raw` keeps the matched search result for debugging and future
+ * signal extraction.
+ */
+export const airportGoogleRatings = pgTable("airport_google_ratings", {
+  iata: varchar("iata", { length: 3 }).primaryKey(),
+  // Place name Google matched, e.g. "Heathrow Airport" — kept to audit
+  // that the search resolved to the airport and not a nearby business.
+  placeName: text("place_name").notNull(),
+  rating: real("rating").notNull(),
+  reviewCount: integer("review_count").notNull(),
+  raw: jsonb("raw").$type<Record<string, unknown>>(),
+  fetchedAt: timestamp("fetched_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type AirportGoogleRatingRow = typeof airportGoogleRatings.$inferSelect;
+export type NewAirportGoogleRatingRow = typeof airportGoogleRatings.$inferInsert;

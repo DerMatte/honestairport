@@ -1,6 +1,10 @@
 import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
-import { AIRPORT_GUIDES_CACHE_TAG, AIRPORT_IMAGES_CACHE_TAG } from "@/lib/airport-content";
+import {
+  AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_IMAGES_CACHE_TAG,
+} from "@/lib/airport-content";
 
 /**
  * Called by the content pipeline after upserting guides in Postgres so
@@ -21,8 +25,9 @@ export async function POST(request: NextRequest) {
   // revalidation triggered by external systems via route handlers.
   revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
   revalidateTag(AIRPORT_IMAGES_CACHE_TAG, { expire: 0 });
+  revalidateTag(AIRPORT_GOOGLE_RATINGS_CACHE_TAG, { expire: 0 });
   return NextResponse.json({
     revalidated: true,
-    tags: [AIRPORT_GUIDES_CACHE_TAG, AIRPORT_IMAGES_CACHE_TAG],
+    tags: [AIRPORT_GUIDES_CACHE_TAG, AIRPORT_IMAGES_CACHE_TAG, AIRPORT_GOOGLE_RATINGS_CACHE_TAG],
   });
 }

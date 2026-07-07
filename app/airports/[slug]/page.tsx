@@ -15,9 +15,11 @@ import {
 } from "@/lib/airport-utils";
 import {
   getAirportContent,
+  getAirportGoogleRating,
   getAirportGuideSummary,
   getAirportGuideSummaryByIata,
   getAllAirportIatas,
+  type AirportGoogleRating,
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
 
@@ -100,7 +102,10 @@ export default async function AirportPage({ params }: AirportPageProps) {
     return <GuideOnlyAirportPage slug={slug} />;
   }
 
-  const guide = await getAirportGuideSummaryByIata(airport.iata);
+  const [guide, googleRating] = await Promise.all([
+    getAirportGuideSummaryByIata(airport.iata),
+    getAirportGoogleRating(airport.iata),
+  ]);
 
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
@@ -161,6 +166,8 @@ export default async function AirportPage({ params }: AirportPageProps) {
                 </div>
               </div>
 
+              <GoogleRatingLine googleRating={googleRating} />
+
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-2xl border bg-muted/30 p-3">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -209,6 +216,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const { frontmatter } = guideContent;
   const guide = getAirportGuideSummary(guideContent);
   const record = getAirportByIata(frontmatter.iata);
+  const googleRating = await getAirportGoogleRating(frontmatter.iata);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -286,6 +294,8 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                   <BookOpenText className="size-6" aria-hidden="true" />
                 </div>
               </div>
+
+              <GoogleRatingLine googleRating={googleRating} />
               <ul className="mt-5 space-y-2 text-sm leading-6">
                 {guide.quickFacts.slice(0, 5).map((fact, index) => (
                   <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2">
@@ -315,5 +325,27 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
       </div>
     </div>
+  );
+}
+
+const compactCount = new Intl.NumberFormat("en", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+/** Crowd-sourced signal next to our editorial score; hidden until synced. */
+function GoogleRatingLine({ googleRating }: { googleRating: AirportGoogleRating | null }) {
+  if (!googleRating) {
+    return null;
+  }
+
+  return (
+    <p className="mt-4 flex items-center gap-1.5 rounded-2xl border bg-muted/30 px-3 py-2 text-sm">
+      <Star className="size-3.5 fill-amber-400 text-amber-400" aria-hidden="true" />
+      <span className="font-mono">{googleRating.rating.toFixed(1)}</span>
+      <span className="text-muted-foreground">
+        Google rating · {compactCount.format(googleRating.reviewCount)} reviews
+      </span>
+    </p>
   );
 }
