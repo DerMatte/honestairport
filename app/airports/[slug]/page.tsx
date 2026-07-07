@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
+import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Badge } from "@/components/ui/badge";
@@ -183,6 +184,10 @@ export default async function AirportPage({ params }: AirportPageProps) {
         </section>
 
         <section className="mt-10">
+          <AirportPhotoGallery iata={airport.iata} />
+        </section>
+
+        <section className="mt-10">
           <AirportTipBento airport={airport} guideTips={guide?.importantTips} />
         </section>
 
@@ -291,6 +296,10 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               </ul>
             </CardContent>
           </Card>
+        </section>
+
+        <section className="mt-10">
+          <AirportPhotoGallery iata={frontmatter.iata} />
         </section>
 
         <section className="mt-10">

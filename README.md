@@ -57,7 +57,7 @@ lib/
   types.ts                       Airport, Disruption, Amenity, Tip, Review types
 ```
 
-The older Markdown files under `content/airports/` and generator scripts are still present as reference/editorial tooling, but the MVP UI now uses structured TypeScript data from `lib/data.ts`.
+Airport guides live in Postgres (`airport_guides`); use `pnpm guide` to list, export, and save them. The former Markdown files under `content/airports/` were a one-time seed source and have been removed.
 
 ## Data Model
 

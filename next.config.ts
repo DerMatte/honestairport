@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  images: {
+    remotePatterns: [
+      // Airport photos uploaded by scripts/sync-airport-images.ts.
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+    ],
+  },
   experimental: {
     // Prerender workers each open a DB pool; cap them so builds stay under
     // the managed Postgres connection limit.

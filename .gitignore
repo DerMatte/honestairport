@@ -30,6 +30,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 scripts/.generate-airports-*.log
+scripts/.sync-airport-images*.log
 
 # env files (can opt-in for committing if needed)
 .env*

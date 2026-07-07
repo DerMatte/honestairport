@@ -18,6 +18,11 @@ import {
   type AirportGuideSummary,
   type AirportSummary,
 } from "./airport-guides";
+import {
+  fetchAirportImageRows,
+  rowToAirportImage,
+  type AirportImage,
+} from "./airport-images";
 
 export type {
   AirportBentoTip,
@@ -32,8 +37,10 @@ export type {
 } from "./airport-guides";
 
 export { getAirportGuideSummary } from "./airport-guides";
+export type { AirportImage } from "./airport-images";
 
 export const AIRPORT_GUIDES_CACHE_TAG = "airport-guides";
+export const AIRPORT_IMAGES_CACHE_TAG = "airport-images";
 
 const getCachedAirportGuideRow = unstable_cache(
   async (iata: string) => fetchAirportGuideRow(iata),
@@ -46,6 +53,17 @@ const getCachedAirportGuideRows = unstable_cache(
   ["airport-guides-all"],
   { tags: [AIRPORT_GUIDES_CACHE_TAG] },
 );
+
+const getCachedAirportImageRows = unstable_cache(
+  async (iata: string) => fetchAirportImageRows(iata),
+  ["airport-images-by-iata"],
+  { tags: [AIRPORT_IMAGES_CACHE_TAG] },
+);
+
+export async function getAirportImages(iata: string): Promise<AirportImage[]> {
+  const rows = await getCachedAirportImageRows(iata.toUpperCase());
+  return rows.map(rowToAirportImage);
+}
 
 export async function getAirportContent(iata: string): Promise<AirportContent | null> {
   const row = await getCachedAirportGuideRow(iata.toUpperCase());

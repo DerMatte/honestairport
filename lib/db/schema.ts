@@ -2,11 +2,13 @@ import { sql } from "drizzle-orm";
 import {
   check,
   index,
+  integer,
   jsonb,
   pgTable,
   smallint,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
@@ -77,3 +79,36 @@ export const airportGuideRevisions = pgTable(
 
 export type AirportGuideRow = typeof airportGuides.$inferSelect;
 export type NewAirportGuideRow = typeof airportGuides.$inferInsert;
+
+/**
+ * Rights-cleared photos per airport, sourced from Wikimedia Commons by the
+ * image sync pipeline and served from Vercel Blob. `sourceUrl` points at the
+ * Commons file page; `credit`/`license` must be rendered wherever the image
+ * is shown (CC attribution requirement).
+ */
+export const airportImages = pgTable(
+  "airport_images",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    iata: varchar("iata", { length: 3 }).notNull(),
+    // Public Vercel Blob URL of the resized webp we serve.
+    url: text("url").notNull(),
+    alt: text("alt").notNull(),
+    caption: text("caption"),
+    credit: text("credit").notNull(),
+    license: text("license").notNull(),
+    licenseUrl: text("license_url"),
+    sourceUrl: text("source_url").notNull(),
+    width: integer("width").notNull(),
+    height: integer("height").notNull(),
+    sortOrder: smallint("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("airport_images_iata_sort_order_idx").on(table.iata, table.sortOrder),
+    uniqueIndex("airport_images_iata_source_url_idx").on(table.iata, table.sourceUrl),
+  ],
+);
+
+export type AirportImageRow = typeof airportImages.$inferSelect;
+export type NewAirportImageRow = typeof airportImages.$inferInsert;

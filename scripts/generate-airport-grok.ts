@@ -20,9 +20,7 @@
  * flock so runs never overlap).
  */
 
-import { spawn } from "node:child_process";
 import fs from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import { z } from "zod";
 import {
@@ -31,14 +29,16 @@ import {
   type AirportContent,
 } from "../lib/airport-guides";
 import { getMajorAirportCandidates } from "../lib/major-airports";
+import {
+  extractJsonCandidates,
+  runGrokHeadless,
+  type GrokHeadlessResult,
+} from "./grok-headless";
 import { loadLocalEnv } from "./load-env";
 import { requestSiteRevalidation } from "./revalidate-site";
 
 loadLocalEnv();
 
-const GROK_BIN = process.env.GROK_BIN ?? "grok";
-const GROK_MODEL = process.env.GROK_MODEL; // optional, defaults to CLI default
-const GROK_TIMEOUT_MS = 40 * 60 * 1000;
 const LOG_FILE = path.join(process.cwd(), "scripts/.generate-airports-grok.log");
 
 // --- Model output schema --------------------------------------------------------
@@ -159,93 +159,8 @@ IATA: ${normalizedIata}`;
 
 // --- Grok CLI invocation ----------------------------------------------------------
 
-interface GrokHeadlessResult {
-  text?: string;
-  structuredOutput?: unknown;
-  stopReason?: string;
-}
-
-async function runGrokHeadless(prompt: string): Promise<GrokHeadlessResult> {
-  const scratchDir = await fs.mkdtemp(path.join(os.tmpdir(), "airport-grok-"));
-
-  const args = [
-    "-p",
-    prompt,
-    "--output-format",
-    "json",
-    "--max-turns",
-    "100",
-    "--cwd",
-    scratchDir,
-  ];
-  if (GROK_MODEL) {
-    args.push("--model", GROK_MODEL);
-  }
-
-  try {
-    return await new Promise<GrokHeadlessResult>((resolve, reject) => {
-      const child = spawn(GROK_BIN, args, {
-        stdio: ["ignore", "pipe", "pipe"],
-        timeout: GROK_TIMEOUT_MS,
-      });
-
-      let stdout = "";
-      let stderr = "";
-      child.stdout.on("data", (chunk: Buffer) => (stdout += chunk.toString()));
-      child.stderr.on("data", (chunk: Buffer) => (stderr += chunk.toString()));
-
-      child.on("error", reject);
-      child.on("close", (code, signal) => {
-        if (signal) {
-          reject(new Error(`grok timed out or was killed (signal ${signal})`));
-          return;
-        }
-        if (code !== 0) {
-          reject(new Error(`grok exited with code ${code}: ${stderr.slice(-2000)}`));
-          return;
-        }
-
-        // stdout is a single pretty-printed JSON envelope; grab it defensively
-        // in case warnings leak onto stdout.
-        const start = stdout.indexOf("{");
-        const end = stdout.lastIndexOf("}");
-        if (start === -1 || end <= start) {
-          reject(new Error(`grok produced no JSON envelope. stdout tail: ${stdout.slice(-500)}`));
-          return;
-        }
-
-        try {
-          resolve(JSON.parse(stdout.slice(start, end + 1)) as GrokHeadlessResult);
-        } catch (error) {
-          reject(new Error(`failed to parse grok envelope: ${error}`));
-        }
-      });
-    });
-  } finally {
-    await fs.rm(scratchDir, { recursive: true, force: true }).catch(() => {});
-  }
-}
-
 function extractGuideJson(result: GrokHeadlessResult): GuideJson {
-  const candidates: unknown[] = [];
-
-  if (result.structuredOutput != null) {
-    candidates.push(result.structuredOutput);
-  }
-
-  if (typeof result.text === "string") {
-    // Strip optional code fences, then take the outermost JSON object.
-    const cleaned = result.text.replace(/```(?:json)?/g, "").trim();
-    const start = cleaned.indexOf("{");
-    const end = cleaned.lastIndexOf("}");
-    if (start !== -1 && end > start) {
-      try {
-        candidates.push(JSON.parse(cleaned.slice(start, end + 1)));
-      } catch {
-        // fall through to schema error below
-      }
-    }
-  }
+  const candidates = extractJsonCandidates(result);
 
   for (const candidate of candidates) {
     const parsed = guideJsonSchema.safeParse(candidate);
