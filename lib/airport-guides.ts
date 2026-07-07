@@ -65,9 +65,15 @@ export interface AirportGuideSummary {
   lastUpdated: string;
   quickFacts: string[];
   sources: string[];
+  sourceLinks: AirportGuideSourceLink[];
   importantTips: ImportantTip[];
   lounges: AirportLounge[];
   sections: AirportGuideSections;
+}
+
+export interface AirportGuideSourceLink {
+  label: string;
+  href: string;
 }
 
 export interface AirportGuideSection {
@@ -158,8 +164,61 @@ function readGuideSection(
   };
 }
 
+function sourceLabelFromUrl(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+export function stripOfficialSourcesSection(content: string): string {
+  return content.replace(/\n##\s+Official Sources[\s\S]*$/i, "").trim();
+}
+
+export function extractOfficialSourceLinks(
+  content: string,
+  fallbackSources: string[] = [],
+): AirportGuideSourceLink[] {
+  const match = content.match(/\n##\s+Official Sources\s*\n([\s\S]*?)$/i);
+  const links: AirportGuideSourceLink[] = [];
+  const seen = new Set<string>();
+
+  function addLink(label: string, href: string) {
+    const trimmedHref = href.trim();
+    const trimmedLabel = label.trim();
+    if (!trimmedHref || seen.has(trimmedHref)) return;
+    seen.add(trimmedHref);
+    links.push({ label: trimmedLabel || sourceLabelFromUrl(trimmedHref), href: trimmedHref });
+  }
+
+  if (match) {
+    for (const line of match[1].split("\n")) {
+      const markdownLink = line.match(/\[([^\]]+)\]\(([^)]+)\)/);
+      if (markdownLink) {
+        addLink(markdownLink[1], markdownLink[2]);
+        continue;
+      }
+
+      const bareUrl = line.match(/https?:\/\/\S+/);
+      if (bareUrl) {
+        addLink(sourceLabelFromUrl(bareUrl[0]), bareUrl[0]);
+      }
+    }
+  }
+
+  if (links.length > 0) {
+    return links;
+  }
+
+  return fallbackSources.map((href) => ({
+    label: sourceLabelFromUrl(href),
+    href,
+  }));
+}
+
 function getAirportGuideSections(content: string): AirportGuideSections {
-  const sections = getMarkdownSections(content);
+  const sections = getMarkdownSections(stripOfficialSourcesSection(content));
 
   return {
     airportTricks: readGuideSection(sections, [
@@ -263,6 +322,10 @@ export function getAirportGuideSummary(content: AirportContent): AirportGuideSum
       : "Unknown",
     quickFacts: quickFacts.filter(isNonEmptyString).map((fact) => fact.trim()),
     sources: sources.filter(isNonEmptyString).map((source) => source.trim()),
+    sourceLinks: extractOfficialSourceLinks(
+      content.content,
+      sources.filter(isNonEmptyString).map((source) => source.trim()),
+    ),
     importantTips: toImportantTips(iata, bentoTips),
     lounges: toLounges(frontmatter.lounges),
     sections: getAirportGuideSections(content.content),

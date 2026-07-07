@@ -20,6 +20,7 @@ import {
   AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
+import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviews } from "@/app/components/airport-reviews";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -236,11 +237,8 @@ export function AirportDetailTabs({ airport, guide }: AirportDetailTabsProps) {
                   </li>
                 ))}
               </ul>
-              {guide.sources.length ? (
-                <p className="text-xs text-muted-foreground">
-                  Editorial guide cites {guide.sources.length} official{" "}
-                  {guide.sources.length === 1 ? "source" : "sources"}.
-                </p>
+              {guide.sourceLinks.length ? (
+                <AirportGuideSources sources={guide.sourceLinks} />
               ) : null}
             </CardContent>
           </Card>

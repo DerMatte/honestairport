@@ -29,12 +29,14 @@ function CommandDialog({
   children,
   className,
   showCloseButton = true,
+  onOpenAutoFocus,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   title?: string
   description?: string
   className?: string
   showCloseButton?: boolean
+  onOpenAutoFocus?: (event: Event) => void
 }) {
   return (
     <Dialog {...props}>
@@ -45,6 +47,7 @@ function CommandDialog({
       <DialogContent
         className={cn("overflow-hidden p-0", className)}
         showCloseButton={showCloseButton}
+        onOpenAutoFocus={onOpenAutoFocus}
       >
         <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground">
           {children}
@@ -56,8 +59,27 @@ function CommandDialog({
 
 function CommandInput({
   className,
+  ref,
+  inline = false,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & {
+  ref?: React.Ref<HTMLInputElement>
+  inline?: boolean
+}) {
+  if (inline) {
+    return (
+      <CommandPrimitive.Input
+        ref={ref}
+        data-slot="command-input"
+        className={cn(
+          "flex h-10 min-w-0 flex-1 rounded-md bg-transparent text-base outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",
+          className,
+        )}
+        {...props}
+      />
+    )
+  }
+
   return (
     <div
       data-slot="command-input-wrapper"
@@ -66,6 +88,7 @@ function CommandInput({
     >
       <SearchIcon className="size-4 shrink-0 opacity-50" />
       <CommandPrimitive.Input
+        ref={ref}
         data-slot="command-input"
         className={cn(
           "flex h-9 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50",

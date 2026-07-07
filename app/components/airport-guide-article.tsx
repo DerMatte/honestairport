@@ -1,5 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { stripOfficialSourcesSection } from "@/lib/airport-guides";
 
 interface AirportGuideArticleProps {
   /** Markdown body of the guide (without frontmatter). */
@@ -15,7 +16,7 @@ export function AirportGuideArticle({ content }: AirportGuideArticleProps) {
   return (
     <article className="prose prose-neutral max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-primary">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
-        {stripLeadingHeading(content)}
+        {stripLeadingHeading(stripOfficialSourcesSection(content))}
       </ReactMarkdown>
     </article>
   );

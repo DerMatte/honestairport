@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
+import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { AirportReviews } from "@/app/components/airport-reviews";
 import {
@@ -282,11 +283,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                   <div className="text-sm text-muted-foreground">Guide quick facts</div>
                   <div className="mt-1 text-xs text-muted-foreground">
                     Updated {guide.lastUpdated}
-                    {guide.sources.length
-                      ? ` · ${guide.sources.length} official ${
-                          guide.sources.length === 1 ? "source" : "sources"
-                        }`
-                      : null}
                   </div>
                 </div>
                 <div className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
@@ -336,6 +332,12 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         <section className="mt-10 max-w-4xl">
           <AirportGuideArticle content={guideContent.content} />
         </section>
+
+        {guide.sourceLinks.length ? (
+          <section className="mt-6 max-w-4xl">
+            <AirportGuideSources sources={guide.sourceLinks} />
+          </section>
+        ) : null}
 
         <AirportReviews iata={frontmatter.iata} showHeading className="mt-10 max-w-4xl" />
       </div>

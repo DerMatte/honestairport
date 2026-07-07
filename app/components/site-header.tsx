@@ -1,16 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Search } from "lucide-react";
-import { AirportSearchPanel } from "@/app/components/airport-search-panel";
+import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
 import { Button } from "@/components/ui/button";
 import type { AirportSearchEntry } from "@/lib/airport-search";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -29,66 +24,99 @@ export function SiteHeader({ airports }: SiteHeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen(true);
+      }
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
+
   return (
-    <div className="ml-auto flex items-center gap-1">
-      <nav className="mr-1 hidden items-center md:flex">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/">Directory</Link>
+    <>
+      <div className="ml-auto flex items-center gap-1">
+        <nav className="mr-1 hidden items-center md:flex">
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="/">Directory</Link>
+          </Button>
+        </nav>
+
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-label="Search airports"
+          onClick={() => setSearchOpen(true)}
+          className="hidden gap-2 text-muted-foreground sm:inline-flex"
+        >
+          <Search className="size-4" aria-hidden="true" />
+          Search
+          <kbd className="pointer-events-none hidden rounded-md border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground md:inline">
+            ⌘K
+          </kbd>
         </Button>
-      </nav>
 
-      <Popover open={searchOpen} onOpenChange={setSearchOpen}>
-        <PopoverTrigger asChild>
-          <Button variant="ghost" size="icon-sm" aria-label="Search airports">
-            <Search />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent align="end" sideOffset={8} className="w-80 p-0 sm:w-96">
-          <AirportSearchPanel
-            airports={airports}
-            autoFocus
-            onSelect={() => setSearchOpen(false)}
-          />
-        </PopoverContent>
-      </Popover>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Search airports"
+          onClick={() => setSearchOpen(true)}
+          className="sm:hidden"
+        >
+          <Search />
+        </Button>
 
-      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="md:hidden"
-            aria-label="Open menu"
-          >
-            <Menu />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="w-full sm:max-w-sm">
-          <SheetHeader>
-            <SheetTitle>Menu</SheetTitle>
-          </SheetHeader>
+        <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="md:hidden"
+              aria-label="Open menu"
+            >
+              <Menu />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-full sm:max-w-sm">
+            <SheetHeader>
+              <SheetTitle>Menu</SheetTitle>
+            </SheetHeader>
 
-          <nav className="flex flex-col gap-1 px-4">
-            <SheetClose asChild>
-              <Button variant="ghost" className="justify-start" asChild>
-                <Link href="/">Airport directory</Link>
+            <nav className="flex flex-col gap-1 px-4">
+              <SheetClose asChild>
+                <Button variant="ghost" className="justify-start" asChild>
+                  <Link href="/">Airport directory</Link>
+                </Button>
+              </SheetClose>
+            </nav>
+
+            <Separator className="my-2" />
+
+            <div className="px-4 pb-4">
+              <Button
+                variant="outline"
+                className="h-11 w-full justify-start gap-2 text-muted-foreground"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setSearchOpen(true);
+                }}
+              >
+                <Search className="size-4" aria-hidden="true" />
+                Search airports…
               </Button>
-            </SheetClose>
-          </nav>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
 
-          <Separator className="my-2" />
-
-          <div className="px-2 pb-4">
-            <p className="mb-2 px-2 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-              Search
-            </p>
-            <AirportSearchPanel
-              airports={airports}
-              onSelect={() => setMenuOpen(false)}
-            />
-          </div>
-        </SheetContent>
-      </Sheet>
-    </div>
+      <AirportSearchDialog
+        airports={airports}
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+      />
+    </>
   );
 }
