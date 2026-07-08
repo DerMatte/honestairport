@@ -84,6 +84,9 @@ export interface Disruption {
   lastUpdated: Date;
 }
 
+/** Which of the airport's transport options wins each traveler priority. */
+export type TransportBestFor = "fastest" | "cheapest" | "luggage";
+
 export interface TransportOption {
   type: "train" | "metro" | "bus" | "taxi" | "rideshare" | "parking";
   name: string;
@@ -91,6 +94,14 @@ export interface TransportOption {
   timeToCity: string;
   cost: string;
   insiderTip: string;
+  /**
+   * Editorial call on which traveler priorities this option wins, set by the
+   * guide generator when it directly compares this airport's options. Absent
+   * on older profiles — `pickTransportRecommendations` (lib/airport-utils.ts)
+   * falls back to parsing `timeToCity`/`cost`/`type` when no option in the
+   * list has this set.
+   */
+  bestFor?: TransportBestFor[];
 }
 
 export interface AirportScoreBreakdown {

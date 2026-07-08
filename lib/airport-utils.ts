@@ -6,6 +6,8 @@ import type {
   DisruptionStatus,
   Region,
   TipCategory,
+  TransportBestFor,
+  TransportOption,
 } from "@/lib/types";
 
 export const regions: Region[] = [
@@ -198,6 +200,79 @@ export function tipCategoryLabel(category: TipCategory): string {
       return exhaustiveCheck;
     }
   }
+}
+
+function parseTimeToCityMinutes(timeToCity: string): number | null {
+  const numbers = timeToCity.match(/\d+/g)?.map(Number);
+  if (!numbers?.length) return null;
+  // Ranges like "35-45 min" average out; single values like "15 min" pass through unchanged.
+  return numbers.reduce((sum, value) => sum + value, 0) / numbers.length;
+}
+
+function parseCostTier(cost: string): number {
+  const dollarSigns = cost.match(/\$/g)?.length ?? 0;
+  return dollarSigns > 0 ? dollarSigns : 2; // unrecognized format: assume mid-tier
+}
+
+function luggageRank(type: TransportOption["type"]): number {
+  switch (type) {
+    case "taxi":
+    case "rideshare":
+      return 0;
+    case "train":
+      return 1;
+    case "bus":
+    case "metro":
+      return 2;
+    case "parking":
+      return Number.POSITIVE_INFINITY;
+    default: {
+      const exhaustiveCheck: never = type;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+function firstTaggedFor(
+  options: TransportOption[],
+  key: TransportBestFor,
+): TransportOption | undefined {
+  return options.find((option) => option.bestFor?.includes(key));
+}
+
+/**
+ * Picks the one transport option that best serves each traveler priority.
+ * Prefers the guide generator's explicit `bestFor` tags (checked per category,
+ * since older profiles may have some categories tagged and not others) and
+ * falls back to parsing `timeToCity`/`cost`/`type` otherwise. Parking is
+ * excluded from every category — it's not a way into the city, it's where
+ * you left your own car.
+ */
+export function pickTransportRecommendations(
+  options: TransportOption[],
+): Partial<Record<TransportBestFor, TransportOption>> {
+  const candidates = options.filter((option) => option.type !== "parking");
+  if (!candidates.length) return {};
+
+  const timed = candidates
+    .map((option) => ({ option, minutes: parseTimeToCityMinutes(option.timeToCity) }))
+    .filter(
+      (entry): entry is { option: TransportOption; minutes: number } => entry.minutes !== null,
+    );
+
+  const fastest =
+    firstTaggedFor(candidates, "fastest") ??
+    [...timed].sort((a, b) => a.minutes - b.minutes)[0]?.option;
+
+  const cheapest =
+    firstTaggedFor(candidates, "cheapest") ??
+    [...candidates].sort((a, b) => parseCostTier(a.cost) - parseCostTier(b.cost))[0];
+
+  const luggage =
+    firstTaggedFor(candidates, "luggage") ??
+    [...candidates].sort((a, b) => luggageRank(a.type) - luggageRank(b.type))[0];
+
+  return { fastest, cheapest, luggage };
 }
 
 export function formatDateTime(value: Date): string {

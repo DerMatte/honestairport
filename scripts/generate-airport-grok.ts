@@ -148,6 +148,7 @@ const transportOptionSchema = z.object({
   timeToCity: nonEmpty,
   cost: nonEmpty,
   insiderTip: nonEmpty,
+  bestFor: z.array(z.enum(["fastest", "cheapest", "luggage"])).optional(),
 });
 
 const disruptionSchema = z.object({
@@ -272,7 +273,7 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
     { "category": "security|food|navigation|layover|transport|family|lounge", "title": "Short imperative headline", "summary": "One actionable sentence.", "details": "1-2 sentences of specific context.", "pro": "optional upside", "con": "optional downside" }
   ],
   "transport": [
-    { "type": "train|metro|bus|taxi|rideshare|parking", "name": "Service name", "summary": "One sentence.", "timeToCity": "35-45 min", "cost": "$ | $$ | $$$", "insiderTip": "One specific, actionable sentence." }
+    { "type": "train|metro|bus|taxi|rideshare|parking", "name": "Service name", "summary": "One sentence.", "timeToCity": "35-45 min", "cost": "$ | $$ | $$$", "insiderTip": "One specific, actionable sentence.", "bestFor": ["fastest", "cheapest", "luggage"] }
   ],
   "disruption": {
     "status": "normal|minor|moderate|severe",
@@ -287,6 +288,7 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
 
 Rules:
 - Exactly 4 bentoTips, one per category, in the order timing, terminal, food, status. These are shown prominently — no generic advice.
+- For \`transport\`, compare the non-parking options against each other and tag the actual winners with \`bestFor\`: the single fastest (shortest real-world timeToCity), the single cheapest (lowest cost tier), and the single best for a traveler with a lot of luggage (favor door-to-door taxi/rideshare or a step-free dedicated airport train over a crowded metro/bus with stairs and turnstiles). One option can win more than one category if it genuinely does (omit \`bestFor\` entirely on options that don't win anything, and never tag \`parking\`).
 - 2-6 lounges covering the most relevant options for ordinary travelers (Priority Pass / independent lounges plus flagship airline lounges).
 - Tone: direct, slightly opinionated, zero fluff. Prioritize traveler time-saving and stress reduction.
 - All facts must come from your research, not memory alone.

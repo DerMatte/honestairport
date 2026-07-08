@@ -6,23 +6,29 @@ import {
   CheckCircle2,
   Coffee,
   DoorOpen,
+  ExternalLink,
   Info,
+  Luggage,
   Map,
   ShieldCheck,
   Sparkles,
   Train,
   Utensils,
+  Wallet,
   Wifi,
+  Zap,
 } from "lucide-react";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
+import { AirportLocalTime } from "@/app/components/airport-local-time";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviews } from "@/app/components/airport-reviews";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -32,14 +38,17 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getAirportByIata } from "@/lib/airports";
 import {
   amenityLabel,
+  pickTransportRecommendations,
   tipCategoryLabel,
 } from "@/lib/airport-utils";
+import { buildRideshareDeepLink, getRideshareProviders } from "@/lib/rideshare";
 import { formatGuideDate } from "@/lib/utils";
 import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
 import type { AirportUserReview } from "@/lib/review-schema";
-import type { Airport, AmenityCategory } from "@/lib/types";
+import type { Airport, AmenityCategory, TransportBestFor } from "@/lib/types";
 
 interface AirportDetailTabsProps {
   /** Curated airport record; omit for guide-only airports. */
@@ -159,6 +168,45 @@ function TransportIcon({ type }: { type: Airport["transport"][number]["type"] })
   }
 }
 
+function TransportBestForBadge({ type }: { type: TransportBestFor }) {
+  switch (type) {
+    case "fastest":
+      return (
+        <Badge
+          variant="outline"
+          className="gap-1 border-blue-500/20 bg-blue-500/10 text-blue-700 dark:text-blue-300"
+        >
+          <Zap className="size-3" aria-hidden="true" />
+          Fastest
+        </Badge>
+      );
+    case "cheapest":
+      return (
+        <Badge
+          variant="outline"
+          className="gap-1 border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+        >
+          <Wallet className="size-3" aria-hidden="true" />
+          Cheapest
+        </Badge>
+      );
+    case "luggage":
+      return (
+        <Badge
+          variant="outline"
+          className="gap-1 border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+        >
+          <Luggage className="size-3" aria-hidden="true" />
+          Best for luggage
+        </Badge>
+      );
+    default: {
+      const exhaustiveCheck: never = type;
+      return exhaustiveCheck;
+    }
+  }
+}
+
 export function AirportDetailTabs({
   airport,
   guide,
@@ -171,6 +219,14 @@ export function AirportDetailTabs({
   if (!iata) {
     return null;
   }
+
+  const airportRecord = getAirportByIata(iata);
+  const transportRecommendations = airport?.transport.length
+    ? pickTransportRecommendations(airport.transport)
+    : {};
+  const rideshareProviders = airportRecord
+    ? getRideshareProviders(airportRecord.iata_country_code)
+    : [];
 
   const guideSections = guide?.sections;
   const hasGettingThereGuide = Boolean(
@@ -373,12 +429,64 @@ export function AirportDetailTabs({
           </div>
         ) : null}
 
+        {airportRecord && rideshareProviders.length ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Car className="size-4" aria-hidden="true" />
+                Book a ride from {iata}
+              </CardTitle>
+              <CardDescription>
+                Opens the app with pickup set to the airport so you can check the live price
+                and ETA there — we don&apos;t show a static estimate for rideshare since real
+                pricing is only accurate inside the app.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-wrap items-center gap-3">
+              {rideshareProviders.map((provider) => (
+                <Button key={provider.id} asChild variant="outline">
+                  <a
+                    href={buildRideshareDeepLink(provider.id, {
+                      latitude: airportRecord.latitude,
+                      longitude: airportRecord.longitude,
+                      nickname: airport?.shortName ?? airportRecord.name,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {provider.label}
+                    <ExternalLink aria-hidden="true" />
+                  </a>
+                </Button>
+              ))}
+              <AirportLocalTime
+                timeZone={airportRecord.time_zone}
+                label={`Local time at ${iata}:`}
+              />
+            </CardContent>
+          </Card>
+        ) : null}
+
         <div className="grid gap-4 md:grid-cols-3">
-          {airport?.transport.map((option) => (
+          {airport?.transport.map((option) => {
+            const badges = (["fastest", "cheapest", "luggage"] as const).filter(
+              (key) => transportRecommendations[key] === option,
+            );
+
+            return (
             <Card key={`${option.type}-${option.name}`} className="h-full">
               <CardHeader>
-                <div className="mb-2 flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
-                  <TransportIcon type={option.type} />
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <div className="flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
+                    <TransportIcon type={option.type} />
+                  </div>
+                  {badges.length ? (
+                    <div className="flex flex-wrap justify-end gap-1">
+                      {badges.map((key) => (
+                        <TransportBestForBadge key={key} type={key} />
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
                 <CardTitle>{option.name}</CardTitle>
               </CardHeader>
@@ -399,7 +507,8 @@ export function AirportDetailTabs({
                 </p>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </TabsContent>
 
