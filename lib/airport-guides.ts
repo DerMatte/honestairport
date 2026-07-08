@@ -41,6 +41,8 @@ export interface AirportWaterOption {
   kind: AirportWaterOptionKind;
   name: string;
   terminal: string;
+  /** Walkable landmark reference, e.g. "Opposite McDonald's near Gate B12". */
+  location: string;
   zone?: "airside" | "landside";
   price?: string;
   summary: string;
@@ -301,6 +303,7 @@ function toWaterOptions(waterOptions: unknown): AirportWaterOption[] {
       !isWaterOptionKind(candidate.kind) ||
       !isNonEmptyString(candidate.name) ||
       !isNonEmptyString(candidate.terminal) ||
+      !isNonEmptyString(candidate.location) ||
       !isNonEmptyString(candidate.summary)
     ) {
       return [];
@@ -311,6 +314,7 @@ function toWaterOptions(waterOptions: unknown): AirportWaterOption[] {
         kind: candidate.kind,
         name: candidate.name.trim(),
         terminal: candidate.terminal.trim(),
+        location: candidate.location.trim(),
         zone: isWaterZone(candidate.zone) ? candidate.zone : undefined,
         price: isNonEmptyString(candidate.price) ? candidate.price.trim() : undefined,
         summary: candidate.summary.trim(),
@@ -475,16 +479,38 @@ const loungeSchema = z.object({
   summary: nonEmptyString,
 });
 
-const waterOptionSchema = z.object({
-  kind: z.enum(["purchase", "refill", "free"]),
-  name: nonEmptyString,
-  terminal: nonEmptyString,
-  zone: z.enum(["airside", "landside"]).optional(),
-  price: nonEmptyString.optional(),
-  summary: nonEmptyString,
-  isBestValue: z.boolean().optional(),
-  isBestQuality: z.boolean().optional(),
-});
+const waterOptionSchema = z
+  .object({
+    kind: z.enum(["purchase", "refill", "free"]),
+    name: nonEmptyString,
+    terminal: nonEmptyString,
+    location: nonEmptyString.min(
+      12,
+      "must name a walkable landmark (e.g. next to Heinemann, opposite McDonald's)",
+    ),
+    zone: z.enum(["airside", "landside"]).optional(),
+    price: nonEmptyString.optional(),
+    summary: nonEmptyString,
+    isBestValue: z.boolean().optional(),
+    isBestQuality: z.boolean().optional(),
+  })
+  .superRefine((option, ctx) => {
+    if (option.kind === "purchase" && !option.price) {
+      ctx.addIssue({
+        code: "custom",
+        message: "purchase options must include a price",
+        path: ["price"],
+      });
+    }
+
+    if (option.location.trim().toLowerCase() === option.terminal.trim().toLowerCase()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "location must be more specific than the terminal name alone",
+        path: ["location"],
+      });
+    }
+  });
 
 export const airportFrontmatterSchema = z.object({
   iata: z.string().regex(/^[A-Z]{3}$/, "must be a 3-letter uppercase IATA code"),

@@ -95,6 +95,10 @@ const waterOptionSchema = z
     kind: z.enum(["purchase", "refill", "free"]),
     name: nonEmpty,
     terminal: nonEmpty,
+    location: nonEmpty.min(
+      12,
+      "must name a walkable landmark (e.g. next to Heinemann, opposite McDonald's)",
+    ),
     zone: z.enum(["airside", "landside"]).optional(),
     price: optionalNonEmpty,
     summary: nonEmpty,
@@ -107,6 +111,14 @@ const waterOptionSchema = z
         code: "custom",
         message: "purchase options must include a price",
         path: ["price"],
+      });
+    }
+
+    if (option.location.trim().toLowerCase() === option.terminal.trim().toLowerCase()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "location must be more specific than the terminal name alone",
+        path: ["location"],
       });
     }
   });
@@ -296,7 +308,8 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
     {
       "kind": "purchase | refill | free",
       "name": "Vendor or fountain name",
-      "terminal": "Terminal 2",
+      "terminal": "Terminal 4",
+      "location": "Required — specific walkable reference, e.g. 'Next to Heinemann duty-free, departures hall' or 'Opposite McDonald's, airside near Gate B12'",
       "zone": "airside | landside (optional)",
       "price": "Required for purchase options, e.g. €1.80 for 500ml",
       "summary": "One honest sentence on why this is the cheapest bottle, best refill spot, or free option.",
@@ -339,7 +352,7 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
 Rules:
 - Exactly 4 bentoTips, one per category, in the order timing, terminal, food, status. These are shown prominently — no generic advice.
 - 2-6 lounges covering the most relevant options for ordinary travelers (Priority Pass / independent lounges plus flagship airline lounges).
-- 2-6 waterOptions covering the cheapest bottle purchase, at least one refill or free option, with exactly one isBestValue and at most one isBestQuality. Include real prices for purchase options when you find them.
+- 2-6 waterOptions covering the cheapest bottle purchase, at least one refill or free option, with exactly one isBestValue and at most one isBestQuality. Include real prices for purchase options when you find them. Every option must include a specific \`location\` anchored to a nearby shop, gate cluster, or landmark — never terminal name alone (e.g. "Next to WHSmith opposite Gate 12", "Refill fountain beside the Starbucks in Pier C").
 - Tone: direct, slightly opinionated, zero fluff. Prioritize traveler time-saving and stress reduction.
 - All facts must come from your research, not memory alone.
 - Do not create or modify any files. Your only deliverable is the JSON response.
@@ -414,7 +427,7 @@ ${bullets(
   guide.waterOptions.map((option) => {
     const zone = option.zone ? ` (${option.zone})` : "";
     const price = option.price ? ` — ${option.price}` : "";
-    return `${option.name}, ${option.terminal}${zone}${price}: ${option.summary}`;
+    return `${option.name}, ${option.terminal}${zone} — ${option.location}${price}: ${option.summary}`;
   }),
 )}
 
