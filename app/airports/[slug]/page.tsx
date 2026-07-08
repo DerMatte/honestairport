@@ -298,7 +298,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
 
               <GoogleRatingLine googleRating={googleRating} />
               <ul className="mt-5 space-y-2 text-sm leading-6">
-                {guide.quickFacts.slice(0, 5).map((fact, index) => (
+                {guide.quickFacts.slice(0, 6).map((fact, index) => (
                   <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2">
                     <Plane className="mt-1 size-3.5 shrink-0 text-primary" aria-hidden="true" />
                     <span>{fact}</span>

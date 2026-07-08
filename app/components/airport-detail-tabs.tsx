@@ -217,7 +217,10 @@ export function AirportDetailTabs({
             <AirportLiveStatusPanel className="mb-0" />
           </section>
 
-        {guide?.quickFacts.length ? (
+        {/* Guide-only pages already surface quick facts in the hero card, so
+            repeat them here only for curated airports (whose hero shows the
+            Airportist Score instead). */}
+        {airport && guide?.quickFacts.length ? (
           <Card>
             <CardHeader>
               <div className="flex flex-wrap items-start justify-between gap-3">
@@ -250,6 +253,25 @@ export function AirportDetailTabs({
               {guide.sourceLinks.length ? (
                 <AirportGuideSources sources={guide.sourceLinks} />
               ) : null}
+            </CardContent>
+          </Card>
+        ) : guide?.sourceLinks.length ? (
+          <Card>
+            <CardHeader>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <CardTitle>Guide sources</CardTitle>
+                  <CardDescription>
+                    References behind the editorial guide for {iata}.
+                  </CardDescription>
+                </div>
+                <Badge variant="outline" className="rounded-full">
+                  Updated {formatGuideDate(guide.lastUpdated)}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <AirportGuideSources sources={guide.sourceLinks} />
             </CardContent>
           </Card>
         ) : null}
