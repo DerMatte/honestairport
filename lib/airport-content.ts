@@ -43,9 +43,15 @@ export type {
   AirportLounge,
   AirportLoungeVerdict,
   AirportSummary,
+  AirportWaterOption,
+  AirportWaterOptionKind,
 } from "./airport-guides";
 
-export { getAirportGuideSummary } from "./airport-guides";
+export {
+  filterWaterRelatedGuideItems,
+  getAirportGuideSummary,
+  isWaterRelatedGuideItem,
+} from "./airport-guides";
 export type { AirportImage } from "./airport-images";
 export type { AirportGoogleRating } from "./google-ratings";
 

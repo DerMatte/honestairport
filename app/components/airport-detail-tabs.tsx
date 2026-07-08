@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   Coffee,
   DoorOpen,
+  Droplets,
   Info,
   Map,
   ShieldCheck,
@@ -20,6 +21,7 @@ import {
   AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
+import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviews } from "@/app/components/airport-reviews";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +40,7 @@ import {
 } from "@/lib/airport-utils";
 import { formatGuideDate } from "@/lib/utils";
 import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
+import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
 import type { AirportUserReview } from "@/lib/review-schema";
 import type { Airport, AmenityCategory } from "@/lib/types";
 
@@ -159,6 +162,50 @@ function TransportIcon({ type }: { type: Airport["transport"][number]["type"] })
   }
 }
 
+function waterGuideSection(
+  section: AirportGuideSection | undefined,
+): AirportGuideSection | undefined {
+  if (!section) {
+    return undefined;
+  }
+
+  const items = filterWaterRelatedGuideItems(section.items);
+  if (!items.length) {
+    return undefined;
+  }
+
+  return {
+    title: section.title,
+    items,
+  };
+}
+
+function collectWaterGuideSections(
+  guideSections: AirportGuideSummary["sections"] | undefined,
+): AirportGuideSection[] {
+  if (!guideSections) {
+    return [];
+  }
+
+  const sections = [
+    guideSections.waterHydration,
+    waterGuideSection(guideSections.foodAndDrink),
+    waterGuideSection(guideSections.budgetTravelerTips),
+    waterGuideSection(guideSections.loungesAmenities),
+    waterGuideSection(guideSections.airportTricks),
+  ].filter((section): section is AirportGuideSection => Boolean(section?.items.length));
+
+  const seen = new Set<string>();
+  return sections.filter((section) => {
+    const key = `${section.title}:${section.items.join("|")}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
 export function AirportDetailTabs({
   airport,
   guide,
@@ -187,6 +234,8 @@ export function AirportDetailTabs({
   const showTips = Boolean(
     airport?.tips.length || guideSections?.airportTricks?.items.length,
   );
+  const waterGuideSections = collectWaterGuideSections(guideSections);
+  const showWater = Boolean(guide?.waterOptions.length || waterGuideSections.length);
 
   return (
     <AirportLiveStatusProvider iata={iata}>
@@ -202,6 +251,7 @@ export function AirportDetailTabs({
               <TabsTrigger value="amenities">Amenities</TabsTrigger>
             ) : null}
             {showTips ? <TabsTrigger value="tips">Traveler Tips</TabsTrigger> : null}
+            {showWater ? <TabsTrigger value="water">Water</TabsTrigger> : null}
             {guideMarkdown ? (
               <TabsTrigger value="guide">Full Guide</TabsTrigger>
             ) : null}
@@ -506,6 +556,31 @@ export function AirportDetailTabs({
             </CardContent>
           </Card>
         ))}
+      </TabsContent>
+
+      <TabsContent value="water" className="space-y-4">
+        {guide?.waterOptions.length ? (
+          <AirportWaterOptionGrid options={guide.waterOptions} />
+        ) : null}
+
+        {waterGuideSections.map((section) => (
+          <GuideSectionCard
+            key={section.title}
+            description="Hydration notes pulled from the editorial guide."
+            icon={<Droplets aria-hidden="true" />}
+            section={section}
+            title={section.title}
+          />
+        ))}
+
+        {!guide?.waterOptions.length && !waterGuideSections.length ? (
+          <Card>
+            <CardContent className="p-6 text-sm text-muted-foreground">
+              No water-bottle intel yet for {iata}. Bring an empty bottle through
+              security and look for refill fountains airside.
+            </CardContent>
+          </Card>
+        ) : null}
       </TabsContent>
 
       {guideMarkdown ? (

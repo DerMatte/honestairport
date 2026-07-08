@@ -35,6 +35,19 @@ export interface AirportLounge {
   summary: string;
 }
 
+export type AirportWaterOptionKind = "purchase" | "refill" | "free";
+
+export interface AirportWaterOption {
+  kind: AirportWaterOptionKind;
+  name: string;
+  terminal: string;
+  zone?: "airside" | "landside";
+  price?: string;
+  summary: string;
+  isBestValue?: boolean;
+  isBestQuality?: boolean;
+}
+
 export interface AirportFrontmatter {
   iata: string;
   name: string;
@@ -45,6 +58,7 @@ export interface AirportFrontmatter {
   quickFacts?: string[];
   bentoTips?: AirportBentoTip[];
   lounges?: AirportLounge[];
+  waterOptions?: AirportWaterOption[];
 }
 
 export interface AirportContent {
@@ -68,6 +82,7 @@ export interface AirportGuideSummary {
   sourceLinks: AirportGuideSourceLink[];
   importantTips: ImportantTip[];
   lounges: AirportLounge[];
+  waterOptions: AirportWaterOption[];
   sections: AirportGuideSections;
 }
 
@@ -86,6 +101,20 @@ export interface AirportGuideSections {
   terminalNavigation?: AirportGuideSection;
   groundTransport?: AirportGuideSection;
   loungesAmenities?: AirportGuideSection;
+  waterHydration?: AirportGuideSection;
+  foodAndDrink?: AirportGuideSection;
+  budgetTravelerTips?: AirportGuideSection;
+}
+
+const WATER_KEYWORD_PATTERN =
+  /\b(water|bottle|refill|hydration|fountain|drinking\s+water|fill\s+up)\b/i;
+
+export function isWaterRelatedGuideItem(item: string): boolean {
+  return WATER_KEYWORD_PATTERN.test(item);
+}
+
+export function filterWaterRelatedGuideItems(items: string[]): string[] {
+  return items.filter(isWaterRelatedGuideItem);
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -239,7 +268,57 @@ function getAirportGuideSections(content: string): AirportGuideSections {
       "Lounges & Amenities",
       "Lounges",
     ]),
+    waterHydration: readGuideSection(sections, [
+      "Water & Hydration",
+      "Water Bottles & Refills",
+    ]),
+    foodAndDrink: readGuideSection(sections, ["Food & Drink"]),
+    budgetTravelerTips: readGuideSection(sections, ["Budget Traveler Tips"]),
   };
+}
+
+function isWaterOptionKind(value: unknown): value is AirportWaterOptionKind {
+  return value === "purchase" || value === "refill" || value === "free";
+}
+
+function isWaterZone(value: unknown): value is NonNullable<AirportWaterOption["zone"]> {
+  return value === "airside" || value === "landside";
+}
+
+function toWaterOptions(waterOptions: unknown): AirportWaterOption[] {
+  if (!Array.isArray(waterOptions)) {
+    return [];
+  }
+
+  return waterOptions.flatMap((option) => {
+    if (typeof option !== "object" || option === null) {
+      return [];
+    }
+
+    const candidate = option as Record<string, unknown>;
+
+    if (
+      !isWaterOptionKind(candidate.kind) ||
+      !isNonEmptyString(candidate.name) ||
+      !isNonEmptyString(candidate.terminal) ||
+      !isNonEmptyString(candidate.summary)
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        kind: candidate.kind,
+        name: candidate.name.trim(),
+        terminal: candidate.terminal.trim(),
+        zone: isWaterZone(candidate.zone) ? candidate.zone : undefined,
+        price: isNonEmptyString(candidate.price) ? candidate.price.trim() : undefined,
+        summary: candidate.summary.trim(),
+        isBestValue: candidate.isBestValue === true ? true : undefined,
+        isBestQuality: candidate.isBestQuality === true ? true : undefined,
+      } satisfies AirportWaterOption,
+    ];
+  });
 }
 
 function isLoungeVerdict(value: unknown): value is AirportLoungeVerdict {
@@ -328,6 +407,7 @@ export function getAirportGuideSummary(content: AirportContent): AirportGuideSum
     ),
     importantTips: toImportantTips(iata, bentoTips),
     lounges: toLounges(frontmatter.lounges),
+    waterOptions: toWaterOptions(frontmatter.waterOptions),
     sections: getAirportGuideSections(content.content),
   };
 }
@@ -355,6 +435,7 @@ export function rowToAirportContent(row: AirportGuideRow): AirportContent {
       quickFacts: row.quickFacts,
       bentoTips: row.bentoTips,
       lounges: row.lounges,
+      waterOptions: row.waterOptions,
     },
     content: row.content,
   };
@@ -394,6 +475,17 @@ const loungeSchema = z.object({
   summary: nonEmptyString,
 });
 
+const waterOptionSchema = z.object({
+  kind: z.enum(["purchase", "refill", "free"]),
+  name: nonEmptyString,
+  terminal: nonEmptyString,
+  zone: z.enum(["airside", "landside"]).optional(),
+  price: nonEmptyString.optional(),
+  summary: nonEmptyString,
+  isBestValue: z.boolean().optional(),
+  isBestQuality: z.boolean().optional(),
+});
+
 export const airportFrontmatterSchema = z.object({
   iata: z.string().regex(/^[A-Z]{3}$/, "must be a 3-letter uppercase IATA code"),
   name: nonEmptyString,
@@ -404,6 +496,7 @@ export const airportFrontmatterSchema = z.object({
   quickFacts: z.array(nonEmptyString).min(1),
   bentoTips: z.array(bentoTipSchema).min(1),
   lounges: z.array(loungeSchema).min(1),
+  waterOptions: z.array(waterOptionSchema).optional(),
 });
 
 export const REQUIRED_GUIDE_SECTIONS: Array<{
@@ -511,6 +604,7 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
     quickFacts: frontmatter.quickFacts ?? [],
     bentoTips: frontmatter.bentoTips ?? [],
     lounges: toLounges(frontmatter.lounges),
+    waterOptions: toWaterOptions(frontmatter.waterOptions),
     content: content.content,
     updatedAt: new Date(),
   };
