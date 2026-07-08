@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
+import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { DisruptionBadge } from "@/app/components/disruption-status";
@@ -63,6 +64,27 @@ export async function generateMetadata({
     const guideContent = await getAirportContent(slug);
 
     if (!guideContent) {
+      const record = getAirportByIata(slug);
+      if (record) {
+        const description = `Generating a practical travel guide for ${record.name} in ${record.city_name}.`;
+        return {
+          title: `${record.name} (${record.iata_code}) Airport Guide`,
+          description,
+          alternates: {
+            canonical: `/airports/${slug}`,
+          },
+          openGraph: {
+            title: `${record.name} (${record.iata_code}) Airport Guide`,
+            description,
+            type: "article",
+            url: `/airports/${slug}`,
+          },
+          twitter: {
+            card: "summary_large_image",
+          },
+        };
+      }
+
       return {
         title: "Airport not found",
       };
@@ -244,6 +266,11 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const guideContent = await getAirportContent(slug);
 
   if (!guideContent) {
+    const record = getAirportByIata(slug);
+    if (record) {
+      return <AirportGeneratingView record={record} />;
+    }
+
     notFound();
   }
 

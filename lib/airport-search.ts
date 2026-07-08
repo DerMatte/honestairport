@@ -5,6 +5,7 @@ import {
   getAllAirports,
   getAllHonestAirports,
 } from "@/lib/airport-content";
+import { getAllAirportRecords } from "@/lib/airports";
 
 export interface AirportSearchEntry {
   slug: string;
@@ -49,6 +50,23 @@ export async function getAirportSearchEntries(): Promise<AirportSearchEntry[]> {
       city: airport.city,
       country: airport.country,
       score: airport.airportistScore,
+    });
+  }
+
+  // Worldwide reference airports from lib/airports.json — guides are generated on
+  // first visit and then served from Postgres like every other airport.
+  for (const record of getAllAirportRecords()) {
+    const slug = record.iata_code.toLowerCase();
+    if (entries.has(slug)) {
+      continue;
+    }
+
+    entries.set(slug, {
+      slug,
+      iata: record.iata_code,
+      name: record.name,
+      city: record.city_name,
+      country: record.iata_country_code,
     });
   }
 

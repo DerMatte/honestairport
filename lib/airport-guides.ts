@@ -9,6 +9,7 @@
 import { eq } from "drizzle-orm";
 import matter from "gray-matter";
 import { z } from "zod";
+import { stripOfficialSourcesSection } from "./airport-guide-markdown";
 import { getDb, isDatabaseConfigured } from "./db";
 import { airportGuideRevisions, airportGuides, type AirportGuideRow } from "./db/schema";
 import type { ImportantTip, ImportantTipCategory } from "./types";
@@ -172,9 +173,7 @@ function sourceLabelFromUrl(url: string): string {
   }
 }
 
-export function stripOfficialSourcesSection(content: string): string {
-  return content.replace(/\n##\s+Official Sources[\s\S]*$/i, "").trim();
-}
+export { stripOfficialSourcesSection } from "./airport-guide-markdown";
 
 export function extractOfficialSourceLinks(
   content: string,
