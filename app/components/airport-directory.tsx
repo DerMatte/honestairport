@@ -6,7 +6,7 @@ import {
   AirportDirectorySearch,
   airportToSearchable,
 } from "@/app/components/airport-search-combobox";
-import { AirportCard } from "@/app/components/airport-card";
+import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { AirportMap } from "@/app/components/airport-map";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Badge } from "@/components/ui/badge";
@@ -41,9 +41,12 @@ import {
   filterAndSortAirports,
   regions,
 } from "@/lib/airport-utils";
+import { normalizeSearchValue } from "@/lib/airport-search-utils";
+import type { AirportSummary } from "@/lib/airport-content";
 import type {
   Airport,
   AirportFilters,
+  AirportSearchScope,
   AirportSort,
   AmenityCategory,
   DisruptionStatus,
@@ -51,7 +54,29 @@ import type {
 } from "@/lib/types";
 
 interface AirportDirectoryProps {
-  airports: Airport[];
+  scoredAirports: Airport[];
+  allAirports: AirportSummary[];
+}
+
+type DirectoryEntry =
+  | { kind: "scored"; airport: Airport }
+  | { kind: "guide"; summary: AirportSummary };
+
+function matchesGuideQuery(
+  summary: AirportSummary,
+  normalizedQuery: string,
+  scope: AirportSearchScope,
+): boolean {
+  if (!normalizedQuery) return true;
+
+  const fields =
+    scope === "city"
+      ? [summary.city]
+      : scope === "country"
+        ? [summary.country]
+        : [summary.name, summary.iata, summary.city, summary.country];
+
+  return normalizeSearchValue(fields.join(" ")).includes(normalizedQuery);
 }
 
 const DEFAULT_FILTERS: AirportFilters = {
@@ -189,16 +214,50 @@ function FilterPanel({
   );
 }
 
-export function AirportDirectory({ airports }: AirportDirectoryProps) {
+export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
-  const searchableAirports = useMemo(() => airportToSearchable(airports), [airports]);
 
-  const filteredAirports = useMemo(
-    () => filterAndSortAirports(airports, filters),
-    [airports, filters],
+  const searchableAirports = useMemo(
+    () => airportToSearchable(scoredAirports),
+    [scoredAirports],
   );
 
-  const topAirport = airports[0];
+  const otherAirports = useMemo(() => {
+    const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
+    return allAirports.filter((summary) => !scoredIatas.has(summary.iata));
+  }, [allAirports, scoredAirports]);
+
+  const hasDataFilters =
+    filters.minimumScore > 0 ||
+    filters.regions.length > 0 ||
+    filters.amenities.length > 0 ||
+    filters.disruptionStatuses.length > 0;
+
+  const filteredScored = useMemo(
+    () => filterAndSortAirports(scoredAirports, filters),
+    [scoredAirports, filters],
+  );
+
+  // Region, amenity, score, and disruption data only exists for scored airports,
+  // so guide-only entries drop out of the results while those filters are active
+  // rather than silently pretending to match.
+  const filteredGuides = useMemo(() => {
+    if (hasDataFilters) return [];
+    const normalizedQuery = normalizeSearchValue(filters.query);
+    return otherAirports
+      .filter((summary) => matchesGuideQuery(summary, normalizedQuery, filters.searchScope))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [otherAirports, filters, hasDataFilters]);
+
+  const filteredEntries: DirectoryEntry[] = useMemo(
+    () => [
+      ...filteredScored.map((airport) => ({ kind: "scored" as const, airport })),
+      ...filteredGuides.map((summary) => ({ kind: "guide" as const, summary })),
+    ],
+    [filteredScored, filteredGuides],
+  );
+
+  const topAirport = scoredAirports[0];
   const activeFilterCount =
     filters.regions.length +
     filters.amenities.length +
@@ -242,111 +301,139 @@ export function AirportDirectory({ airports }: AirportDirectoryProps) {
 
           <div className="mt-7 flex flex-wrap gap-2.5 text-sm text-muted-foreground">
             <Badge variant="secondary" className="rounded-full px-3 py-1">
-              {airports.length} curated airports
+              {allAirports.length} airports covered
+            </Badge>
+            <Badge variant="secondary" className="rounded-full px-3 py-1">
+              {scoredAirports.length} fully scored
             </Badge>
             {topAirport ? (
               <Badge variant="secondary" className="rounded-full px-3 py-1">
                 Top score: {topAirport.iata} {topAirport.airportistScore.toFixed(1)}
               </Badge>
             ) : null}
-            <Badge variant="secondary" className="rounded-full px-3 py-1">
-              Flighty-style disruption signals
-            </Badge>
           </div>
         </div>
 
-        <AirportMap airports={airports} />
+        <AirportMap airports={scoredAirports} />
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[280px_1fr]">
-        <aside className="hidden lg:block">
-          <FilterPanel
-            filters={filters}
-            onFiltersChange={updateFilters}
-            onReset={resetFilters}
-          />
-        </aside>
+      <section className="mx-auto max-w-7xl px-6 pb-20">
+        <div className="mb-6">
+          <p className="text-sm font-medium tracking-wide text-primary uppercase">
+            Airport directory
+          </p>
+          <h2 className="mt-1 text-2xl tracking-tight sm:text-3xl">
+            All {allAirports.length} airports we cover
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Our {scoredAirports.length} most deeply audited airports carry a full
+            Airportist Score — filter those by region, amenities, and live
+            disruption risk. Every other guide in our index is listed alongside
+            them.
+          </p>
+        </div>
 
-        <div className="space-y-5">
-          <div className="flex flex-col gap-3 rounded-2xl border bg-card/80 p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <div className="text-sm font-medium">
-                {filteredAirports.length} airport
-                {filteredAirports.length === 1 ? "" : "s"} found
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {activeFilterCount > 0
-                  ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} active`
-                  : "Showing all scored airports"}
-              </p>
-            </div>
+        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+          <aside className="hidden lg:block">
+            <FilterPanel
+              filters={filters}
+              onFiltersChange={updateFilters}
+              onReset={resetFilters}
+            />
+          </aside>
 
-            <div className="flex items-center gap-2">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" className="lg:hidden">
-                    <Filter className="size-4" aria-hidden="true" />
-                    Filters
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>Filter airports</SheetTitle>
-                  </SheetHeader>
-                  <div className="px-4 pb-4">
-                    <FilterPanel
-                      filters={filters}
-                      onFiltersChange={updateFilters}
-                      onReset={resetFilters}
-                    />
-                  </div>
-                </SheetContent>
-              </Sheet>
-
-              <Select
-                value={filters.sort}
-                onValueChange={(value) =>
-                  updateFilters({
-                    ...filters,
-                    sort: value as AirportSort,
-                  })
-                }
-              >
-                <SelectTrigger className="w-44">
-                  <SelectValue placeholder="Sort airports" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="highest-score">Highest Score</SelectItem>
-                  <SelectItem value="most-reviewed">Most Reviewed</SelectItem>
-                  <SelectItem value="least-disruptions">Least Disruptions</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {filteredAirports.length === 0 ? (
-            <Card className="border-dashed">
-              <CardContent className="flex flex-col items-center px-6 py-14 text-center">
-                <div className="rounded-full bg-muted p-4">
-                  <Search className="size-6 text-muted-foreground" aria-hidden="true" />
+          <div className="space-y-5">
+            <div className="flex flex-col gap-3 rounded-2xl border bg-card/80 p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-sm font-medium">
+                  {filteredEntries.length} airport
+                  {filteredEntries.length === 1 ? "" : "s"} found
                 </div>
-                <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
-                <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                  Try another airport, city, or country, or remove one of the
-                  active filters.
+                <p className="text-xs text-muted-foreground">
+                  {activeFilterCount > 0
+                    ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} active`
+                    : `Showing all ${allAirports.length} airports`}
                 </p>
-                <Button className="mt-5" variant="outline" onClick={resetFilters}>
-                  Reset filters
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {filteredAirports.map((airport) => (
-                <AirportCard key={airport.iata} airport={airport} />
-              ))}
+                {hasDataFilters && otherAirports.length > 0 ? (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {otherAirports.length} guide-only airports don&apos;t have
+                    region, amenity, or disruption data yet, so they&apos;re
+                    hidden while these filters are active.
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" className="lg:hidden">
+                      <Filter className="size-4" aria-hidden="true" />
+                      Filters
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="max-h-[88vh] overflow-y-auto">
+                    <SheetHeader>
+                      <SheetTitle>Filter airports</SheetTitle>
+                    </SheetHeader>
+                    <div className="px-4 pb-4">
+                      <FilterPanel
+                        filters={filters}
+                        onFiltersChange={updateFilters}
+                        onReset={resetFilters}
+                      />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+
+                <Select
+                  value={filters.sort}
+                  onValueChange={(value) =>
+                    updateFilters({
+                      ...filters,
+                      sort: value as AirportSort,
+                    })
+                  }
+                >
+                  <SelectTrigger className="w-44">
+                    <SelectValue placeholder="Sort airports" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="highest-score">Highest Score</SelectItem>
+                    <SelectItem value="most-reviewed">Most Reviewed</SelectItem>
+                    <SelectItem value="least-disruptions">Least Disruptions</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          )}
+
+            {filteredEntries.length === 0 ? (
+              <Card className="border-dashed">
+                <CardContent className="flex flex-col items-center px-6 py-14 text-center">
+                  <div className="rounded-full bg-muted p-4">
+                    <Search className="size-6 text-muted-foreground" aria-hidden="true" />
+                  </div>
+                  <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
+                  <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                    Try another airport, city, or country, or remove one of the
+                    active filters.
+                  </p>
+                  <Button className="mt-5" variant="outline" onClick={resetFilters}>
+                    Reset filters
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {filteredEntries.map((entry) =>
+                  entry.kind === "scored" ? (
+                    <AirportCard key={entry.airport.iata} airport={entry.airport} />
+                  ) : (
+                    <AirportGuideCard key={entry.summary.iata} airport={entry.summary} />
+                  ),
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>

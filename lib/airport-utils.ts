@@ -222,6 +222,18 @@ export function formatDateTime(value: Date): string {
   }).format(value);
 }
 
+/** Formats an ISO date string as a short "how fresh is this guide" label. */
+export function formatGuideFreshness(isoDate: string): string {
+  const updated = new Date(isoDate);
+  const days = Math.floor((Date.now() - updated.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (days <= 0) return "Updated today";
+  if (days === 1) return "Updated yesterday";
+  if (days < 14) return `Updated ${days}d ago`;
+
+  return `Updated ${new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(updated)}`;
+}
+
 export function airportJsonLd(airport: Airport) {
   return {
     "@context": "https://schema.org",

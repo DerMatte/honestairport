@@ -3,7 +3,8 @@ import { ArrowUpRight, Clock3, MapPin, Star } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DisruptionBadge } from "@/app/components/disruption-status";
-import { amenityLabel } from "@/lib/airport-utils";
+import { amenityLabel, formatGuideFreshness } from "@/lib/airport-utils";
+import type { AirportSummary } from "@/lib/airport-content";
 import type { Airport } from "@/lib/types";
 
 interface AirportCardProps {
@@ -56,15 +57,15 @@ export function AirportCard({ airport }: AirportCardProps) {
 
           <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="rounded-xl border bg-muted/30 p-3">
-              <div className="text-muted-foreground">Passengers</div>
+              <div className="text-muted-foreground">Avg delay</div>
               <div className="mt-1 font-mono text-sm text-foreground">
-                {airport.stats.annualPassengers}
+                {airport.disruption.departureDelayMinutes} min
               </div>
             </div>
             <div className="rounded-xl border bg-muted/30 p-3">
-              <div className="text-muted-foreground">On-time</div>
+              <div className="text-muted-foreground">Cancellations</div>
               <div className="mt-1 font-mono text-sm text-foreground">
-                {airport.stats.onTimePercentage}%
+                {airport.disruption.cancellationsPercent}%
               </div>
             </div>
           </div>
@@ -83,6 +84,45 @@ export function AirportCard({ airport }: AirportCardProps) {
             <Clock3 className="size-3.5" aria-hidden="true" />
             {airport.stats.averageSecurityMinutes} min avg security
           </span>
+          <span className="flex items-center gap-1 font-medium text-primary">
+            View guide
+            <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </span>
+        </CardFooter>
+      </Card>
+    </Link>
+  );
+}
+
+interface AirportGuideCardProps {
+  airport: AirportSummary;
+}
+
+/** A lighter card for guides that don't have Airportist Score data yet. */
+export function AirportGuideCard({ airport }: AirportGuideCardProps) {
+  return (
+    <Link href={`/airports/${airport.iata.toLowerCase()}`} className="group block h-full">
+      <Card className="h-full border-dashed border-border/70 bg-card/60 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card/95 hover:shadow-lg hover:shadow-primary/10">
+        <CardHeader className="gap-3">
+          <div className="flex items-center justify-between gap-2">
+            <Badge variant="outline" className="font-mono">
+              {airport.iata}
+            </Badge>
+            <span className="text-xs text-muted-foreground">
+              {formatGuideFreshness(airport.lastUpdated)}
+            </span>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold tracking-tight">{airport.name}</h3>
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+              <MapPin className="size-3.5" aria-hidden="true" />
+              {airport.city}, {airport.country}
+            </p>
+          </div>
+        </CardHeader>
+
+        <CardFooter className="mt-auto justify-between text-xs text-muted-foreground">
+          <span>No Airportist Score yet</span>
           <span className="flex items-center gap-1 font-medium text-primary">
             View guide
             <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

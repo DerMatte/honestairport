@@ -119,32 +119,20 @@ export function HomePageSkeleton() {
         </div>
         <Skeleton className="min-h-[28rem] rounded-2xl" />
       </section>
-      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-16 lg:grid-cols-[280px_1fr]">
-        <Skeleton className="hidden h-96 rounded-2xl lg:block" />
-        <div className="space-y-5">
-          <Skeleton className="h-20 rounded-2xl" />
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 6 }, (_, index) => (
-              <Skeleton key={index} className="h-72 rounded-2xl" />
-            ))}
+      <section className="mx-auto max-w-7xl px-6 pb-20">
+        <Skeleton className="mb-6 h-16 max-w-2xl" />
+        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+          <Skeleton className="hidden h-96 rounded-2xl lg:block" />
+          <div className="space-y-5">
+            <Skeleton className="h-20 rounded-2xl" />
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {Array.from({ length: 9 }, (_, index) => (
+                <Skeleton key={index} className="h-56 rounded-2xl" />
+              ))}
+            </div>
           </div>
         </div>
       </section>
     </div>
-  );
-}
-
-export function GuideIndexSkeleton() {
-  return (
-    <section className="mx-auto max-w-7xl px-6 pb-16">
-      <Skeleton className="h-4 w-36" />
-      <Skeleton className="mt-2 h-9 w-72" />
-      <Skeleton className="mt-3 h-10 max-w-2xl" />
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 8 }, (_, index) => (
-          <Skeleton key={index} className="h-28 rounded-2xl" />
-        ))}
-      </div>
-    </section>
   );
 }
