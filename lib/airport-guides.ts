@@ -565,18 +565,69 @@ export function validateAirportGuide(content: AirportContent): string[] {
 
 // --- Uncached DB access ---------------------------------------------------------
 
+const airportGuideColumnsWithoutWater = {
+  iata: airportGuides.iata,
+  name: airportGuides.name,
+  city: airportGuides.city,
+  country: airportGuides.country,
+  lastUpdated: airportGuides.lastUpdated,
+  sources: airportGuides.sources,
+  quickFacts: airportGuides.quickFacts,
+  bentoTips: airportGuides.bentoTips,
+  lounges: airportGuides.lounges,
+  content: airportGuides.content,
+  updatedAt: airportGuides.updatedAt,
+};
+
+function isMissingWaterOptionsColumn(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  const cause = "cause" in error ? error.cause : error;
+  if (typeof cause !== "object" || cause === null) {
+    return false;
+  }
+
+  const pgError = cause as { code?: string; message?: string };
+  return (
+    pgError.code === "42703" &&
+    (pgError.message?.includes("water_options") ?? false)
+  );
+}
+
+function withDefaultWaterOptions(
+  row: Omit<AirportGuideRow, "waterOptions">,
+): AirportGuideRow {
+  return { ...row, waterOptions: [] };
+}
+
+async function selectAirportGuideRows(
+  where?: ReturnType<typeof eq>,
+): Promise<AirportGuideRow[]> {
+  const db = getDb();
+
+  try {
+    const query = db.select().from(airportGuides);
+    return where ? await query.where(where) : await query;
+  } catch (error) {
+    if (!isMissingWaterOptionsColumn(error)) {
+      throw error;
+    }
+
+    const legacyQuery = db.select(airportGuideColumnsWithoutWater).from(airportGuides);
+    const rows = where ? await legacyQuery.where(where) : await legacyQuery;
+    return rows.map(withDefaultWaterOptions);
+  }
+}
+
 export async function fetchAirportGuideRow(iata: string): Promise<AirportGuideRow | null> {
   if (!isDatabaseConfigured()) {
     console.warn("DATABASE_URL is not set; airport guides are unavailable.");
     return null;
   }
 
-  const rows = await getDb()
-    .select()
-    .from(airportGuides)
-    .where(eq(airportGuides.iata, iata.toUpperCase()))
-    .limit(1);
-
+  const rows = await selectAirportGuideRows(eq(airportGuides.iata, iata.toUpperCase()));
   return rows[0] ?? null;
 }
 
@@ -586,7 +637,7 @@ export async function fetchAllAirportGuideRows(): Promise<AirportGuideRow[]> {
     return [];
   }
 
-  return getDb().select().from(airportGuides);
+  return selectAirportGuideRows();
 }
 
 export async function listAirportGuideIatas(): Promise<string[]> {

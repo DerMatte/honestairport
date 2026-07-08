@@ -43,10 +43,10 @@ async function ensureSchemaRepairs(pool: Pool) {
 async function main() {
   const connectionString = resolveDatabaseUrl();
   if (!connectionString) {
-    console.error(
-      "DATABASE_URL is not set (put it in .env.local or the Vercel project environment).",
+    console.warn(
+      "Skipping migrations: DATABASE_URL is not set (put it in .env.local or the Vercel project environment).",
     );
-    process.exit(1);
+    return;
   }
 
   const journal = JSON.parse(
