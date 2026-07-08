@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm validate:content && next build",
+    "build": "pnpm db:migrate && pnpm validate:content && next build",
     "start": "next start",
     "lint": "eslint",
     "validate:content": "tsx scripts/validate-airports.ts",
