@@ -421,7 +421,7 @@ export function AirportReviews({
               <ReviewCard
                 key={review.id}
                 author={review.author}
-                meta={`${review.tripType} · ${review.date}`}
+                meta={`${review.tripType} · ${dateFormatter.format(new Date(review.createdAt))}`}
                 rating={review.rating}
                 title={review.title}
                 body={review.body}
