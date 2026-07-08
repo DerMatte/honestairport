@@ -1,7 +1,16 @@
 import { ImageResponse } from "next/og";
-import { getAirportContent } from "@/lib/airport-content";
+import { getAirportContent, getAirportImages } from "@/lib/airport-content";
+import { getOgFonts } from "@/lib/og-fonts";
+import { fetchOgPhotoDataUrl } from "@/lib/og-photo";
+import {
+  BrandLockup,
+  EditorialBadge,
+  MapPinIcon,
+  OG_ACCENT_BLUE,
+  OG_BG_GRADIENT,
+  ScoreBadge,
+} from "@/lib/og-icons";
 import { getAirportBySlug } from "@/lib/airport-utils";
-import { SITE_NAME } from "@/lib/site";
 
 export const alt = "Airport guide on HonestAirport";
 export const size = {
@@ -50,6 +59,13 @@ async function getOgAirport(slug: string): Promise<OgAirport | null> {
 export default async function Image({ params }: OgImageProps) {
   const { slug } = await params;
   const airport = await getOgAirport(slug);
+  const [fonts, images] = await Promise.all([
+    getOgFonts(),
+    airport ? getAirportImages(airport.iata) : Promise.resolve([]),
+  ]);
+  const photoDataUrl = images[0]?.url
+    ? await fetchOgPhotoDataUrl(images[0].url, size.width, size.height)
+    : null;
 
   return new ImageResponse(
     (
@@ -60,65 +76,111 @@ export default async function Image({ params }: OgImageProps) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: 72,
-          background: "linear-gradient(135deg, #0a0a0a 0%, #1c1c24 100%)",
+          padding: 64,
+          background: photoDataUrl ? "#0a0a0a" : OG_BG_GRADIENT,
           color: "#fafafa",
-          fontFamily: "sans-serif",
+          fontFamily: "Geist",
+          position: "relative",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontSize: 36, fontWeight: 600 }}>{SITE_NAME}</div>
-          {airport?.score !== undefined ? (
+        {photoDataUrl ? (
+          <div style={{ display: "flex", position: "absolute", inset: 0 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photoDataUrl}
+              alt=""
+              width={size.width}
+              height={size.height}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
             <div
               style={{
                 display: "flex",
-                alignItems: "baseline",
-                gap: 12,
-                padding: "16px 28px",
-                borderRadius: 24,
-                background: "rgba(250, 250, 250, 0.1)",
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.72) 42%, rgba(10,10,10,0.35) 100%)",
               }}
-            >
-              <span style={{ fontSize: 56, fontWeight: 700 }}>
-                {airport.score.toFixed(1)}
-              </span>
-              <span style={{ fontSize: 28, color: "#a1a1aa" }}>/ 10</span>
-            </div>
-          ) : (
+            />
             <div
               style={{
-                padding: "12px 24px",
-                borderRadius: 999,
-                border: "2px solid rgba(250, 250, 250, 0.25)",
-                fontSize: 24,
-                color: "#d4d4d8",
+                display: "flex",
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 55%)",
               }}
-            >
-              Editorial guide
-            </div>
+            />
+          </div>
+        ) : null}
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            position: "relative",
+          }}
+        >
+          <BrandLockup scale={0.9} />
+          {airport?.score !== undefined ? (
+            <ScoreBadge score={airport.score} scale={0.85} />
+          ) : (
+            <EditorialBadge scale={0.85} />
           )}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            position: "relative",
+            maxWidth: 900,
+          }}
+        >
           <div
             style={{
-              fontSize: 96,
+              fontSize: 88,
               fontWeight: 700,
-              letterSpacing: "-0.02em",
-              fontFamily: "monospace",
+              letterSpacing: "-0.03em",
+              fontFamily: "Geist Mono",
+              color: OG_ACCENT_BLUE,
             }}
           >
             {airport?.iata ?? "???"}
           </div>
-          <div style={{ fontSize: 52, fontWeight: 600, lineHeight: 1.15, maxWidth: 1000 }}>
+          <div
+            style={{
+              fontSize: 48,
+              fontWeight: 700,
+              lineHeight: 1.12,
+              letterSpacing: "-0.02em",
+            }}
+          >
             {airport?.name ?? "Airport guide"}
           </div>
-          <div style={{ fontSize: 32, color: "#a1a1aa" }}>
-            {airport?.location ?? "Traveler tips, lounges, and transport"}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              fontSize: 28,
+              color: "#d4d4d8",
+            }}
+          >
+            <MapPinIcon size={26} color={OG_ACCENT_BLUE} />
+            <span>{airport?.location ?? "Traveler tips, lounges, and transport"}</span>
           </div>
         </div>
       </div>
     ),
-    size,
+    { ...size, fonts },
   );
 }
