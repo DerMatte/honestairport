@@ -2,7 +2,9 @@ export type Region =
   | "North America"
   | "Europe"
   | "Asia-Pacific"
-  | "Middle East";
+  | "Middle East"
+  | "South America"
+  | "Africa";
 
 export type DisruptionStatus = "normal" | "minor" | "moderate" | "severe";
 

@@ -18,10 +18,75 @@ import {
   type AirportProfileRow,
   type NewAirportProfileRow,
 } from "./db/schema";
-import type { Airport } from "./types";
+import type { Airport, Region } from "./types";
 
 /** Everything `upsertAirportProfile` needs, minus the PK/timestamp columns. */
 export type AirportProfileInput = Omit<NewAirportProfileRow, "iata" | "updatedAt">;
+
+/**
+ * ISO 3166-1 alpha-2 country code -> directory region. Derived deterministically
+ * instead of asking an LLM, since it's used for filter grouping and needs to
+ * stay internally consistent. Covers every country in `MAJOR_AIRPORTS_BY_RANK`
+ * (see `lib/major-airports.ts`); extend this map before scoring an airport in
+ * a country not yet listed here.
+ */
+const COUNTRY_CODE_TO_REGION: Readonly<Record<string, Region>> = {
+  // North America
+  US: "North America",
+  CA: "North America",
+  MX: "North America",
+  // Europe
+  GB: "Europe",
+  FR: "Europe",
+  NL: "Europe",
+  DE: "Europe",
+  ES: "Europe",
+  IT: "Europe",
+  CH: "Europe",
+  AT: "Europe",
+  DK: "Europe",
+  SE: "Europe",
+  IE: "Europe",
+  GR: "Europe",
+  PT: "Europe",
+  BE: "Europe",
+  PL: "Europe",
+  CZ: "Europe",
+  HU: "Europe",
+  FI: "Europe",
+  NO: "Europe",
+  RU: "Europe",
+  // Middle East
+  AE: "Middle East",
+  QA: "Middle East",
+  SA: "Middle East",
+  IL: "Middle East",
+  TR: "Middle East",
+  // Asia-Pacific
+  JP: "Asia-Pacific",
+  IN: "Asia-Pacific",
+  CN: "Asia-Pacific",
+  KR: "Asia-Pacific",
+  SG: "Asia-Pacific",
+  TH: "Asia-Pacific",
+  MY: "Asia-Pacific",
+  AU: "Asia-Pacific",
+  HK: "Asia-Pacific",
+  ID: "Asia-Pacific",
+  TW: "Asia-Pacific",
+  // South America
+  BR: "South America",
+  CO: "South America",
+  PE: "South America",
+  CL: "South America",
+  // Africa
+  ZA: "Africa",
+  EG: "Africa",
+};
+
+export function regionForCountryCode(countryCode: string): Region | null {
+  return COUNTRY_CODE_TO_REGION[countryCode.trim().toUpperCase()] ?? null;
+}
 
 function deriveSlug(iata: string): string {
   return iata.toLowerCase();

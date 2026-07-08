@@ -13,6 +13,8 @@ export const regions: Region[] = [
   "Europe",
   "Asia-Pacific",
   "Middle East",
+  "South America",
+  "Africa",
 ];
 
 export const amenityCategories: AmenityCategory[] = [

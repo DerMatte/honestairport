@@ -167,7 +167,7 @@ export const airportProfiles = pgTable("airport_profiles", {
   icao: varchar("icao", { length: 4 }).notNull(),
   shortName: text("short_name").notNull(),
   region: text("region", {
-    enum: ["North America", "Europe", "Asia-Pacific", "Middle East"],
+    enum: ["North America", "Europe", "Asia-Pacific", "Middle East", "South America", "Africa"],
   })
     .notNull()
     .$type<Region>(),
