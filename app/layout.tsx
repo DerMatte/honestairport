@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Plane } from "lucide-react";
@@ -46,6 +46,18 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  icons: {
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    title: SITE_NAME,
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  colorScheme: "light",
 };
 
 export default async function RootLayout({
