@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Building2, Globe2, MapPin, Plane, Search, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -119,6 +119,7 @@ interface SearchResultsProps {
   locationFilter: { field: "city" | "country"; value: string } | null;
   onSelectAirport: (airport: SearchableLocation) => void;
   onSelectLocation: (field: "city" | "country", value: string) => void;
+  onPreviewAirport?: (airport: SearchableLocation) => void;
   listClassName?: string;
 }
 
@@ -128,6 +129,7 @@ function SearchResults({
   locationFilter,
   onSelectAirport,
   onSelectLocation,
+  onPreviewAirport,
   listClassName,
 }: SearchResultsProps) {
   const config = searchScopeConfig("all");
@@ -171,6 +173,19 @@ function SearchResults({
     (showUnifiedLocations && (cityMatches.length > 0 || countryMatches.length > 0)) ||
     airportResults.length > 0;
 
+  useEffect(() => {
+    if (!onPreviewAirport) return;
+
+    if (showExamples && examples) {
+      onPreviewAirport(examples.airport);
+      return;
+    }
+
+    for (const airport of airportResults.slice(0, 6)) {
+      onPreviewAirport(airport);
+    }
+  }, [airportResults, examples, onPreviewAirport, showExamples]);
+
   return (
     <CommandList className={cn("max-h-[min(24rem,50vh)]", listClassName)}>
       {!hasResults ? <CommandEmpty>{config.empty}</CommandEmpty> : null}
@@ -180,6 +195,8 @@ function SearchResults({
           <CommandItem
             value={`example-airport-${examples.airport.iata}`}
             onSelect={() => onSelectAirport(examples.airport)}
+            onFocus={() => onPreviewAirport?.(examples.airport)}
+            onMouseEnter={() => onPreviewAirport?.(examples.airport)}
           >
             <Plane className="size-4 text-muted-foreground" aria-hidden="true" />
             <span className="min-w-0 flex-1">
@@ -225,6 +242,8 @@ function SearchResults({
               key={airport.iata}
               value={`${airport.iata}-${airport.slug}`}
               onSelect={() => onSelectAirport(airport)}
+              onFocus={() => onPreviewAirport?.(airport)}
+              onMouseEnter={() => onPreviewAirport?.(airport)}
             >
               <span className="font-mono text-xs text-muted-foreground">{airport.iata}</span>
               <span className="min-w-0 flex-1">
@@ -290,6 +309,7 @@ interface AirportSearchSurfaceProps {
   onClearLocationFilter: () => void;
   onSelectAirport: (airport: SearchableLocation) => void;
   onSelectLocation: (field: "city" | "country", value: string) => void;
+  onPreviewAirport?: (airport: SearchableLocation) => void;
   className?: string;
   listClassName?: string;
   showShortcut?: boolean;
@@ -304,6 +324,7 @@ function AirportSearchSurface({
   onClearLocationFilter,
   onSelectAirport,
   onSelectLocation,
+  onPreviewAirport,
   className,
   listClassName,
   showShortcut = false,
@@ -326,6 +347,7 @@ function AirportSearchSurface({
           locationFilter={locationFilter}
           onSelectAirport={onSelectAirport}
           onSelectLocation={onSelectLocation}
+          onPreviewAirport={onPreviewAirport}
           listClassName={listClassName}
         />
       </Command>
@@ -351,6 +373,13 @@ export function AirportSearchDialog({
     field: "city" | "country";
     value: string;
   } | null>(null);
+
+  const prefetchAirport = useCallback(
+    (airport: SearchableLocation) => {
+      router.prefetch(`/airports/${airport.slug}`);
+    },
+    [router],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -386,6 +415,7 @@ export function AirportSearchDialog({
   }
 
   function handleSelectAirport(airport: SearchableLocation) {
+    prefetchAirport(airport);
     handleOpenChange(false);
     router.push(`/airports/${airport.slug}`);
   }
@@ -408,6 +438,7 @@ export function AirportSearchDialog({
         onClearLocationFilter={() => setLocationFilter(null)}
         onSelectAirport={handleSelectAirport}
         onSelectLocation={handleSelectLocation}
+        onPreviewAirport={prefetchAirport}
         showShortcut
         inputRef={inputRef}
       />

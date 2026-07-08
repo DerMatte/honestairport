@@ -3,8 +3,6 @@ import { getAirportContent, getAllAirportIatas } from "@/lib/airport-content";
 import { getAirportSlugs } from "@/lib/airport-utils";
 import { SITE_URL } from "@/lib/site";
 
-export const revalidate = 3600;
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const guideIatas = await getAllAirportIatas();
   const slugs = new Set([
@@ -25,11 +23,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     }),
   );
+  const latestGuideUpdate = airportEntries
+    .map((entry) => entry.lastModified)
+    .filter((value): value is Date => value instanceof Date)
+    .sort((a, b) => b.getTime() - a.getTime())[0];
 
   return [
     {
       url: SITE_URL,
-      lastModified: new Date(),
+      lastModified: latestGuideUpdate,
       changeFrequency: "weekly",
       priority: 1,
     },

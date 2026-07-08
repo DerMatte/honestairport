@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { withBotId } from "botid/next/config";
 
 const nextConfig: NextConfig = {
+  cacheComponents: true,
   // Multiple lockfiles exist on this machine; pin the workspace root explicitly.
   turbopack: {
     root: __dirname,
@@ -13,6 +14,7 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    instantNavigationDevToolsToggle: true,
     // Prerender workers each open a DB pool; cap them so builds stay under
     // the managed Postgres connection limit.
     cpus: 4,

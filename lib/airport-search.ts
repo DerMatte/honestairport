@@ -1,4 +1,5 @@
-import { getAllAirports } from "@/lib/airport-content";
+import { cacheLife, cacheTag } from "next/cache";
+import { AIRPORT_GUIDES_CACHE_TAG, getAllAirports } from "@/lib/airport-content";
 import { getAllHonestAirports } from "@/lib/airport-utils";
 
 export interface AirportSearchEntry {
@@ -16,6 +17,10 @@ export interface AirportSearchEntry {
  * search covers all airports, not just the seeded ten.
  */
 export async function getAirportSearchEntries(): Promise<AirportSearchEntry[]> {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 300, expire: 60 * 60 * 24 });
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+
   const scored = getAllHonestAirports();
   const guides = await getAllAirports();
 

@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { cacheLife, cacheTag } from "next/cache";
 import { Badge } from "@/components/ui/badge";
-import { getAllAirports } from "@/lib/airport-content";
+import { AIRPORT_GUIDES_CACHE_TAG, getAllAirports } from "@/lib/airport-content";
 
 export async function AirportGuideIndex() {
+  "use cache";
+  cacheLife({ stale: 300, revalidate: 300, expire: 60 * 60 * 24 });
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+
   const airports = await getAllAirports();
 
   if (airports.length === 0) {

@@ -1,9 +1,8 @@
+import { Suspense } from "react";
 import { AirportDirectory } from "@/app/components/airport-directory";
 import { AirportGuideIndex } from "@/app/components/airport-guide-index";
+import { GuideIndexSkeleton } from "@/app/components/loading-skeletons";
 import { getAllHonestAirports } from "@/lib/airport-utils";
-
-// The guide index below reads from Postgres; pick up new airports without a deploy.
-export const revalidate = 3600;
 
 export default function HomePage() {
   const airports = getAllHonestAirports();
@@ -11,7 +10,9 @@ export default function HomePage() {
   return (
     <>
       <AirportDirectory airports={airports} />
-      <AirportGuideIndex />
+      <Suspense fallback={<GuideIndexSkeleton />}>
+        <AirportGuideIndex />
+      </Suspense>
     </>
   );
 }

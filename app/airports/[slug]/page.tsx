@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { DisruptionBadge } from "@/app/components/disruption-status";
+import {
+  AirportPageSkeleton,
+  DetailTabsSkeleton,
+  GoogleRatingSkeleton,
+  PhotoGallerySkeleton,
+  TipBentoSkeleton,
+} from "@/app/components/loading-skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -23,15 +31,16 @@ import {
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
 import { formatGuideDate } from "@/lib/utils";
+import type { Airport } from "@/lib/types";
 
 interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Guides live in Postgres and change without a deploy: prerender known
-// airports at build time, serve new ones on demand, and refresh via the
-// airport-guides cache tag (plus this timed fallback).
-export const revalidate = 300;
+export const unstable_instant = {
+  prefetch: "runtime",
+  samples: [{ params: { slug: "jfk" } }],
+};
 
 export async function generateStaticParams() {
   const guideIatas = await getAllAirportIatas();
@@ -95,7 +104,15 @@ export async function generateMetadata({
   };
 }
 
-export default async function AirportPage({ params }: AirportPageProps) {
+export default function AirportPage({ params }: AirportPageProps) {
+  return (
+    <Suspense fallback={<AirportPageSkeleton />}>
+      <AirportPageRoute params={params} />
+    </Suspense>
+  );
+}
+
+async function AirportPageRoute({ params }: AirportPageProps) {
   const { slug } = await params;
   const airport = getAirportBySlug(slug);
 
@@ -103,11 +120,10 @@ export default async function AirportPage({ params }: AirportPageProps) {
     return <GuideOnlyAirportPage slug={slug} />;
   }
 
-  const [guide, googleRating] = await Promise.all([
-    getAirportGuideSummaryByIata(airport.iata),
-    getAirportGoogleRating(airport.iata),
-  ]);
+  return <CuratedAirportPage airport={airport} />;
+}
 
+function CuratedAirportPage({ airport }: { airport: Airport }) {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <script
@@ -119,13 +135,7 @@ export default async function AirportPage({ params }: AirportPageProps) {
       />
 
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          All airports
-        </Link>
+        <BackToAirportsLink />
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
           <div>
@@ -167,7 +177,9 @@ export default async function AirportPage({ params }: AirportPageProps) {
                 </div>
               </div>
 
-              <GoogleRatingLine googleRating={googleRating} />
+              <Suspense fallback={<GoogleRatingSkeleton />}>
+                <GoogleRatingByIata iata={airport.iata} />
+              </Suspense>
 
               <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-2xl border bg-muted/30 p-3">
@@ -192,19 +204,35 @@ export default async function AirportPage({ params }: AirportPageProps) {
         </section>
 
         <section className="mt-10">
-          <AirportPhotoGallery iata={airport.iata} />
+          <Suspense fallback={<PhotoGallerySkeleton />}>
+            <AirportPhotoGallery iata={airport.iata} />
+          </Suspense>
         </section>
 
         <section className="mt-10">
-          <AirportTipBento airport={airport} guideTips={guide?.importantTips} />
+          <Suspense fallback={<TipBentoSkeleton />}>
+            <CuratedAirportTips airport={airport} />
+          </Suspense>
         </section>
 
         <section className="mt-10">
-          <AirportDetailTabs airport={airport} guide={guide} />
+          <Suspense fallback={<DetailTabsSkeleton />}>
+            <CuratedAirportDetails airport={airport} />
+          </Suspense>
         </section>
       </div>
     </div>
   );
+}
+
+async function CuratedAirportTips({ airport }: { airport: Airport }) {
+  const guide = await getAirportGuideSummaryByIata(airport.iata);
+  return <AirportTipBento airport={airport} guideTips={guide?.importantTips} />;
+}
+
+async function CuratedAirportDetails({ airport }: { airport: Airport }) {
+  const guide = await getAirportGuideSummaryByIata(airport.iata);
+  return <AirportDetailTabs airport={airport} guide={guide} />;
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {
@@ -217,7 +245,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const { frontmatter } = guideContent;
   const guide = getAirportGuideSummary(guideContent);
   const record = getAirportByIata(frontmatter.iata);
-  const googleRating = await getAirportGoogleRating(frontmatter.iata);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -250,13 +277,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
       />
 
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          All airports
-        </Link>
+        <BackToAirportsLink />
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
           <div>
@@ -296,7 +317,9 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 </div>
               </div>
 
-              <GoogleRatingLine googleRating={googleRating} />
+              <Suspense fallback={<GoogleRatingSkeleton />}>
+                <GoogleRatingByIata iata={frontmatter.iata} />
+              </Suspense>
               <ul className="mt-5 space-y-2 text-sm leading-6">
                 {guide.quickFacts.slice(0, 6).map((fact, index) => (
                   <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2">
@@ -310,7 +333,9 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
 
         <section className="mt-10">
-          <AirportPhotoGallery iata={frontmatter.iata} />
+          <Suspense fallback={<PhotoGallerySkeleton />}>
+            <AirportPhotoGallery iata={frontmatter.iata} />
+          </Suspense>
         </section>
 
         <section className="mt-10">
@@ -327,6 +352,23 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
       </div>
     </div>
   );
+}
+
+function BackToAirportsLink() {
+  return (
+    <Link
+      href="/"
+      className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+    >
+      <ArrowLeft className="size-4" aria-hidden="true" />
+      All airports
+    </Link>
+  );
+}
+
+async function GoogleRatingByIata({ iata }: { iata: string }) {
+  const googleRating = await getAirportGoogleRating(iata);
+  return <GoogleRatingLine googleRating={googleRating} />;
 }
 
 const compactCount = new Intl.NumberFormat("en", {

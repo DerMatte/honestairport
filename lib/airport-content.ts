@@ -7,7 +7,7 @@
  *
  * Domain types, parsing, validation, and writes live in `lib/airport-guides.ts`.
  */
-import { unstable_cache } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import {
   fetchAirportGuideRow,
   fetchAllAirportGuideRows,
@@ -49,44 +49,36 @@ export const AIRPORT_GUIDES_CACHE_TAG = "airport-guides";
 export const AIRPORT_IMAGES_CACHE_TAG = "airport-images";
 export const AIRPORT_GOOGLE_RATINGS_CACHE_TAG = "airport-google-ratings";
 
-const getCachedAirportGuideRow = unstable_cache(
-  async (iata: string) => fetchAirportGuideRow(iata),
-  ["airport-guide-by-iata"],
-  { tags: [AIRPORT_GUIDES_CACHE_TAG] },
-);
-
-const getCachedAirportGuideRows = unstable_cache(
-  async () => fetchAllAirportGuideRows(),
-  ["airport-guides-all"],
-  { tags: [AIRPORT_GUIDES_CACHE_TAG] },
-);
-
-const getCachedAirportImageRows = unstable_cache(
-  async (iata: string) => fetchAirportImageRows(iata),
-  ["airport-images-by-iata"],
-  { tags: [AIRPORT_IMAGES_CACHE_TAG] },
-);
-
-const getCachedAirportGoogleRatingRow = unstable_cache(
-  async (iata: string) => fetchAirportGoogleRatingRow(iata),
-  ["airport-google-rating-by-iata"],
-  { tags: [AIRPORT_GOOGLE_RATINGS_CACHE_TAG] },
-);
+function airportContentCacheLife() {
+  cacheLife({ stale: 300, revalidate: 300, expire: 60 * 60 * 24 });
+}
 
 export async function getAirportImages(iata: string): Promise<AirportImage[]> {
-  const rows = await getCachedAirportImageRows(iata.toUpperCase());
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_IMAGES_CACHE_TAG);
+
+  const rows = await fetchAirportImageRows(iata.toUpperCase());
   return rows.map(rowToAirportImage);
 }
 
 export async function getAirportGoogleRating(
   iata: string,
 ): Promise<AirportGoogleRating | null> {
-  const row = await getCachedAirportGoogleRatingRow(iata.toUpperCase());
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GOOGLE_RATINGS_CACHE_TAG);
+
+  const row = await fetchAirportGoogleRatingRow(iata.toUpperCase());
   return row ? rowToAirportGoogleRating(row) : null;
 }
 
 export async function getAirportContent(iata: string): Promise<AirportContent | null> {
-  const row = await getCachedAirportGuideRow(iata.toUpperCase());
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+
+  const row = await fetchAirportGuideRow(iata.toUpperCase());
   return row ? rowToAirportContent(row) : null;
 }
 
@@ -98,12 +90,20 @@ export async function getAirportGuideSummaryByIata(
 }
 
 export async function getAllAirportIatas(): Promise<string[]> {
-  const rows = await getCachedAirportGuideRows();
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+
+  const rows = await fetchAllAirportGuideRows();
   return rows.map((row) => row.iata.toUpperCase()).sort();
 }
 
 export async function getAllAirports(): Promise<AirportSummary[]> {
-  const rows = await getCachedAirportGuideRows();
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+
+  const rows = await fetchAllAirportGuideRows();
   return rows
     .map(rowToAirportSummary)
     .sort((a, b) => a.name.localeCompare(b.name));
