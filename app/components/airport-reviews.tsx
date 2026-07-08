@@ -24,12 +24,11 @@ import {
   type AirportUserReview,
   type ReviewFormValues,
 } from "@/lib/review-schema";
-import type { Review } from "@/lib/types";
 
 interface AirportReviewsProps {
   iata: string;
   /** Editorial seed reviews shown after community ones. */
-  seedReviews?: Review[];
+  seedReviews?: AirportUserReview[];
   showHeading?: boolean;
   className?: string;
 }
@@ -488,7 +487,7 @@ export function AirportReviews({
             <ReviewCard
               key={review.id}
               author={review.author}
-              meta={`${review.tripType} · ${review.date}`}
+              meta={`${review.tripType} · ${dateFormatter.format(new Date(review.createdAt))}`}
               rating={review.rating}
               title={review.title}
               body={review.body}

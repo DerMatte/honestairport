@@ -1,6 +1,10 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { AIRPORT_GUIDES_CACHE_TAG, getAllAirports } from "@/lib/airport-content";
-import { getAllHonestAirports } from "@/lib/airport-utils";
+import {
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
+  getAllAirports,
+  getAllHonestAirports,
+} from "@/lib/airport-content";
 
 export interface AirportSearchEntry {
   slug: string;
@@ -20,9 +24,9 @@ export async function getAirportSearchEntries(): Promise<AirportSearchEntry[]> {
   "use cache";
   cacheLife({ stale: 300, revalidate: 300, expire: 60 * 60 * 24 });
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+  cacheTag(AIRPORT_PROFILES_CACHE_TAG);
 
-  const scored = getAllHonestAirports();
-  const guides = await getAllAirports();
+  const [scored, guides] = await Promise.all([getAllHonestAirports(), getAllAirports()]);
 
   const entries = new Map<string, AirportSearchEntry>();
 

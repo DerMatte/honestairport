@@ -23,11 +23,15 @@ import {
   rowToAirportImage,
   type AirportImage,
 } from "./airport-images";
+import { fetchAirportByIata, fetchAllAirports } from "./airport-profiles";
 import {
   fetchAirportGoogleRatingRow,
   rowToAirportGoogleRating,
   type AirportGoogleRating,
 } from "./google-ratings";
+import { getEditorialReviewsByIata } from "./reviews";
+import type { AirportUserReview } from "./review-schema";
+import type { Airport } from "./types";
 
 export type {
   AirportBentoTip,
@@ -48,6 +52,7 @@ export type { AirportGoogleRating } from "./google-ratings";
 export const AIRPORT_GUIDES_CACHE_TAG = "airport-guides";
 export const AIRPORT_IMAGES_CACHE_TAG = "airport-images";
 export const AIRPORT_GOOGLE_RATINGS_CACHE_TAG = "airport-google-ratings";
+export const AIRPORT_PROFILES_CACHE_TAG = "airport-profiles";
 
 function airportContentCacheLife() {
   cacheLife({ stale: 300, revalidate: 300, expire: 60 * 60 * 24 });
@@ -107,4 +112,47 @@ export async function getAllAirports(): Promise<AirportSummary[]> {
   return rows
     .map(rowToAirportSummary)
     .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Full Airportist Score profile for a scored airport, joined against its guide row. */
+export async function getAirportProfile(iata: string): Promise<Airport | null> {
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+  cacheTag(AIRPORT_PROFILES_CACHE_TAG);
+
+  return fetchAirportByIata(iata);
+}
+
+export async function getAllAirportProfiles(): Promise<Airport[]> {
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_GUIDES_CACHE_TAG);
+  cacheTag(AIRPORT_PROFILES_CACHE_TAG);
+
+  return fetchAllAirports();
+}
+
+/** Airportist Score directory: every scored airport, sorted highest score first. */
+export async function getAllHonestAirports(): Promise<Airport[]> {
+  const profiles = await getAllAirportProfiles();
+  return [...profiles].sort((a, b) => b.airportistScore - a.airportistScore);
+}
+
+export async function getAirportBySlug(slug: string): Promise<Airport | null> {
+  return getAirportProfile(slug.trim().toUpperCase());
+}
+
+export async function getAirportSlugs(): Promise<string[]> {
+  const profiles = await getAllAirportProfiles();
+  return profiles.map((airport) => airport.slug);
+}
+
+/** Curated reviews seeded from our scoring process, shown alongside live community reviews. */
+export async function getEditorialReviews(iata: string): Promise<AirportUserReview[]> {
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_PROFILES_CACHE_TAG);
+
+  return getEditorialReviewsByIata(iata.toUpperCase());
 }

@@ -1,10 +1,11 @@
 import { AirportDirectory } from "@/app/components/airport-directory";
-import { getAllAirports } from "@/lib/airport-content";
-import { getAllHonestAirports } from "@/lib/airport-utils";
+import { getAllAirports, getAllHonestAirports } from "@/lib/airport-content";
 
 export default async function HomePage() {
-  const scoredAirports = getAllHonestAirports();
-  const allAirports = await getAllAirports();
+  const [scoredAirports, allAirports] = await Promise.all([
+    getAllHonestAirports(),
+    getAllAirports(),
+  ]);
 
   return <AirportDirectory scoredAirports={scoredAirports} allAirports={allAirports} />;
 }

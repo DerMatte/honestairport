@@ -1,12 +1,18 @@
 import type { MetadataRoute } from "next";
-import { getAirportContent, getAllAirportIatas } from "@/lib/airport-content";
-import { getAirportSlugs } from "@/lib/airport-utils";
+import {
+  getAirportContent,
+  getAirportSlugs,
+  getAllAirportIatas,
+} from "@/lib/airport-content";
 import { SITE_URL } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const guideIatas = await getAllAirportIatas();
+  const [guideIatas, scoredSlugs] = await Promise.all([
+    getAllAirportIatas(),
+    getAirportSlugs(),
+  ]);
   const slugs = new Set([
-    ...getAirportSlugs(),
+    ...scoredSlugs,
     ...guideIatas.map((iata) => iata.toLowerCase()),
   ]);
 
