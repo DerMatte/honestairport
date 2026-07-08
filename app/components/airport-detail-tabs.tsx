@@ -227,6 +227,12 @@ export function AirportDetailTabs({
   const rideshareProviders = airportRecord
     ? getRideshareProviders(airportRecord.iata_country_code)
     : [];
+  // Rideshare deep links live inside this option's own card since it's the
+  // closest match; airports without a taxi/rideshare entry get a standalone
+  // card instead (see the fallback after the transport grid below).
+  const rideBookingOption = airport?.transport.find(
+    (option) => option.type === "taxi" || option.type === "rideshare",
+  );
 
   const guideSections = guide?.sections;
   const hasGettingThereGuide = Boolean(
@@ -429,7 +435,83 @@ export function AirportDetailTabs({
           </div>
         ) : null}
 
-        {airportRecord && rideshareProviders.length ? (
+        <div className="grid gap-4 md:grid-cols-3">
+          {airport?.transport.map((option) => {
+            const badges = (["fastest", "cheapest", "luggage"] as const).filter(
+              (key) => transportRecommendations[key] === option,
+            );
+            const showRideBooking =
+              option === rideBookingOption && Boolean(airportRecord) && rideshareProviders.length > 0;
+
+            return (
+            <Card key={`${option.type}-${option.name}`} className="h-full">
+              <CardHeader>
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <div className="flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
+                    <TransportIcon type={option.type} />
+                  </div>
+                  {badges.length ? (
+                    <div className="flex flex-wrap justify-end gap-1">
+                      {badges.map((key) => (
+                        <TransportBestForBadge key={key} type={key} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+                <CardTitle>{option.name}</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 text-sm">
+                <p className="text-muted-foreground">{option.summary}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border bg-muted/30 p-3">
+                    <div className="text-xs text-muted-foreground">Time</div>
+                    <div className="mt-1 font-mono">{option.timeToCity}</div>
+                  </div>
+                  <div className="rounded-xl border bg-muted/30 p-3">
+                    <div className="text-xs text-muted-foreground">Cost</div>
+                    <div className="mt-1 font-mono">{option.cost}</div>
+                  </div>
+                </div>
+                <p className="rounded-xl bg-primary/5 p-3 text-xs text-muted-foreground">
+                  Tip: {option.insiderTip}
+                </p>
+                {showRideBooking && airportRecord ? (
+                  <div className="space-y-3 rounded-xl border bg-muted/30 p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {rideshareProviders.map((provider) => (
+                        <Button key={provider.id} asChild variant="outline" size="sm">
+                          <a
+                            href={buildRideshareDeepLink(provider.id, {
+                              latitude: airportRecord.latitude,
+                              longitude: airportRecord.longitude,
+                              nickname: airport?.shortName ?? airportRecord.name,
+                            })}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {provider.label}
+                            <ExternalLink aria-hidden="true" />
+                          </a>
+                        </Button>
+                      ))}
+                      <AirportLocalTime
+                        timeZone={airportRecord.time_zone}
+                        label={`Local time at ${iata}:`}
+                      />
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Opens the app with pickup set to the airport so you can check the live
+                      price and ETA there.
+                    </p>
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+            );
+          })}
+        </div>
+
+        {!rideBookingOption && airportRecord && rideshareProviders.length ? (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -466,50 +548,6 @@ export function AirportDetailTabs({
             </CardContent>
           </Card>
         ) : null}
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {airport?.transport.map((option) => {
-            const badges = (["fastest", "cheapest", "luggage"] as const).filter(
-              (key) => transportRecommendations[key] === option,
-            );
-
-            return (
-            <Card key={`${option.type}-${option.name}`} className="h-full">
-              <CardHeader>
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <div className="flex size-10 items-center justify-center rounded-2xl bg-muted text-muted-foreground [&_svg]:size-5">
-                    <TransportIcon type={option.type} />
-                  </div>
-                  {badges.length ? (
-                    <div className="flex flex-wrap justify-end gap-1">
-                      {badges.map((key) => (
-                        <TransportBestForBadge key={key} type={key} />
-                      ))}
-                    </div>
-                  ) : null}
-                </div>
-                <CardTitle>{option.name}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 text-sm">
-                <p className="text-muted-foreground">{option.summary}</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border bg-muted/30 p-3">
-                    <div className="text-xs text-muted-foreground">Time</div>
-                    <div className="mt-1 font-mono">{option.timeToCity}</div>
-                  </div>
-                  <div className="rounded-xl border bg-muted/30 p-3">
-                    <div className="text-xs text-muted-foreground">Cost</div>
-                    <div className="mt-1 font-mono">{option.cost}</div>
-                  </div>
-                </div>
-                <p className="rounded-xl bg-primary/5 p-3 text-xs text-muted-foreground">
-                  Tip: {option.insiderTip}
-                </p>
-              </CardContent>
-            </Card>
-            );
-          })}
-        </div>
       </TabsContent>
 
       <TabsContent value="lounges" className="space-y-4">
