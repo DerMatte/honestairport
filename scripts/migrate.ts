@@ -28,10 +28,24 @@ interface JournalEntry {
   when: number;
 }
 
+function resolveDatabaseUrl(): string | undefined {
+  return process.env.DATABASE_URL ?? process.env.CONNECTION_STRING;
+}
+
+/** Idempotent fixes for columns that must exist before the app reads guides. */
+async function ensureSchemaRepairs(pool: Pool) {
+  await pool.query(`
+    ALTER TABLE "airport_guides"
+    ADD COLUMN IF NOT EXISTS "water_options" jsonb DEFAULT '[]'::jsonb NOT NULL
+  `);
+}
+
 async function main() {
-  const connectionString = process.env.DATABASE_URL;
+  const connectionString = resolveDatabaseUrl();
   if (!connectionString) {
-    console.error("DATABASE_URL is not set (put it in .env.local or the environment).");
+    console.error(
+      "DATABASE_URL is not set (put it in .env.local or the Vercel project environment).",
+    );
     process.exit(1);
   }
 
@@ -47,6 +61,8 @@ async function main() {
       "applied_at" timestamptz NOT NULL DEFAULT now()
     )
   `);
+
+  await ensureSchemaRepairs(pool);
 
   const { rows } = await pool.query<{ tag: string }>(
     'SELECT "tag" FROM "__drizzle_migrations"',
@@ -85,6 +101,9 @@ async function main() {
       client.release();
     }
   }
+
+  // Journal can be ahead of the live schema if a deploy was interrupted; re-check.
+  await ensureSchemaRepairs(pool);
 
   console.log(ran === 0 ? "Nothing to migrate — database is up to date." : `Done (${ran} applied).`);
   await pool.end();
