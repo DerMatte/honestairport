@@ -1,5 +1,9 @@
 import { ImageResponse } from "next/og";
-import { getAirportContent, getAirportImages } from "@/lib/airport-content";
+import {
+  getAirportBySlug,
+  getAirportContent,
+  getAirportImages,
+} from "@/lib/airport-content";
 import { getOgFonts } from "@/lib/og-fonts";
 import { fetchOgPhotoDataUrl } from "@/lib/og-photo";
 import {
@@ -10,7 +14,6 @@ import {
   OG_BG_GRADIENT,
   ScoreBadge,
 } from "@/lib/og-icons";
-import { getAirportBySlug } from "@/lib/airport-utils";
 
 export const alt = "Airport guide on HonestAirport";
 export const size = {
@@ -31,7 +34,7 @@ interface OgAirport {
 }
 
 async function getOgAirport(slug: string): Promise<OgAirport | null> {
-  const airport = getAirportBySlug(slug);
+  const airport = await getAirportBySlug(slug);
 
   if (airport) {
     return {

@@ -1,23 +1,28 @@
 #!/usr/bin/env tsx
 /**
- * Airport guide generator powered by the local `grok` CLI (Grok Build free
- * tokens) instead of the paid AI Gateway. Runs grok headlessly with web
- * search enabled so each guide is actually researched (official airport
- * sites, vielfliegertreff.de, FlyerTalk, Reddit) before being written.
+ * Airport guide + Airportist Score generator powered by the local `grok` CLI
+ * (Grok Build free tokens) instead of the paid AI Gateway. Runs grok
+ * headlessly with web search enabled so each guide and score is actually
+ * researched (official airport sites, vielfliegertreff.de, FlyerTalk,
+ * Reddit, delay/on-time data) before being written.
  *
- * The model outputs structured JSON (no markdown document), which is
- * validated with zod and pushed directly into Postgres via the existing
- * `upsertAirportGuide` pipeline (validation + revision snapshot + upsert).
+ * The model outputs a single structured JSON object (no markdown document)
+ * covering both the markdown guide content and the Airportist Score profile
+ * (amenities, tips, transport, disruption snapshot). It's validated with zod
+ * and pushed into Postgres via `upsertAirportGuide` (validation + revision
+ * snapshot + upsert) and `upsertAirportProfile`. icao/lat/lon/region are
+ * looked up from local reference data instead of asked of the model.
  *
  * Usage:
- *   pnpm generate:airport:grok LHR                # one specific airport
+ *   pnpm generate:airport:grok LHR                # one specific airport (guide + score)
  *   pnpm generate:airport:grok CDG "focus on transfers"
- *   pnpm generate:airport:grok --next             # next missing major airport,
- *                                                 # or the stalest guide once all exist
+ *   pnpm generate:airport:grok --next             # next missing guide, then next
+ *                                                 # unscored airport, then the stalest guide
  *   pnpm generate:airport:grok --next --dry-run   # show what --next would pick
  *
  * Designed for one-by-one background runs on the VPS (see cron entry using
- * flock so runs never overlap).
+ * flock so runs never overlap) — this is how every airport gets both a guide
+ * and an Airportist Score over time, not just the original 10.
  */
 
 import fs from "node:fs/promises";
@@ -28,6 +33,13 @@ import {
   upsertAirportGuide,
   type AirportContent,
 } from "../lib/airport-guides";
+import {
+  fetchAllAirportProfileRows,
+  regionForCountryCode,
+  upsertAirportProfile,
+  type AirportProfileInput,
+} from "../lib/airport-profiles";
+import { getAirportByIata } from "../lib/airports";
 import { getMajorAirportCandidates } from "../lib/major-airports";
 import {
   extractJsonCandidates,
@@ -42,8 +54,111 @@ loadLocalEnv();
 const LOG_FILE = path.join(process.cwd(), "scripts/.generate-airports-grok.log");
 
 // --- Model output schema --------------------------------------------------------
+//
+// Grok's JSON occasionally drifts slightly outside the shape asked for in the
+// prompt (an empty "hours": "" instead of omitting the key, one lounge or
+// trick over the cap). Rather than failing the whole run over that, treat it
+// as recoverable: blank optional strings become undefined, and over-long
+// lists get truncated to the max instead of rejected.
 
 const nonEmpty = z.string().trim().min(1);
+
+// Grok sometimes emits "" for an optional field instead of leaving it out.
+const optionalNonEmpty = z.preprocess(
+  (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
+  nonEmpty.optional(),
+);
+
+// Grok sometimes returns one or two more items than the prompt asks for;
+// truncate instead of rejecting the whole guide.
+function boundedArray<T extends z.ZodTypeAny>(item: T, min: number, max: number) {
+  return z
+    .array(item)
+    .transform((arr) => arr.slice(0, max))
+    .pipe(z.array(item).min(min));
+}
+
+const loungeSchema = z.object({
+  name: nonEmpty,
+  terminal: nonEmpty,
+  zone: optionalNonEmpty,
+  access: z.array(nonEmpty).min(1),
+  hours: optionalNonEmpty,
+  amenities: z.array(nonEmpty).optional(),
+  bestFor: z.array(nonEmpty).optional(),
+  verdict: z.enum(["worth-it", "depends", "skip"]),
+  summary: nonEmpty,
+});
+
+// --- Airportist Score profile fields ---------------------------------------------
+//
+// Same research pass also produces the scoring profile (airport_profiles
+// table): Airportist Score, amenities, tips, transport options, and a
+// disruption snapshot. icao/latitude/longitude/region are never asked of the
+// model — they're looked up deterministically (see `buildProfileInput`) to
+// avoid hallucinated geo/classification data.
+
+const scoreSchema = z.number().min(0).max(10);
+
+const scoreBreakdownSchema = z.object({
+  comfort: scoreSchema,
+  navigation: scoreSchema,
+  food: scoreSchema,
+  transport: scoreSchema,
+  disruptionResilience: scoreSchema,
+});
+
+const statsSchema = z.object({
+  annualPassengers: nonEmpty,
+  terminals: nonEmpty,
+  onTimePercentage: z.number().min(0).max(100),
+  averageSecurityMinutes: z.number().min(0).max(180),
+});
+
+const amenitySchema = z.object({
+  label: nonEmpty,
+  category: z.enum([
+    "food",
+    "lounge",
+    "wifi",
+    "family",
+    "accessibility",
+    "transport",
+    "shopping",
+    "sleep",
+  ]),
+  description: nonEmpty,
+  quality: z.enum(["basic", "good", "excellent"]),
+  isFeatured: z.boolean().optional(),
+});
+
+const profileTipSchema = z.object({
+  category: z.enum(["security", "food", "navigation", "layover", "transport", "family", "lounge"]),
+  title: nonEmpty,
+  summary: nonEmpty,
+  details: nonEmpty,
+  pro: optionalNonEmpty,
+  con: optionalNonEmpty,
+});
+
+const transportOptionSchema = z.object({
+  type: z.enum(["train", "metro", "bus", "taxi", "rideshare", "parking"]),
+  name: nonEmpty,
+  summary: nonEmpty,
+  timeToCity: nonEmpty,
+  cost: nonEmpty,
+  insiderTip: nonEmpty,
+});
+
+const disruptionSchema = z.object({
+  status: z.enum(["normal", "minor", "moderate", "severe"]),
+  departureDelayMinutes: z.number().min(0).max(240),
+  departureDelayPercent: z.number().min(0).max(100),
+  arrivalDelayMinutes: z.number().min(0).max(240),
+  arrivalDelayPercent: z.number().min(0).max(100),
+  cancellationsPercent: z.number().min(0).max(100),
+  alerts: boundedArray(nonEmpty, 0, 4).optional(),
+});
 
 const guideJsonSchema = z.object({
   iata: z.string().regex(/^[A-Z]{3}$/),
@@ -52,7 +167,7 @@ const guideJsonSchema = z.object({
   country: nonEmpty,
   summary: nonEmpty.describe("One-sentence high-signal summary"),
   sources: z.array(z.url()).min(3),
-  quickFacts: z.array(nonEmpty).min(4).max(6),
+  quickFacts: boundedArray(nonEmpty, 4, 6),
   bentoTips: z
     .array(
       z.object({
@@ -60,7 +175,7 @@ const guideJsonSchema = z.object({
         label: nonEmpty,
         title: nonEmpty,
         summary: nonEmpty,
-        detail: nonEmpty.optional(),
+        detail: optionalNonEmpty,
       }),
     )
     .length(4)
@@ -68,27 +183,26 @@ const guideJsonSchema = z.object({
       (tips) => new Set(tips.map((tip) => tip.category)).size === 4,
       "bentoTips must cover all four categories exactly once",
     ),
-  lounges: z
-    .array(
-      z.object({
-        name: nonEmpty,
-        terminal: nonEmpty,
-        zone: nonEmpty.optional(),
-        access: z.array(nonEmpty).min(1),
-        hours: nonEmpty.optional(),
-        amenities: z.array(nonEmpty).optional(),
-        bestFor: z.array(nonEmpty).optional(),
-        verdict: z.enum(["worth-it", "depends", "skip"]),
-        summary: nonEmpty,
-      }),
-    )
-    .min(2)
-    .max(6),
-  securityTips: z.array(nonEmpty).min(3).max(8),
-  airportTricks: z.array(nonEmpty).min(5).max(8),
-  terminalNavigation: z.array(nonEmpty).min(3).max(8),
-  loungesAmenities: z.array(nonEmpty).min(3).max(8),
-  groundTransport: z.array(nonEmpty).min(3).max(8),
+  lounges: boundedArray(loungeSchema, 2, 6),
+  securityTips: boundedArray(nonEmpty, 3, 8),
+  airportTricks: boundedArray(nonEmpty, 5, 8),
+  terminalNavigation: boundedArray(nonEmpty, 3, 8),
+  loungesAmenities: boundedArray(nonEmpty, 3, 8),
+  groundTransport: boundedArray(nonEmpty, 3, 8),
+  // Airportist Score profile
+  shortName: nonEmpty.describe("Short recognizable name, e.g. 'London Heathrow'"),
+  scoreSummary: nonEmpty.describe(
+    "One evaluative sentence on the airport's overall traveler experience and key tradeoff",
+  ),
+  airportistScore: scoreSchema,
+  scoreBreakdown: scoreBreakdownSchema,
+  stats: statsSchema,
+  bestFor: boundedArray(nonEmpty, 2, 4),
+  watchOutFor: boundedArray(nonEmpty, 2, 4),
+  amenities: boundedArray(amenitySchema, 4, 6),
+  tips: boundedArray(profileTipSchema, 3, 5),
+  transport: boundedArray(transportOptionSchema, 2, 4),
+  disruption: disruptionSchema,
 });
 
 type GuideJson = z.infer<typeof guideJsonSchema>;
@@ -143,7 +257,32 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
   "airportTricks": ["5-8 genuinely clever tricks experienced travelers actually use here — be specific, include context like 'works best when...' or 'avoid if...'"],
   "terminalNavigation": ["3-8 items: walking times, best connections, common mistakes"],
   "loungesAmenities": ["3-8 items: honest picks for lounges, standout food, quiet spots"],
-  "groundTransport": ["3-8 items: best ways in/out, current costs, insider timing tips"]
+  "groundTransport": ["3-8 items: best ways in/out, current costs, insider timing tips"],
+  "shortName": "Short recognizable name, e.g. 'London Heathrow' or 'Tokyo Haneda'",
+  "scoreSummary": "One evaluative sentence: the airport's overall traveler experience and its main tradeoff (e.g. 'X has great food but punishing curbside logistics').",
+  "airportistScore": 7.4,
+  "scoreBreakdown": { "comfort": 7.1, "navigation": 6.7, "food": 7.6, "transport": 7.9, "disruptionResilience": 7.4 },
+  "stats": { "annualPassengers": "62M", "terminals": "5 active terminals", "onTimePercentage": 73, "averageSecurityMinutes": 22 },
+  "bestFor": ["2-4 short phrases: what this airport genuinely does well"],
+  "watchOutFor": ["2-4 short phrases: real, specific pain points"],
+  "amenities": [
+    { "label": "Short label", "category": "food|lounge|wifi|family|accessibility|transport|shopping|sleep", "description": "One sentence, specific to this airport.", "quality": "basic|good|excellent", "isFeatured": true }
+  ],
+  "tips": [
+    { "category": "security|food|navigation|layover|transport|family|lounge", "title": "Short imperative headline", "summary": "One actionable sentence.", "details": "1-2 sentences of specific context.", "pro": "optional upside", "con": "optional downside" }
+  ],
+  "transport": [
+    { "type": "train|metro|bus|taxi|rideshare|parking", "name": "Service name", "summary": "One sentence.", "timeToCity": "35-45 min", "cost": "$ | $$ | $$$", "insiderTip": "One specific, actionable sentence." }
+  ],
+  "disruption": {
+    "status": "normal|minor|moderate|severe",
+    "departureDelayMinutes": 20,
+    "departureDelayPercent": 25,
+    "arrivalDelayMinutes": 15,
+    "arrivalDelayPercent": 20,
+    "cancellationsPercent": 1.5,
+    "alerts": ["0-4 short, current, specific operational notes; omit if nothing notable"]
+  }
 }
 
 Rules:
@@ -153,6 +292,15 @@ Rules:
 - All facts must come from your research, not memory alone.
 - Do not create or modify any files. Your only deliverable is the JSON response.
 ${extraInstructions ? `- Additional focus: ${extraInstructions}` : ""}
+
+STEP 3 — SCORING (Airportist Score, 0-10 scale, one decimal):
+Research this specifically: recent on-time/delay statistics (e.g. FAA/BTS data for US airports, Eurocontrol/flight-tracking sites elsewhere, or the airport's own published performance reports), typical security wait times, and forum sentiment on comfort and congestion. Calibrate against these anchors:
+- 9.0-10: exceptional, best-in-class (e.g. Singapore Changi tier) — reserve for airports with genuinely outstanding, well-documented traveler experience.
+- 7.5-8.9: very good, few real complaints.
+- 6.0-7.4: solid but with clear, specific tradeoffs.
+- Below 6.0: real, well-documented traveler pain points (chronic delays, poor facilities, notoriously difficult layout).
+Do not cluster every airport at 7-8 — differentiate based on what you actually find. \`airportistScore\` should read as a holistic judgment close to (but not necessarily exactly) the average of \`scoreBreakdown\`'s five components.
+\`disruption\` is a periodic editorial snapshot (not live data — a separate live-status system already covers real-time delays elsewhere on the site), refreshed each time this airport is re-scored; base it on the operational-performance data you researched, not on today's weather.
 
 IATA: ${normalizedIata}`;
 }
@@ -232,6 +380,58 @@ ${bullets(guide.sources)}
   };
 }
 
+// --- JSON -> AirportProfileInput --------------------------------------------------
+
+/**
+ * icao/latitude/longitude/region come from the local airport reference data
+ * (`lib/airports.ts`), never from the model — they're verifiable facts we
+ * already have, not something worth risking a hallucination on.
+ */
+function buildProfileInput(iata: string, guide: GuideJson): AirportProfileInput {
+  const record = getAirportByIata(iata);
+  if (!record) {
+    throw new Error(`No reference airport record for ${iata}; cannot build a scoring profile.`);
+  }
+  if (!record.icao_code) {
+    throw new Error(`Reference airport record for ${iata} has no ICAO code.`);
+  }
+
+  const region = regionForCountryCode(record.iata_country_code);
+  if (!region) {
+    throw new Error(
+      `No region mapping for country code ${record.iata_country_code} (${iata}). Add one to COUNTRY_CODE_TO_REGION in lib/airport-profiles.ts.`,
+    );
+  }
+
+  return {
+    icao: record.icao_code,
+    shortName: guide.shortName,
+    region,
+    latitude: record.latitude,
+    longitude: record.longitude,
+    airportistScore: guide.airportistScore,
+    scoreBreakdown: guide.scoreBreakdown,
+    stats: guide.stats,
+    summary: guide.scoreSummary,
+    bestFor: guide.bestFor,
+    watchOutFor: guide.watchOutFor,
+    amenities: guide.amenities.map((amenity, index) => ({
+      id: `${iata.toLowerCase()}-amenity-${index + 1}`,
+      ...amenity,
+    })),
+    tips: guide.tips.map((tip, index) => ({
+      id: `${iata.toLowerCase()}-tip-${index + 1}`,
+      ...tip,
+    })),
+    transport: guide.transport,
+    disruption: {
+      ...guide.disruption,
+      alerts: guide.disruption.alerts ?? [],
+      lastUpdated: new Date().toISOString(),
+    },
+  };
+}
+
 // --- Main flow --------------------------------------------------------------------
 
 async function logLine(message: string) {
@@ -254,10 +454,14 @@ export async function generateAirportGuideWithGrok(iata: string, extraInstructio
   }
 
   const row = await upsertAirportGuide(toAirportContent(guide));
+  const profileRow = await upsertAirportProfile(normalizedIata, buildProfileInput(normalizedIata, guide));
   await requestSiteRevalidation();
 
   const minutes = ((Date.now() - startedAt) / 60_000).toFixed(1);
-  await logLine(`✅ ${row.iata} guide written to Postgres (${guide.lounges.length} lounges, ${guide.sources.length} sources, ${minutes} min)`);
+  await logLine(
+    `✅ ${row.iata} guide + Airportist Score ${profileRow.airportistScore} written to Postgres ` +
+      `(${guide.lounges.length} lounges, ${guide.sources.length} sources, ${minutes} min)`,
+  );
 
   return row.iata;
 }
@@ -268,16 +472,24 @@ interface NextTarget {
 }
 
 /**
- * Next airport to work on: any major airport still missing a guide comes
- * first (by traffic rank); once all exist, refresh the guide with the oldest
- * `lastUpdated` so the whole catalog keeps improving one by one.
+ * Next airport to work on, in priority order:
+ *  1. Any major airport still missing a guide (by traffic rank).
+ *  2. Any major airport with a guide but no Airportist Score yet — rate the
+ *     whole catalog one by one, highest-traffic first.
+ *  3. Once every major airport is both guided and scored, refresh the guide
+ *     (and its score) with the oldest `lastUpdated` so the catalog keeps
+ *     improving indefinitely.
  */
 async function pickNextTarget(): Promise<NextTarget | null> {
-  const rows = await fetchAllAirportGuideRows();
-  const existing = new Set(rows.map((row) => row.iata.toUpperCase()));
+  const [guideRows, profileRows] = await Promise.all([
+    fetchAllAirportGuideRows(),
+    fetchAllAirportProfileRows(),
+  ]);
+  const existingGuides = new Set(guideRows.map((row) => row.iata.toUpperCase()));
+  const existingProfiles = new Set(profileRows.map((row) => row.iata.toUpperCase()));
 
   for (const candidate of getMajorAirportCandidates()) {
-    if (!existing.has(candidate.iata)) {
+    if (!existingGuides.has(candidate.iata)) {
       return {
         iata: candidate.iata,
         reason: `missing major airport #${candidate.rank} (${candidate.name})`,
@@ -285,7 +497,16 @@ async function pickNextTarget(): Promise<NextTarget | null> {
     }
   }
 
-  const stalest = [...rows].sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))[0];
+  for (const candidate of getMajorAirportCandidates()) {
+    if (!existingProfiles.has(candidate.iata)) {
+      return {
+        iata: candidate.iata,
+        reason: `missing Airportist Score for #${candidate.rank} (${candidate.name})`,
+      };
+    }
+  }
+
+  const stalest = [...guideRows].sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))[0];
   if (!stalest) {
     return null;
   }

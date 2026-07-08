@@ -16,17 +16,16 @@ import {
 } from "@/app/components/loading-skeletons";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { airportJsonLd } from "@/lib/airport-utils";
 import {
-  airportJsonLd,
   getAirportBySlug,
-  getAirportSlugs,
-} from "@/lib/airport-utils";
-import {
   getAirportContent,
   getAirportGoogleRating,
   getAirportGuideSummary,
   getAirportGuideSummaryByIata,
+  getAirportSlugs,
   getAllAirportIatas,
+  getEditorialReviews,
   type AirportGoogleRating,
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
@@ -43,9 +42,12 @@ export const unstable_instant = {
 };
 
 export async function generateStaticParams() {
-  const guideIatas = await getAllAirportIatas();
+  const [guideIatas, scoredSlugs] = await Promise.all([
+    getAllAirportIatas(),
+    getAirportSlugs(),
+  ]);
   const slugs = new Set([
-    ...getAirportSlugs(),
+    ...scoredSlugs,
     ...guideIatas.map((iata) => iata.toLowerCase()),
   ]);
   return [...slugs].map((slug) => ({ slug }));
@@ -55,7 +57,7 @@ export async function generateMetadata({
   params,
 }: AirportPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const airport = getAirportBySlug(slug);
+  const airport = await getAirportBySlug(slug);
 
   if (!airport) {
     const guideContent = await getAirportContent(slug);
@@ -114,7 +116,7 @@ export default function AirportPage({ params }: AirportPageProps) {
 
 async function AirportPageRoute({ params }: AirportPageProps) {
   const { slug } = await params;
-  const airport = getAirportBySlug(slug);
+  const airport = await getAirportBySlug(slug);
 
   if (!airport) {
     return <GuideOnlyAirportPage slug={slug} />;
@@ -231,8 +233,11 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  const guide = await getAirportGuideSummaryByIata(airport.iata);
-  return <AirportDetailTabs airport={airport} guide={guide} />;
+  const [guide, seedReviews] = await Promise.all([
+    getAirportGuideSummaryByIata(airport.iata),
+    getEditorialReviews(airport.iata),
+  ]);
+  return <AirportDetailTabs airport={airport} guide={guide} seedReviews={seedReviews} />;
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {

@@ -1,18 +1,11 @@
-import { Suspense } from "react";
 import { AirportDirectory } from "@/app/components/airport-directory";
-import { AirportGuideIndex } from "@/app/components/airport-guide-index";
-import { GuideIndexSkeleton } from "@/app/components/loading-skeletons";
-import { getAllHonestAirports } from "@/lib/airport-utils";
+import { getAllAirports, getAllHonestAirports } from "@/lib/airport-content";
 
-export default function HomePage() {
-  const airports = getAllHonestAirports();
+export default async function HomePage() {
+  const [scoredAirports, allAirports] = await Promise.all([
+    getAllHonestAirports(),
+    getAllAirports(),
+  ]);
 
-  return (
-    <>
-      <AirportDirectory airports={airports} />
-      <Suspense fallback={<GuideIndexSkeleton />}>
-        <AirportGuideIndex />
-      </Suspense>
-    </>
-  );
+  return <AirportDirectory scoredAirports={scoredAirports} allAirports={allAirports} />;
 }

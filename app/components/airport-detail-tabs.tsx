@@ -38,6 +38,7 @@ import {
 } from "@/lib/airport-utils";
 import { formatGuideDate } from "@/lib/utils";
 import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
+import type { AirportUserReview } from "@/lib/review-schema";
 import type { Airport, AmenityCategory } from "@/lib/types";
 
 interface AirportDetailTabsProps {
@@ -48,6 +49,8 @@ interface AirportDetailTabsProps {
   iata?: string;
   /** Full markdown guide body; when set, renders a Full Guide tab. */
   guideMarkdown?: string;
+  /** Editorial reviews shown alongside live community reviews. */
+  seedReviews?: AirportUserReview[];
 }
 
 function amenityIcon(category: AmenityCategory) {
@@ -161,6 +164,7 @@ export function AirportDetailTabs({
   guide,
   iata: iataProp,
   guideMarkdown,
+  seedReviews,
 }: AirportDetailTabsProps) {
   const iata = airport?.iata ?? iataProp;
 
@@ -530,7 +534,7 @@ export function AirportDetailTabs({
       <TabsContent value="reviews">
         <AirportReviews
           iata={iata}
-          seedReviews={airport?.reviews}
+          seedReviews={seedReviews}
           className="max-w-3xl"
         />
       </TabsContent>

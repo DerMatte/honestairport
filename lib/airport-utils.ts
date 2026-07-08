@@ -1,4 +1,3 @@
-import { airports } from "@/lib/data";
 import type {
   Airport,
   AirportFilters,
@@ -14,6 +13,8 @@ export const regions: Region[] = [
   "Europe",
   "Asia-Pacific",
   "Middle East",
+  "South America",
+  "Africa",
 ];
 
 export const amenityCategories: AmenityCategory[] = [
@@ -33,19 +34,6 @@ export const disruptionStatuses: DisruptionStatus[] = [
   "moderate",
   "severe",
 ];
-
-export function getAllHonestAirports(): Airport[] {
-  return [...airports].sort((a, b) => b.airportistScore - a.airportistScore);
-}
-
-export function getAirportBySlug(slug: string): Airport | undefined {
-  const normalized = slug.trim().toLowerCase();
-  return airports.find((airport) => airport.slug === normalized);
-}
-
-export function getAirportSlugs(): string[] {
-  return airports.map((airport) => airport.slug);
-}
 
 export function filterAndSortAirports(
   airportList: Airport[],
@@ -86,7 +74,7 @@ export function filterAndSortAirports(
       case "highest-score":
         return b.airportistScore - a.airportistScore;
       case "most-reviewed":
-        return b.reviews.length - a.reviews.length;
+        return b.reviewCount - a.reviewCount;
       case "least-disruptions":
         return disruptionSeverityRank(a.disruption.status) - disruptionSeverityRank(b.disruption.status);
       default: {
@@ -222,6 +210,18 @@ export function formatDateTime(value: Date): string {
   }).format(value);
 }
 
+/** Formats an ISO date string as a short "how fresh is this guide" label. */
+export function formatGuideFreshness(isoDate: string): string {
+  const updated = new Date(isoDate);
+  const days = Math.floor((Date.now() - updated.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (days <= 0) return "Updated today";
+  if (days === 1) return "Updated yesterday";
+  if (days < 14) return `Updated ${days}d ago`;
+
+  return `Updated ${new Intl.DateTimeFormat("en", { month: "short", day: "numeric" }).format(updated)}`;
+}
+
 export function airportJsonLd(airport: Airport) {
   return {
     "@context": "https://schema.org",
@@ -243,7 +243,7 @@ export function airportJsonLd(airport: Airport) {
       "@type": "AggregateRating",
       ratingValue: airport.airportistScore,
       bestRating: 10,
-      ratingCount: airport.reviews.length,
+      ratingCount: airport.reviewCount,
     },
   };
 }

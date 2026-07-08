@@ -4,6 +4,7 @@ import {
   AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
   AIRPORT_GUIDES_CACHE_TAG,
   AIRPORT_IMAGES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
 } from "@/lib/airport-content";
 
 /**
@@ -26,8 +27,14 @@ export async function POST(request: NextRequest) {
   revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
   revalidateTag(AIRPORT_IMAGES_CACHE_TAG, { expire: 0 });
   revalidateTag(AIRPORT_GOOGLE_RATINGS_CACHE_TAG, { expire: 0 });
+  revalidateTag(AIRPORT_PROFILES_CACHE_TAG, { expire: 0 });
   return NextResponse.json({
     revalidated: true,
-    tags: [AIRPORT_GUIDES_CACHE_TAG, AIRPORT_IMAGES_CACHE_TAG, AIRPORT_GOOGLE_RATINGS_CACHE_TAG],
+    tags: [
+      AIRPORT_GUIDES_CACHE_TAG,
+      AIRPORT_IMAGES_CACHE_TAG,
+      AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
+      AIRPORT_PROFILES_CACHE_TAG,
+    ],
   });
 }

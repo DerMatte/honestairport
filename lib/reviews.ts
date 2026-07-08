@@ -22,7 +22,31 @@ export async function getReviewsByIata(iata: string): Promise<AirportUserReview[
   const rows = await getDb()
     .select()
     .from(airportReviews)
-    .where(and(eq(airportReviews.iata, iata), eq(airportReviews.status, "published")))
+    .where(
+      and(
+        eq(airportReviews.iata, iata),
+        eq(airportReviews.status, "published"),
+        eq(airportReviews.source, "community"),
+      ),
+    )
+    .orderBy(desc(airportReviews.createdAt))
+    .limit(MAX_REVIEWS_LISTED);
+
+  return rows.map(toAirportUserReview);
+}
+
+/** Curated reviews seeded from our own scoring/editorial process, shown as a separate lane. */
+export async function getEditorialReviewsByIata(iata: string): Promise<AirportUserReview[]> {
+  const rows = await getDb()
+    .select()
+    .from(airportReviews)
+    .where(
+      and(
+        eq(airportReviews.iata, iata),
+        eq(airportReviews.status, "published"),
+        eq(airportReviews.source, "editorial"),
+      ),
+    )
     .orderBy(desc(airportReviews.createdAt))
     .limit(MAX_REVIEWS_LISTED);
 

@@ -14,6 +14,15 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import type { AirportBentoTip, AirportLounge } from "@/lib/airport-guides";
+import type {
+  Amenity,
+  Disruption,
+  Region,
+  AirportScoreBreakdown,
+  AirportStats,
+  Tip,
+  TransportOption,
+} from "@/lib/types";
 
 export const airportReviews = pgTable(
   "airport_reviews",
@@ -29,6 +38,11 @@ export const airportReviews = pgTable(
     status: text("status", { enum: ["published", "hidden"] })
       .notNull()
       .default("published"),
+    // "editorial" = curated by us (seeded from the old scored-airport dataset),
+    // "community" = submitted through the public review form.
+    source: text("source", { enum: ["editorial", "community"] })
+      .notNull()
+      .default("community"),
     ipHash: text("ip_hash"),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -133,3 +147,44 @@ export const airportGoogleRatings = pgTable("airport_google_ratings", {
 
 export type AirportGoogleRatingRow = typeof airportGoogleRatings.$inferSelect;
 export type NewAirportGoogleRatingRow = typeof airportGoogleRatings.$inferInsert;
+
+/** jsonb can't hold a `Date`, so `lastUpdated` is stored as an ISO string here. */
+export type AirportProfileDisruption = Omit<Disruption, "lastUpdated"> & {
+  lastUpdated: string;
+};
+
+/**
+ * Editorial scoring/curation data for our most deeply audited airports —
+ * Airportist Score, amenities, tips, transport options, disruption badge.
+ * Deliberately separate from `airport_guides` (which the AI content pipeline
+ * overwrites wholesale) so that pipeline never needs to know about, or risk
+ * clobbering, hand-curated scoring data. Joined to `airport_guides` by
+ * `iata` (soft key, no FK, matching the other per-concern tables here) for
+ * name/city/country, which stay authoritative there.
+ */
+export const airportProfiles = pgTable("airport_profiles", {
+  iata: varchar("iata", { length: 3 }).primaryKey(),
+  icao: varchar("icao", { length: 4 }).notNull(),
+  shortName: text("short_name").notNull(),
+  region: text("region", {
+    enum: ["North America", "Europe", "Asia-Pacific", "Middle East", "South America", "Africa"],
+  })
+    .notNull()
+    .$type<Region>(),
+  latitude: real("latitude").notNull(),
+  longitude: real("longitude").notNull(),
+  airportistScore: real("airportist_score").notNull(),
+  scoreBreakdown: jsonb("score_breakdown").$type<AirportScoreBreakdown>().notNull(),
+  stats: jsonb("stats").$type<AirportStats>().notNull(),
+  summary: text("summary").notNull(),
+  bestFor: jsonb("best_for").$type<string[]>().notNull().default([]),
+  watchOutFor: jsonb("watch_out_for").$type<string[]>().notNull().default([]),
+  amenities: jsonb("amenities").$type<Amenity[]>().notNull().default([]),
+  tips: jsonb("tips").$type<Tip[]>().notNull().default([]),
+  transport: jsonb("transport").$type<TransportOption[]>().notNull().default([]),
+  disruption: jsonb("disruption").$type<AirportProfileDisruption>().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export type AirportProfileRow = typeof airportProfiles.$inferSelect;
+export type NewAirportProfileRow = typeof airportProfiles.$inferInsert;

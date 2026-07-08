@@ -2,7 +2,9 @@ export type Region =
   | "North America"
   | "Europe"
   | "Asia-Pacific"
-  | "Middle East";
+  | "Middle East"
+  | "South America"
+  | "Africa";
 
 export type DisruptionStatus = "normal" | "minor" | "moderate" | "severe";
 
@@ -106,12 +108,6 @@ export interface AirportStats {
   averageSecurityMinutes: number;
 }
 
-export interface AirportPhoto {
-  id: string;
-  alt: string;
-  colorClass: string;
-}
-
 export interface Airport {
   slug: string;
   iata: string;
@@ -136,8 +132,8 @@ export interface Airport {
   tips: Tip[];
   transport: TransportOption[];
   disruption: Disruption;
-  reviews: Review[];
-  photos: AirportPhoto[];
+  /** Published review count (editorial + community), for sorting/ratingCount display. */
+  reviewCount: number;
 }
 
 export interface AirportFilters {
