@@ -396,6 +396,7 @@ export function AirportSearchDialog({
       onOpenChange={handleOpenChange}
       title="Search airports"
       description="Search airports by code, name, city, or country."
+      showCloseButton={false}
       className="max-w-2xl overflow-hidden rounded-2xl border-border/70 p-0 shadow-2xl shadow-primary/10 sm:max-w-3xl"
       onOpenAutoFocus={focusSearchInput}
     >

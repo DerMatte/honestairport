@@ -1,5 +1,16 @@
 import { AlertTriangle, Clock3, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Fixed locale + zone so the label doesn't depend on where it renders
+// (server locale) and can't mismatch on hydration.
+const fetchedAtFormatter = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+  timeZone: "UTC",
+});
 import type { AirportLiveData, AirportDisruption, SecurityCheckpoint } from "@/lib/airport-live-data";
 
 interface AirportLiveStatusProps {
@@ -224,7 +235,7 @@ export function AirportLiveStatus({ data, className }: AirportLiveStatusProps) {
       </section>
 
       <p className="md:col-span-2 text-[11px] text-zinc-500 dark:text-zinc-400">
-        Live data fetched at {new Date(data.fetchedAt).toLocaleString()} • Estimates only — always confirm with official sources before travel.
+        Live data fetched {fetchedAtFormatter.format(new Date(data.fetchedAt))} UTC • Estimates only — always confirm with official sources before travel.
       </p>
     </div>
   );

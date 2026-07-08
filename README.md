@@ -28,7 +28,7 @@ Open http://localhost:3000 to view the directory.
 - Sort options for Highest Score, Most Reviewed, and Least Disruptions
 - Lightweight static world map with clickable airport pins
 - Detail pages at `/airports/[slug]`
-- Tabs for Overview, Getting There, Facilities & Amenities, Traveler Tips & Hacks, Current Disruptions, and Reviews & Photos
+- Tabs for Overview, Getting There, Facilities & Amenities, Traveler Tips & Hacks, Current Disruptions, and Reviews
 - Flighty-style mock disruption data with delay percentages, cancellation pressure, alert tags, and update timestamps
 - SEO metadata and airport JSON-LD
 - Loading skeletons and empty states

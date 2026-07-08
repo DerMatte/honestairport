@@ -92,8 +92,8 @@ export default async function RootLayout({
               HonestAirport
             </span>
             <p className="max-w-2xl text-xs leading-5 text-muted-foreground">
-              Airportist Scores are editorial mock data for this starter. Always
-              verify live rules, terminals, and operational alerts with official
+              Airportist Scores and guides are editorial content. Always verify
+              live rules, terminals, and operational alerts with official
               airport and airline sources.
             </p>
           </div>

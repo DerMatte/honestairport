@@ -277,7 +277,7 @@ export function AirportDirectory({ airports }: AirportDirectoryProps) {
               <p className="text-xs text-muted-foreground">
                 {activeFilterCount > 0
                   ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} active`
-                  : "Showing the full HonestAirport starter set"}
+                  : "Showing all scored airports"}
               </p>
             </div>
 

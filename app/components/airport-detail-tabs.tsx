@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import {
   Baby,
   Bus,
-  Camera,
   Car,
   CheckCircle2,
   Coffee,
@@ -31,21 +30,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   amenityLabel,
   tipCategoryLabel,
 } from "@/lib/airport-utils";
-import { cn } from "@/lib/utils";
+import { formatGuideDate } from "@/lib/utils";
 import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
 import type { Airport, AmenityCategory } from "@/lib/types";
 
@@ -146,21 +137,6 @@ function GuideSectionCard({
   );
 }
 
-function formatGuideDate(value: string) {
-  const date = new Date(`${value}T00:00:00Z`);
-
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(date);
-}
-
 function TransportIcon({ type }: { type: Airport["transport"][number]["type"] }) {
   switch (type) {
     case "train":
@@ -226,7 +202,7 @@ export function AirportDetailTabs({
               <TabsTrigger value="guide">Full Guide</TabsTrigger>
             ) : null}
             <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews & Photos</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
           </TabsList>
         </div>
 
@@ -529,53 +505,12 @@ export function AirportDetailTabs({
         </Card>
       </TabsContent>
 
-      <TabsContent
-        value="reviews"
-        className={cn("grid gap-4", airport && "lg:grid-cols-[1fr_360px]")}
-      >
-        <AirportReviews iata={iata} seedReviews={airport?.reviews} />
-
-        {airport ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Camera className="size-4" aria-hidden="true" />
-              Photo Preview
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            {airport.photos.map((photo) => (
-              <Dialog key={photo.id}>
-                <DialogTrigger className="text-left">
-                  <div
-                    className={cn(
-                      "flex h-28 items-end rounded-2xl bg-gradient-to-br p-4 text-sm font-medium text-white shadow-sm transition hover:scale-[1.01]",
-                      photo.colorClass,
-                    )}
-                  >
-                    {photo.alt}
-                  </div>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>{photo.alt}</DialogTitle>
-                    <DialogDescription>
-                      Placeholder photo treatment for the MVP starter. Replace with
-                      `next/image` assets when production photos are available.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div
-                    className={cn(
-                      "h-72 rounded-2xl bg-gradient-to-br",
-                      photo.colorClass,
-                    )}
-                  />
-                </DialogContent>
-              </Dialog>
-            ))}
-          </CardContent>
-        </Card>
-        ) : null}
+      <TabsContent value="reviews">
+        <AirportReviews
+          iata={iata}
+          seedReviews={airport?.reviews}
+          className="max-w-3xl"
+        />
       </TabsContent>
       </Tabs>
     </AirportLiveStatusProvider>

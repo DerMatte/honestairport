@@ -455,6 +455,13 @@ export function AirportReviews({
         </div>
       ) : null}
 
+      {state.status === "ready" && state.reviews.length === 0 && seedReviews.length === 0 ? (
+        <p className="rounded-2xl border border-dashed bg-card p-5 text-sm text-muted-foreground">
+          No traveler reviews yet — be the first to share what this airport is
+          really like.
+        </p>
+      ) : null}
+
       {state.status === "ready" ? (
         <div className="space-y-4">
           {state.reviews.map((review) => (

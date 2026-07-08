@@ -384,7 +384,7 @@ async function fetchSecurityWaitTimes(iata: string): Promise<AirportLiveData["se
     supported: false,
     checkpoints: [],
     message:
-      "Live checkpoint wait times are not published for this airport. Check the official airport site or Heathrow app before travel.",
+      "Live checkpoint wait times are not published for this airport. Check the official airport site or app before travel.",
   };
 }
 

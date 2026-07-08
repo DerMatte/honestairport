@@ -23,7 +23,9 @@ export function rowToAirportGoogleRating(row: AirportGoogleRatingRow): AirportGo
     placeName: row.placeName,
     rating: row.rating,
     reviewCount: row.reviewCount,
-    fetchedAt: row.fetchedAt.toISOString(),
+    // `unstable_cache` JSON-serializes rows, so on cache hits `fetchedAt`
+    // arrives as an ISO string rather than a Date.
+    fetchedAt: new Date(row.fetchedAt).toISOString(),
   };
 }
 

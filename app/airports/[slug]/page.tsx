@@ -22,6 +22,7 @@ import {
   type AirportGoogleRating,
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
+import { formatGuideDate } from "@/lib/utils";
 
 interface AirportPageProps {
   params: Promise<{ slug: string }>;
@@ -287,7 +288,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 <div>
                   <div className="text-sm text-muted-foreground">Guide quick facts</div>
                   <div className="mt-1 text-xs text-muted-foreground">
-                    Updated {guide.lastUpdated}
+                    Updated {formatGuideDate(guide.lastUpdated)}
                   </div>
                 </div>
                 <div className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
