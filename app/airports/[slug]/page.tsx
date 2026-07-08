@@ -212,14 +212,17 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         </section>
 
         <section className="mt-10">
-          <Suspense fallback={<TipBentoSkeleton />}>
-            <CuratedAirportTips airport={airport} />
-          </Suspense>
-        </section>
-
-        <section className="mt-10">
-          <Suspense fallback={<DetailTabsSkeleton />}>
-            <CuratedAirportDetails airport={airport} />
+          <Suspense
+            fallback={
+              <>
+                <TipBentoSkeleton />
+                <div className="mt-10">
+                  <DetailTabsSkeleton />
+                </div>
+              </>
+            }
+          >
+            <CuratedAirportGuideSections airport={airport} />
           </Suspense>
         </section>
       </div>
@@ -227,17 +230,20 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
   );
 }
 
-async function CuratedAirportTips({ airport }: { airport: Airport }) {
-  const guide = await getAirportGuideSummaryByIata(airport.iata);
-  return <AirportTipBento airport={airport} guideTips={guide?.importantTips} />;
-}
-
-async function CuratedAirportDetails({ airport }: { airport: Airport }) {
+async function CuratedAirportGuideSections({ airport }: { airport: Airport }) {
   const [guide, seedReviews] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
   ]);
-  return <AirportDetailTabs airport={airport} guide={guide} seedReviews={seedReviews} />;
+
+  return (
+    <>
+      <AirportTipBento airport={airport} guideTips={guide?.importantTips} />
+      <section className="mt-10">
+        <AirportDetailTabs airport={airport} guide={guide} seedReviews={seedReviews} />
+      </section>
+    </>
+  );
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {

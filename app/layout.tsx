@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
-import { SiteHeader } from "@/app/components/site-header";
-import { getAirportSearchEntries } from "@/lib/airport-search";
+import { SiteHeaderSearch } from "@/app/components/site-header-search";
+import { SiteHeaderSearchFallback } from "@/app/components/site-header-search-fallback";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -60,13 +61,11 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const airports = await getAirportSearchEntries();
-
   return (
     <html
       lang="en"
@@ -89,7 +88,9 @@ export default async function RootLayout({
                 HonestAirport
               </span>
             </Link>
-            <SiteHeader airports={airports} />
+            <Suspense fallback={<SiteHeaderSearchFallback />}>
+              <SiteHeaderSearch />
+            </Suspense>
           </div>
         </header>
         <main id="main-content" className="flex-1">

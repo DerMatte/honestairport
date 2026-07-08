@@ -16,15 +16,18 @@ import type { AirportLiveData } from "@/lib/airport-live-data";
 
 interface AirportLiveStatusLoaderProps {
   iata: string;
+  enabled?: boolean;
   className?: string;
 }
 
 interface AirportLiveStatusProviderProps {
   iata: string;
+  enabled?: boolean;
   children: ReactNode;
 }
 
 type LiveStatusState =
+  | { status: "idle"; data?: never; error?: never }
   | { status: "loading"; data?: never; error?: never }
   | { status: "ready"; data: AirportLiveData; error?: never }
   | { status: "error"; data?: never; error: string };
@@ -53,11 +56,17 @@ function AirportLiveStatusSkeleton({ className }: { className?: string }) {
   );
 }
 
-function useAirportLiveStatus(iata: string): LiveStatusController {
-  const [state, setState] = useState<LiveStatusState>({ status: "loading" });
+function useAirportLiveStatus(iata: string, enabled: boolean): LiveStatusController {
+  const [state, setState] = useState<LiveStatusState>(() =>
+    enabled ? { status: "loading" } : { status: "idle" },
+  );
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function loadLiveStatus() {
@@ -91,7 +100,7 @@ function useAirportLiveStatus(iata: string): LiveStatusController {
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey]);
+  }, [enabled, iata, reloadKey]);
 
   return {
     state,
@@ -107,6 +116,10 @@ function AirportLiveStatusRenderer({
   controller: LiveStatusController;
 }) {
   const { state, reload } = controller;
+
+  if (state.status === "idle") {
+    return null;
+  }
 
   if (state.status === "loading") {
     return <AirportLiveStatusSkeleton className={className} />;
@@ -139,9 +152,10 @@ function AirportLiveStatusRenderer({
 
 export function AirportLiveStatusProvider({
   iata,
+  enabled = true,
   children,
 }: AirportLiveStatusProviderProps) {
-  const controller = useAirportLiveStatus(iata);
+  const controller = useAirportLiveStatus(iata, enabled);
 
   return (
     <AirportLiveStatusContext.Provider value={controller}>
@@ -164,9 +178,10 @@ export function AirportLiveStatusPanel({
 
 export function AirportLiveStatusLoader({
   iata,
+  enabled = true,
   className,
 }: AirportLiveStatusLoaderProps) {
-  const controller = useAirportLiveStatus(iata);
+  const controller = useAirportLiveStatus(iata, enabled);
 
   return <AirportLiveStatusRenderer className={className} controller={controller} />;
 }
