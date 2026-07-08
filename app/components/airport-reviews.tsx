@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { useReviewsFetchEnabled } from "@/app/components/airport-detail-tabs-shell";
 import { cn } from "@/lib/utils";
 import {
   TRIP_TYPES,
@@ -34,6 +35,7 @@ interface AirportReviewsProps {
 }
 
 type ReviewsState =
+  | { status: "idle" }
   | { status: "loading" }
   | { status: "ready"; reviews: AirportUserReview[] }
   | { status: "error"; error: string }
@@ -333,10 +335,15 @@ export function AirportReviews({
   showHeading = false,
   className,
 }: AirportReviewsProps) {
-  const [state, setState] = useState<ReviewsState>({ status: "loading" });
+  const fetchEnabled = useReviewsFetchEnabled();
+  const [state, setState] = useState<ReviewsState>({ status: "idle" });
   const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
+    if (!fetchEnabled) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function loadReviews() {
@@ -375,7 +382,7 @@ export function AirportReviews({
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey]);
+  }, [fetchEnabled, iata, reloadKey]);
 
   const handleCreated = useCallback((review: AirportUserReview) => {
     setState((current) =>
@@ -395,6 +402,36 @@ export function AirportReviews({
 
     return { count: state.reviews.length, average };
   }, [state]);
+
+  if (state.status === "idle") {
+    return (
+      <section className={cn("space-y-4", className)} aria-label="Traveler reviews">
+        {showHeading ? (
+          <div>
+            <p className="text-sm font-medium text-primary">Traveler reviews</p>
+            <h2 className="text-2xl font-semibold tracking-tight">What travelers say</h2>
+          </div>
+        ) : null}
+        {seedReviews.length > 0 ? (
+          <div className="space-y-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              From our editors
+            </p>
+            {seedReviews.map((review) => (
+              <ReviewCard
+                key={review.id}
+                author={review.author}
+                meta={`${review.tripType} · ${dateFormatter.format(new Date(review.createdAt))}`}
+                rating={review.rating}
+                title={review.title}
+                body={review.body}
+              />
+            ))}
+          </div>
+        ) : null}
+      </section>
+    );
+  }
 
   if (state.status === "unavailable" && seedReviews.length === 0) {
     return null;

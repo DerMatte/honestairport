@@ -7,11 +7,13 @@
  *
  * Domain types, parsing, validation, and writes live in `lib/airport-guides.ts`.
  */
+import { cache } from "react";
 import { cacheLife, cacheTag } from "next/cache";
 import {
   fetchAirportGuideRow,
-  fetchAllAirportGuideRows,
+  fetchAllAirportGuideSummaries,
   getAirportGuideSummary,
+  listAirportGuideIatas,
   rowToAirportContent,
   rowToAirportSummary,
   type AirportContent,
@@ -87,20 +89,19 @@ export async function getAirportContent(iata: string): Promise<AirportContent | 
   return row ? rowToAirportContent(row) : null;
 }
 
-export async function getAirportGuideSummaryByIata(
-  iata: string,
-): Promise<AirportGuideSummary | null> {
-  const content = await getAirportContent(iata);
-  return content ? getAirportGuideSummary(content) : null;
-}
+export const getAirportGuideSummaryByIata = cache(
+  async (iata: string): Promise<AirportGuideSummary | null> => {
+    const content = await getAirportContent(iata);
+    return content ? getAirportGuideSummary(content) : null;
+  },
+);
 
 export async function getAllAirportIatas(): Promise<string[]> {
   "use cache";
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
 
-  const rows = await fetchAllAirportGuideRows();
-  return rows.map((row) => row.iata.toUpperCase()).sort();
+  return listAirportGuideIatas();
 }
 
 export async function getAllAirports(): Promise<AirportSummary[]> {
@@ -108,7 +109,7 @@ export async function getAllAirports(): Promise<AirportSummary[]> {
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
 
-  const rows = await fetchAllAirportGuideRows();
+  const rows = await fetchAllAirportGuideSummaries();
   return rows
     .map(rowToAirportSummary)
     .sort((a, b) => a.name.localeCompare(b.name));

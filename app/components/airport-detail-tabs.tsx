@@ -16,8 +16,10 @@ import {
 } from "lucide-react";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import {
+  AirportDetailTabsShell,
+} from "@/app/components/airport-detail-tabs-shell";
+import {
   AirportLiveStatusPanel,
-  AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
@@ -31,7 +33,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   amenityLabel,
   tipCategoryLabel,
@@ -189,9 +191,8 @@ export function AirportDetailTabs({
   );
 
   return (
-    <AirportLiveStatusProvider iata={iata}>
-      <Tabs defaultValue="overview" className="gap-6">
-        <div className="overflow-x-auto pb-1">
+    <AirportDetailTabsShell iata={iata}>
+      <div className="overflow-x-auto pb-1">
           <TabsList className="w-max" variant="line">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             {showGettingThere ? (
@@ -538,7 +539,6 @@ export function AirportDetailTabs({
           className="max-w-3xl"
         />
       </TabsContent>
-      </Tabs>
-    </AirportLiveStatusProvider>
+    </AirportDetailTabsShell>
   );
 }
