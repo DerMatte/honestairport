@@ -103,9 +103,18 @@ export async function GET(_request: Request, { params }: RouteParams) {
 
         let text = "";
         try {
-          for await (const chunk of result.textStream) {
-            text += chunk;
-            safeEnqueue(chunk);
+          // `textStream` swallows model errors (the stream just ends), so an
+          // upstream failure used to fall through to the save step with empty
+          // text and get reported as a bogus "quality checks" failure. Read
+          // `fullStream` instead and rethrow error parts.
+          for await (const part of result.fullStream) {
+            if (part.type === "error") {
+              throw part.error;
+            }
+            if (part.type === "text-delta") {
+              text += part.text;
+              safeEnqueue(part.text);
+            }
           }
         } catch (error) {
           console.error(`Guide generation stream failed for ${normalized}:`, error);

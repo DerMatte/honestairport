@@ -121,6 +121,13 @@ export function createAirportGuideStream(
     model: gateway("xai/grok-4.5"),
     prompt,
     temperature: 0.3,
+    providerOptions: {
+      // grok-4.5 has been returning sustained 503s from xAI; without fallback
+      // models the gateway gives up and on-the-fly generation dies entirely.
+      gateway: {
+        models: ["xai/grok-4.3", "anthropic/claude-sonnet-5"],
+      },
+    },
   });
 }
 

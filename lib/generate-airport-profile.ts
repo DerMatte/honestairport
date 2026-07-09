@@ -55,6 +55,13 @@ export async function generateAirportScoreProfile(
     schema: airportScoreProfileSchema,
     prompt: buildAirportScorePrompt(normalizedIata, record, guideMarkdown),
     temperature: 0.3,
+    providerOptions: {
+      // Same fallback chain as guide generation: xAI 503s on grok-4.5 must
+      // not leave a freshly generated guide permanently unscored.
+      gateway: {
+        models: ["xai/grok-4.3", "anthropic/claude-sonnet-5"],
+      },
+    },
   });
 
   return {
