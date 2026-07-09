@@ -13,12 +13,6 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
     ],
   },
-  // Vercel's output file tracing has been missing sharp's native libvips .so
-  // (dlopen'd, not require()'d, so static tracing can miss it) on airport
-  // routes, causing ERR_DLOPEN_FAILED at runtime. Force it in explicitly.
-  outputFileTracingIncludes: {
-    "/*": ["./node_modules/sharp/**/*", "./node_modules/@img/**/*"],
-  },
   experimental: {
     instantNavigationDevToolsToggle: true,
     // Prerender workers each open a DB pool; cap them so builds stay under
