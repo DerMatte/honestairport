@@ -27,6 +27,10 @@ import {
 import { cn } from "@/lib/utils";
 import type { AirportFilters } from "@/lib/types";
 
+function keepFocusOnTouch(event: React.PointerEvent) {
+  event.preventDefault();
+}
+
 interface ActiveFilterTagProps {
   label: string;
   onClear: () => void;
@@ -195,6 +199,7 @@ function SearchResults({
           <CommandItem
             value={`example-airport-${examples.airport.iata}`}
             onSelect={() => onSelectAirport(examples.airport)}
+            onPointerDown={keepFocusOnTouch}
             onFocus={() => onPreviewAirport?.(examples.airport)}
             onMouseEnter={() => onPreviewAirport?.(examples.airport)}
           >
@@ -211,6 +216,7 @@ function SearchResults({
           <CommandItem
             value={`example-city-${examples.city.value}`}
             onSelect={() => onSelectLocation("city", examples.city.value)}
+            onPointerDown={keepFocusOnTouch}
           >
             <Building2 className="size-4 text-muted-foreground" aria-hidden="true" />
             <span className="min-w-0 flex-1">
@@ -223,6 +229,7 @@ function SearchResults({
           <CommandItem
             value={`example-country-${examples.country.value}`}
             onSelect={() => onSelectLocation("country", examples.country.value)}
+            onPointerDown={keepFocusOnTouch}
           >
             <Globe2 className="size-4 text-muted-foreground" aria-hidden="true" />
             <span className="min-w-0 flex-1">
@@ -242,6 +249,7 @@ function SearchResults({
               key={airport.iata}
               value={`${airport.iata}-${airport.slug}`}
               onSelect={() => onSelectAirport(airport)}
+              onPointerDown={keepFocusOnTouch}
               onFocus={() => onPreviewAirport?.(airport)}
               onMouseEnter={() => onPreviewAirport?.(airport)}
             >
@@ -265,6 +273,7 @@ function SearchResults({
               key={`city-${option.value}`}
               value={`city-${option.value}`}
               onSelect={() => onSelectLocation("city", option.value)}
+              onPointerDown={keepFocusOnTouch}
             >
               <Building2 className="size-4 text-muted-foreground" aria-hidden="true" />
               <span className="min-w-0 flex-1">
@@ -285,6 +294,7 @@ function SearchResults({
               key={`country-${option.value}`}
               value={`country-${option.value}`}
               onSelect={() => onSelectLocation("country", option.value)}
+              onPointerDown={keepFocusOnTouch}
             >
               <Globe2 className="size-4 text-muted-foreground" aria-hidden="true" />
               <span className="min-w-0 flex-1">
@@ -415,7 +425,6 @@ export function AirportSearchDialog({
   }
 
   function handleSelectAirport(airport: SearchableLocation) {
-    prefetchAirport(airport);
     handleOpenChange(false);
     router.push(`/airports/${airport.slug}`);
   }
@@ -457,6 +466,8 @@ export function AirportDirectorySearch({
   filters,
   onFiltersChange,
 }: AirportDirectorySearchProps) {
+  const router = useRouter();
+  const resultsPanelRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
   const query = filters.query;
   const scope = filters.searchScope;
@@ -484,12 +495,8 @@ export function AirportDirectorySearch({
   }
 
   function handleSelectAirport(airport: SearchableLocation) {
-    onFiltersChange({
-      ...filters,
-      searchScope: "all",
-      query: airport.iata,
-    });
     setFocused(false);
+    router.push(`/airports/${airport.slug}`);
   }
 
   function clearLocationFilter() {
@@ -509,14 +516,22 @@ export function AirportDirectorySearch({
             onClearLocationFilter={clearLocationFilter}
             onFocus={() => setFocused(true)}
             onBlur={() => {
-              window.setTimeout(() => setFocused(false), 150);
+              window.setTimeout(() => {
+                if (resultsPanelRef.current?.contains(document.activeElement)) {
+                  return;
+                }
+                setFocused(false);
+              }, 150);
             }}
             showSearchIcon
           />
         </div>
 
         {showPanel ? (
-          <div className="absolute top-[calc(100%+0.5rem)] z-50 w-full overflow-hidden rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/5">
+          <div
+            ref={resultsPanelRef}
+            className="absolute top-[calc(100%+0.5rem)] z-50 w-full overflow-hidden rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/5"
+          >
             <SearchResults
               query={inputQuery}
               airports={airports}

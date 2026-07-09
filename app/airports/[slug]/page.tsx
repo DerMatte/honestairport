@@ -37,11 +37,6 @@ interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const unstable_instant = {
-  prefetch: "runtime",
-  samples: [{ params: { slug: "jfk" } }],
-};
-
 export async function generateStaticParams() {
   const [guideIatas, scoredSlugs] = await Promise.all([
     getAllAirportIatas(),
@@ -131,17 +126,26 @@ export async function generateMetadata({
 export default function AirportPage({ params }: AirportPageProps) {
   return (
     <Suspense fallback={<AirportPageSkeleton />}>
-      <AirportPageRoute params={params} />
+      {params.then(({ slug }) => (
+        <AirportPageContent slug={slug} />
+      ))}
     </Suspense>
   );
 }
 
-async function AirportPageRoute({ params }: AirportPageProps) {
-  const { slug } = await params;
+function AirportPageContent({ slug }: { slug: string }) {
+  return <AirportPageResolved slug={slug} />;
+}
+
+async function AirportPageResolved({ slug }: { slug: string }) {
   const airport = await getAirportBySlug(slug);
 
   if (!airport) {
-    return <GuideOnlyAirportPage slug={slug} />;
+    return (
+      <Suspense fallback={<AirportPageSkeleton />}>
+        <GuideOnlyAirportPage slug={slug} />
+      </Suspense>
+    );
   }
 
   return <CuratedAirportPage airport={airport} />;
