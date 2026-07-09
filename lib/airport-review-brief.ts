@@ -28,7 +28,7 @@ Write like an experienced frequent flyer sharing hard-won airport knowledge:
 4. **Lounges** — access rules, which lounges are worth paying for, overcrowding patterns
 5. **Infrastructure & navigation** — terminal layout, common wrong turns, construction impacts
 6. **Wi‑Fi & power** — login quirks, time limits, best charging/seating spots
-7. **Water & basics** — refill stations, bottle prices, where to buy cheaply airside/landside
+7. **Water & basics** — refill stations, bottle prices, and landmark-relative locations (e.g. next to Heinemann, opposite McDonald's) airside/landside
 8. **Food & amenities** — standout options vs. traps; order-ahead hacks where relevant
 9. **News & changes** — recent terminal openings, rule changes, strike/disruption patterns (only if verified)
 

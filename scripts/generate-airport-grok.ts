@@ -81,13 +81,46 @@ const loungeSchema = z.object({
   name: nonEmpty,
   terminal: nonEmpty,
   zone: optionalNonEmpty,
-  access: z.array(nonEmpty).min(1),
+  access: z.array(nonEmpty).optional(),
   hours: optionalNonEmpty,
   amenities: z.array(nonEmpty).optional(),
   bestFor: z.array(nonEmpty).optional(),
-  verdict: z.enum(["worth-it", "depends", "skip"]),
+  verdict: z.enum(["worth-it", "depends", "skip"]).optional(),
   summary: nonEmpty,
 });
+
+const waterOptionSchema = z
+  .object({
+    kind: z.enum(["purchase", "refill", "free"]),
+    name: nonEmpty,
+    terminal: nonEmpty,
+    location: nonEmpty.min(
+      12,
+      "must name a walkable landmark (e.g. next to Heinemann, opposite McDonald's)",
+    ),
+    zone: z.enum(["airside", "landside"]).optional(),
+    price: optionalNonEmpty,
+    summary: nonEmpty,
+    isBestValue: z.boolean().optional(),
+    isBestQuality: z.boolean().optional(),
+  })
+  .superRefine((option, ctx) => {
+    if (option.kind === "purchase" && !option.price) {
+      ctx.addIssue({
+        code: "custom",
+        message: "purchase options must include a price",
+        path: ["price"],
+      });
+    }
+
+    if (option.location.trim().toLowerCase() === option.terminal.trim().toLowerCase()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "location must be more specific than the terminal name alone",
+        path: ["location"],
+      });
+    }
+  });
 
 // --- Airportist Score profile fields ---------------------------------------------
 //
@@ -122,6 +155,24 @@ const guideJsonSchema = z.object({
       "bentoTips must cover all four categories exactly once",
     ),
   lounges: boundedArray(loungeSchema, 2, 6),
+  waterOptions: boundedArray(waterOptionSchema, 2, 6).superRefine((options, ctx) => {
+    const bestValueCount = options.filter((option) => option.isBestValue).length;
+    const bestQualityCount = options.filter((option) => option.isBestQuality).length;
+
+    if (bestValueCount !== 1) {
+      ctx.addIssue({
+        code: "custom",
+        message: "exactly one water option must set isBestValue: true",
+      });
+    }
+
+    if (bestQualityCount > 1) {
+      ctx.addIssue({
+        code: "custom",
+        message: "at most one water option may set isBestQuality: true",
+      });
+    }
+  }),
   securityTips: boundedArray(nonEmpty, 3, 8),
   airportTricks: boundedArray(nonEmpty, 5, 8),
   terminalNavigation: boundedArray(nonEmpty, 3, 8),
@@ -192,6 +243,19 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
       "summary": "One honest sentence on whether this lounge is worth the visit, informed by forum opinions."
     }
   ],
+  "waterOptions": [
+    {
+      "kind": "purchase | refill | free",
+      "name": "Vendor or fountain name",
+      "terminal": "Terminal 4",
+      "location": "Required — specific walkable reference, e.g. 'Next to Heinemann duty-free, departures hall' or 'Opposite McDonald's, airside near Gate B12'",
+      "zone": "airside | landside (optional)",
+      "price": "Required for purchase options, e.g. €1.80 for 500ml",
+      "summary": "One honest sentence on why this is the cheapest bottle, best refill spot, or free option.",
+      "isBestValue": true,
+      "isBestQuality": false
+    }
+  ],
   "securityTips": ["3-8 actionable security/screening tips specific to this airport (fast-track options, known pain points, times of day to avoid)"],
   "airportTricks": ["5-8 genuinely clever tricks experienced travelers actually use here — be specific, include context like 'works best when...' or 'avoid if...'"],
   "terminalNavigation": ["3-8 items: walking times, best connections, common mistakes"],
@@ -229,6 +293,7 @@ Rules:
 - Exactly 4 bentoTips, one per category, in the order timing, terminal, food, status. These are shown prominently — no generic advice.
 - For \`transport\`, compare the non-parking options against each other and tag the actual winners with \`bestFor\`: the single fastest (shortest real-world timeToCity), the single cheapest (lowest cost tier), and the single best for a traveler with a lot of luggage (favor door-to-door taxi/rideshare or a step-free dedicated airport train over a crowded metro/bus with stairs and turnstiles). One option can win more than one category if it genuinely does (omit \`bestFor\` entirely on options that don't win anything, and never tag \`parking\`).
 - 2-6 lounges covering the most relevant options for ordinary travelers (Priority Pass / independent lounges plus flagship airline lounges).
+- 2-6 waterOptions covering the cheapest bottle purchase, at least one refill or free option, with exactly one isBestValue and at most one isBestQuality. Include real prices for purchase options when you find them. Every option must include a specific \`location\` anchored to a nearby shop, gate cluster, or landmark — never terminal name alone (e.g. "Next to WHSmith opposite Gate 12", "Refill fountain beside the Starbucks in Pier C").
 - Tone: direct, slightly opinionated, zero fluff. Prioritize traveler time-saving and stress reduction.
 - All facts must come from your research, not memory alone.
 - Do not create or modify any files. Your only deliverable is the JSON response.
@@ -298,6 +363,15 @@ ${bullets(guide.terminalNavigation)}
 ## Lounges, Food & Amenities
 ${bullets(guide.loungesAmenities)}
 
+## Water & Hydration
+${bullets(
+  guide.waterOptions.map((option) => {
+    const zone = option.zone ? ` (${option.zone})` : "";
+    const price = option.price ? ` — ${option.price}` : "";
+    return `${option.name}, ${option.terminal}${zone} — ${option.location}${price}: ${option.summary}`;
+  }),
+)}
+
 ## Ground Transport & Parking
 ${bullets(guide.groundTransport)}
 
@@ -316,6 +390,7 @@ ${bullets(guide.sources)}
       quickFacts: guide.quickFacts,
       bentoTips: guide.bentoTips,
       lounges: guide.lounges,
+      waterOptions: guide.waterOptions,
     },
     content,
   };

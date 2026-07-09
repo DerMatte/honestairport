@@ -36,6 +36,21 @@ export interface AirportLounge {
   summary: string;
 }
 
+export type AirportWaterOptionKind = "purchase" | "refill" | "free";
+
+export interface AirportWaterOption {
+  kind: AirportWaterOptionKind;
+  name: string;
+  terminal: string;
+  /** Walkable landmark reference, e.g. "Opposite McDonald's near Gate B12". */
+  location: string;
+  zone?: "airside" | "landside";
+  price?: string;
+  summary: string;
+  isBestValue?: boolean;
+  isBestQuality?: boolean;
+}
+
 export interface AirportFrontmatter {
   iata: string;
   name: string;
@@ -46,6 +61,7 @@ export interface AirportFrontmatter {
   quickFacts?: string[];
   bentoTips?: AirportBentoTip[];
   lounges?: AirportLounge[];
+  waterOptions?: AirportWaterOption[];
 }
 
 export interface AirportContent {
@@ -69,6 +85,7 @@ export interface AirportGuideSummary {
   sourceLinks: AirportGuideSourceLink[];
   importantTips: ImportantTip[];
   lounges: AirportLounge[];
+  waterOptions: AirportWaterOption[];
   sections: AirportGuideSections;
 }
 
@@ -87,6 +104,20 @@ export interface AirportGuideSections {
   terminalNavigation?: AirportGuideSection;
   groundTransport?: AirportGuideSection;
   loungesAmenities?: AirportGuideSection;
+  waterHydration?: AirportGuideSection;
+  foodAndDrink?: AirportGuideSection;
+  budgetTravelerTips?: AirportGuideSection;
+}
+
+const WATER_KEYWORD_PATTERN =
+  /\b(water|bottle|refill|hydration|fountain|drinking\s+water|fill\s+up)\b/i;
+
+export function isWaterRelatedGuideItem(item: string): boolean {
+  return WATER_KEYWORD_PATTERN.test(item);
+}
+
+export function filterWaterRelatedGuideItems(items: string[]): string[] {
+  return items.filter(isWaterRelatedGuideItem);
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -238,7 +269,59 @@ function getAirportGuideSections(content: string): AirportGuideSections {
       "Lounges & Amenities",
       "Lounges",
     ]),
+    waterHydration: readGuideSection(sections, [
+      "Water & Hydration",
+      "Water Bottles & Refills",
+    ]),
+    foodAndDrink: readGuideSection(sections, ["Food & Drink"]),
+    budgetTravelerTips: readGuideSection(sections, ["Budget Traveler Tips"]),
   };
+}
+
+function isWaterOptionKind(value: unknown): value is AirportWaterOptionKind {
+  return value === "purchase" || value === "refill" || value === "free";
+}
+
+function isWaterZone(value: unknown): value is NonNullable<AirportWaterOption["zone"]> {
+  return value === "airside" || value === "landside";
+}
+
+function toWaterOptions(waterOptions: unknown): AirportWaterOption[] {
+  if (!Array.isArray(waterOptions)) {
+    return [];
+  }
+
+  return waterOptions.flatMap((option) => {
+    if (typeof option !== "object" || option === null) {
+      return [];
+    }
+
+    const candidate = option as Record<string, unknown>;
+
+    if (
+      !isWaterOptionKind(candidate.kind) ||
+      !isNonEmptyString(candidate.name) ||
+      !isNonEmptyString(candidate.terminal) ||
+      !isNonEmptyString(candidate.location) ||
+      !isNonEmptyString(candidate.summary)
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        kind: candidate.kind,
+        name: candidate.name.trim(),
+        terminal: candidate.terminal.trim(),
+        location: candidate.location.trim(),
+        zone: isWaterZone(candidate.zone) ? candidate.zone : undefined,
+        price: isNonEmptyString(candidate.price) ? candidate.price.trim() : undefined,
+        summary: candidate.summary.trim(),
+        isBestValue: candidate.isBestValue === true ? true : undefined,
+        isBestQuality: candidate.isBestQuality === true ? true : undefined,
+      } satisfies AirportWaterOption,
+    ];
+  });
 }
 
 function isLoungeVerdict(value: unknown): value is AirportLoungeVerdict {
@@ -327,6 +410,7 @@ export function getAirportGuideSummary(content: AirportContent): AirportGuideSum
     ),
     importantTips: toImportantTips(iata, bentoTips),
     lounges: toLounges(frontmatter.lounges),
+    waterOptions: toWaterOptions(frontmatter.waterOptions),
     sections: getAirportGuideSections(content.content),
   };
 }
@@ -354,6 +438,7 @@ export function rowToAirportContent(row: AirportGuideRow): AirportContent {
       quickFacts: row.quickFacts,
       bentoTips: row.bentoTips,
       lounges: row.lounges,
+      waterOptions: row.waterOptions,
     },
     content: row.content,
   };
@@ -393,6 +478,39 @@ const loungeSchema = z.object({
   summary: nonEmptyString,
 });
 
+const waterOptionSchema = z
+  .object({
+    kind: z.enum(["purchase", "refill", "free"]),
+    name: nonEmptyString,
+    terminal: nonEmptyString,
+    location: nonEmptyString.min(
+      12,
+      "must name a walkable landmark (e.g. next to Heinemann, opposite McDonald's)",
+    ),
+    zone: z.enum(["airside", "landside"]).optional(),
+    price: nonEmptyString.optional(),
+    summary: nonEmptyString,
+    isBestValue: z.boolean().optional(),
+    isBestQuality: z.boolean().optional(),
+  })
+  .superRefine((option, ctx) => {
+    if (option.kind === "purchase" && !option.price) {
+      ctx.addIssue({
+        code: "custom",
+        message: "purchase options must include a price",
+        path: ["price"],
+      });
+    }
+
+    if (option.location.trim().toLowerCase() === option.terminal.trim().toLowerCase()) {
+      ctx.addIssue({
+        code: "custom",
+        message: "location must be more specific than the terminal name alone",
+        path: ["location"],
+      });
+    }
+  });
+
 export const airportFrontmatterSchema = z.object({
   iata: z.string().regex(/^[A-Z]{3}$/, "must be a 3-letter uppercase IATA code"),
   name: nonEmptyString,
@@ -404,6 +522,7 @@ export const airportFrontmatterSchema = z.object({
   bentoTips: z.array(bentoTipSchema).min(1),
   /** Optional and no minimum: small regional airports genuinely have zero lounges. */
   lounges: z.array(loungeSchema).optional(),
+  waterOptions: z.array(waterOptionSchema).optional(),
 });
 
 export const REQUIRED_GUIDE_SECTIONS: Array<{
@@ -446,18 +565,69 @@ export function validateAirportGuide(content: AirportContent): string[] {
 
 // --- Uncached DB access ---------------------------------------------------------
 
+const airportGuideColumnsWithoutWater = {
+  iata: airportGuides.iata,
+  name: airportGuides.name,
+  city: airportGuides.city,
+  country: airportGuides.country,
+  lastUpdated: airportGuides.lastUpdated,
+  sources: airportGuides.sources,
+  quickFacts: airportGuides.quickFacts,
+  bentoTips: airportGuides.bentoTips,
+  lounges: airportGuides.lounges,
+  content: airportGuides.content,
+  updatedAt: airportGuides.updatedAt,
+};
+
+function isMissingWaterOptionsColumn(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  const cause = "cause" in error ? error.cause : error;
+  if (typeof cause !== "object" || cause === null) {
+    return false;
+  }
+
+  const pgError = cause as { code?: string; message?: string };
+  return (
+    pgError.code === "42703" &&
+    (pgError.message?.includes("water_options") ?? false)
+  );
+}
+
+function withDefaultWaterOptions(
+  row: Omit<AirportGuideRow, "waterOptions">,
+): AirportGuideRow {
+  return { ...row, waterOptions: [] };
+}
+
+async function selectAirportGuideRows(
+  where?: ReturnType<typeof eq>,
+): Promise<AirportGuideRow[]> {
+  const db = getDb();
+
+  try {
+    const query = db.select().from(airportGuides);
+    return where ? await query.where(where) : await query;
+  } catch (error) {
+    if (!isMissingWaterOptionsColumn(error)) {
+      throw error;
+    }
+
+    const legacyQuery = db.select(airportGuideColumnsWithoutWater).from(airportGuides);
+    const rows = where ? await legacyQuery.where(where) : await legacyQuery;
+    return rows.map(withDefaultWaterOptions);
+  }
+}
+
 export async function fetchAirportGuideRow(iata: string): Promise<AirportGuideRow | null> {
   if (!isDatabaseConfigured()) {
     console.warn("DATABASE_URL is not set; airport guides are unavailable.");
     return null;
   }
 
-  const rows = await getDb()
-    .select()
-    .from(airportGuides)
-    .where(eq(airportGuides.iata, iata.toUpperCase()))
-    .limit(1);
-
+  const rows = await selectAirportGuideRows(eq(airportGuides.iata, iata.toUpperCase()));
   return rows[0] ?? null;
 }
 
@@ -467,7 +637,7 @@ export async function fetchAllAirportGuideRows(): Promise<AirportGuideRow[]> {
     return [];
   }
 
-  return getDb().select().from(airportGuides);
+  return selectAirportGuideRows();
 }
 
 export async function listAirportGuideIatas(): Promise<string[]> {
@@ -511,6 +681,7 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
     quickFacts: frontmatter.quickFacts ?? [],
     bentoTips: frontmatter.bentoTips ?? [],
     lounges: toLounges(frontmatter.lounges),
+    waterOptions: toWaterOptions(frontmatter.waterOptions),
     content: content.content,
     updatedAt: new Date(),
   };

@@ -30,11 +30,11 @@ const globalForDb = globalThis as unknown as {
 };
 
 export function isDatabaseConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL);
+  return Boolean(process.env.DATABASE_URL ?? process.env.CONNECTION_STRING);
 }
 
 export function getDb(): NodePgDatabase<typeof schema> {
-  const connectionString = process.env.DATABASE_URL;
+  const connectionString = process.env.DATABASE_URL ?? process.env.CONNECTION_STRING;
 
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set");
