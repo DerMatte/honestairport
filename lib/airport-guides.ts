@@ -9,6 +9,7 @@
 import { eq } from "drizzle-orm";
 import matter from "gray-matter";
 import { z } from "zod";
+import { stripOfficialSourcesSection } from "./airport-guide-markdown";
 import { getDb, isDatabaseConfigured } from "./db";
 import { airportGuideRevisions, airportGuides, type AirportGuideRow } from "./db/schema";
 import type { ImportantTip, ImportantTipCategory } from "./types";
@@ -172,9 +173,7 @@ function sourceLabelFromUrl(url: string): string {
   }
 }
 
-export function stripOfficialSourcesSection(content: string): string {
-  return content.replace(/\n##\s+Official Sources[\s\S]*$/i, "").trim();
-}
+export { stripOfficialSourcesSection } from "./airport-guide-markdown";
 
 export function extractOfficialSourceLinks(
   content: string,
@@ -403,7 +402,8 @@ export const airportFrontmatterSchema = z.object({
   sources: z.array(z.url()).min(1),
   quickFacts: z.array(nonEmptyString).min(1),
   bentoTips: z.array(bentoTipSchema).min(1),
-  lounges: z.array(loungeSchema).min(1),
+  /** Optional and no minimum: small regional airports genuinely have zero lounges. */
+  lounges: z.array(loungeSchema).optional(),
 });
 
 export const REQUIRED_GUIDE_SECTIONS: Array<{

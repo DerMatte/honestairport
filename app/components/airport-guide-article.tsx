@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { stripOfficialSourcesSection } from "@/lib/airport-guides";
+import { stripOfficialSourcesSection } from "@/lib/airport-guide-markdown";
 
 interface AirportGuideArticleProps {
   /** Markdown body of the guide (without frontmatter). */

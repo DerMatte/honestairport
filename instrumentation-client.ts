@@ -8,5 +8,9 @@ initBotId({
       path: "/api/airports/*/reviews",
       method: "POST",
     },
+    {
+      path: "/api/airports/*/generate",
+      method: "GET",
+    },
   ],
 });
