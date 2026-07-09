@@ -66,7 +66,7 @@ lounges:
 
 Include exactly 4 bentoTips, one for each category in this order: "timing", "terminal", "food", "status". Each label is a 1-2 word display tag (e.g. "Timing", "Transfers", "Food & quiet", "Live checks"). These are the highest-signal tips for this airport — they are shown prominently, so do not waste them on generic advice.
 
-Include 2-5 lounges covering the airport's most relevant options for ordinary travelers (independent/Priority Pass lounges and flagship airline lounges). \`zone\` is optional — use it for Schengen/non-Schengen or domestic/international splits. \`verdict\` must be exactly one of "worth-it", "depends", or "skip". Only state access rules, hours, and amenities you are confident about; omit a field rather than guessing.
+Include 2-5 lounges covering the airport's most relevant options for ordinary travelers (independent/Priority Pass lounges and flagship airline lounges). \`zone\` is optional — use it for Schengen/non-Schengen or domestic/international splits. \`verdict\` must be exactly one of "worth-it", "depends", or "skip". Only state access rules, hours, and amenities you are confident about; omit a field rather than guessing. If this airport genuinely has no lounge of any kind, set \`lounges\` to an empty array — do not invent a placeholder "no lounge" entry — and say so plainly in the Lounges, Food & Amenities section instead.
 
 Then continue with the page body using this exact heading structure:
 
@@ -104,15 +104,10 @@ ${extraInstructions ? `Additional focus: ${extraInstructions}` : ""}
 Output ONLY the raw Markdown file (frontmatter + body). No explanations before or after.`;
 }
 
-type GuideStreamOptions = {
-  onFinish?: (event: { text: string }) => Promise<void> | void;
-};
-
 export function createAirportGuideStream(
   iata: string,
   record?: AirportRecord,
   extraInstructions = "",
-  options: GuideStreamOptions = {},
 ) {
   const apiKey = process.env.AI_GATEWAY_API_KEY;
   if (!apiKey?.trim()) {
@@ -126,7 +121,6 @@ export function createAirportGuideStream(
     model: gateway("xai/grok-4.3"),
     prompt,
     temperature: 0.3,
-    onFinish: options.onFinish,
   });
 }
 

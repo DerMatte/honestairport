@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, MapPin, Plane, Sparkles } from "lucide-react";
+import { ArrowLeft, Loader2, MapPin, Plane, RotateCw, Sparkles } from "lucide-react";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { extractStreamableGuideBody } from "@/lib/airport-guide-markdown";
+import { extractGuideSaveMarker, extractStreamableGuideBody } from "@/lib/airport-guide-markdown";
 import type { AirportRecord } from "@/lib/airports";
 
 interface AirportGeneratingViewProps {
@@ -21,13 +22,14 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
   const [status, setStatus] = useState<GenerationStatus>("starting");
   const [streamedMarkdown, setStreamedMarkdown] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const startedRef = useRef(false);
+  const [attempt, setAttempt] = useState(0);
+  const startedAttemptRef = useRef(-1);
 
   useEffect(() => {
-    if (startedRef.current) {
+    if (startedAttemptRef.current === attempt) {
       return;
     }
-    startedRef.current = true;
+    startedAttemptRef.current = attempt;
 
     const controller = new AbortController();
 
@@ -80,12 +82,27 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
 
         accumulated += decoder.decode();
         setStreamedMarkdown(accumulated);
-        setStatus("saving");
 
-        window.setTimeout(() => {
-          setStatus("done");
-          router.refresh();
-        }, 1200);
+        // The route appends a trailing marker once it knows whether the
+        // guide actually made it into the database — the visible text can
+        // finish streaming well before that save (or its failure) happens.
+        const { outcome } = extractGuideSaveMarker(accumulated);
+
+        if (outcome?.status === "ok") {
+          setStatus("saving");
+          window.setTimeout(() => {
+            setStatus("done");
+            router.refresh();
+          }, 1200);
+          return;
+        }
+
+        setErrorMessage(
+          outcome?.status === "error"
+            ? outcome.message
+            : "Guide generation finished, but we couldn't confirm it was saved.",
+        );
+        setStatus("error");
       } catch (error) {
         if (controller.signal.aborted) {
           return;
@@ -103,9 +120,16 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
     return () => {
       controller.abort();
     };
-  }, [record.iata_code, router]);
+  }, [attempt, record.iata_code, router]);
 
-  const displayBody = extractStreamableGuideBody(streamedMarkdown);
+  function retry() {
+    setStreamedMarkdown("");
+    setErrorMessage(null);
+    setStatus("starting");
+    setAttempt((value) => value + 1);
+  }
+
+  const displayBody = extractStreamableGuideBody(extractGuideSaveMarker(streamedMarkdown).body);
   const isWaitingForContent = status === "starting" || (status === "streaming" && !displayBody.trim());
 
   return (
@@ -171,9 +195,15 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
               </div>
 
               {errorMessage ? (
-                <p className="mt-5 rounded-2xl border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-                  {errorMessage}
-                </p>
+                <div className="mt-5 space-y-3">
+                  <p className="rounded-2xl border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+                    {errorMessage}
+                  </p>
+                  <Button variant="outline" size="sm" onClick={retry} className="gap-2">
+                    <RotateCw className="size-3.5" aria-hidden="true" />
+                    Try again
+                  </Button>
+                </div>
               ) : (
                 <p className="mt-5 text-sm leading-6 text-muted-foreground">
                   First visit triggers on-demand generation. Once complete, this airport guide is

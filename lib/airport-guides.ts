@@ -402,7 +402,8 @@ export const airportFrontmatterSchema = z.object({
   sources: z.array(z.url()).min(1),
   quickFacts: z.array(nonEmptyString).min(1),
   bentoTips: z.array(bentoTipSchema).min(1),
-  lounges: z.array(loungeSchema).min(1),
+  /** Optional and no minimum: small regional airports genuinely have zero lounges. */
+  lounges: z.array(loungeSchema).optional(),
 });
 
 export const REQUIRED_GUIDE_SECTIONS: Array<{
