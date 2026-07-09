@@ -13,7 +13,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import type { AirportBentoTip, AirportLounge } from "@/lib/airport-guides";
+import type { AirportBentoTip, AirportLounge, AirportWaterOption } from "@/lib/airport-guides";
 import type {
   Amenity,
   Disruption,
@@ -67,6 +67,7 @@ export const airportGuides = pgTable("airport_guides", {
   quickFacts: jsonb("quick_facts").$type<string[]>().notNull().default([]),
   bentoTips: jsonb("bento_tips").$type<AirportBentoTip[]>().notNull().default([]),
   lounges: jsonb("lounges").$type<AirportLounge[]>().notNull().default([]),
+  waterOptions: jsonb("water_options").$type<AirportWaterOption[]>().notNull().default([]),
   // Markdown body (everything below the frontmatter).
   content: text("content").notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),

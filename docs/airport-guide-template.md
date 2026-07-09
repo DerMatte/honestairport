@@ -11,13 +11,17 @@ Airport guide markdown is the source of truth for guide-specific page content. K
 - `quickFacts`: short facts surfaced in the Overview tab
 - `bentoTips`: up to four high-priority tip cards for "Know before you go"
 - `lounges`: structured lounge cards surfaced in the Lounges tab / section
+- `waterOptions`: structured water-bottle, refill, and free-water picks surfaced in the Water tab
 
 Each `bentoTips` item should include `category` (`timing`, `terminal`, `food`, or `status`), `label`, `title`, `summary`, and optional `detail`.
 
 Each `lounges` item requires `name`, `terminal`, and `summary`, plus optional `zone` (e.g. Schengen / non-Schengen), `access` (list: airline status, Priority Pass, day-pass pricing), `hours`, `amenities` (list), `bestFor` (list), and `verdict` (`worth-it`, `depends`, or `skip`). Omit any field that isn't confidently sourced rather than guessing.
 
+Each `waterOptions` item requires `kind` (`purchase`, `refill`, or `free`), `name`, `terminal`, `location`, and `summary`, plus optional `zone` (`airside` or `landside`), `price` (required for `purchase`), `isBestValue`, and `isBestQuality`. The `location` must be a walkable landmark reference travelers can actually find — e.g. "Next to Heinemann duty-free, departures hall" or "Opposite McDonald's, airside near Gate B12" — not just the terminal name. Mark exactly one cheapest bottle with `isBestValue: true`.
+
 The airport detail tabs also read short bullet summaries from these level-two guide headings when present:
 
+- `## Water & Hydration` for the Water tab
 - `## Best Airport Tricks & Hacks` for the Traveler Tips tab
 - `## Terminals & Navigation` for the Getting There tab
 - `## Ground Transport & Parking` for the Getting There tab
