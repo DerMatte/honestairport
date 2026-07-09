@@ -57,6 +57,9 @@ export function normalizeSearchValue(value: string): string {
     .trim();
 }
 
+/** Reused for sorting; constructing a collator per compare is ~10x slower. */
+export const defaultCollator = new Intl.Collator();
+
 export function searchScopeConfig(scope: AirportSearchScope): AirportSearchScopeConfig {
   return airportSearchScopes.find((item) => item.value === scope) ?? airportSearchScopes[0];
 }
@@ -73,78 +76,13 @@ export function locationOptions(
   }
 
   return [...counts.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
+    .sort(([a], [b]) => defaultCollator.compare(a, b))
     .map(([value, count]) => ({
       value,
       label: value,
       description: `${count} airport${count === 1 ? "" : "s"}`,
       searchValue: normalizeSearchValue(value),
     }));
-}
-
-export function airportSearchOptions(airports: SearchableLocation[]): SearchOption[] {
-  return airports.map((airport) => ({
-    value: airport.iata,
-    label: airport.shortName ?? airport.name,
-    description: `${airport.iata} · ${airport.city}, ${airport.country}`,
-    searchValue: normalizeSearchValue(
-      [
-        airport.name,
-        airport.shortName,
-        airport.iata,
-        airport.city,
-        airport.country,
-      ]
-        .filter(Boolean)
-        .join(" "),
-    ),
-  }));
-}
-
-export function searchOptionsForScope(
-  airports: SearchableLocation[],
-  scope: AirportSearchScope,
-): SearchOption[] {
-  if (scope === "city" || scope === "country") {
-    return locationOptions(airports, scope);
-  }
-
-  return airportSearchOptions(airports);
-}
-
-export function matchAirportRank(airport: SearchableLocation, query: string): number {
-  if (normalizeSearchValue(airport.iata) === query) return 0;
-  if (normalizeSearchValue(airport.city).startsWith(query)) return 1;
-  if (normalizeSearchValue(airport.name).includes(query)) return 2;
-  if (normalizeSearchValue(`${airport.city} ${airport.country}`).includes(query)) return 3;
-  return -1;
-}
-
-export function filterAirportsByQuery(
-  airports: SearchableLocation[],
-  query: string,
-  scope: AirportSearchScope,
-): SearchableLocation[] {
-  const normalizedQuery = normalizeSearchValue(query);
-  if (!normalizedQuery) return airports;
-
-  if (scope === "city") {
-    return airports.filter((airport) =>
-      normalizeSearchValue(airport.city).includes(normalizedQuery),
-    );
-  }
-
-  if (scope === "country") {
-    return airports.filter((airport) =>
-      normalizeSearchValue(airport.country).includes(normalizedQuery),
-    );
-  }
-
-  return airports
-    .map((airport) => ({ airport, rank: matchAirportRank(airport, normalizedQuery) }))
-    .filter(({ rank }) => rank >= 0)
-    .sort((a, b) => a.rank - b.rank)
-    .map(({ airport }) => airport);
 }
 
 export function filterOptionsByQuery(options: SearchOption[], query: string): SearchOption[] {
@@ -157,25 +95,6 @@ export function filterOptionsByQuery(options: SearchOption[], query: string): Se
 function optionCount(option: SearchOption): number {
   const match = option.description.match(/^(\d+)/);
   return match ? Number(match[1]) : 0;
-}
-
-export function splitCityMatchesByAirportCount(
-  airports: SearchableLocation[],
-  cityOptions: SearchOption[],
-): { cities: SearchOption[]; singleAirportCities: SearchableLocation[] } {
-  const cities: SearchOption[] = [];
-  const singleAirportCities: SearchableLocation[] = [];
-
-  for (const option of cityOptions) {
-    if (optionCount(option) === 1) {
-      const airport = airports.find((item) => item.city === option.value);
-      if (airport) singleAirportCities.push(airport);
-      continue;
-    }
-    cities.push(option);
-  }
-
-  return { cities, singleAirportCities };
 }
 
 export function mergeAirportsWithPriority(
