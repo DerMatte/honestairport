@@ -303,7 +303,8 @@ export function airportJsonLd(airport: Airport) {
     "@type": "Airport",
     name: airport.name,
     iataCode: airport.iata,
-    icaoCode: airport.icao,
+    // Empty for profiles whose reference record has no ICAO code.
+    ...(airport.icao ? { icaoCode: airport.icao } : {}),
     address: {
       "@type": "PostalAddress",
       addressLocality: airport.city,

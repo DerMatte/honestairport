@@ -118,7 +118,7 @@ export function createAirportGuideStream(
   const prompt = buildAirportGenerationPrompt(iata, record, extraInstructions);
 
   return streamText({
-    model: gateway("xai/grok-4.3"),
+    model: gateway("xai/grok-4.5"),
     prompt,
     temperature: 0.3,
   });

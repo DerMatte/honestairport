@@ -171,9 +171,11 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
               <Badge variant="outline" className="font-mono">
                 {airport.iata}
               </Badge>
-              <Badge variant="outline" className="font-mono">
-                {airport.icao}
-              </Badge>
+              {airport.icao ? (
+                <Badge variant="outline" className="font-mono">
+                  {airport.icao}
+                </Badge>
+              ) : null}
               <DisruptionBadge status={airport.disruption.status} />
             </div>
             <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">

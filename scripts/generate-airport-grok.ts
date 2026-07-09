@@ -34,6 +34,19 @@ import {
   type AirportContent,
 } from "../lib/airport-guides";
 import {
+  amenitySchema,
+  boundedArray,
+  disruptionSchema,
+  nonEmpty,
+  optionalNonEmpty,
+  profileTipSchema,
+  regionSchema,
+  scoreBreakdownSchema,
+  scoreSchema,
+  statsSchema,
+  transportOptionSchema,
+} from "../lib/airport-profile-schema";
+import {
   fetchAllAirportProfileRows,
   regionForCountryCode,
   upsertAirportProfile,
@@ -59,24 +72,10 @@ const LOG_FILE = path.join(process.cwd(), "scripts/.generate-airports-grok.log")
 // prompt (an empty "hours": "" instead of omitting the key, one lounge or
 // trick over the cap). Rather than failing the whole run over that, treat it
 // as recoverable: blank optional strings become undefined, and over-long
-// lists get truncated to the max instead of rejected.
-
-const nonEmpty = z.string().trim().min(1);
-
-// Grok sometimes emits "" for an optional field instead of leaving it out.
-const optionalNonEmpty = z.preprocess(
-  (val) => (typeof val === "string" && val.trim() === "" ? undefined : val),
-  nonEmpty.optional(),
-);
-
-// Grok sometimes returns one or two more items than the prompt asks for;
-// truncate instead of rejecting the whole guide.
-function boundedArray<T extends z.ZodTypeAny>(item: T, min: number, max: number) {
-  return z
-    .array(item)
-    .transform((arr) => arr.slice(0, max))
-    .pipe(z.array(item).min(min));
-}
+// lists get truncated to the max instead of rejected. The primitives and all
+// Airportist Score profile shapes live in `lib/airport-profile-schema.ts`,
+// shared with the on-demand web generator so both pipelines agree on what a
+// valid profile is.
 
 const loungeSchema = z.object({
   name: nonEmpty,
@@ -94,72 +93,10 @@ const loungeSchema = z.object({
 //
 // Same research pass also produces the scoring profile (airport_profiles
 // table): Airportist Score, amenities, tips, transport options, and a
-// disruption snapshot. icao/latitude/longitude/region are never asked of the
-// model — they're looked up deterministically (see `buildProfileInput`) to
-// avoid hallucinated geo/classification data.
-
-const scoreSchema = z.number().min(0).max(10);
-
-const scoreBreakdownSchema = z.object({
-  comfort: scoreSchema,
-  navigation: scoreSchema,
-  food: scoreSchema,
-  transport: scoreSchema,
-  disruptionResilience: scoreSchema,
-});
-
-const statsSchema = z.object({
-  annualPassengers: nonEmpty,
-  terminals: nonEmpty,
-  onTimePercentage: z.number().min(0).max(100),
-  averageSecurityMinutes: z.number().min(0).max(180),
-});
-
-const amenitySchema = z.object({
-  label: nonEmpty,
-  category: z.enum([
-    "food",
-    "lounge",
-    "wifi",
-    "family",
-    "accessibility",
-    "transport",
-    "shopping",
-    "sleep",
-  ]),
-  description: nonEmpty,
-  quality: z.enum(["basic", "good", "excellent"]),
-  isFeatured: z.boolean().optional(),
-});
-
-const profileTipSchema = z.object({
-  category: z.enum(["security", "food", "navigation", "layover", "transport", "family", "lounge"]),
-  title: nonEmpty,
-  summary: nonEmpty,
-  details: nonEmpty,
-  pro: optionalNonEmpty,
-  con: optionalNonEmpty,
-});
-
-const transportOptionSchema = z.object({
-  type: z.enum(["train", "metro", "bus", "taxi", "rideshare", "parking"]),
-  name: nonEmpty,
-  summary: nonEmpty,
-  timeToCity: nonEmpty,
-  cost: nonEmpty,
-  insiderTip: nonEmpty,
-  bestFor: z.array(z.enum(["fastest", "cheapest", "luggage"])).optional(),
-});
-
-const disruptionSchema = z.object({
-  status: z.enum(["normal", "minor", "moderate", "severe"]),
-  departureDelayMinutes: z.number().min(0).max(240),
-  departureDelayPercent: z.number().min(0).max(100),
-  arrivalDelayMinutes: z.number().min(0).max(240),
-  arrivalDelayPercent: z.number().min(0).max(100),
-  cancellationsPercent: z.number().min(0).max(100),
-  alerts: boundedArray(nonEmpty, 0, 4).optional(),
-});
+// disruption snapshot — field shapes imported from
+// `lib/airport-profile-schema.ts`. icao/latitude/longitude/region are never
+// asked of the model — they're looked up deterministically (see
+// `buildProfileInput`) to avoid hallucinated geo/classification data.
 
 const guideJsonSchema = z.object({
   iata: z.string().regex(/^[A-Z]{3}$/),
@@ -192,6 +129,7 @@ const guideJsonSchema = z.object({
   groundTransport: boundedArray(nonEmpty, 3, 8),
   // Airportist Score profile
   shortName: nonEmpty.describe("Short recognizable name, e.g. 'London Heathrow'"),
+  region: regionSchema,
   scoreSummary: nonEmpty.describe(
     "One evaluative sentence on the airport's overall traveler experience and key tradeoff",
   ),
@@ -260,6 +198,7 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
   "loungesAmenities": ["3-8 items: honest picks for lounges, standout food, quiet spots"],
   "groundTransport": ["3-8 items: best ways in/out, current costs, insider timing tips"],
   "shortName": "Short recognizable name, e.g. 'London Heathrow' or 'Tokyo Haneda'",
+  "region": "North America|Europe|Asia-Pacific|Middle East|South America|Africa",
   "scoreSummary": "One evaluative sentence: the airport's overall traveler experience and its main tradeoff (e.g. 'X has great food but punishing curbside logistics').",
   "airportistScore": 7.4,
   "scoreBreakdown": { "comfort": 7.1, "navigation": 6.7, "food": 7.6, "transport": 7.9, "disruptionResilience": 7.4 },
@@ -385,30 +324,26 @@ ${bullets(guide.sources)}
 // --- JSON -> AirportProfileInput --------------------------------------------------
 
 /**
- * icao/latitude/longitude/region come from the local airport reference data
+ * icao/latitude/longitude come from the local airport reference data
  * (`lib/airports.ts`), never from the model — they're verifiable facts we
- * already have, not something worth risking a hallucination on.
+ * already have, not something worth risking a hallucination on. Region uses
+ * the deterministic country-code map when available (it drives filter
+ * grouping and must stay internally consistent); the model's answer only
+ * fills the gap for countries not mapped yet, same as the on-demand web
+ * generator.
  */
 function buildProfileInput(iata: string, guide: GuideJson): AirportProfileInput {
   const record = getAirportByIata(iata);
   if (!record) {
     throw new Error(`No reference airport record for ${iata}; cannot build a scoring profile.`);
   }
-  if (!record.icao_code) {
-    throw new Error(`Reference airport record for ${iata} has no ICAO code.`);
-  }
-
-  const region = regionForCountryCode(record.iata_country_code);
-  if (!region) {
-    throw new Error(
-      `No region mapping for country code ${record.iata_country_code} (${iata}). Add one to COUNTRY_CODE_TO_REGION in lib/airport-profiles.ts.`,
-    );
-  }
 
   return {
-    icao: record.icao_code,
+    // Empty when the reference record has no ICAO (smaller airfields) — UI
+    // and JSON-LD treat "" as absent rather than blocking the score.
+    icao: record.icao_code ?? "",
     shortName: guide.shortName,
-    region,
+    region: regionForCountryCode(record.iata_country_code) ?? guide.region,
     latitude: record.latitude,
     longitude: record.longitude,
     airportistScore: guide.airportistScore,
@@ -478,9 +413,13 @@ interface NextTarget {
  *  1. Any major airport still missing a guide (by traffic rank).
  *  2. Any major airport with a guide but no Airportist Score yet — rate the
  *     whole catalog one by one, highest-traffic first.
- *  3. Once every major airport is both guided and scored, refresh the guide
- *     (and its score) with the oldest `lastUpdated` so the catalog keeps
- *     improving indefinitely.
+ *  3. Any other guide still missing a score (stalest first) — catches
+ *     airports whose guide was generated on demand by a visitor before the
+ *     scoring step ran (or where it failed), so nothing stays an
+ *     editorial-only page forever.
+ *  4. Once everything is both guided and scored, refresh the guide (and its
+ *     score) with the oldest `lastUpdated` so the catalog keeps improving
+ *     indefinitely.
  */
 async function pickNextTarget(): Promise<NextTarget | null> {
   const [guideRows, profileRows] = await Promise.all([
@@ -506,6 +445,16 @@ async function pickNextTarget(): Promise<NextTarget | null> {
         reason: `missing Airportist Score for #${candidate.rank} (${candidate.name})`,
       };
     }
+  }
+
+  const unscored = [...guideRows]
+    .filter((row) => !existingProfiles.has(row.iata.toUpperCase()))
+    .sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))[0];
+  if (unscored) {
+    return {
+      iata: unscored.iata.toUpperCase(),
+      reason: `guide without Airportist Score (lastUpdated ${unscored.lastUpdated})`,
+    };
   }
 
   const stalest = [...guideRows].sort((a, b) => a.lastUpdated.localeCompare(b.lastUpdated))[0];
