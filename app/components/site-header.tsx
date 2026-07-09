@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
+import { useAirportSearchList } from "@/app/components/airport-search-provider";
 import { Button } from "@/components/ui/button";
-import type { AirportSearchEntry } from "@/lib/airport-search";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -16,11 +16,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-interface SiteHeaderProps {
-  airports: AirportSearchEntry[];
-}
-
-export function SiteHeader({ airports }: SiteHeaderProps) {
+export function SiteHeader() {
+  const airports = useAirportSearchList();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 

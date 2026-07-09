@@ -546,24 +546,3 @@ export function AirportDirectorySearch({
     </div>
   );
 }
-
-export function airportToSearchable(airports: Array<{
-  slug: string;
-  iata: string;
-  name: string;
-  shortName?: string;
-  city: string;
-  country: string;
-  airportistScore?: number;
-  score?: number;
-}>): SearchableLocation[] {
-  return airports.map((airport) => ({
-    slug: airport.slug,
-    iata: airport.iata,
-    name: airport.name,
-    shortName: airport.shortName,
-    city: airport.city,
-    country: airport.country,
-    score: airport.score ?? airport.airportistScore,
-  }));
-}

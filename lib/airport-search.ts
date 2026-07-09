@@ -11,6 +11,7 @@ export interface AirportSearchEntry {
   slug: string;
   iata: string;
   name: string;
+  shortName?: string;
   city: string;
   country: string;
   /** Airportist Score, only present for fully scored airports. */
@@ -47,6 +48,7 @@ export async function getAirportSearchEntries(): Promise<AirportSearchEntry[]> {
       slug: airport.slug,
       iata: airport.iata,
       name: airport.name,
+      shortName: airport.shortName,
       city: airport.city,
       country: airport.country,
       score: airport.airportistScore,
