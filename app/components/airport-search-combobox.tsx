@@ -14,17 +14,10 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
-import {
-  filterAirportsByQuery,
-  filterOptionsByQuery,
-  locationOptions,
-  mergeAirportsWithPriority,
-  searchExamples,
-  searchScopeConfig,
-  splitCityMatchesByAirportCount,
-  type SearchableLocation,
-} from "@/lib/airport-search-utils";
+import { useAirportSearch } from "@/app/components/use-airport-search";
+import { searchScopeConfig } from "@/lib/airport-search-utils";
 import { cn } from "@/lib/utils";
+import type { AirportSearchEntry } from "@/lib/airport-search";
 import type { AirportFilters } from "@/lib/types";
 
 function keepFocusOnTouch(event: React.PointerEvent) {
@@ -119,17 +112,15 @@ function InlineSearchBar({
 
 interface SearchResultsProps {
   query: string;
-  airports: SearchableLocation[];
   locationFilter: { field: "city" | "country"; value: string } | null;
-  onSelectAirport: (airport: SearchableLocation) => void;
+  onSelectAirport: (airport: AirportSearchEntry) => void;
   onSelectLocation: (field: "city" | "country", value: string) => void;
-  onPreviewAirport?: (airport: SearchableLocation) => void;
+  onPreviewAirport?: (airport: AirportSearchEntry) => void;
   listClassName?: string;
 }
 
 function SearchResults({
   query,
-  airports,
   locationFilter,
   onSelectAirport,
   onSelectLocation,
@@ -138,35 +129,10 @@ function SearchResults({
 }: SearchResultsProps) {
   const config = searchScopeConfig("all");
   const normalizedQuery = query.trim();
-  const examples = useMemo(() => searchExamples(airports), [airports]);
-
-  const scopedAirports = useMemo(() => {
-    if (!locationFilter) return airports;
-    return airports.filter((airport) => airport[locationFilter.field] === locationFilter.value);
-  }, [airports, locationFilter]);
-
-  const { cityMatches, singleCityAirports } = useMemo(() => {
-    const matches = filterOptionsByQuery(locationOptions(airports, "city"), query).slice(0, 5);
-    const { cities, singleAirportCities } = splitCityMatchesByAirportCount(airports, matches);
-    return { cityMatches: cities, singleCityAirports: singleAirportCities };
-  }, [airports, query]);
-
-  const countryMatches = useMemo(
-    () => filterOptionsByQuery(locationOptions(airports, "country"), query).slice(0, 5),
-    [airports, query],
-  );
-
-  const airportResults = useMemo(() => {
-    const filtered = filterAirportsByQuery(scopedAirports, query, "all");
-    const merged =
-      normalizedQuery && !locationFilter
-        ? mergeAirportsWithPriority(singleCityAirports, filtered)
-        : filtered;
-
-    if (locationFilter) return merged;
-    if (normalizedQuery) return merged.slice(0, 8);
-    return merged;
-  }, [locationFilter, normalizedQuery, query, scopedAirports, singleCityAirports]);
+  const {
+    results: { airports: airportResults, cities: cityMatches, countries: countryMatches, examples },
+    pending,
+  } = useAirportSearch(query, locationFilter);
 
   const showExamples = !normalizedQuery && !locationFilter && examples !== null;
   const showUnifiedLocations = Boolean(normalizedQuery);
@@ -192,7 +158,7 @@ function SearchResults({
 
   return (
     <CommandList className={cn("max-h-[min(24rem,50vh)]", listClassName)}>
-      {!hasResults ? <CommandEmpty>{config.empty}</CommandEmpty> : null}
+      {!hasResults && !pending ? <CommandEmpty>{config.empty}</CommandEmpty> : null}
 
       {showExamples ? (
         <CommandGroup heading="Try searching">
@@ -312,14 +278,13 @@ function SearchResults({
 }
 
 interface AirportSearchSurfaceProps {
-  airports: SearchableLocation[];
   query: string;
   locationFilter: { field: "city" | "country"; value: string } | null;
   onQueryChange: (query: string) => void;
   onClearLocationFilter: () => void;
-  onSelectAirport: (airport: SearchableLocation) => void;
+  onSelectAirport: (airport: AirportSearchEntry) => void;
   onSelectLocation: (field: "city" | "country", value: string) => void;
-  onPreviewAirport?: (airport: SearchableLocation) => void;
+  onPreviewAirport?: (airport: AirportSearchEntry) => void;
   className?: string;
   listClassName?: string;
   showShortcut?: boolean;
@@ -327,7 +292,6 @@ interface AirportSearchSurfaceProps {
 }
 
 function AirportSearchSurface({
-  airports,
   query,
   locationFilter,
   onQueryChange,
@@ -353,7 +317,6 @@ function AirportSearchSurface({
         />
         <SearchResults
           query={query}
-          airports={airports}
           locationFilter={locationFilter}
           onSelectAirport={onSelectAirport}
           onSelectLocation={onSelectLocation}
@@ -366,16 +329,11 @@ function AirportSearchSurface({
 }
 
 interface AirportSearchDialogProps {
-  airports: SearchableLocation[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function AirportSearchDialog({
-  airports,
-  open,
-  onOpenChange,
-}: AirportSearchDialogProps) {
+export function AirportSearchDialog({ open, onOpenChange }: AirportSearchDialogProps) {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -385,7 +343,7 @@ export function AirportSearchDialog({
   } | null>(null);
 
   const prefetchAirport = useCallback(
-    (airport: SearchableLocation) => {
+    (airport: AirportSearchEntry) => {
       router.prefetch(`/airports/${airport.slug}`);
     },
     [router],
@@ -424,7 +382,7 @@ export function AirportSearchDialog({
     });
   }
 
-  function handleSelectAirport(airport: SearchableLocation) {
+  function handleSelectAirport(airport: AirportSearchEntry) {
     handleOpenChange(false);
     router.push(`/airports/${airport.slug}`);
   }
@@ -440,7 +398,6 @@ export function AirportSearchDialog({
       onOpenAutoFocus={focusSearchInput}
     >
       <AirportSearchSurface
-        airports={airports}
         query={query}
         locationFilter={locationFilter}
         onQueryChange={setQuery}
@@ -456,16 +413,11 @@ export function AirportSearchDialog({
 }
 
 interface AirportDirectorySearchProps {
-  airports: SearchableLocation[];
   filters: AirportFilters;
   onFiltersChange: (filters: AirportFilters) => void;
 }
 
-export function AirportDirectorySearch({
-  airports,
-  filters,
-  onFiltersChange,
-}: AirportDirectorySearchProps) {
+export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDirectorySearchProps) {
   const router = useRouter();
   const resultsPanelRef = useRef<HTMLDivElement>(null);
   const [focused, setFocused] = useState(false);
@@ -494,7 +446,7 @@ export function AirportDirectorySearch({
     setFocused(false);
   }
 
-  function handleSelectAirport(airport: SearchableLocation) {
+  function handleSelectAirport(airport: AirportSearchEntry) {
     setFocused(false);
     router.push(`/airports/${airport.slug}`);
   }
@@ -534,7 +486,6 @@ export function AirportDirectorySearch({
           >
             <SearchResults
               query={inputQuery}
-              airports={airports}
               locationFilter={locationFilter}
               onSelectAirport={handleSelectAirport}
               onSelectLocation={handleSelectLocation}

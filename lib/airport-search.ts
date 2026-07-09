@@ -5,6 +5,16 @@ import {
   getAllAirports,
   getAllHonestAirports,
 } from "@/lib/airport-content";
+import {
+  filterAirportsByQuery,
+  filterOptionsByQuery,
+  locationOptions,
+  mergeAirportsWithPriority,
+  searchExamples,
+  splitCityMatchesByAirportCount,
+  type SearchExamples,
+  type SearchOption,
+} from "@/lib/airport-search-utils";
 import { getAllAirportRecords } from "@/lib/airports";
 
 export interface AirportSearchEntry {
@@ -78,4 +88,57 @@ export async function getAirportSearchEntries(): Promise<AirportSearchEntry[]> {
     }
     return a.name.localeCompare(b.name);
   });
+}
+
+export interface AirportLocationFilter {
+  field: "city" | "country";
+  value: string;
+}
+
+export interface AirportSearchResults {
+  airports: AirportSearchEntry[];
+  cities: SearchOption[];
+  countries: SearchOption[];
+  /** Curated starting points, only populated for an empty, unfiltered query. */
+  examples: SearchExamples | null;
+}
+
+/**
+ * Server-side combobox search over the full airport list. The ~9k merged
+ * entries stay on the server (cached above); clients send debounced queries
+ * and get back only the handful of rows they render.
+ */
+export async function searchAirports(
+  query: string,
+  location?: AirportLocationFilter,
+): Promise<AirportSearchResults> {
+  const entries = await getAirportSearchEntries();
+  const normalizedQuery = query.trim();
+
+  if (!normalizedQuery && !location) {
+    return { airports: [], cities: [], countries: [], examples: searchExamples(entries) };
+  }
+
+  const scoped = location
+    ? entries.filter((entry) => entry[location.field] === location.value)
+    : entries;
+
+  const cityOptions = filterOptionsByQuery(locationOptions(entries, "city"), query).slice(0, 5);
+  const { cities, singleAirportCities } = splitCityMatchesByAirportCount(entries, cityOptions);
+  const countries = filterOptionsByQuery(locationOptions(entries, "country"), query).slice(0, 5);
+
+  const filtered = filterAirportsByQuery(scoped, query, "all");
+  const merged =
+    normalizedQuery && !location
+      ? mergeAirportsWithPriority(singleAirportCities, filtered)
+      : filtered;
+
+  return {
+    // Location drill-downs list more rows than a free-text lookup, but the
+    // reference dataset makes some countries huge, so they still get capped.
+    airports: location ? merged.slice(0, 50) : merged.slice(0, 8),
+    cities: normalizedQuery ? cities : [],
+    countries: normalizedQuery ? countries : [],
+    examples: null,
+  };
 }

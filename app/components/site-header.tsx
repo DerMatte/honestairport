@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
-import { useAirportSearchList } from "@/app/components/airport-search-provider";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -17,7 +16,6 @@ import {
 } from "@/components/ui/sheet";
 
 export function SiteHeader() {
-  const airports = useAirportSearchList();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -109,11 +107,7 @@ export function SiteHeader() {
         </Sheet>
       </div>
 
-      <AirportSearchDialog
-        airports={airports}
-        open={searchOpen}
-        onOpenChange={setSearchOpen}
-      />
+      <AirportSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );
 }

@@ -3,9 +3,7 @@ import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
-import { AirportSearchProvider } from "@/app/components/airport-search-provider";
 import { SiteHeader } from "@/app/components/site-header";
-import { getAirportSearchEntries } from "@/lib/airport-search";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -66,15 +64,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const airports = await getAirportSearchEntries();
-
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AirportSearchProvider airports={airports}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-lg focus:outline focus:outline-2 focus:outline-primary"
@@ -112,7 +107,6 @@ export default async function RootLayout({
             </p>
           </div>
         </footer>
-        </AirportSearchProvider>
         <Analytics />
       </body>
     </html>

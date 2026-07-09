@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
-import { useAirportSearchList } from "@/app/components/airport-search-provider";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { AirportMap } from "@/app/components/airport-map";
 import { DisruptionBadge } from "@/app/components/disruption-status";
@@ -214,10 +213,6 @@ function FilterPanel({
 
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
-  // Site-wide list from the layout provider, so the homepage search finds
-  // every airport (including unscored and not-yet-generated ones), not just
-  // the scored set shown in the directory grid.
-  const searchAirports = useAirportSearchList();
 
   const otherAirports = useMemo(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -289,11 +284,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           </p>
 
           <div className="mt-8 max-w-2xl">
-            <AirportDirectorySearch
-              airports={searchAirports}
-              filters={filters}
-              onFiltersChange={updateFilters}
-            />
+            <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
           </div>
 
           <div className="mt-7 flex flex-wrap gap-2.5 text-sm text-muted-foreground">
