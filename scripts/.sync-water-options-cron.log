@@ -1,0 +1,184 @@
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked DXB: major airport #2 (Dubai International Airport) missing water options
+Researching water options for DXB with pi…
+Site cache revalidated.
+✅ DXB: 2 water options written (gpt-5.6-terra, 4 sources, 2.7 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked DFW: major airport #3 (Dallas/Fort Worth International Airport) missing water options
+Researching water options for DFW with pi…
+Site cache revalidated.
+✅ DFW: 2 water options written (gpt-5.6-terra, 3 sources, 2.1 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked LHR: major airport #4 (Heathrow Airport) missing water options
+Researching water options for LHR with pi…
+Site cache revalidated.
+✅ LHR: 2 water options written (gpt-5.6-terra, 2 sources, 1.4 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked HND: major airport #5 (Haneda Airport) missing water options
+Researching water options for HND with pi…
+Site cache revalidated.
+✅ HND: 3 water options written (gpt-5.6-terra, 2 sources, 2.1 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked DEN: major airport #6 (Denver International Airport) missing water options
+Researching water options for DEN with pi…
+Site cache revalidated.
+✅ DEN: 2 water options written (gpt-5.6-terra, 3 sources, 2.2 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked IST: major airport #7 (Istanbul Airport) missing water options
+Researching water options for IST with pi…
+Site cache revalidated.
+✅ IST: 2 water options written (gpt-5.6-terra, 1 sources, 2.6 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked LAX: major airport #8 (Los Angeles International Airport) missing water options
+Researching water options for LAX with pi…
+Site cache revalidated.
+✅ LAX: 2 water options written (gpt-5.6-terra, 5 sources, 1.7 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked ORD: major airport #9 (O'Hare International Airport) missing water options
+Researching water options for ORD with pi…
+Site cache revalidated.
+✅ ORD: 3 water options written (gpt-5.6-terra, 4 sources, 1.4 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked DEL: major airport #10 (Indira Gandhi International Airport) missing water options
+Researching water options for DEL with pi…
+Site cache revalidated.
+✅ DEL: 4 water options written (gpt-5.6-terra, 2 sources, 2.9 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked CDG: major airport #11 (Paris Charles de Gaulle Airport) missing water options
+Researching water options for CDG with pi…
+Site cache revalidated.
+✅ CDG: 4 water options written (gpt-5.6-terra, 4 sources, 2.2 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked AMS: major airport #12 (Amsterdam Airport Schiphol) missing water options
+Researching water options for AMS with pi…
+Site cache revalidated.
+✅ AMS: 2 water options written (gpt-5.6-terra, 4 sources, 2.2 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked FRA: major airport #13 (Frankfurt am Main Airport) missing water options
+Researching water options for FRA with pi…
+Site cache revalidated.
+✅ FRA: 3 water options written (gpt-5.6-terra, 3 sources, 2.3 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked JFK: major airport #14 (John F. Kennedy International Airport) missing water options
+Researching water options for JFK with pi…
+Site cache revalidated.
+✅ JFK: 2 water options written (gpt-5.6-terra, 4 sources, 2.7 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked CAN: major airport #15 (Guangzhou Baiyun International Airport) missing water options
+Researching water options for CAN with pi…
+Site cache revalidated.
+✅ CAN: 2 water options written (gpt-5.6-terra, 2 sources, 1.5 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked ICN: major airport #16 (Incheon International Airport) missing water options
+Researching water options for ICN with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked ICN: major airport #16 (Incheon International Airport) missing water options
+Researching water options for ICN with pi…
+Site cache revalidated.
+✅ ICN: 2 water options written (gpt-5.6-terra, 2 sources, 4.7 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked MIA: major airport #17 (Miami International Airport) missing water options
+Researching water options for MIA with pi…
+Site cache revalidated.
+✅ MIA: 2 water options written (gpt-5.6-terra, 3 sources, 5.4 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked MUC: major airport #18 (Munich Airport) missing water options
+Researching water options for MUC with pi…
+Site cache revalidated.
+✅ MUC: 3 water options written (gpt-5.6-terra, 4 sources, 4.6 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked SIN: major airport #19 (Singapore Changi Airport) missing water options
+Researching water options for SIN with pi…
+Site cache revalidated.
+✅ SIN: 2 water options written (gpt-5.6-terra, 2 sources, 3.2 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked MAD: major airport #20 (Adolfo Suárez Madrid-Barajas Airport) missing water options
+Researching water options for MAD with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked MAD: major airport #20 (Adolfo Suárez Madrid-Barajas Airport) missing water options
+Researching water options for MAD with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked MAD: major airport #20 (Adolfo Suárez Madrid-Barajas Airport) missing water options
+Researching water options for MAD with pi…
+Site cache revalidated.
+✅ MAD: 2 water options written (gpt-5.6-terra, 2 sources, 4.9 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked BKK: major airport #21 (Suvarnabhumi Airport) missing water options
+Researching water options for BKK with pi…
+Site cache revalidated.
+✅ BKK: 3 water options written (gpt-5.6-terra, 3 sources, 2.8 min)

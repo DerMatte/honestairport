@@ -18,7 +18,8 @@
     "review:airports": "tsx --env-file-if-exists=.env.local scripts/review-airport-pages.ts",
     "sync:forum": "tsx --env-file-if-exists=.env.local scripts/sync-community-forum.ts",
     "sync:images": "tsx --env-file-if-exists=.env.local scripts/sync-airport-images.ts",
-    "sync:ratings": "tsx --env-file-if-exists=.env.local scripts/sync-google-ratings.ts"
+    "sync:ratings": "tsx --env-file-if-exists=.env.local scripts/sync-google-ratings.ts",
+    "sync:water": "tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.120",
