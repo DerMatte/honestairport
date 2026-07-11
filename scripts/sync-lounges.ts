@@ -66,10 +66,12 @@ const responseSchema = z.object({
   sources: z.array(z.url()).min(1),
   /** Existing slugs the research confirmed permanently closed. */
   closedSlugs: z.array(z.string().trim().min(1)).default([]),
+  // Truncate rather than reject an over-eager list (LHR alone has ~40
+  // lounges) — same tolerance philosophy as boundedArray, but with min 0.
   lounges: z
     .array(researchedLoungeSchema)
-    .max(25)
-    .default([]),
+    .default([])
+    .transform((arr) => arr.slice(0, 60)),
 });
 
 // --- Prompt ---------------------------------------------------------------------
