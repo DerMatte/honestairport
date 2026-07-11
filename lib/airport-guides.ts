@@ -12,6 +12,7 @@ import { z } from "zod";
 import { stripOfficialSourcesSection } from "./airport-guide-markdown";
 import { getDb, isDatabaseConfigured } from "./db";
 import { airportGuideRevisions, airportGuides, type AirportGuideRow } from "./db/schema";
+import { seedLoungesFromGuide } from "./lounge-directory";
 import type { ImportantTip, ImportantTipCategory } from "./types";
 
 export interface AirportBentoTip {
@@ -660,6 +661,17 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
       })
       .returning();
 
+    return row;
+  }).then(async (row) => {
+    // Every guide-writing pipeline gets lounge directory rows (and thereby
+    // subpages) for free. No-op once the airport has any rows, so verified
+    // lounge data is never clobbered; best-effort so a directory hiccup
+    // can't fail a guide write.
+    try {
+      await seedLoungesFromGuide(row);
+    } catch (error) {
+      console.warn(`Failed to seed lounge directory for ${iata}:`, error);
+    }
     return row;
   });
 }

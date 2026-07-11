@@ -1,4 +1,5 @@
-import { Clock3, DoorOpen, KeyRound, Sparkles, Users } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Clock3, DoorOpen, KeyRound, Sparkles, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -6,9 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { AirportLounge, AirportLoungeVerdict } from "@/lib/airport-content";
+import {
+  PROGRAM_LABELS,
+  type AirportLoungeVerdict,
+  type AirportLoungeView,
+  type LoungeAccessMethod,
+} from "@/lib/airport-content";
 
-function verdictBadge(verdict: AirportLoungeVerdict) {
+export function LoungeVerdictBadge({ verdict }: { verdict: AirportLoungeVerdict }) {
   switch (verdict) {
     case "worth-it":
       return (
@@ -35,7 +41,23 @@ function verdictBadge(verdict: AirportLoungeVerdict) {
   }
 }
 
-function LoungeFactRow({
+export function LoungeStatusBadge({ status }: { status: AirportLoungeView["status"] }) {
+  if (status === "open") {
+    return null;
+  }
+
+  return (
+    <Badge className="rounded-full bg-red-500/15 text-red-700 dark:text-red-300">
+      {status === "temporarily-closed" ? "Temporarily closed" : "Closed"}
+    </Badge>
+  );
+}
+
+export function accessMethodLabel(method: LoungeAccessMethod): string {
+  return method.label ?? PROGRAM_LABELS[method.program];
+}
+
+export function LoungeFactRow({
   icon,
   label,
   children,
@@ -57,17 +79,35 @@ function LoungeFactRow({
   );
 }
 
-export function AirportLoungeCard({ lounge }: { lounge: AirportLounge }) {
+export function AirportLoungeCard({
+  lounge,
+  href,
+}: {
+  lounge: AirportLoungeView;
+  /** Link to the lounge's subpage; omitted for legacy guide-jsonb lounges. */
+  href?: string;
+}) {
   return (
-    <Card className="h-full">
+    <Card className="relative h-full">
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:size-5">
             <DoorOpen aria-hidden="true" />
           </div>
-          {lounge.verdict ? verdictBadge(lounge.verdict) : null}
+          <div className="flex flex-wrap justify-end gap-2">
+            <LoungeStatusBadge status={lounge.status} />
+            {lounge.verdict ? <LoungeVerdictBadge verdict={lounge.verdict} /> : null}
+          </div>
         </div>
-        <CardTitle>{lounge.name}</CardTitle>
+        <CardTitle>
+          {href ? (
+            <Link href={href} className="after:absolute after:inset-0 hover:underline">
+              {lounge.name}
+            </Link>
+          ) : (
+            lounge.name
+          )}
+        </CardTitle>
         <div className="flex flex-wrap gap-2">
           <Badge variant="outline" className="rounded-full">
             {lounge.terminal}
@@ -84,7 +124,7 @@ export function AirportLoungeCard({ lounge }: { lounge: AirportLounge }) {
         <div className="space-y-3">
           {lounge.access.length ? (
             <LoungeFactRow icon={<KeyRound aria-hidden="true" />} label="Access">
-              {lounge.access.join(" · ")}
+              {lounge.access.map(accessMethodLabel).join(" · ")}
             </LoungeFactRow>
           ) : null}
           {lounge.hours ? (
@@ -92,23 +132,36 @@ export function AirportLoungeCard({ lounge }: { lounge: AirportLounge }) {
               {lounge.hours}
             </LoungeFactRow>
           ) : null}
-          {lounge.amenities?.length ? (
+          {lounge.amenities.length ? (
             <LoungeFactRow icon={<Sparkles aria-hidden="true" />} label="Amenities">
               {lounge.amenities.join(" · ")}
             </LoungeFactRow>
           ) : null}
-          {lounge.bestFor?.length ? (
+          {lounge.bestFor.length ? (
             <LoungeFactRow icon={<Users aria-hidden="true" />} label="Best for">
               {lounge.bestFor.join(" · ")}
             </LoungeFactRow>
           ) : null}
         </div>
+        {href ? (
+          <p className="flex items-center gap-1 text-sm font-medium text-primary">
+            Full access guide
+            <ArrowRight className="size-3.5" aria-hidden="true" />
+          </p>
+        ) : null}
       </CardContent>
     </Card>
   );
 }
 
-export function AirportLoungeGrid({ lounges }: { lounges: AirportLounge[] }) {
+export function AirportLoungeGrid({
+  lounges,
+  iata,
+}: {
+  lounges: AirportLoungeView[];
+  /** Enables links to `/airports/{iata}/lounge/{slug}` for directory lounges. */
+  iata?: string;
+}) {
   if (!lounges.length) {
     return null;
   }
@@ -116,7 +169,15 @@ export function AirportLoungeGrid({ lounges }: { lounges: AirportLounge[] }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {lounges.map((lounge) => (
-        <AirportLoungeCard key={`${lounge.terminal}-${lounge.name}`} lounge={lounge} />
+        <AirportLoungeCard
+          key={lounge.slug ?? `${lounge.terminal}-${lounge.name}`}
+          lounge={lounge}
+          href={
+            lounge.slug && iata
+              ? `/airports/${iata.toLowerCase()}/lounge/${lounge.slug}`
+              : undefined
+          }
+        />
       ))}
     </div>
   );

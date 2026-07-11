@@ -24,6 +24,7 @@ import {
   getAirportGoogleRating,
   getAirportGuideSummary,
   getAirportGuideSummaryByIata,
+  getAirportLoungesWithFallback,
   getAirportSlugs,
   getAllAirportIatas,
   getEditorialReviews,
@@ -261,11 +262,19 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  const [guide, seedReviews] = await Promise.all([
+  const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
+    getAirportLoungesWithFallback(airport.iata),
   ]);
-  return <AirportDetailTabs airport={airport} guide={guide} seedReviews={seedReviews} />;
+  return (
+    <AirportDetailTabs
+      airport={airport}
+      guide={guide}
+      seedReviews={seedReviews}
+      lounges={lounges}
+    />
+  );
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {
@@ -283,6 +292,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const { frontmatter } = guideContent;
   const guide = getAirportGuideSummary(guideContent);
   const record = getAirportByIata(frontmatter.iata);
+  const lounges = await getAirportLoungesWithFallback(frontmatter.iata);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -385,6 +395,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             iata={frontmatter.iata}
             guide={guide}
             guideMarkdown={guideContent.content}
+            lounges={lounges}
           />
         </section>
       </div>

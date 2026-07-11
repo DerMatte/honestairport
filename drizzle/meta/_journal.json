@@ -43,6 +43,13 @@
       "when": 1783600000000,
       "tag": "0005_water_options",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783789709749,
+      "tag": "0006_loud_pandemic",
+      "breakpoints": true
     }
   ]
 }
