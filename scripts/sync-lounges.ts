@@ -239,7 +239,21 @@ export async function syncLounges(iata: string): Promise<void> {
   const matched: AirportLoungeRecord[] = [];
   const unmatched: ResearchedLounge[] = [];
 
-  for (const lounge of parsed.data.lounges) {
+  // Two passes: honor the model's explicit existingSlug claims first, so
+  // same-name lounges in one terminal (e.g. two Sky Clubs on a concourse)
+  // leave the fallback matcher with unique candidates instead of ambiguity —
+  // otherwise a rerun would mint duplicate rows for them.
+  const [claiming, guessing] = parsed.data.lounges.reduce<
+    [ResearchedLounge[], ResearchedLounge[]]
+  >(
+    (acc, lounge) => {
+      acc[lounge.existingSlug && existingSlugSet.has(lounge.existingSlug) ? 0 : 1].push(lounge);
+      return acc;
+    },
+    [[], []],
+  );
+
+  for (const lounge of [...claiming, ...guessing]) {
     const slug = matchToExistingSlug(lounge, existing, claimed);
     if (slug) {
       claimed.add(slug);
