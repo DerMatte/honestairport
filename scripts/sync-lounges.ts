@@ -104,7 +104,7 @@ STEP 2 — OUTPUT. Reply with ONLY a single JSON object (no markdown, no code fe
 {
   "iata": "${iata}",
   "sources": ["https://... every URL you actually used"],
-  "closedSlugs": ["existing slugs confirmed PERMANENTLY closed, [] if none"],
+  "closedSlugs": ["existing slugs to retire: confirmed PERMANENTLY closed, no longer existing, or not actually a traveler-accessible lounge (e.g. an FBO/pilot crew room). [] if none"],
   "lounges": [
     {
       "existingSlug": "slug from the current directory if this is the same physical lounge (even under a slightly different name), else null",
@@ -229,10 +229,17 @@ export async function syncLounges(iata: string): Promise<void> {
   if (parsed.data.iata !== normalizedIata) {
     throw new Error(`pi returned lounges for ${parsed.data.iata}, expected ${normalizedIata}`);
   }
+  // Zero lounges is only acceptable when the research explicitly retires
+  // every existing row via closedSlugs (e.g. a GA field whose seeded
+  // "lounges" turn out to be FBO crew rooms) — a silent empty answer for an
+  // airport with known lounges is treated as a bad run instead.
   if (parsed.data.lounges.length === 0 && existing.length > 0) {
-    throw new Error(
-      `pi returned zero lounges for ${normalizedIata} despite ${existing.length} on record — refusing to stamp anything`,
-    );
+    const retired = new Set(parsed.data.closedSlugs);
+    if (!existing.every((row) => retired.has(row.slug))) {
+      throw new Error(
+        `pi returned zero lounges for ${normalizedIata} despite ${existing.length} on record — refusing to stamp anything`,
+      );
+    }
   }
 
   const today = new Date().toISOString().slice(0, 10);
@@ -273,11 +280,13 @@ export async function syncLounges(iata: string): Promise<void> {
   await upsertAirportLounges(normalizedIata, [...matched, ...created]);
 
   // Never delete: existing rows the research confirmed gone are flipped to
-  // closed; rows the model simply didn't mention are left untouched.
+  // closed; rows the model simply didn't mention are left untouched. Closing
+  // stamps lastVerified so the --next picker counts the airport as resolved
+  // (otherwise an all-closed airport would be re-researched every run).
   let closed = 0;
   for (const slug of parsed.data.closedSlugs) {
     if (existingSlugSet.has(slug) && !claimed.has(slug)) {
-      await setAirportLoungeStatus(normalizedIata, slug, "closed");
+      await setAirportLoungeStatus(normalizedIata, slug, "closed", today);
       closed += 1;
     }
   }

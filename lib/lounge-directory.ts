@@ -370,10 +370,11 @@ export async function setAirportLoungeStatus(
   iata: string,
   slug: string,
   status: AirportLoungeStatus,
+  lastVerified?: string,
 ): Promise<void> {
   await getDb()
     .update(airportLounges)
-    .set({ status, updatedAt: new Date() })
+    .set({ status, updatedAt: new Date(), ...(lastVerified ? { lastVerified } : {}) })
     .where(and(eq(airportLounges.iata, iata.toUpperCase()), eq(airportLounges.slug, slug)));
 }
 
