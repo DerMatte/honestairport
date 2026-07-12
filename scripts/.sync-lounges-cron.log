@@ -233,3 +233,28 @@ Every airport's lounges are verified and fresh. Nothing to do.
 > tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
 
 Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.

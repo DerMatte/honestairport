@@ -182,3 +182,947 @@ Site cache revalidated.
 Researching water options for BKK with pi…
 Site cache revalidated.
 ✅ BKK: 3 water options written (gpt-5.6-terra, 3 sources, 2.8 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked PHX: major airport #22 (Phoenix Sky Harbor International Airport) missing water options
+Researching water options for PHX with pi…
+❌ Failed: pi output failed schema validation: waterOptions.2.price: purchase options must include a price
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked PHX: major airport #22 (Phoenix Sky Harbor International Airport) missing water options
+Researching water options for PHX with pi…
+Site cache revalidated.
+✅ PHX: 2 water options written (gpt-5.6-terra, 3 sources, 3.1 min)
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:water /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts --next
+
+--next picked KKK: guide missing water options (lastUpdated 2026-07-09)
+Researching water options for KKK with pi…
+❌ Failed: pi output failed schema validation: sources: Too small: expected array to have >=1 items; waterOptions: Too small: expected array to have >=2 items
+ ELIFECYCLE  Command failed with exit code 1.
