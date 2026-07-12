@@ -48,7 +48,11 @@ import {
 } from "@/lib/airport-utils";
 import { buildRideshareDeepLink, getRideshareProviders } from "@/lib/rideshare";
 import { formatGuideDate } from "@/lib/utils";
-import type { AirportGuideSection, AirportGuideSummary } from "@/lib/airport-content";
+import type {
+  AirportGuideSection,
+  AirportGuideSummary,
+  AirportLoungeView,
+} from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
 import type { AirportUserReview } from "@/lib/review-schema";
 import type { Airport, AmenityCategory, TransportBestFor } from "@/lib/types";
@@ -63,6 +67,11 @@ interface AirportDetailTabsProps {
   guideMarkdown?: string;
   /** Editorial reviews shown alongside live community reviews. */
   seedReviews?: AirportUserReview[];
+  /**
+   * Lounges for the Lounges tab (directory rows or guide fallback, see
+   * `getAirportLoungesWithFallback`). Directory lounges link to subpages.
+   */
+  lounges?: AirportLoungeView[];
 }
 
 function amenityIcon(category: AmenityCategory) {
@@ -259,6 +268,7 @@ export function AirportDetailTabs({
   iata: iataProp,
   guideMarkdown,
   seedReviews,
+  lounges = [],
 }: AirportDetailTabsProps) {
   const iata = airport?.iata ?? iataProp;
 
@@ -287,9 +297,7 @@ export function AirportDetailTabs({
   );
   const showGettingThere = Boolean(airport) || hasGettingThereGuide;
   const showLounges = Boolean(
-    airport ||
-      guide?.lounges.length ||
-      guideSections?.loungesAmenities?.items.length,
+    airport || lounges.length || guideSections?.loungesAmenities?.items.length,
   );
   const showAmenities = Boolean(airport?.amenities.length);
   const showTips = Boolean(
@@ -600,9 +608,7 @@ export function AirportDetailTabs({
       </TabsContent>
 
       <TabsContent value="lounges" className="space-y-4">
-        {guide?.lounges.length ? (
-          <AirportLoungeGrid lounges={guide.lounges} />
-        ) : null}
+        <AirportLoungeGrid lounges={lounges} iata={iata} />
 
         <GuideSectionCard
           description="Lounge, food, and quiet-spot picks pulled from the markdown guide."
@@ -611,7 +617,7 @@ export function AirportDetailTabs({
           title="Lounge & amenity notes"
         />
 
-        {!guide?.lounges.length && !guideSections?.loungesAmenities?.items.length ? (
+        {!lounges.length && !guideSections?.loungesAmenities?.items.length ? (
           <Card>
             <CardContent className="p-6 text-sm text-muted-foreground">
               No lounge intel yet for {iata}. Check the official airport site for

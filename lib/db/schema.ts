@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   check,
   index,
   integer,
@@ -13,7 +14,13 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import type { AirportBentoTip, AirportLounge, AirportWaterOption } from "@/lib/airport-guides";
+import type {
+  AirportBentoTip,
+  AirportLounge,
+  AirportLoungeVerdict,
+  AirportWaterOption,
+} from "@/lib/airport-guides";
+import type { AirportLoungeStatus, LoungeAccessMethod } from "@/lib/lounge-directory";
 import type {
   Amenity,
   Disruption,
@@ -189,3 +196,97 @@ export const airportProfiles = pgTable("airport_profiles", {
 
 export type AirportProfileRow = typeof airportProfiles.$inferSelect;
 export type NewAirportProfileRow = typeof airportProfiles.$inferInsert;
+
+/**
+ * Web-verified lounge directory, one row per lounge, addressed by the stable
+ * (iata, slug) pair that also forms the public URL
+ * `/airports/{iata}/lounge/{slug}`. Deliberately separate from the jsonb
+ * `lounges` on `airport_guides` (which the guide pipeline overwrites
+ * wholesale): rows here are seeded once from guide data and then enriched in
+ * place by the lounge sync, so verified facts are never clobbered. Slugs are
+ * identity — assigned on insert, never regenerated.
+ */
+export const airportLounges = pgTable(
+  "airport_lounges",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    iata: varchar("iata", { length: 3 }).notNull(),
+    slug: text("slug").notNull(),
+    name: text("name").notNull(),
+    terminal: text("terminal").notNull(),
+    zone: text("zone"),
+    // Walkable directions, e.g. "Mezzanine above Gate B12, escalator opposite Starbucks".
+    location: text("location"),
+    access: jsonb("access").$type<LoungeAccessMethod[]>().notNull().default([]),
+    hours: text("hours"),
+    amenities: jsonb("amenities").$type<string[]>().notNull().default([]),
+    foodAndDrinks: text("food_and_drinks"),
+    showers: boolean("showers"),
+    bestFor: jsonb("best_for").$type<string[]>().notNull().default([]),
+    verdict: text("verdict", {
+      enum: ["worth-it", "depends", "skip"],
+    }).$type<AirportLoungeVerdict>(),
+    summary: text("summary").notNull(),
+    // Long-form editorial for the lounge subpage.
+    description: text("description"),
+    // Closed lounges are kept (status flipped, never deleted) so indexed URLs
+    // keep resolving and a model omission can't destroy rows.
+    status: text("status", { enum: ["open", "temporarily-closed", "closed"] })
+      .notNull()
+      .default("open")
+      .$type<AirportLoungeStatus>(),
+    sourceUrls: jsonb("source_urls").$type<string[]>().notNull().default([]),
+    // ISO date of the last web verification; NULL = seeded from guide jsonb only.
+    lastVerified: text("last_verified"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("airport_lounges_iata_slug_idx").on(table.iata, table.slug),
+    index("airport_lounges_iata_idx").on(table.iata),
+  ],
+);
+
+export type AirportLoungeRow = typeof airportLounges.$inferSelect;
+export type NewAirportLoungeRow = typeof airportLounges.$inferInsert;
+
+/**
+ * Rights-cleared photos per lounge, keyed by the lounge's (iata, slug)
+ * identity — same Commons → Vercel Blob pipeline and attribution rules as
+ * `airport_images`. Most lounges have no Commons photos; absence is normal
+ * and pages render without an image section.
+ */
+export const airportLoungeImages = pgTable(
+  "airport_lounge_images",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    iata: varchar("iata", { length: 3 }).notNull(),
+    loungeSlug: text("lounge_slug").notNull(),
+    url: text("url").notNull(),
+    alt: text("alt").notNull(),
+    caption: text("caption"),
+    credit: text("credit").notNull(),
+    license: text("license").notNull(),
+    licenseUrl: text("license_url"),
+    sourceUrl: text("source_url").notNull(),
+    width: integer("width").notNull(),
+    height: integer("height").notNull(),
+    sortOrder: smallint("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("airport_lounge_images_iata_slug_sort_idx").on(
+      table.iata,
+      table.loungeSlug,
+      table.sortOrder,
+    ),
+    uniqueIndex("airport_lounge_images_iata_slug_source_url_idx").on(
+      table.iata,
+      table.loungeSlug,
+      table.sourceUrl,
+    ),
+  ],
+);
+
+export type AirportLoungeImageRow = typeof airportLoungeImages.$inferSelect;
+export type NewAirportLoungeImageRow = typeof airportLoungeImages.$inferInsert;
