@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
+import { AirportCurrentWeather } from "@/app/components/airport-current-weather";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
@@ -186,6 +187,9 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
               <MapPin className="size-5" aria-hidden="true" />
               {airport.city}, {airport.country} · {airport.region}
             </p>
+            <Suspense fallback={null}>
+              <AirportCurrentWeather iata={airport.iata} />
+            </Suspense>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
               {airport.summary}
             </p>
@@ -349,6 +353,9 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               <MapPin className="size-5" aria-hidden="true" />
               {frontmatter.city}, {frontmatter.country}
             </p>
+            <Suspense fallback={null}>
+              <AirportCurrentWeather iata={frontmatter.iata} />
+            </Suspense>
           </div>
 
           <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
