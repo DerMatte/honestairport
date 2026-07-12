@@ -35,7 +35,7 @@ export async function AirportCurrentWeather({ iata }: { iata: string }) {
   return (
     <Badge
       variant="outline"
-      className="mt-3 h-6 gap-1 px-2.5 text-sm font-normal"
+      className="gap-1 font-normal"
       aria-label={`${weather.condition}, ${celsius} degrees Celsius`}
     >
       <span aria-hidden="true">{weatherEmoji(weather.symbolCode)}</span>
