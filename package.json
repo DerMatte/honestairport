@@ -15,6 +15,7 @@
     "generate:airport": "tsx --env-file-if-exists=.env.local scripts/generate-airport.ts",
     "generate:airport:grok": "tsx --env-file-if-exists=.env.local scripts/generate-airport-grok.ts",
     "generate:airports": "tsx --env-file-if-exists=.env.local scripts/generate-airports-batch.ts",
+    "rebuild:airports": "tsx --env-file-if-exists=.env.local scripts/rebuild-airports-gateway.ts",
     "review:airports": "tsx --env-file-if-exists=.env.local scripts/review-airport-pages.ts",
     "seed:lounges": "tsx --env-file-if-exists=.env.local scripts/seed-lounges-from-guides.ts",
     "sync:forum": "tsx --env-file-if-exists=.env.local scripts/sync-community-forum.ts",
@@ -28,6 +29,7 @@
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.120",
     "@ai-sdk/openai": "^3.0.65",
+    "@ai-sdk/xai": "^4.0.10",
     "@hookform/resolvers": "^5.4.0",
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^2.0.1",
