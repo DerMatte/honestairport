@@ -70,6 +70,9 @@ export const airportGuides = pgTable("airport_guides", {
   country: text("country").notNull(),
   // ISO date string, mirrors the `lastUpdated` frontmatter field.
   lastUpdated: text("last_updated").notNull(),
+  // The airport's official website homepage. NULL for guides that predate the
+  // field; the generator fills it on the next refresh.
+  officialWebsite: text("official_website"),
   sources: jsonb("sources").$type<string[]>().notNull().default([]),
   quickFacts: jsonb("quick_facts").$type<string[]>().notNull().default([]),
   bentoTips: jsonb("bento_tips").$type<AirportBentoTip[]>().notNull().default([]),

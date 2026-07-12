@@ -101,6 +101,7 @@ export const guideJsonSchema = z.object({
   city: nonEmpty,
   country: nonEmpty,
   summary: nonEmpty.describe("One-sentence high-signal summary"),
+  officialWebsite: z.url().describe("The airport's official website homepage"),
   sources: z.array(z.url()).min(3),
   quickFacts: boundedArray(nonEmpty, 4, 6),
   bentoTips: z
@@ -186,6 +187,7 @@ Respond with ONLY a single JSON object (no markdown, no code fences, no commenta
   "city": "City",
   "country": "Country",
   "summary": "One-sentence high-signal summary of why this guide is useful.",
+  "officialWebsite": "https://... — the airport's official website homepage (the operator's own site, not Wikipedia or an unofficial info site)",
   "sources": ["https://...", "at least 3 real URLs you actually used, official site first, include forum threads you drew from"],
   "quickFacts": ["4-6 short, truly important facts (terminals, major airlines, unique characteristics)"],
   "bentoTips": [
@@ -475,6 +477,7 @@ ${bullets(guide.sources)}
       city: guide.city,
       country: guide.country,
       lastUpdated: today,
+      officialWebsite: guide.officialWebsite,
       sources: guide.sources,
       quickFacts: guide.quickFacts,
       bentoTips: guide.bentoTips,

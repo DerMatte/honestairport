@@ -34,6 +34,7 @@ name: "Full official airport name"
 city: "City"
 country: "Country"
 lastUpdated: "${today}"
+officialWebsite: "https://official-airport-site.example"
 sources:
   - "https://official-airport-site.example"
   - "https://relevant-security-or-transport-authority.example"
@@ -96,7 +97,7 @@ Then continue with the page body using this exact heading structure:
 - List the key official links travelers should bookmark.
 
 Tone: Direct, slightly opinionated, zero fluff. Prioritize traveler time-saving and stress reduction.
-Use real official URLs in frontmatter sources whenever possible.
+Use real official URLs in frontmatter sources whenever possible. \`officialWebsite\` must be the airport operator's own homepage (not Wikipedia or an unofficial info site).
 ${referenceBlock}
 IATA: ${normalizedIata}
 ${extraInstructions ? `Additional focus: ${extraInstructions}` : ""}
