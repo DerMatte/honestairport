@@ -180,16 +180,16 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
               ) : null}
               <DisruptionBadge status={airport.disruption.status} />
             </div>
-            <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
+            <Suspense fallback={null}>
+              <AirportCurrentWeather iata={airport.iata} />
+            </Suspense>
+            <h1 className="mt-3 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
               {airport.name}
             </h1>
             <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
               <MapPin className="size-5" aria-hidden="true" />
               {airport.city}, {airport.country} · {airport.region}
             </p>
-            <Suspense fallback={null}>
-              <AirportCurrentWeather iata={airport.iata} />
-            </Suspense>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
               {airport.summary}
             </p>
