@@ -713,17 +713,17 @@ export function AirportDetailTabs({
       <TabsContent value="water" className="space-y-4">
         {guide?.waterOptions.length ? (
           <AirportWaterOptionGrid options={guide.waterOptions} />
-        ) : null}
-
-        {waterGuideSections.map((section) => (
-          <GuideSectionCard
-            key={section.title}
-            description="Hydration notes pulled from the editorial guide."
-            icon={<Droplets aria-hidden="true" />}
-            section={section}
-            title={section.title}
-          />
-        ))}
+        ) : (
+          waterGuideSections.map((section) => (
+            <GuideSectionCard
+              key={section.title}
+              description="Hydration notes pulled from the editorial guide."
+              icon={<Droplets aria-hidden="true" />}
+              section={section}
+              title={section.title}
+            />
+          ))
+        )}
 
         {!guide?.waterOptions.length && !waterGuideSections.length ? (
           <Card>
