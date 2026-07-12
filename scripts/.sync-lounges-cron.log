@@ -1,0 +1,235 @@
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked MAD: unverified seed rows
+Researching lounges for MAD with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked MAD: unverified seed rows
+Researching lounges for MAD with pi (4 on record)…
+Site cache revalidated.
+✅ MAD: 4 lounges verified, 3 new, 0 closed (gpt-5.6-terra, 8 sources, 4.4 min)
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SFO: unverified seed rows
+Researching lounges for SFO with pi (4 on record)…
+Site cache revalidated.
+✅ SFO: 4 lounges verified, 14 new, 0 closed (gpt-5.6-terra, 10 sources, 3.5 min)
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SAN: unverified seed rows
+Researching lounges for SAN with pi (4 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked SAN: unverified seed rows
+Researching lounges for SAN with pi (4 on record)…
+Site cache revalidated.
+✅ SAN: 4 lounges verified, 0 new, 0 closed (gpt-5.6-terra, 8 sources, 3.3 min)
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked TPA: unverified seed rows
+Researching lounges for TPA with pi (3 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked TPA: unverified seed rows
+Researching lounges for TPA with pi (3 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked TPA: unverified seed rows
+Researching lounges for TPA with pi (3 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked STN: unverified seed rows
+Researching lounges for STN with pi (2 on record)…
+Site cache revalidated.
+✅ STN: 2 lounges verified, 0 new, 0 closed (gpt-5.6-terra, 5 sources, 3.3 min)
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked ITH: unverified seed rows
+Researching lounges for ITH with pi (1 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked ITH: unverified seed rows
+Researching lounges for ITH with pi (1 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked ITH: unverified seed rows
+Researching lounges for ITH with pi (1 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked ITH: unverified seed rows
+Researching lounges for ITH with pi (1 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+--next picked ITH: unverified seed rows
+Researching lounges for ITH with pi (1 on record)…
+❌ Failed: pi run failed: Codex error: The usage limit has been reached
+ ELIFECYCLE  Command failed with exit code 1.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
+
+> travelguide@0.1.0 sync:lounges /home/m/honestairport
+> tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts --next
+
+Every airport's lounges are verified and fresh. Nothing to do.
