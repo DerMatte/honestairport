@@ -37,6 +37,7 @@ import {
   loungeRowToView,
   type AirportLoungeView,
 } from "./lounge-directory";
+import { fetchLoungeImageRows, loungeImageRowToAirportImage } from "./lounge-images";
 import { getEditorialReviewsByIata } from "./reviews";
 import type { AirportUserReview } from "./review-schema";
 import type { Airport } from "./types";
@@ -163,6 +164,19 @@ export async function getAirportBySlug(slug: string): Promise<Airport | null> {
 export async function getAirportSlugs(): Promise<string[]> {
   const profiles = await getAllAirportProfiles();
   return profiles.map((airport) => airport.slug);
+}
+
+/** Rights-cleared photos for one lounge; empty for most lounges (normal). */
+export async function getAirportLoungeImages(
+  iata: string,
+  loungeSlug: string,
+): Promise<AirportImage[]> {
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_IMAGES_CACHE_TAG);
+
+  const rows = await fetchLoungeImageRows(iata.toUpperCase(), loungeSlug);
+  return rows.map(loungeImageRowToAirportImage);
 }
 
 /** Directory lounges for an airport; closed ones are kept out of listings. */

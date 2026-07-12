@@ -249,3 +249,44 @@ export const airportLounges = pgTable(
 
 export type AirportLoungeRow = typeof airportLounges.$inferSelect;
 export type NewAirportLoungeRow = typeof airportLounges.$inferInsert;
+
+/**
+ * Rights-cleared photos per lounge, keyed by the lounge's (iata, slug)
+ * identity — same Commons → Vercel Blob pipeline and attribution rules as
+ * `airport_images`. Most lounges have no Commons photos; absence is normal
+ * and pages render without an image section.
+ */
+export const airportLoungeImages = pgTable(
+  "airport_lounge_images",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    iata: varchar("iata", { length: 3 }).notNull(),
+    loungeSlug: text("lounge_slug").notNull(),
+    url: text("url").notNull(),
+    alt: text("alt").notNull(),
+    caption: text("caption"),
+    credit: text("credit").notNull(),
+    license: text("license").notNull(),
+    licenseUrl: text("license_url"),
+    sourceUrl: text("source_url").notNull(),
+    width: integer("width").notNull(),
+    height: integer("height").notNull(),
+    sortOrder: smallint("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("airport_lounge_images_iata_slug_sort_idx").on(
+      table.iata,
+      table.loungeSlug,
+      table.sortOrder,
+    ),
+    uniqueIndex("airport_lounge_images_iata_slug_source_url_idx").on(
+      table.iata,
+      table.loungeSlug,
+      table.sourceUrl,
+    ),
+  ],
+);
+
+export type AirportLoungeImageRow = typeof airportLoungeImages.$inferSelect;
+export type NewAirportLoungeImageRow = typeof airportLoungeImages.$inferInsert;

@@ -23,10 +23,12 @@ import {
 } from "@/app/components/airport-lounges";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PhotoStrip } from "@/app/components/photo-strip";
 import {
   getAirportBySlug,
   getAirportContent,
   getAirportLounge,
+  getAirportLoungeImages,
   getAirportLounges,
   getAllAirportLoungeParams,
   type AirportLoungeView,
@@ -90,12 +92,18 @@ export async function generateMetadata({ params }: LoungePageProps): Promise<Met
   };
 }
 
-function loungeJsonLd(lounge: AirportLoungeView, iata: string, airportName: string) {
+function loungeJsonLd(
+  lounge: AirportLoungeView,
+  iata: string,
+  airportName: string,
+  imageUrls: string[],
+) {
   return {
     "@context": "https://schema.org",
     "@type": "Place",
     name: lounge.name,
     description: lounge.summary,
+    ...(imageUrls.length ? { image: imageUrls } : {}),
     ...(lounge.hours ? { openingHours: lounge.hours } : {}),
     containedInPlace: {
       "@type": "Airport",
@@ -126,9 +134,10 @@ export default async function LoungePage({ params }: LoungePageProps) {
   const { slug, loungeSlug } = await params;
   const iata = slug.trim().toUpperCase();
 
-  const [lounge, airportName] = await Promise.all([
+  const [lounge, airportName, images] = await Promise.all([
     getAirportLounge(iata, loungeSlug),
     resolveAirportName(slug),
+    getAirportLoungeImages(iata, loungeSlug),
   ]);
 
   if (!lounge) {
@@ -149,7 +158,9 @@ export default async function LoungePage({ params }: LoungePageProps) {
         type="application/ld+json"
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(loungeJsonLd(lounge, iata, displayAirportName)),
+          __html: JSON.stringify(
+            loungeJsonLd(lounge, iata, displayAirportName, images.map((image) => image.url)),
+          ),
         }}
       />
       <script
@@ -194,6 +205,12 @@ export default async function LoungePage({ params }: LoungePageProps) {
             {lounge.summary}
           </p>
         </section>
+
+        {images.length ? (
+          <div className="mt-8">
+            <PhotoStrip images={images} ariaLabel={`${lounge.name} photos`} />
+          </div>
+        ) : null}
 
         {lounge.status !== "open" ? (
           <Card className="mt-8 border-red-500/30 bg-red-500/5">
