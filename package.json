@@ -20,6 +20,7 @@
     "sync:forum": "tsx --env-file-if-exists=.env.local scripts/sync-community-forum.ts",
     "sync:images": "tsx --env-file-if-exists=.env.local scripts/sync-airport-images.ts",
     "sync:lounge-images": "tsx --env-file-if-exists=.env.local scripts/sync-lounge-images.ts",
+    "sync:lounge-press": "tsx --env-file-if-exists=.env.local scripts/sync-lounge-press-images.ts",
     "sync:lounges": "tsx --env-file-if-exists=.env.local scripts/sync-lounges.ts",
     "sync:ratings": "tsx --env-file-if-exists=.env.local scripts/sync-google-ratings.ts",
     "sync:water": "tsx --env-file-if-exists=.env.local scripts/sync-water-options.ts"
