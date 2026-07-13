@@ -2,10 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { CircleUserRound, Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
 import { NearestAirportLink } from "@/app/components/nearest-airport-link";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -15,10 +21,20 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
+import { signOut, useSession } from "@/lib/auth-client";
 
 export function SiteHeader() {
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  async function handleSignOut() {
+    await signOut();
+    setMenuOpen(false);
+    router.refresh();
+  }
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -40,6 +56,36 @@ export function SiteHeader() {
           <Button variant="ghost" size="sm" asChild>
             <Link href="/">Directory</Link>
           </Button>
+          {isPending ? (
+            <Skeleton className="h-8 w-[72px]" />
+          ) : session ? (
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <CircleUserRound className="size-4" aria-hidden="true" />
+                  Account
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="end" className="w-64">
+                <p className="truncate text-sm font-medium">{session.user.name}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {session.user.email}
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-3 w-full"
+                  onClick={handleSignOut}
+                >
+                  Sign out
+                </Button>
+              </PopoverContent>
+            </Popover>
+          ) : (
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/login">Sign in</Link>
+            </Button>
+          )}
         </nav>
 
         <Button
@@ -92,6 +138,26 @@ export function SiteHeader() {
                 className="px-4 py-1.5"
                 onNavigate={() => setMenuOpen(false)}
               />
+              {isPending ? null : session ? (
+                <>
+                  <p className="truncate px-4 py-1.5 text-sm text-muted-foreground">
+                    Signed in as {session.user.email}
+                  </p>
+                  <Button
+                    variant="ghost"
+                    className="justify-start"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </Button>
+                </>
+              ) : (
+                <SheetClose asChild>
+                  <Button variant="ghost" className="justify-start" asChild>
+                    <Link href="/login">Sign in</Link>
+                  </Button>
+                </SheetClose>
+              )}
             </nav>
 
             <Separator className="my-2" />
