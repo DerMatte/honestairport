@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
+import { NearestAirportLink } from "@/app/components/nearest-airport-link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -35,6 +36,7 @@ export function SiteHeader() {
     <>
       <div className="ml-auto flex items-center gap-1">
         <nav className="mr-1 hidden items-center md:flex">
+          <NearestAirportLink className="mr-2" />
           <Button variant="ghost" size="sm" asChild>
             <Link href="/">Directory</Link>
           </Button>
@@ -86,6 +88,10 @@ export function SiteHeader() {
                   <Link href="/">Airport directory</Link>
                 </Button>
               </SheetClose>
+              <NearestAirportLink
+                className="px-4 py-1.5"
+                onNavigate={() => setMenuOpen(false)}
+              />
             </nav>
 
             <Separator className="my-2" />
