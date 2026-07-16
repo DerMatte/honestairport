@@ -88,7 +88,7 @@ export function SettingsForm({ user }: SettingsFormProps) {
       return;
     }
     if (newPassword !== confirmPassword) {
-      setPasswordError("New passwords don’t match.");
+      setPasswordError("New passwords don't match.");
       return;
     }
 
@@ -101,7 +101,7 @@ export function SettingsForm({ user }: SettingsFormProps) {
       });
       if (result.error) {
         setPasswordError(
-          result.error.message ?? "Couldn’t change password — try again.",
+          result.error.message ?? "Couldn't change password — try again.",
         );
         return;
       }
