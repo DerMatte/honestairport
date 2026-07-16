@@ -21,9 +21,11 @@ const STORAGE_KEY = "nearest-airport";
 export function NearestAirportLink({
   className,
   onNavigate,
+  variant = "inline",
 }: {
   className?: string;
   onNavigate?: () => void;
+  variant?: "inline" | "menu";
 }) {
   const [airport, setAirport] = useState<NearestAirport | null>(null);
 
@@ -65,6 +67,32 @@ export function NearestAirportLink({
 
   if (!airport) return null;
 
+  if (variant === "menu") {
+    return (
+      <Link
+        href={`/airports/${airport.slug}`}
+        onClick={onNavigate}
+        title={airport.name}
+        className={cn(
+          "group flex items-center gap-3 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-accent/70",
+          className,
+        )}
+      >
+        <span className="flex size-10 items-center justify-center rounded-xl bg-muted">
+          <MapPin className="size-4 text-foreground/80" aria-hidden="true" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-medium">
+            Near you · {airport.iata}
+          </span>
+          <span className="block truncate text-xs text-muted-foreground">
+            {airport.city}
+          </span>
+        </span>
+      </Link>
+    );
+  }
+
   return (
     <Link
       href={`/airports/${airport.slug}`}
@@ -77,7 +105,8 @@ export function NearestAirportLink({
     >
       <MapPin className="size-3" aria-hidden="true" />
       <span>
-        Near you: <span className="font-medium text-foreground">{airport.iata}</span>
+        Near you:{" "}
+        <span className="font-medium text-foreground">{airport.iata}</span>
       </span>
     </Link>
   );
