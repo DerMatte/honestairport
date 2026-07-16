@@ -265,35 +265,39 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
   return (
     <div className="min-h-screen">
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden border-b border-border/40">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--background)_40%,transparent)_0%,var(--background)_92%),radial-gradient(ellipse_90%_70%_at_50%_-20%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_58%),radial-gradient(circle_at_85%_20%,color-mix(in_oklab,var(--chart-2)_16%,transparent),transparent_42%),radial-gradient(circle_at_10%_70%,color-mix(in_oklab,var(--muted)_80%,transparent),transparent_45%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-30%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_55%),radial-gradient(circle_at_92%_8%,color-mix(in_oklab,var(--chart-2)_20%,transparent),transparent_38%),radial-gradient(circle_at_0%_85%,color-mix(in_oklab,var(--muted)_90%,transparent),transparent_40%),linear-gradient(180deg,color-mix(in_oklab,var(--background)_55%,white)_0%,var(--background)_100%)]"
         />
         <div
           aria-hidden="true"
-          className="hero-aurora pointer-events-none absolute -left-1/4 top-[-20%] h-[70%] w-[70%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_68%)] blur-3xl"
+          className="hero-aurora pointer-events-none absolute -left-[18%] top-[-28%] h-[78%] w-[72%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_68%)] blur-3xl"
         />
         <div
           aria-hidden="true"
-          className="hero-aurora pointer-events-none absolute -right-1/5 bottom-[-10%] h-[55%] w-[55%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--chart-2)_14%,transparent),transparent_70%)] blur-3xl"
+          className="hero-aurora pointer-events-none absolute -right-[12%] bottom-[-18%] h-[62%] w-[58%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--chart-2)_18%,transparent),transparent_70%)] blur-3xl"
           style={{ animationDelay: "-6s" }}
         />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent"
+        />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-14 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pt-20 lg:pb-24">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-16 pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-24 lg:pb-28">
           <div className="flex flex-col justify-center">
-            <p className="hero-enter font-heading text-4xl leading-none tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            <p className="hero-enter font-heading text-5xl leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
               HonestAirport
             </p>
-            <h1 className="hero-enter hero-enter-delay-1 mt-5 max-w-xl text-3xl leading-[1.12] tracking-tight text-balance text-foreground/90 sm:text-4xl lg:text-[2.75rem]">
+            <h1 className="hero-enter hero-enter-delay-1 mt-6 max-w-xl text-2xl leading-snug tracking-tight text-balance text-foreground/85 sm:text-3xl lg:text-[2.15rem]">
               Clear airport intel before you land.
             </h1>
-            <p className="hero-enter hero-enter-delay-2 mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+            <p className="hero-enter hero-enter-delay-2 mt-4 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
               Search major airports, compare disruption risk, and read practical
               Traveler Tips before you get there.
             </p>
 
-            <div className="hero-enter hero-enter-delay-3 mt-8 max-w-xl">
+            <div className="hero-enter hero-enter-delay-3 mt-9 max-w-xl">
               <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
             </div>
           </div>

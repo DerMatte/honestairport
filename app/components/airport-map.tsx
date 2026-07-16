@@ -27,22 +27,23 @@ function MapCanvas({
   return (
     <div
       className={cn(
-        "relative aspect-[16/8.5] overflow-hidden rounded-3xl border border-border/60 bg-[radial-gradient(circle_at_20%_25%,color-mix(in_oklab,var(--primary)_8%,var(--muted))_0,transparent_26%),radial-gradient(circle_at_52%_34%,var(--muted)_0,transparent_18%),radial-gradient(circle_at_76%_42%,color-mix(in_oklab,var(--primary)_6%,var(--muted))_0,transparent_22%),linear-gradient(160deg,var(--background),var(--muted))]",
+        "relative aspect-[16/8.5] overflow-hidden rounded-3xl border border-border/60 bg-[radial-gradient(ellipse_at_50%_0%,color-mix(in_oklab,var(--primary)_10%,transparent),transparent_55%),radial-gradient(circle_at_20%_25%,color-mix(in_oklab,var(--primary)_10%,var(--muted))_0,transparent_26%),radial-gradient(circle_at_52%_34%,var(--muted)_0,transparent_18%),radial-gradient(circle_at_76%_42%,color-mix(in_oklab,var(--chart-2)_8%,var(--muted))_0,transparent_22%),linear-gradient(165deg,color-mix(in_oklab,var(--background)_70%,white),var(--muted))]",
         className,
       )}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-35"
         style={{
           backgroundImage:
             "linear-gradient(to right, color-mix(in oklab, var(--border) 70%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in oklab, var(--border) 70%, transparent) 1px, transparent 1px)",
           backgroundSize: "12.5% 33.333%",
         }}
       />
-      <div className="absolute inset-x-[8%] top-[18%] h-[24%] rounded-[50%] border border-foreground/10 bg-foreground/[0.03]" />
-      <div className="absolute left-[14%] top-[35%] h-[28%] w-[28%] rounded-[55%] border border-foreground/10 bg-foreground/[0.04]" />
-      <div className="absolute left-[45%] top-[30%] h-[35%] w-[17%] rounded-[50%] border border-foreground/10 bg-foreground/[0.04]" />
-      <div className="absolute right-[9%] top-[28%] h-[33%] w-[28%] rounded-[55%] border border-foreground/10 bg-foreground/[0.04]" />
+      <div className="absolute inset-x-[8%] top-[18%] h-[24%] rounded-[50%] border border-foreground/10 bg-foreground/[0.035]" />
+      <div className="absolute left-[14%] top-[35%] h-[28%] w-[28%] rounded-[55%] border border-foreground/10 bg-foreground/[0.045]" />
+      <div className="absolute left-[45%] top-[30%] h-[35%] w-[17%] rounded-[50%] border border-foreground/10 bg-foreground/[0.045]" />
+      <div className="absolute right-[9%] top-[28%] h-[33%] w-[28%] rounded-[55%] border border-foreground/10 bg-foreground/[0.045]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/40 to-transparent" />
 
       {airports.map((airport, index) => (
         <Link
