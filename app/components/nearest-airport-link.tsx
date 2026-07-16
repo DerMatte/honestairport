@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface NearestAirport {
+export interface NearestAirport {
   iata: string;
   slug: string;
   city: string;
@@ -14,19 +14,7 @@ interface NearestAirport {
 
 const STORAGE_KEY = "nearest-airport";
 
-/**
- * Small "Near you: XXX" link resolved from Vercel's IP geolocation headers.
- * Renders nothing until (and unless) a nearby covered airport is found.
- */
-export function NearestAirportLink({
-  className,
-  onNavigate,
-  variant = "inline",
-}: {
-  className?: string;
-  onNavigate?: () => void;
-  variant?: "inline" | "menu";
-}) {
+export function useNearestAirport() {
   const [airport, setAirport] = useState<NearestAirport | null>(null);
 
   useEffect(() => {
@@ -65,33 +53,23 @@ export function NearestAirportLink({
     };
   }, []);
 
-  if (!airport) return null;
+  return airport;
+}
 
-  if (variant === "menu") {
-    return (
-      <Link
-        href={`/airports/${airport.slug}`}
-        onClick={onNavigate}
-        title={airport.name}
-        className={cn(
-          "group flex items-center gap-3 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-accent/70",
-          className,
-        )}
-      >
-        <span className="flex size-10 items-center justify-center rounded-xl bg-muted">
-          <MapPin className="size-4 text-foreground/80" aria-hidden="true" />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block text-sm font-medium">
-            Near you · {airport.iata}
-          </span>
-          <span className="block truncate text-xs text-muted-foreground">
-            {airport.city}
-          </span>
-        </span>
-      </Link>
-    );
-  }
+/**
+ * Small "Near you: XXX" link resolved from Vercel's IP geolocation headers.
+ * Renders nothing until (and unless) a nearby covered airport is found.
+ */
+export function NearestAirportLink({
+  className,
+  onNavigate,
+}: {
+  className?: string;
+  onNavigate?: () => void;
+}) {
+  const airport = useNearestAirport();
+
+  if (!airport) return null;
 
   return (
     <Link
