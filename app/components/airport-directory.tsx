@@ -286,18 +286,15 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-16 pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-24 lg:pb-28">
           <div className="flex flex-col justify-center">
-            <p className="hero-enter font-heading text-5xl leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-              HonestAirport
-            </p>
-            <h1 className="hero-enter hero-enter-delay-1 mt-6 max-w-xl text-2xl leading-snug tracking-tight text-balance text-foreground/85 sm:text-3xl lg:text-[2.15rem]">
+            <h1 className="hero-enter max-w-2xl text-4xl leading-[1.05] tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
               Honest airport reviews - get through every one with speed
             </h1>
-            <p className="hero-enter hero-enter-delay-2 mt-4 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+            <p className="hero-enter hero-enter-delay-1 mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
               Search major airports, compare disruption risk, and read practical
               Traveler Tips before you get there.
             </p>
 
-            <div className="hero-enter hero-enter-delay-3 mt-9 max-w-xl">
+            <div className="hero-enter hero-enter-delay-2 mt-9 max-w-xl">
               <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
             </div>
           </div>
