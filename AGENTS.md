@@ -13,6 +13,19 @@ TravelGuide is a Next.js 16 App Router site serving per-airport knowledge pages.
 - `pnpm dev` starts the dev server on port 3000.
 - Standard scripts are in `package.json`: `dev`, `build`, `start`, `lint`.
 
+### Local database (needed for real content)
+- The app boots without `DATABASE_URL` but all content sections (guides, profiles, reviews) render empty — so for any meaningful local work you need Postgres.
+- `pnpm db:dev` boots a disposable embedded Postgres on port 54329 (no Docker); data persists in the gitignored `.dev-postgres/`. Keep it running in its own terminal.
+- **Gotcha — env `DATABASE_URL` overrides `.env.local`.** The VM may inject a managed/remote `DATABASE_URL` (look for `pgbouncer=true` / `sslrootcert=system`). Both Next.js and `scripts/load-env.ts` skip any key already in the process env, so a shell/VM `DATABASE_URL` silently wins over `.env.local` — the app/scripts then hit that managed DB, not the local embedded one. That managed DB may also be behind on migrations (e.g. missing `airport_reviews.user_id`), which surfaces as `column ... does not exist` at runtime. For safe, reproducible local dev, explicitly bind to the local DB, e.g. `export DATABASE_URL=postgres://dev:dev@127.0.0.1:54329/honestairport` before `pnpm dev`/`db:migrate`/`db:dev`, so you never migrate/seed/pollute the managed DB.
+- After pointing at the local DB, run `pnpm db:migrate` (idempotent; tracks applied migrations in `public.__drizzle_migrations`).
+- There is no committed seed for `airport_guides`/`airport_profiles`/`airport_reviews`. To populate a fresh local DB, guides can be restored from git history (`content/airports/*.md` before commit `f8f802d`) via `pnpm guide save`, and the 10 curated profiles+reviews from `lib/data.ts` before commit `70c1875`. The homepage directory only lists airports that have an `airport_profiles` row; guide-only airports still render as guide-only detail pages at `/airports/[slug]`.
+- No `psql` binary is installed; query the DB via `tsx` using `getDb()` from `lib/db` if needed.
+
+### Auth & owner-gated reviews (Better Auth)
+- Login uses Better Auth (email/password + optional GitHub/Apple). Required env for local dev: `BETTER_AUTH_SECRET` (`openssl rand -base64 32`), `BETTER_AUTH_URL` set to your dev origin (the same host/port `pnpm dev` serves), and `OWNER_EMAIL`. See `.env.example`.
+- Posting reviews is gated to the single site owner: `POST /api/airports/[iata]/reviews` requires a session whose user email equals `OWNER_EMAIL` **and** `emailVerified = true` (`lib/owner.ts`). Non-owners get 401/403; the form shows a "sign in" prompt.
+- Dev has no email sender, so email/password signups start with `emailVerified = false`. To make the owner able to post locally, set it directly: `UPDATE "user" SET email_verified = true WHERE lower(email) = lower('<OWNER_EMAIL>')`.
+
 ### Lint
 - `pnpm lint` runs ESLint. There are pre-existing lint errors (`@next/next/no-html-link-for-pages` in a few files) — these are in the base code and not regressions.
 
