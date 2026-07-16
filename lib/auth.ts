@@ -17,6 +17,17 @@ const appleEnabled = Boolean(
 
 export const auth = betterAuth({
   database: drizzleAdapter(getDb(), { provider: "pg", schema }),
+  user: {
+    additionalFields: {
+      role: {
+        type: ["user", "admin"],
+        required: false,
+        defaultValue: "user",
+        // Privilege is DB/ops-managed — never accepted from signup or OAuth profile.
+        input: false,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     sendResetPassword: async ({ user, url }) => {
@@ -36,6 +47,20 @@ export const auth = betterAuth({
     },
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
+  },
+  // Tighter defaults for auth endpoints (in-memory unless secondary storage
+  // is configured). Custom path rules catch signup / password-reset bursts.
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 30,
+    customRules: {
+      "/sign-up/email": { window: 60, max: 5 },
+      "/sign-in/email": { window: 60, max: 10 },
+      "/request-password-reset": { window: 60, max: 3 },
+      "/forget-password": { window: 60, max: 3 },
+      "/send-verification-email": { window: 60, max: 3 },
+    },
   },
   socialProviders: {
     ...(githubEnabled

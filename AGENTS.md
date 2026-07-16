@@ -21,10 +21,10 @@ TravelGuide is a Next.js 16 App Router site serving per-airport knowledge pages.
 - There is no committed seed for `airport_guides`/`airport_profiles`/`airport_reviews`. To populate a fresh local DB, guides can be restored from git history (`content/airports/*.md` before commit `f8f802d`) via `pnpm guide save`, and the 10 curated profiles+reviews from `lib/data.ts` before commit `70c1875`. The homepage directory only lists airports that have an `airport_profiles` row; guide-only airports still render as guide-only detail pages at `/airports/[slug]`.
 - No `psql` binary is installed; query the DB via `tsx` using `getDb()` from `lib/db` if needed.
 
-### Auth & owner-gated reviews (Better Auth)
-- Login uses Better Auth (email/password + optional GitHub/Apple). Required env for local dev: `BETTER_AUTH_SECRET` (`openssl rand -base64 32`), `BETTER_AUTH_URL` set to your dev origin (the same host/port `pnpm dev` serves), and `OWNER_EMAIL`. See `.env.example`.
-- Posting reviews is gated to the single site owner: `POST /api/airports/[iata]/reviews` requires a session whose user email equals `OWNER_EMAIL` **and** `emailVerified = true` (`lib/owner.ts`). Non-owners get 401/403; the form shows a "sign in" prompt.
-- Dev has no email sender, so email/password signups start with `emailVerified = false`. To make the owner able to post locally, set it directly: `UPDATE "user" SET email_verified = true WHERE lower(email) = lower('<OWNER_EMAIL>')`.
+### Auth & admin-gated reviews (Better Auth)
+- Login uses Better Auth (email/password + optional GitHub/Apple). Required env for local dev: `BETTER_AUTH_SECRET` (`openssl rand -base64 32`) and `BETTER_AUTH_URL` set to your dev origin (the same host/port `pnpm dev` serves). See `.env.example`.
+- Signup stays open for everyone. Posting reviews is gated to users with `user.role = 'admin'` (`lib/admin.ts`). Promote via SQL, e.g. `UPDATE "user" SET role = 'admin', email_verified = true WHERE lower(email) = lower('you@example.com')`. Non-admins get 401/403; the form shows a sign-in / admin-only prompt.
+- Dev has no email sender unless `RESEND_API_KEY` is set, so email/password signups start with `emailVerified = false` (verification links are logged to the terminal).
 
 ### Lint
 - `pnpm lint` runs ESLint. There are pre-existing lint errors (`@next/next/no-html-link-for-pages` in a few files) — these are in the base code and not regressions.

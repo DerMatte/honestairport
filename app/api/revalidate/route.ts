@@ -7,6 +7,7 @@ import {
   AIRPORT_LOUNGES_CACHE_TAG,
   AIRPORT_PROFILES_CACHE_TAG,
 } from "@/lib/airport-content";
+import { secretsEqual } from "@/lib/request-security";
 
 /**
  * Called by the content pipeline after upserting guides in Postgres so
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Revalidation is not configured" }, { status: 503 });
   }
 
-  if (request.headers.get("x-revalidate-secret") !== secret) {
+  if (!secretsEqual(request.headers.get("x-revalidate-secret"), secret)) {
     return NextResponse.json({ error: "Invalid secret" }, { status: 401 });
   }
 

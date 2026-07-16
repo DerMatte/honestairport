@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  index,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -7,6 +14,9 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  // Server-managed privilege flag — never accepted from client signup input.
+  // "admin" may post reviews (and other gated writes); everyone else is "user".
+  role: text("role", { enum: ["user", "admin"] }).default("user").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
@@ -72,6 +82,18 @@ export const verification = pgTable(
   },
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
+
+/**
+ * Durable counters for API abuse limits (guide generation, etc.).
+ * Keyed by a hashed bucket id such as `generate:<ipHash>`.
+ */
+export const rateLimitBuckets = pgTable("rate_limit_buckets", {
+  bucketKey: text("bucket_key").primaryKey(),
+  count: integer("count").notNull().default(0),
+  windowStartsAt: timestamp("window_starts_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),

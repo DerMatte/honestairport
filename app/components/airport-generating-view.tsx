@@ -36,6 +36,7 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
     async function generateGuide() {
       try {
         const response = await fetch(`/api/airports/${record.iata_code}/generate`, {
+          method: "POST",
           signal: controller.signal,
         });
 

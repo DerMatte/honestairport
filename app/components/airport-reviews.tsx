@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, CheckCircle2, RefreshCw, Star } from "lucide-react";
+import { isAdmin } from "@/lib/admin";
 import { useSession } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -200,23 +201,51 @@ function ReviewForm({
     }
   });
 
+  if (isPending) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Write a review</CardTitle>
+        </CardHeader>
+      </Card>
+    );
+  }
+
+  const canPost = Boolean(session && isAdmin(session.user));
+
+  if (!canPost) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Write a review</CardTitle>
+          <p className="text-xs text-muted-foreground">
+            {session ? (
+              <>
+                Signed in as {session.user.email}. Review publishing is limited to
+                admins for now.
+              </>
+            ) : (
+              <>
+                Reviews are published by site admins —{" "}
+                <Link href="/login" className="underline underline-offset-4">
+                  sign in
+                </Link>
+                .
+              </>
+            )}
+          </p>
+        </CardHeader>
+      </Card>
+    );
+  }
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Write a review</CardTitle>
-        {isPending ? null : session ? (
-          <p className="text-xs text-muted-foreground">
-            Signed in as {session.user.email}
-          </p>
-        ) : (
-          <p className="text-xs text-muted-foreground">
-            Reviews are published by the site owner —{" "}
-            <Link href="/login" className="underline underline-offset-4">
-              sign in
-            </Link>
-            .
-          </p>
-        )}
+        <p className="text-xs text-muted-foreground">
+          Signed in as {session!.user.email}
+        </p>
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-4" noValidate>

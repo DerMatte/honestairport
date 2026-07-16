@@ -10,7 +10,7 @@ initBotId({
     },
     {
       path: "/api/airports/*/generate",
-      method: "GET",
+      method: "POST",
     },
   ],
 });
