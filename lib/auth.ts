@@ -3,6 +3,7 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { getDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
+import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/email";
 
 // Social providers are registered only when their credentials exist, so dev
 // and CI builds work without any OAuth apps configured — the login page
@@ -16,7 +17,26 @@ const appleEnabled = Boolean(
 
 export const auth = betterAuth({
   database: drizzleAdapter(getDb(), { provider: "pg", schema }),
-  emailAndPassword: { enabled: true },
+  emailAndPassword: {
+    enabled: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendPasswordResetEmail(user.email, url);
+    },
+    revokeSessionsOnPasswordReset: true,
+  },
+  emailVerification: {
+    // Verification failing (Resend outage, missing key) must not block the
+    // signup itself — the user can re-request from the login screen later.
+    sendVerificationEmail: async ({ user, url }) => {
+      try {
+        await sendVerificationEmail(user.email, url);
+      } catch (error) {
+        console.error("Failed to send verification email:", error);
+      }
+    },
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+  },
   socialProviders: {
     ...(githubEnabled
       ? {
