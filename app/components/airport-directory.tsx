@@ -290,14 +290,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
               HonestAirport
             </p>
             <h1 className="hero-enter hero-enter-delay-1 mt-6 max-w-xl text-2xl leading-snug tracking-tight text-balance text-foreground/85 sm:text-3xl lg:text-[2.15rem]">
-              Clear airport intel before you land.
+              Honest airport reviews - get through every one with speed
             </h1>
-            <p className="hero-enter hero-enter-delay-2 mt-4 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Search major airports, compare disruption risk, and read practical
-              Traveler Tips before you get there.
-            </p>
 
-            <div className="hero-enter hero-enter-delay-3 mt-9 max-w-xl">
+            <div className="hero-enter hero-enter-delay-2 mt-9 max-w-xl">
               <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
             </div>
           </div>
