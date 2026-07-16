@@ -71,6 +71,13 @@
       "when": 1783948175908,
       "tag": "0009_talented_slipstream",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1784200000000,
+      "tag": "0010_admin_role",
+      "breakpoints": true
     }
   ]
 }

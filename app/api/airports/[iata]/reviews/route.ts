@@ -1,11 +1,11 @@
-import { createHash } from "node:crypto";
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
+import { isAdmin } from "@/lib/admin";
 import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
-import { isOwner } from "@/lib/owner";
 import { reviewFormSchema } from "@/lib/review-schema";
 import { createReview, getReviewsByIata } from "@/lib/reviews";
+import { assertSameOrigin, hashClientIp } from "@/lib/request-security";
 
 interface RouteParams {
   params: Promise<{ iata: string }>;
@@ -14,17 +14,6 @@ interface RouteParams {
 function normalizeIata(iata: string): string | null {
   const normalized = iata.trim().toUpperCase();
   return /^[A-Z]{3}$/.test(normalized) ? normalized : null;
-}
-
-function hashClientIp(request: Request): string | null {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const ip = forwardedFor?.split(",")[0]?.trim();
-
-  if (!ip) {
-    return null;
-  }
-
-  return createHash("sha256").update(ip).digest("hex");
 }
 
 export async function GET(_request: Request, { params }: RouteParams) {
@@ -63,6 +52,10 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Invalid IATA code" }, { status: 400 });
   }
 
+  if (!assertSameOrigin(request)) {
+    return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
+  }
+
   if (!isDatabaseConfigured()) {
     return NextResponse.json({ error: "Reviews are not configured" }, { status: 503 });
   }
@@ -73,9 +66,9 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Sign in to post reviews." }, { status: 401 });
   }
 
-  if (!isOwner(session.user)) {
+  if (!isAdmin(session.user)) {
     return NextResponse.json(
-      { error: "Only the site owner can post reviews." },
+      { error: "Only admins can post reviews." },
       { status: 403 },
     );
   }

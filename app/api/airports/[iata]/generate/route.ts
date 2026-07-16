@@ -16,22 +16,34 @@ import {
 } from "@/lib/airport-guides";
 import { upsertAirportProfile } from "@/lib/airport-profiles";
 import { getAirportByIata } from "@/lib/airports";
+import {
+  assertSameOrigin,
+  consumeRateLimit,
+  hashClientIp,
+} from "@/lib/request-security";
 
 interface RouteParams {
   params: Promise<{ iata: string }>;
 }
+
+const GENERATE_RATE_LIMIT = 3;
+const GENERATE_RATE_WINDOW_MS = 60 * 60 * 1000;
 
 function normalizeIata(iata: string): string | null {
   const normalized = iata.trim().toUpperCase();
   return /^[A-Z]{3}$/.test(normalized) ? normalized : null;
 }
 
-export async function GET(_request: Request, { params }: RouteParams) {
+export async function POST(request: Request, { params }: RouteParams) {
   const { iata } = await params;
   const normalized = normalizeIata(iata);
 
   if (!normalized) {
     return NextResponse.json({ error: "Invalid IATA code" }, { status: 400 });
+  }
+
+  if (!assertSameOrigin(request)) {
+    return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
   }
 
   const verification = await checkBotId();
@@ -41,6 +53,21 @@ export async function GET(_request: Request, { params }: RouteParams) {
 
   if (!isDatabaseConfigured()) {
     return NextResponse.json({ error: "Database is not configured" }, { status: 503 });
+  }
+
+  const ipHash = hashClientIp(request);
+  if (ipHash) {
+    const allowed = await consumeRateLimit(
+      `generate:${ipHash}`,
+      GENERATE_RATE_LIMIT,
+      GENERATE_RATE_WINDOW_MS,
+    );
+    if (!allowed) {
+      return NextResponse.json(
+        { error: "Too many guide generations — try again in an hour." },
+        { status: 429 },
+      );
+    }
   }
 
   if (!process.env.AI_GATEWAY_API_KEY?.trim()) {
