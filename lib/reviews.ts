@@ -57,6 +57,7 @@ export async function createReview(
   iata: string,
   values: ReviewFormValues,
   ipHash: string | null,
+  userId?: string,
 ): Promise<AirportUserReview | "rate-limited"> {
   const db = getDb();
 
@@ -86,6 +87,7 @@ export async function createReview(
       title: values.title,
       body: values.body,
       ipHash,
+      userId: userId ?? null,
     })
     .returning();
 

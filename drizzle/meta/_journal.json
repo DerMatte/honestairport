@@ -43,6 +43,34 @@
       "when": 1783600000000,
       "tag": "0005_water_options",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783789709749,
+      "tag": "0006_loud_pandemic",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1783867518464,
+      "tag": "0007_curly_blink",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1783876418539,
+      "tag": "0008_small_morbius",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1783948175908,
+      "tag": "0009_talented_slipstream",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,6 @@
-import { Droplets, MapPin, Sparkles, Tag } from "lucide-react";
+import { Droplets, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { AirportWaterOption, AirportWaterOptionKind } from "@/lib/airport-content";
 
 function kindLabel(kind: AirportWaterOptionKind): string {
@@ -110,17 +104,11 @@ export function AirportWaterOptionCard({ option }: { option: AirportWaterOption 
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm leading-6 text-muted-foreground">{option.summary}</p>
-        <div className="space-y-3">
-          {option.price ? (
-            <WaterFactRow icon={<Tag aria-hidden="true" />} label="Price">
-              {option.price}
-            </WaterFactRow>
-          ) : null}
-          <WaterFactRow icon={<MapPin aria-hidden="true" />} label="Terminal">
-            {option.terminal}
-            {option.zone ? ` · ${option.zone}` : ""}
+        {option.price ? (
+          <WaterFactRow icon={<Tag aria-hidden="true" />} label="Price">
+            {option.price}
           </WaterFactRow>
-        </div>
+        ) : null}
       </CardContent>
     </Card>
   );
@@ -131,66 +119,14 @@ export function AirportWaterOptionGrid({ options }: { options: AirportWaterOptio
     return null;
   }
 
-  const bestValue = options.find((option) => option.isBestValue);
-  const bestQuality = options.find((option) => option.isBestQuality);
-
   return (
-    <div className="space-y-4">
-      {bestValue || bestQuality ? (
-        <div className="grid gap-4 md:grid-cols-2">
-          {bestValue ? (
-            <Card className="border-emerald-500/30 bg-emerald-500/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Tag className="size-4" aria-hidden="true" />
-                  Cheapest pick
-                </CardTitle>
-                <CardDescription>
-                  The lowest-priced reliable bottle option we found.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm">
-                <p className="font-medium">{bestValue.name}</p>
-                <p className="font-medium text-foreground">{bestValue.location}</p>
-                <p className="text-muted-foreground">{bestValue.summary}</p>
-                {bestValue.price ? (
-                  <p className="font-mono text-base">{bestValue.price}</p>
-                ) : null}
-              </CardContent>
-            </Card>
-          ) : null}
-          {bestQuality ? (
-            <Card className="border-violet-500/30 bg-violet-500/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Sparkles className="size-4" aria-hidden="true" />
-                  Best bottle
-                </CardTitle>
-                <CardDescription>
-                  Worth paying a bit more for taste, size, or availability.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm">
-                <p className="font-medium">{bestQuality.name}</p>
-                <p className="font-medium text-foreground">{bestQuality.location}</p>
-                <p className="text-muted-foreground">{bestQuality.summary}</p>
-                {bestQuality.price ? (
-                  <p className="font-mono text-base">{bestQuality.price}</p>
-                ) : null}
-              </CardContent>
-            </Card>
-          ) : null}
-        </div>
-      ) : null}
-
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {options.map((option) => (
-          <AirportWaterOptionCard
-            key={`${option.kind}-${option.terminal}-${option.name}-${option.location}`}
-            option={option}
-          />
-        ))}
-      </div>
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      {options.map((option) => (
+        <AirportWaterOptionCard
+          key={`${option.kind}-${option.terminal}-${option.name}-${option.location}`}
+          option={option}
+        />
+      ))}
     </div>
   );
 }

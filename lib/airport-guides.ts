@@ -12,6 +12,7 @@ import { z } from "zod";
 import { stripOfficialSourcesSection } from "./airport-guide-markdown";
 import { getDb, isDatabaseConfigured } from "./db";
 import { airportGuideRevisions, airportGuides, type AirportGuideRow } from "./db/schema";
+import { seedLoungesFromGuide } from "./lounge-directory";
 import type { ImportantTip, ImportantTipCategory } from "./types";
 
 export interface AirportBentoTip {
@@ -57,6 +58,7 @@ export interface AirportFrontmatter {
   city: string;
   country: string;
   lastUpdated: string;
+  officialWebsite?: string;
   sources?: string[];
   quickFacts?: string[];
   bentoTips?: AirportBentoTip[];
@@ -434,6 +436,7 @@ export function rowToAirportContent(row: AirportGuideRow): AirportContent {
       city: row.city,
       country: row.country,
       lastUpdated: row.lastUpdated,
+      officialWebsite: row.officialWebsite ?? undefined,
       sources: row.sources,
       quickFacts: row.quickFacts,
       bentoTips: row.bentoTips,
@@ -517,6 +520,8 @@ export const airportFrontmatterSchema = z.object({
   city: nonEmptyString,
   country: nonEmptyString,
   lastUpdated: z.iso.date(),
+  /** Optional: guides written before the field existed stay valid until refreshed. */
+  officialWebsite: z.url().optional(),
   sources: z.array(z.url()).min(1),
   quickFacts: z.array(nonEmptyString).min(1),
   bentoTips: z.array(bentoTipSchema).min(1),
@@ -626,6 +631,9 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
     city: frontmatter.city.trim(),
     country: frontmatter.country.trim(),
     lastUpdated: frontmatter.lastUpdated.trim(),
+    officialWebsite: isNonEmptyString(frontmatter.officialWebsite)
+      ? frontmatter.officialWebsite.trim()
+      : null,
     sources: frontmatter.sources ?? [],
     quickFacts: frontmatter.quickFacts ?? [],
     bentoTips: frontmatter.bentoTips ?? [],
@@ -660,6 +668,17 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
       })
       .returning();
 
+    return row;
+  }).then(async (row) => {
+    // Every guide-writing pipeline gets lounge directory rows (and thereby
+    // subpages) for free. No-op once the airport has any rows, so verified
+    // lounge data is never clobbered; best-effort so a directory hiccup
+    // can't fail a guide write.
+    try {
+      await seedLoungesFromGuide(row);
+    } catch (error) {
+      console.warn(`Failed to seed lounge directory for ${iata}:`, error);
+    }
     return row;
   });
 }

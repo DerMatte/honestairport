@@ -5,7 +5,10 @@ import { AIRPORT_GUIDES_CACHE_TAG, AIRPORT_PROFILES_CACHE_TAG } from "@/lib/airp
 import { isDatabaseConfigured } from "@/lib/db";
 import { createAirportGuideStream } from "@/lib/generate-airport-guide";
 import { generateAirportScoreProfile } from "@/lib/generate-airport-profile";
-import { buildGuideSaveMarker } from "@/lib/airport-guide-markdown";
+import {
+  buildGuideSaveMarker,
+  normalizeGeneratedGuideMarkdown,
+} from "@/lib/airport-guide-markdown";
 import {
   airportGuideExists,
   parseAirportGuideMarkdown,
@@ -134,13 +137,20 @@ export async function GET(_request: Request, { params }: RouteParams) {
         }
 
         try {
-          const trimmedGuide = text.trim();
+          const trimmedGuide = normalizeGeneratedGuideMarkdown(text);
+          if (!trimmedGuide) {
+            throw new Error("Model returned no guide text");
+          }
           await upsertAirportGuide(parseAirportGuideMarkdown(trimmedGuide));
           revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
           safeEnqueue(buildGuideSaveMarker({ status: "ok" }));
           resolveSavedGuide(trimmedGuide);
         } catch (error) {
-          console.error(`Failed to save generated guide for ${normalized}:`, error);
+          console.error(
+            `Failed to save generated guide for ${normalized}:`,
+            error,
+            `\nRaw output started with: ${JSON.stringify(text.slice(0, 300))}`,
+          );
           resolveSavedGuide(null);
           safeEnqueue(
             buildGuideSaveMarker({

@@ -1,7 +1,9 @@
 import { createHash } from "node:crypto";
 import { checkBotId } from "botid/server";
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
+import { isOwner } from "@/lib/owner";
 import { reviewFormSchema } from "@/lib/review-schema";
 import { createReview, getReviewsByIata } from "@/lib/reviews";
 
@@ -65,6 +67,19 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Reviews are not configured" }, { status: 503 });
   }
 
+  const session = await auth.api.getSession({ headers: request.headers });
+
+  if (!session) {
+    return NextResponse.json({ error: "Sign in to post reviews." }, { status: 401 });
+  }
+
+  if (!isOwner(session.user)) {
+    return NextResponse.json(
+      { error: "Only the site owner can post reviews." },
+      { status: 403 },
+    );
+  }
+
   const verification = await checkBotId();
 
   if (verification.isBot) {
@@ -93,7 +108,12 @@ export async function POST(request: Request, { params }: RouteParams) {
   }
 
   try {
-    const result = await createReview(normalized, parsed.data, hashClientIp(request));
+    const result = await createReview(
+      normalized,
+      parsed.data,
+      hashClientIp(request),
+      session.user.id,
+    );
 
     if (result === "rate-limited") {
       return NextResponse.json(

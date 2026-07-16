@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertTriangle, CheckCircle2, RefreshCw, Star } from "lucide-react";
+import { useSession } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -141,6 +143,7 @@ function ReviewForm({
   iata: string;
   onCreated: (review: AirportUserReview) => void;
 }) {
+  const { data: session, isPending } = useSession();
   const [submitState, setSubmitState] = useState<
     | { status: "idle" }
     | { status: "success" }
@@ -201,6 +204,19 @@ function ReviewForm({
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Write a review</CardTitle>
+        {isPending ? null : session ? (
+          <p className="text-xs text-muted-foreground">
+            Signed in as {session.user.email}
+          </p>
+        ) : (
+          <p className="text-xs text-muted-foreground">
+            Reviews are published by the site owner —{" "}
+            <Link href="/login" className="underline underline-offset-4">
+              sign in
+            </Link>
+            .
+          </p>
+        )}
       </CardHeader>
       <CardContent>
         <form onSubmit={onSubmit} className="space-y-4" noValidate>

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app/api/airports/[iata]/generate/route.ts": {
+      "regions": ["iad1"],
+      "maxDuration": 800
+    }
+  }
+}

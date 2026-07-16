@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
+import { AirportCurrentWeather } from "@/app/components/airport-current-weather";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
@@ -24,6 +25,7 @@ import {
   getAirportGoogleRating,
   getAirportGuideSummary,
   getAirportGuideSummaryByIata,
+  getAirportLoungesWithFallback,
   getAirportSlugs,
   getAllAirportIatas,
   getEditorialReviews,
@@ -177,6 +179,9 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 </Badge>
               ) : null}
               <DisruptionBadge status={airport.disruption.status} />
+              <Suspense fallback={null}>
+                <AirportCurrentWeather iata={airport.iata} />
+              </Suspense>
             </div>
             <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
               {airport.name}
@@ -261,11 +266,19 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  const [guide, seedReviews] = await Promise.all([
+  const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
+    getAirportLoungesWithFallback(airport.iata),
   ]);
-  return <AirportDetailTabs airport={airport} guide={guide} seedReviews={seedReviews} />;
+  return (
+    <AirportDetailTabs
+      airport={airport}
+      guide={guide}
+      seedReviews={seedReviews}
+      lounges={lounges}
+    />
+  );
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {
@@ -283,6 +296,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const { frontmatter } = guideContent;
   const guide = getAirportGuideSummary(guideContent);
   const record = getAirportByIata(frontmatter.iata);
+  const lounges = await getAirportLoungesWithFallback(frontmatter.iata);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -339,6 +353,9 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               <MapPin className="size-5" aria-hidden="true" />
               {frontmatter.city}, {frontmatter.country}
             </p>
+            <Suspense fallback={null}>
+              <AirportCurrentWeather iata={frontmatter.iata} />
+            </Suspense>
           </div>
 
           <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
@@ -385,6 +402,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             iata={frontmatter.iata}
             guide={guide}
             guideMarkdown={guideContent.content}
+            lounges={lounges}
           />
         </section>
       </div>

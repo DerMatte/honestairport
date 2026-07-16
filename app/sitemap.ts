@@ -3,6 +3,7 @@ import {
   getAirportContent,
   getAirportSlugs,
   getAllAirportIatas,
+  getAllAirportLoungeParams,
 } from "@/lib/airport-content";
 import { SITE_URL } from "@/lib/site";
 
@@ -34,6 +35,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((value): value is Date => value instanceof Date)
     .sort((a, b) => b.getTime() - a.getTime())[0];
 
+  const loungeEntries = (await getAllAirportLoungeParams()).map(
+    ({ iata, slug, updatedAt }): MetadataRoute.Sitemap[number] => ({
+      url: `${SITE_URL}/airports/${iata.toLowerCase()}/lounge/${slug}`,
+      lastModified: updatedAt,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }),
+  );
+
   return [
     {
       url: SITE_URL,
@@ -42,5 +52,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     ...airportEntries,
+    ...loungeEntries,
   ];
 }

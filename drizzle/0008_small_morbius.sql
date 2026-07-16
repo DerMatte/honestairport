@@ -1,0 +1,1 @@
+ALTER TABLE "airport_guides" ADD COLUMN "official_website" text;

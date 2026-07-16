@@ -11,6 +11,7 @@
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { normalizeGeneratedGuideMarkdown } from "../lib/airport-guide-markdown";
 import { createAirportGuideStream } from "../lib/generate-airport-guide";
 import {
   airportGuideExists,
@@ -34,7 +35,9 @@ export async function generateAirportPage(iata: string, extraInstructions = "") 
   const text = await result.text;
 
   // Validates the guide and snapshots any previous version before writing.
-  const row = await upsertAirportGuide(parseAirportGuideMarkdown(text.trim()));
+  const row = await upsertAirportGuide(
+    parseAirportGuideMarkdown(normalizeGeneratedGuideMarkdown(text)),
+  );
   await requestSiteRevalidation();
 
   console.log(`✅ Generated guide for ${row.iata} (stored in Postgres)`);

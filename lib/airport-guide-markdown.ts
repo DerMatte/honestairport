@@ -4,6 +4,30 @@ export function stripOfficialSourcesSection(content: string): string {
   return content.replace(/\n##\s+Official Sources[\s\S]*$/i, "").trim();
 }
 
+/**
+ * Model output is supposed to be a raw markdown file starting with `---`
+ * frontmatter, but models (especially gateway fallbacks) sometimes wrap the
+ * whole file in a code fence or prepend a short preamble line. Recover the
+ * actual document so it doesn't fail validation with every field undefined.
+ */
+export function normalizeGeneratedGuideMarkdown(raw: string): string {
+  let text = raw.trim();
+
+  const fenced = text.match(/^```[a-z]*\s*\n([\s\S]*?)\n```\s*$/i);
+  if (fenced) {
+    text = fenced[1].trim();
+  }
+
+  if (!text.startsWith("---")) {
+    const frontmatterStart = text.indexOf("\n---\n");
+    if (frontmatterStart !== -1) {
+      text = text.slice(frontmatterStart + 1);
+    }
+  }
+
+  return text;
+}
+
 /** Strip YAML frontmatter from a partial or complete streamed guide. */
 export function extractStreamableGuideBody(markdown: string): string {
   const closedFrontmatter = markdown.match(/^---[\s\S]*?---\s*([\s\S]*)$/);
