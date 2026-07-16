@@ -6,7 +6,6 @@ import { AirportDirectorySearch } from "@/app/components/airport-search-combobox
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { AirportMap } from "@/app/components/airport-map";
 import { DisruptionBadge } from "@/app/components/disruption-status";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -249,7 +248,6 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     [filteredScored, filteredGuides],
   );
 
-  const topAirport = scoredAirports[0];
   const activeFilterCount =
     filters.regions.length +
     filters.amenities.length +
@@ -266,43 +264,42 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_10%,transparent),transparent),radial-gradient(circle_at_top_left,var(--muted),transparent_34%)]">
-      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr_0.9fr] lg:py-20">
-        <div className="flex flex-col justify-center">
-          <Badge
-            variant="outline"
-            className="mb-6 w-fit rounded-full border-primary/25 bg-primary/5 px-3 py-1 text-primary"
-          >
-            HonestAirport beta · Airportist Score inside
-          </Badge>
-          <h1 className="max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-            Airport intel that feels like a calm frequent flyer in your pocket.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
-            Search major airports, compare disruption risk, spot the amenities
-            that matter, and read practical Traveler Tips before you get there.
-          </p>
+    <div className="min-h-screen">
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--background)_40%,transparent)_0%,var(--background)_92%),radial-gradient(ellipse_90%_70%_at_50%_-20%,color-mix(in_oklab,var(--primary)_18%,transparent),transparent_58%),radial-gradient(circle_at_85%_20%,color-mix(in_oklab,var(--chart-2)_16%,transparent),transparent_42%),radial-gradient(circle_at_10%_70%,color-mix(in_oklab,var(--muted)_80%,transparent),transparent_45%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="hero-aurora pointer-events-none absolute -left-1/4 top-[-20%] h-[70%] w-[70%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--primary)_12%,transparent),transparent_68%)] blur-3xl"
+        />
+        <div
+          aria-hidden="true"
+          className="hero-aurora pointer-events-none absolute -right-1/5 bottom-[-10%] h-[55%] w-[55%] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--chart-2)_14%,transparent),transparent_70%)] blur-3xl"
+          style={{ animationDelay: "-6s" }}
+        />
 
-          <div className="mt-8 max-w-2xl">
-            <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-14 pb-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:pt-20 lg:pb-24">
+          <div className="flex flex-col justify-center">
+            <p className="hero-enter font-heading text-4xl leading-none tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              HonestAirport
+            </p>
+            <h1 className="hero-enter hero-enter-delay-1 mt-5 max-w-xl text-3xl leading-[1.12] tracking-tight text-balance text-foreground/90 sm:text-4xl lg:text-[2.75rem]">
+              Clear airport intel before you land.
+            </h1>
+            <p className="hero-enter hero-enter-delay-2 mt-5 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+              Search major airports, compare disruption risk, and read practical
+              Traveler Tips before you get there.
+            </p>
+
+            <div className="hero-enter hero-enter-delay-3 mt-8 max-w-xl">
+              <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
+            </div>
           </div>
 
-          <div className="mt-7 flex flex-wrap gap-2.5 text-sm text-muted-foreground">
-            <Badge variant="secondary" className="rounded-full px-3 py-1">
-              {allAirports.length} airports covered
-            </Badge>
-            <Badge variant="secondary" className="rounded-full px-3 py-1">
-              {scoredAirports.length} fully scored
-            </Badge>
-            {topAirport ? (
-              <Badge variant="secondary" className="rounded-full px-3 py-1">
-                Top score: {topAirport.iata} {topAirport.airportistScore.toFixed(1)}
-              </Badge>
-            ) : null}
-          </div>
+          <AirportMap airports={scoredAirports} variant="hero" />
         </div>
-
-        <AirportMap airports={scoredAirports} />
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
