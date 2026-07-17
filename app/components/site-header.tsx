@@ -1,26 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
 import { NearestAirportLink } from "@/app/components/nearest-airport-link";
+import { SiteSidebar } from "@/app/components/site-sidebar";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { signOut, useSession } from "@/lib/auth-client";
 
@@ -53,9 +54,6 @@ export function SiteHeader() {
       <div className="ml-auto flex items-center gap-1">
         <nav className="mr-1 hidden items-center md:flex">
           <NearestAirportLink className="mr-2" />
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/">Directory</Link>
-          </Button>
           {isPending ? (
             <Skeleton className="h-8 w-[72px]" />
           ) : session ? (
@@ -71,14 +69,19 @@ export function SiteHeader() {
                 <p className="truncate text-xs text-muted-foreground">
                   {session.user.email}
                 </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-3 w-full"
-                  onClick={handleSignOut}
-                >
-                  Sign out
-                </Button>
+                <div className="mt-3 flex flex-col gap-2">
+                  <Button variant="outline" size="sm" className="w-full" asChild>
+                    <Link href="/settings">Settings</Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full"
+                    onClick={handleSignOut}
+                  >
+                    Sign out
+                  </Button>
+                </div>
               </PopoverContent>
             </Popover>
           ) : (
@@ -123,58 +126,37 @@ export function SiteHeader() {
               <Menu />
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full sm:max-w-sm">
-            <SheetHeader>
+          <SheetContent
+            side="right"
+            showCloseButton={true}
+            className="w-(--sidebar-width) border-l-0 bg-sidebar p-0 text-sidebar-foreground [&>button]:z-20"
+            style={
+              {
+                "--sidebar-width": "18rem",
+              } as CSSProperties
+            }
+          >
+            <SheetHeader className="sr-only">
               <SheetTitle>Menu</SheetTitle>
+              <SheetDescription>
+                Find airports and manage your account.
+              </SheetDescription>
             </SheetHeader>
-
-            <nav className="flex flex-col gap-1 px-4">
-              <SheetClose asChild>
-                <Button variant="ghost" className="justify-start" asChild>
-                  <Link href="/">Airport directory</Link>
-                </Button>
-              </SheetClose>
-              <NearestAirportLink
-                className="px-4 py-1.5"
+            <SidebarProvider className="h-full w-full !min-h-0">
+              <SiteSidebar
+                user={
+                  session
+                    ? {
+                        name: session.user.name,
+                        email: session.user.email,
+                      }
+                    : null
+                }
+                isPending={isPending}
                 onNavigate={() => setMenuOpen(false)}
+                onSignOut={handleSignOut}
               />
-              {isPending ? null : session ? (
-                <>
-                  <p className="truncate px-4 py-1.5 text-sm text-muted-foreground">
-                    Signed in as {session.user.email}
-                  </p>
-                  <Button
-                    variant="ghost"
-                    className="justify-start"
-                    onClick={handleSignOut}
-                  >
-                    Sign out
-                  </Button>
-                </>
-              ) : (
-                <SheetClose asChild>
-                  <Button variant="ghost" className="justify-start" asChild>
-                    <Link href="/login">Sign in</Link>
-                  </Button>
-                </SheetClose>
-              )}
-            </nav>
-
-            <Separator className="my-2" />
-
-            <div className="px-4 pb-4">
-              <Button
-                variant="outline"
-                className="h-11 w-full justify-start gap-2 text-muted-foreground"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setSearchOpen(true);
-                }}
-              >
-                <Search className="size-4" aria-hidden="true" />
-                Search airports…
-              </Button>
-            </div>
+            </SidebarProvider>
           </SheetContent>
         </Sheet>
       </div>

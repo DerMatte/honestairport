@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface NearestAirport {
+export interface NearestAirport {
   iata: string;
   slug: string;
   city: string;
@@ -14,17 +14,7 @@ interface NearestAirport {
 
 const STORAGE_KEY = "nearest-airport";
 
-/**
- * Small "Near you: XXX" link resolved from Vercel's IP geolocation headers.
- * Renders nothing until (and unless) a nearby covered airport is found.
- */
-export function NearestAirportLink({
-  className,
-  onNavigate,
-}: {
-  className?: string;
-  onNavigate?: () => void;
-}) {
+export function useNearestAirport() {
   const [airport, setAirport] = useState<NearestAirport | null>(null);
 
   useEffect(() => {
@@ -63,6 +53,22 @@ export function NearestAirportLink({
     };
   }, []);
 
+  return airport;
+}
+
+/**
+ * Small "Near you: XXX" link resolved from Vercel's IP geolocation headers.
+ * Renders nothing until (and unless) a nearby covered airport is found.
+ */
+export function NearestAirportLink({
+  className,
+  onNavigate,
+}: {
+  className?: string;
+  onNavigate?: () => void;
+}) {
+  const airport = useNearestAirport();
+
   if (!airport) return null;
 
   return (
@@ -77,7 +83,8 @@ export function NearestAirportLink({
     >
       <MapPin className="size-3" aria-hidden="true" />
       <span>
-        Near you: <span className="font-medium text-foreground">{airport.iata}</span>
+        Near you:{" "}
+        <span className="font-medium text-foreground">{airport.iata}</span>
       </span>
     </Link>
   );
