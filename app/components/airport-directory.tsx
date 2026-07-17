@@ -5,6 +5,7 @@ import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { AirportMap } from "@/app/components/airport-map";
+import { AirportMapSection } from "@/app/components/airport-map-section";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Button } from "@/components/ui/button";
 import {
@@ -212,6 +213,16 @@ function FilterPanel({
 
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
+  const [mapOpen, setMapOpen] = useState(false);
+
+  function openMapSection() {
+    setMapOpen(true);
+    requestAnimationFrame(() => {
+      document
+        .getElementById("airport-map")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   const otherAirports = useMemo(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -299,9 +310,19 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
             </div>
           </div>
 
-          <AirportMap airports={scoredAirports} variant="hero" />
+          <AirportMap
+            airports={scoredAirports}
+            variant="hero"
+            onExplore={openMapSection}
+          />
         </div>
       </section>
+
+      <AirportMapSection
+        airports={scoredAirports}
+        open={mapOpen}
+        onOpenChange={setMapOpen}
+      />
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="mb-6">
