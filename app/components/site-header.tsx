@@ -153,10 +153,6 @@ export function SiteHeader() {
                     : null
                 }
                 isPending={isPending}
-                onSearch={() => {
-                  setMenuOpen(false);
-                  setSearchOpen(true);
-                }}
                 onNavigate={() => setMenuOpen(false)}
                 onSignOut={handleSignOut}
               />
