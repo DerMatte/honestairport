@@ -4,8 +4,10 @@ import { useMemo, useState } from "react";
 import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
+import { usePanelRef, type PanelSize } from "react-resizable-panels";
 import { AirportMap } from "@/app/components/airport-map";
 import { AirportMapSection } from "@/app/components/airport-map-section";
+import { LazyAirportMap } from "@/app/components/airport-map-lazy";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,12 +26,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useIsDesktop } from "@/hooks/use-mobile";
 import { Slider } from "@/components/ui/slider";
 import {
   amenityCategories,
@@ -214,8 +222,21 @@ function FilterPanel({
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
   const [mapOpen, setMapOpen] = useState(false);
+  const [desktopMapMounted, setDesktopMapMounted] = useState(false);
+  const isDesktop = useIsDesktop();
+  const mapPanelRef = usePanelRef();
+
+  function handleMapPanelResize(size: PanelSize) {
+    // Latches on first reveal so the map chunk loads once and the map then
+    // survives the panel being dragged shut again.
+    if (size.asPercentage > 0) setDesktopMapMounted(true);
+  }
 
   function openMapSection() {
+    if (isDesktop) {
+      mapPanelRef.current?.resize("42%");
+      return;
+    }
     setMapOpen(true);
     requestAnimationFrame(() => {
       document
@@ -275,8 +296,20 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   }
 
   return (
-    <div className="min-h-screen">
-      <section className="relative overflow-hidden border-b border-border/40">
+    // overflow-visible overrides (style beats the library's inline defaults)
+    // let the desktop map panel's sticky positioning track the page scroll.
+    <ResizablePanelGroup
+      orientation="horizontal"
+      disabled={!isDesktop}
+      style={{ overflow: "visible" }}
+    >
+      <ResizablePanel
+        id="directory-content"
+        minSize="40"
+        style={{ overflow: "visible" }}
+      >
+        <div className="min-h-screen">
+          <section className="relative overflow-hidden border-b border-border/40">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-30%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_55%),radial-gradient(circle_at_92%_8%,color-mix(in_oklab,var(--chart-2)_20%,transparent),transparent_38%),radial-gradient(circle_at_0%_85%,color-mix(in_oklab,var(--muted)_90%,transparent),transparent_40%),linear-gradient(180deg,color-mix(in_oklab,var(--background)_55%,white)_0%,var(--background)_100%)]"
@@ -443,6 +476,24 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           </div>
         </div>
       </section>
-    </div>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle className="hidden lg:flex" />
+      <ResizablePanel
+        id="airport-map-panel"
+        collapsible
+        defaultSize={0}
+        minSize={360}
+        maxSize="60"
+        panelRef={mapPanelRef}
+        onResize={handleMapPanelResize}
+        className="h-full"
+        style={{ overflow: "visible" }}
+      >
+        <div className="sticky top-14 h-[calc(100vh-3.5rem)] overflow-hidden border-l border-border/60">
+          {desktopMapMounted ? <LazyAirportMap airports={scoredAirports} /> : null}
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }
