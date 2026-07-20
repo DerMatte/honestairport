@@ -3,7 +3,10 @@
 import { Suspense, use } from "react";
 import Link from "next/link";
 import { MapPin } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  NearestAirportLinkSkeleton,
+  NearestAirportSidebarSkeleton,
+} from "@/app/components/nearest-airport-skeletons";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -59,31 +62,6 @@ export function getNearestAirport(): Promise<NearestAirport | null> {
             .catch(() => null);
   }
   return nearestPromise;
-}
-
-export function NearestAirportLinkSkeleton({
-  className,
-}: {
-  className?: string;
-}) {
-  return (
-    <Skeleton
-      aria-hidden="true"
-      className={cn("mr-2 h-4 w-[7.5rem]", className)}
-    />
-  );
-}
-
-export function NearestAirportSidebarSkeleton() {
-  return (
-    <div className="flex items-start gap-2 px-2 py-2.5">
-      <Skeleton className="size-9 shrink-0 rounded-xl" />
-      <div className="flex-1 space-y-1.5 pt-0.5">
-        <Skeleton className="h-3.5 w-28" />
-        <Skeleton className="h-3 w-20" />
-      </div>
-    </div>
-  );
 }
 
 function NearestAirportLinkInner({

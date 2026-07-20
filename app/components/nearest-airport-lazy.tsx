@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import {
   NearestAirportLinkSkeleton,
   NearestAirportSidebarSkeleton,
-} from "@/app/components/nearest-airport-link";
+} from "@/app/components/nearest-airport-skeletons";
 
 export const LazyNearestAirportLink = dynamic(
   () =>
