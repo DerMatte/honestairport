@@ -8,6 +8,7 @@ import type { Airport } from "@/lib/types";
 interface AirportMapProps {
   airports: Airport[];
   variant?: "card" | "hero";
+  onExplore?: () => void;
 }
 
 function pinPosition(airport: Airport) {
@@ -74,19 +75,40 @@ function MapCanvas({
   );
 }
 
-export function AirportMap({ airports, variant = "card" }: AirportMapProps) {
+export function AirportMap({ airports, variant = "card", onExplore }: AirportMapProps) {
   if (variant === "hero") {
     return (
       <div className="hero-map-enter relative">
-        <MapCanvas
-          airports={airports}
-          className="aspect-[5/4] rounded-[2rem] border-border/50 shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_35%,transparent)] sm:aspect-[16/11] lg:aspect-[5/4]"
-        />
-        <p className="mt-3 text-center text-xs tracking-wide text-muted-foreground">
-          {airports.length > 0
-            ? `${airports.length} scored airports · click a pin`
-            : "Scored airports appear here as pins"}
-        </p>
+        <div
+          className={cn(onExplore && "cursor-pointer")}
+          onClick={(event) => {
+            // Pin links keep navigating to their airport pages.
+            if ((event.target as HTMLElement).closest("a")) return;
+            onExplore?.();
+          }}
+        >
+          <MapCanvas
+            airports={airports}
+            className="aspect-[5/4] rounded-[2rem] border-border/50 shadow-[0_30px_80px_-40px_color-mix(in_oklab,var(--primary)_35%,transparent)] sm:aspect-[16/11] lg:aspect-[5/4]"
+          />
+        </div>
+        {onExplore ? (
+          <button
+            type="button"
+            onClick={onExplore}
+            className="mx-auto mt-3 block cursor-pointer text-center text-xs tracking-wide text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {airports.length > 0
+              ? `${airports.length} scored airports · open the interactive map`
+              : "Open the interactive map"}
+          </button>
+        ) : (
+          <p className="mt-3 text-center text-xs tracking-wide text-muted-foreground">
+            {airports.length > 0
+              ? `${airports.length} scored airports · click a pin`
+              : "Scored airports appear here as pins"}
+          </p>
+        )}
       </div>
     );
   }

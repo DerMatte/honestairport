@@ -1,10 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Filter,
+  List,
+  Map as MapIcon,
+  RotateCcw,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
+import { usePanelRef, type PanelSize } from "react-resizable-panels";
 import { AirportMap } from "@/app/components/airport-map";
+import { LazyAirportMap } from "@/app/components/airport-map-lazy";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,12 +32,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useIsDesktop } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import {
   amenityCategories,
@@ -212,6 +228,42 @@ function FilterPanel({
 
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
+  const [mobileView, setMobileView] = useState<"list" | "map">("list");
+  const [mobileMapMounted, setMobileMapMounted] = useState(false);
+  const [desktopMapMounted, setDesktopMapMounted] = useState(false);
+  const [desktopMapOpen, setDesktopMapOpen] = useState(false);
+  const isDesktop = useIsDesktop();
+  const mapPanelRef = usePanelRef();
+
+  // Latches on first reveal so the map chunk loads once and the map then
+  // survives switching back to the list view.
+  if (mobileView === "map" && !mobileMapMounted) setMobileMapMounted(true);
+
+  // If the window shrinks below the lg breakpoint, retract the side panel so
+  // it doesn't keep squeezing the (now handle-less) mobile layout.
+  useEffect(() => {
+    if (!isDesktop) mapPanelRef.current?.collapse();
+  }, [isDesktop, mapPanelRef]);
+
+  function handleMapPanelResize(size: PanelSize) {
+    // Same latch as the mobile view: load the chunk once, keep the map alive
+    // when the panel is dragged shut again.
+    if (size.asPercentage > 0) setDesktopMapMounted(true);
+    setDesktopMapOpen(size.asPercentage > 0);
+  }
+
+  function openMapSection() {
+    if (isDesktop) {
+      mapPanelRef.current?.resize("42%");
+      return;
+    }
+    setMobileView("map");
+    requestAnimationFrame(() => {
+      document
+        .getElementById("airport-map")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
 
   const otherAirports = useMemo(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -264,8 +316,20 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   }
 
   return (
-    <div className="min-h-screen">
-      <section className="relative overflow-hidden border-b border-border/40">
+    // overflow-visible overrides (style beats the library's inline defaults)
+    // let the desktop map panel's sticky positioning track the page scroll.
+    <ResizablePanelGroup
+      orientation="horizontal"
+      disabled={!isDesktop}
+      style={{ overflow: "visible" }}
+    >
+      <ResizablePanel
+        id="directory-content"
+        minSize="40"
+        style={{ overflow: "visible" }}
+      >
+        <div className="min-h-screen">
+          <section className="relative overflow-hidden border-b border-border/40">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_-30%,color-mix(in_oklab,var(--primary)_22%,transparent),transparent_55%),radial-gradient(circle_at_92%_8%,color-mix(in_oklab,var(--chart-2)_20%,transparent),transparent_38%),radial-gradient(circle_at_0%_85%,color-mix(in_oklab,var(--muted)_90%,transparent),transparent_40%),linear-gradient(180deg,color-mix(in_oklab,var(--background)_55%,white)_0%,var(--background)_100%)]"
@@ -284,7 +348,12 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent"
         />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-16 pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-24 lg:pb-28">
+        <div
+          className={cn(
+            "relative mx-auto grid max-w-7xl items-center gap-12 px-6 pt-16 pb-20 lg:gap-16 lg:pt-24 lg:pb-28",
+            desktopMapOpen ? "lg:grid-cols-1" : "lg:grid-cols-[1.05fr_0.95fr]",
+          )}
+        >
           <div className="flex flex-col justify-center">
             <h1 className="hero-enter max-w-2xl text-4xl font-bold leading-[1.05] tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
               Honest airport reviews - get through every one with speed
@@ -299,7 +368,13 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
             </div>
           </div>
 
-          <AirportMap airports={scoredAirports} variant="hero" />
+          {desktopMapOpen ? null : (
+            <AirportMap
+              airports={scoredAirports}
+              variant="hero"
+              onExplore={openMapSection}
+            />
+          )}
         </div>
       </section>
 
@@ -349,7 +424,32 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 ) : null}
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <div
+                  role="group"
+                  aria-label="Directory view"
+                  className="flex items-center rounded-lg border p-0.5 lg:hidden"
+                >
+                  <Button
+                    variant={mobileView === "list" ? "secondary" : "ghost"}
+                    size="sm"
+                    aria-pressed={mobileView === "list"}
+                    onClick={() => setMobileView("list")}
+                  >
+                    <List className="size-4" aria-hidden="true" />
+                    List
+                  </Button>
+                  <Button
+                    variant={mobileView === "map" ? "secondary" : "ghost"}
+                    size="sm"
+                    aria-pressed={mobileView === "map"}
+                    onClick={() => setMobileView("map")}
+                  >
+                    <MapIcon className="size-4" aria-hidden="true" />
+                    Map
+                  </Button>
+                </div>
+
                 <Sheet>
                   <SheetTrigger asChild>
                     <Button variant="outline" className="lg:hidden">
@@ -392,36 +492,70 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
               </div>
             </div>
 
-            {filteredEntries.length === 0 ? (
-              <Card className="border-dashed">
-                <CardContent className="flex flex-col items-center px-6 py-14 text-center">
-                  <div className="rounded-full bg-muted p-4">
-                    <Search className="size-6 text-muted-foreground" aria-hidden="true" />
-                  </div>
-                  <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
-                  <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                    Try another airport, city, or country, or remove one of the
-                    active filters.
-                  </p>
-                  <Button className="mt-5" variant="outline" onClick={resetFilters}>
-                    Reset filters
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {filteredEntries.map((entry) =>
-                  entry.kind === "scored" ? (
-                    <AirportCard key={entry.airport.iata} airport={entry.airport} />
-                  ) : (
-                    <AirportGuideCard key={entry.summary.iata} airport={entry.summary} />
-                  ),
-                )}
+            <div className={cn(mobileView === "map" && "hidden lg:block")}>
+              {filteredEntries.length === 0 ? (
+                <Card className="border-dashed">
+                  <CardContent className="flex flex-col items-center px-6 py-14 text-center">
+                    <div className="rounded-full bg-muted p-4">
+                      <Search className="size-6 text-muted-foreground" aria-hidden="true" />
+                    </div>
+                    <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
+                    <p className="mt-2 max-w-md text-sm text-muted-foreground">
+                      Try another airport, city, or country, or remove one of the
+                      active filters.
+                    </p>
+                    <Button className="mt-5" variant="outline" onClick={resetFilters}>
+                      Reset filters
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {filteredEntries.map((entry) =>
+                    entry.kind === "scored" ? (
+                      <AirportCard key={entry.airport.iata} airport={entry.airport} />
+                    ) : (
+                      <AirportGuideCard key={entry.summary.iata} airport={entry.summary} />
+                    ),
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div
+              id="airport-map"
+              className={cn(
+                "scroll-mt-16 lg:hidden",
+                mobileView !== "map" && "hidden",
+              )}
+            >
+              <div className="-mx-6 h-[65vh] border-y border-border/60">
+                {mobileMapMounted ? (
+                  <LazyAirportMap airports={scoredAirports} />
+                ) : null}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </section>
-    </div>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle className="hidden lg:flex" />
+      <ResizablePanel
+        id="airport-map-panel"
+        collapsible
+        defaultSize={0}
+        minSize={360}
+        maxSize="60"
+        panelRef={mapPanelRef}
+        onResize={handleMapPanelResize}
+        className="h-full"
+        style={{ overflow: "visible" }}
+      >
+        <div className="sticky top-14 h-[calc(100vh-3.5rem)] overflow-hidden border-l border-border/60">
+          {desktopMapMounted ? <LazyAirportMap airports={scoredAirports} /> : null}
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
   );
 }
