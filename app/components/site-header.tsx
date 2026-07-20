@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
-import { NearestAirportLink } from "@/app/components/nearest-airport-link";
+import { LazyNearestAirportLink } from "@/app/components/nearest-airport-lazy";
 import { SiteSidebar } from "@/app/components/site-sidebar";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,7 +53,7 @@ export function SiteHeader() {
     <>
       <div className="ml-auto flex items-center gap-1">
         <nav className="mr-1 hidden items-center md:flex">
-          <NearestAirportLink className="mr-2" />
+          <LazyNearestAirportLink className="mr-2" />
           {isPending ? (
             <Skeleton className="h-8 w-[72px]" />
           ) : session ? (

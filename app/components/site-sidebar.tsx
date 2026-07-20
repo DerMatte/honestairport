@@ -6,11 +6,10 @@ import {
   Compass,
   LogIn,
   LogOut,
-  MapPin,
   Plane,
   Settings,
 } from "lucide-react";
-import { useNearestAirport } from "@/app/components/nearest-airport-link";
+import { LazyNearestAirportSidebarItem } from "@/app/components/nearest-airport-lazy";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -65,8 +64,6 @@ export function SiteSidebar({
   onNavigate: () => void;
   onSignOut: () => void;
 }) {
-  const nearest = useNearestAirport();
-
   return (
     <Sidebar
       collapsible="none"
@@ -122,33 +119,7 @@ export function SiteSidebar({
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            {nearest ? (
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  size="lg"
-                  className="h-auto items-start py-2.5"
-                >
-                  <Link
-                    href={`/airports/${nearest.slug}`}
-                    onClick={onNavigate}
-                    title={nearest.name}
-                  >
-                    <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
-                      <MapPin className="size-4" aria-hidden="true" />
-                    </div>
-                    <div className="flex min-w-0 flex-col gap-0.5 leading-none">
-                      <span className="font-medium">
-                        Near you · {nearest.iata}
-                      </span>
-                      <span className="truncate text-xs text-sidebar-foreground/60">
-                        {nearest.city}
-                      </span>
-                    </div>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ) : null}
+            <LazyNearestAirportSidebarItem onNavigate={onNavigate} />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
