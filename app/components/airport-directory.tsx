@@ -64,21 +64,10 @@ type DirectoryEntry =
 const INITIAL_VISIBLE = 12;
 const LOAD_MORE_STEP = 12;
 
-function matchesGuideQuery(
-  summary: AirportSummary,
-  normalizedQuery: string,
-  scope: AirportSearchScope,
-): boolean {
-  if (!normalizedQuery) return true;
-
-  const fields =
-    scope === "city"
-      ? [summary.city]
-      : scope === "country"
-        ? [summary.country]
-        : [summary.name, summary.iata, summary.city, summary.country];
-
-  return normalizeSearchValue(fields.join(" ")).includes(normalizedQuery);
+/** Guide-only airport with its search haystacks pre-normalized per scope. */
+interface GuideDirectoryEntry {
+  summary: AirportSummary;
+  normalized: Record<AirportSearchScope, string>;
 }
 
 const DEFAULT_FILTERS: AirportFilters = {
@@ -241,9 +230,21 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [, startTransition] = useTransition();
 
-  const otherAirports = useMemo(() => {
+  const otherAirports = useMemo<GuideDirectoryEntry[]>(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
-    return allAirports.filter((summary) => !scoredIatas.has(summary.iata));
+    return allAirports
+      .filter((summary) => !scoredIatas.has(summary.iata))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((summary) => ({
+        summary,
+        normalized: {
+          all: normalizeSearchValue(
+            [summary.name, summary.iata, summary.city, summary.country].join(" "),
+          ),
+          city: normalizeSearchValue(summary.city),
+          country: normalizeSearchValue(summary.country),
+        },
+      }));
   }, [allAirports, scoredAirports]);
 
   const hasDataFilters =
@@ -260,11 +261,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const filteredGuides = useMemo(() => {
     if (hasDataFilters) return [];
     const normalizedQuery = normalizeSearchValue(deferredFilters.query);
+    const scope = deferredFilters.searchScope;
     return otherAirports
-      .filter((summary) =>
-        matchesGuideQuery(summary, normalizedQuery, deferredFilters.searchScope),
-      )
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .filter((entry) => !normalizedQuery || entry.normalized[scope].includes(normalizedQuery))
+      .map((entry) => entry.summary);
   }, [otherAirports, deferredFilters, hasDataFilters]);
 
   const filteredEntries: DirectoryEntry[] = useMemo(

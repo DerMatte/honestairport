@@ -447,16 +447,6 @@ export function rowToAirportContent(row: AirportGuideRow): AirportContent {
   };
 }
 
-export function rowToAirportSummary(row: AirportGuideRow): AirportSummary {
-  return {
-    iata: row.iata,
-    name: row.name,
-    city: row.city,
-    country: row.country,
-    lastUpdated: row.lastUpdated,
-  };
-}
-
 // --- Validation ---------------------------------------------------------------
 
 const nonEmptyString = z.string().trim().min(1);
@@ -592,6 +582,27 @@ export async function fetchAllAirportGuideRows(): Promise<AirportGuideRow[]> {
   }
 
   return getDb().select().from(airportGuides);
+}
+
+/**
+ * Summary columns only — the directory doesn't need full markdown bodies, and
+ * this read grows with every airport the generation cron adds.
+ */
+export async function fetchAllAirportGuideSummaries(): Promise<AirportSummary[]> {
+  if (!isDatabaseConfigured()) {
+    console.warn("DATABASE_URL is not set; airport guides are unavailable.");
+    return [];
+  }
+
+  return getDb()
+    .select({
+      iata: airportGuides.iata,
+      name: airportGuides.name,
+      city: airportGuides.city,
+      country: airportGuides.country,
+      lastUpdated: airportGuides.lastUpdated,
+    })
+    .from(airportGuides);
 }
 
 export async function listAirportGuideIatas(): Promise<string[]> {

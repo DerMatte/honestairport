@@ -14,11 +14,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { AirportLiveData } from "@/lib/airport-live-data";
 
-interface AirportLiveStatusLoaderProps {
-  iata: string;
-  className?: string;
-}
-
 interface AirportLiveStatusProviderProps {
   iata: string;
   children: ReactNode;
@@ -150,23 +145,12 @@ export function AirportLiveStatusProvider({
   );
 }
 
-export function AirportLiveStatusPanel({
-  className,
-}: Pick<AirportLiveStatusLoaderProps, "className">) {
+export function AirportLiveStatusPanel({ className }: { className?: string }) {
   const controller = useContext(AirportLiveStatusContext);
 
   if (!controller) {
     throw new Error("AirportLiveStatusPanel must be used inside AirportLiveStatusProvider.");
   }
-
-  return <AirportLiveStatusRenderer className={className} controller={controller} />;
-}
-
-export function AirportLiveStatusLoader({
-  iata,
-  className,
-}: AirportLiveStatusLoaderProps) {
-  const controller = useAirportLiveStatus(iata);
 
   return <AirportLiveStatusRenderer className={className} controller={controller} />;
 }

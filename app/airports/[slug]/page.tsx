@@ -64,10 +64,15 @@ export async function generateMetadata({
   params,
 }: AirportPageProps): Promise<Metadata> {
   const { slug } = await params;
+  // Most slugs are guide-only, so start the guide read alongside the profile
+  // lookup instead of waiting for the profile miss. The catch keeps a rejection
+  // from going unhandled when the curated path returns without awaiting it.
+  const guideContentPromise = getAirportContent(slug);
+  guideContentPromise.catch(() => {});
   const airport = await getAirportBySlug(slug);
 
   if (!airport) {
-    const guideContent = await getAirportContent(slug);
+    const guideContent = await guideContentPromise;
 
     if (!guideContent) {
       const record = getAirportByIata(slug);
@@ -149,6 +154,10 @@ function AirportPageContent({ slug }: { slug: string }) {
 }
 
 async function AirportPageResolved({ slug }: { slug: string }) {
+  // Warm the guide read for guide-only slugs (the majority); React.cache hands
+  // this same in-flight promise to GuideOnlyAirportPage. The catch keeps a
+  // rejection from going unhandled on the curated path, which never awaits it.
+  getAirportContent(slug).catch(() => {});
   const airport = await getAirportBySlug(slug);
 
   if (!airport) {

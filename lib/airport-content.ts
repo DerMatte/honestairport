@@ -11,10 +11,10 @@ import { cacheLife, cacheTag } from "next/cache";
 import { cache } from "react";
 import {
   fetchAirportGuideRow,
-  fetchAllAirportGuideRows,
+  fetchAllAirportGuideSummaries,
   getAirportGuideSummary,
+  listAirportGuideIatas,
   rowToAirportContent,
-  rowToAirportSummary,
   type AirportContent,
   type AirportGuideSummary,
   type AirportSummary,
@@ -129,8 +129,7 @@ export async function getAllAirportIatas(): Promise<string[]> {
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
 
-  const rows = await fetchAllAirportGuideRows();
-  return rows.map((row) => row.iata.toUpperCase()).sort();
+  return listAirportGuideIatas();
 }
 
 export async function getAllAirports(): Promise<AirportSummary[]> {
@@ -138,10 +137,8 @@ export async function getAllAirports(): Promise<AirportSummary[]> {
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
 
-  const rows = await fetchAllAirportGuideRows();
-  return rows
-    .map(rowToAirportSummary)
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const summaries = await fetchAllAirportGuideSummaries();
+  return summaries.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /** Full Airportist Score profile for a scored airport, joined against its guide row. */
