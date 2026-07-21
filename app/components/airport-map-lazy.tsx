@@ -1,14 +1,18 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { lazy, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import type { Airport } from "@/lib/types";
 
-// Shared lazy entry so the mobile collapsible and the desktop side panel pull
-// in the same maplibre chunk, and only once the map is first revealed.
-export const LazyAirportMap = dynamic(
-  () => import("./airport-interactive-map"),
-  {
-    ssr: false,
-    loading: () => <Skeleton className="h-full w-full rounded-none" />,
-  },
-);
+// React.lazy does not invoke this import until the component is first rendered.
+// Desktop renders it after the lg media query hydrates; mobile only renders it
+// after the traveler explicitly switches to Map.
+const AirportInteractiveMap = lazy(() => import("./airport-interactive-map"));
+
+export function LazyAirportMap({ airports }: { airports: Airport[] }) {
+  return (
+    <Suspense fallback={<Skeleton className="h-full w-full rounded-none" />}>
+      <AirportInteractiveMap airports={airports} />
+    </Suspense>
+  );
+}
