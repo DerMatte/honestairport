@@ -60,7 +60,10 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Reviews are not configured" }, { status: 503 });
   }
 
-  const session = await auth.api.getSession({ headers: request.headers });
+  const [session, verification] = await Promise.all([
+    auth.api.getSession({ headers: request.headers }),
+    checkBotId(),
+  ]);
 
   if (!session) {
     return NextResponse.json({ error: "Sign in to post reviews." }, { status: 401 });
@@ -72,8 +75,6 @@ export async function POST(request: Request, { params }: RouteParams) {
       { status: 403 },
     );
   }
-
-  const verification = await checkBotId();
 
   if (verification.isBot) {
     return NextResponse.json({ error: "Access denied" }, { status: 403 });

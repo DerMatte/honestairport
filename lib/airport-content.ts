@@ -8,6 +8,7 @@
  * Domain types, parsing, validation, and writes live in `lib/airport-guides.ts`.
  */
 import { cacheLife, cacheTag } from "next/cache";
+import { cache } from "react";
 import {
   fetchAirportGuideRow,
   fetchAllAirportGuideRows,
@@ -96,21 +97,32 @@ export async function getAirportGoogleRating(
   return row ? rowToAirportGoogleRating(row) : null;
 }
 
-export async function getAirportContent(iata: string): Promise<AirportContent | null> {
+/** Normalize before the React.cache boundary so "lax" and "LAX" share one entry. */
+export function getAirportContent(iata: string): Promise<AirportContent | null> {
+  return getAirportContentCached(iata.trim().toUpperCase());
+}
+
+const getAirportContentCached = cache(async (iata: string): Promise<AirportContent | null> => {
   "use cache";
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
 
-  const row = await fetchAirportGuideRow(iata.toUpperCase());
+  const row = await fetchAirportGuideRow(iata);
   return row ? rowToAirportContent(row) : null;
-}
+});
 
-export async function getAirportGuideSummaryByIata(
+export function getAirportGuideSummaryByIata(
   iata: string,
 ): Promise<AirportGuideSummary | null> {
-  const content = await getAirportContent(iata);
-  return content ? getAirportGuideSummary(content) : null;
+  return getAirportGuideSummaryByIataCached(iata.trim().toUpperCase());
 }
+
+const getAirportGuideSummaryByIataCached = cache(
+  async (iata: string): Promise<AirportGuideSummary | null> => {
+    const content = await getAirportContent(iata);
+    return content ? getAirportGuideSummary(content) : null;
+  },
+);
 
 export async function getAllAirportIatas(): Promise<string[]> {
   "use cache";
@@ -133,14 +145,18 @@ export async function getAllAirports(): Promise<AirportSummary[]> {
 }
 
 /** Full Airportist Score profile for a scored airport, joined against its guide row. */
-export async function getAirportProfile(iata: string): Promise<Airport | null> {
+export function getAirportProfile(iata: string): Promise<Airport | null> {
+  return getAirportProfileCached(iata.trim().toUpperCase());
+}
+
+const getAirportProfileCached = cache(async (iata: string): Promise<Airport | null> => {
   "use cache";
   airportContentCacheLife();
   cacheTag(AIRPORT_GUIDES_CACHE_TAG);
   cacheTag(AIRPORT_PROFILES_CACHE_TAG);
 
   return fetchAirportByIata(iata);
-}
+});
 
 export async function getAllAirportProfiles(): Promise<Airport[]> {
   "use cache";
@@ -157,8 +173,8 @@ export async function getAllHonestAirports(): Promise<Airport[]> {
   return [...profiles].sort((a, b) => b.airportistScore - a.airportistScore);
 }
 
-export async function getAirportBySlug(slug: string): Promise<Airport | null> {
-  return getAirportProfile(slug.trim().toUpperCase());
+export function getAirportBySlug(slug: string): Promise<Airport | null> {
+  return getAirportProfile(slug);
 }
 
 export async function getAirportSlugs(): Promise<string[]> {

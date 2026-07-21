@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Search } from "lucide-react";
-import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { LazyNearestAirportLink } from "@/app/components/nearest-airport-lazy";
 import { SiteSidebar } from "@/app/components/site-sidebar";
@@ -25,6 +25,14 @@ import {
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { signOut, useSession } from "@/lib/auth-client";
+
+const AirportSearchDialog = dynamic(
+  () =>
+    import("@/app/components/airport-search-combobox").then((mod) => ({
+      default: mod.AirportSearchDialog,
+    })),
+  { ssr: false },
+);
 
 export function SiteHeader() {
   const router = useRouter();

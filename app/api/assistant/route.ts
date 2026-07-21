@@ -68,6 +68,9 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
+  // Start body read early so it overlaps with rate limiting when allowed.
+  const bodyTextPromise = request.text();
+
   const ipHash = hashClientIp(request);
   if (ipHash) {
     try {
@@ -90,7 +93,7 @@ export async function POST(request: Request): Promise<Response> {
 
   let body: unknown;
   try {
-    const rawBody = await request.text();
+    const rawBody = await bodyTextPromise;
     if (Buffer.byteLength(rawBody, "utf8") > MAX_BODY_BYTES) {
       return errorResponse("Assistant request is too large.", 413);
     }

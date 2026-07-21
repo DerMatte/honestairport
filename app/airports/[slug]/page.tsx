@@ -31,6 +31,8 @@ import {
   getAllAirportIatas,
   getEditorialReviews,
   type AirportGoogleRating,
+  type AirportGuideSummary,
+  type AirportLoungeView,
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
 import { formatGuideDate } from "@/lib/utils";
@@ -277,6 +279,7 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
+  // Guide summary is React.cache-deduped with CuratedAirportTips in the same request.
   const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
@@ -293,7 +296,12 @@ async function CuratedAirportDetails({ airport }: { airport: Airport }) {
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {
-  const guideContent = await getAirportContent(slug);
+  const iata = slug.trim().toUpperCase();
+  // Start lounges alongside content — iata is known from the slug.
+  const guideContentPromise = getAirportContent(slug);
+  const loungesPromise = getAirportLoungesWithFallback(iata);
+
+  const guideContent = await guideContentPromise;
 
   if (!guideContent) {
     const record = getAirportByIata(slug);
@@ -307,7 +315,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const { frontmatter } = guideContent;
   const guide = getAirportGuideSummary(guideContent);
   const record = getAirportByIata(frontmatter.iata);
-  const lounges = await getAirportLoungesWithFallback(frontmatter.iata);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -409,12 +416,14 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
 
         <section className="mt-10">
-          <AirportDetailTabs
-            iata={frontmatter.iata}
-            guide={guide}
-            guideMarkdown={guideContent.content}
-            lounges={lounges}
-          />
+          <Suspense fallback={<DetailTabsSkeleton />}>
+            <GuideOnlyDetailTabs
+              iata={frontmatter.iata}
+              guide={guide}
+              guideMarkdown={guideContent.content}
+              loungesPromise={loungesPromise}
+            />
+          </Suspense>
         </section>
 
         <section className="mt-10">
@@ -422,6 +431,28 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
       </div>
     </div>
+  );
+}
+
+async function GuideOnlyDetailTabs({
+  iata,
+  guide,
+  guideMarkdown,
+  loungesPromise,
+}: {
+  iata: string;
+  guide: AirportGuideSummary;
+  guideMarkdown: string;
+  loungesPromise: Promise<AirportLoungeView[]>;
+}) {
+  const lounges = await loungesPromise;
+  return (
+    <AirportDetailTabs
+      iata={iata}
+      guide={guide}
+      guideMarkdown={guideMarkdown}
+      lounges={lounges}
+    />
   );
 }
 

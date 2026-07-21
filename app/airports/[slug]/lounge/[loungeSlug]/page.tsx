@@ -76,14 +76,17 @@ async function resolveAirportName(slug: string): Promise<string | null> {
 export async function generateMetadata({ params }: LoungePageProps): Promise<Metadata> {
   const { slug, loungeSlug } = await params;
   const iata = slug.trim().toUpperCase();
-  const lounge = await getAirportLounge(iata, loungeSlug);
+  const [lounge, airportName] = await Promise.all([
+    getAirportLounge(iata, loungeSlug),
+    resolveAirportName(slug),
+  ]);
 
   if (!lounge) {
     return { title: "Lounge not found" };
   }
 
-  const airportName = (await resolveAirportName(slug)) ?? iata;
-  const title = `${lounge.name} at ${airportName} (${iata}) – Access, Hours & Review`;
+  const displayAirportName = airportName ?? iata;
+  const title = `${lounge.name} at ${displayAirportName} (${iata}) – Access, Hours & Review`;
   const canonical = `/airports/${slug}/lounge/${loungeSlug}`;
 
   return {

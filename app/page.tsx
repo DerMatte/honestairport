@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
-import { AirportDirectory } from "@/app/components/airport-directory";
+import dynamic from "next/dynamic";
+import { DirectorySkeleton } from "@/app/components/loading-skeletons";
 import {
   AIRPORT_GUIDES_CACHE_TAG,
   AIRPORT_PROFILES_CACHE_TAG,
@@ -7,6 +9,14 @@ import {
   getAllHonestAirports,
 } from "@/lib/airport-content";
 import { toAirportDirectoryAirport } from "@/lib/airport-utils";
+
+const AirportDirectory = dynamic(
+  () =>
+    import("@/app/components/airport-directory").then((mod) => ({
+      default: mod.AirportDirectory,
+    })),
+  { loading: () => <DirectorySkeleton /> },
+);
 
 function HomeHero() {
   return (
@@ -54,7 +64,9 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
-      <HomeDirectory />
+      <Suspense fallback={<DirectorySkeleton />}>
+        <HomeDirectory />
+      </Suspense>
     </>
   );
 }
