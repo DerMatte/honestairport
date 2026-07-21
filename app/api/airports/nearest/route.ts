@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAllAirportIatas } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
+import { haversineKm } from "@/lib/geo";
 
 /** Beyond this, "nearest" stops being useful in the header. */
 const MAX_DISTANCE_KM = 500;
@@ -13,21 +14,6 @@ function parseCoordinate(value: string | null): number | null {
   if (!value) return null;
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : null;
-}
-
-function haversineKm(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
-): number {
-  const toRad = (deg: number) => (deg * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 export async function GET(request: Request) {

@@ -1,4 +1,5 @@
 import airportsJson from "./airports.json";
+import { haversineKm } from "./geo";
 
 export interface AirportRecord {
   city_name: string;
@@ -56,6 +57,55 @@ export function getAirportByIata(iata: string): AirportRecord | undefined {
 
 export function getAllAirportRecords(): readonly AirportRecord[] {
   return airports;
+}
+
+export interface NearbyAirport {
+  iata: string;
+  name: string;
+  city: string;
+  distanceKm: number;
+  slug: string;
+}
+
+const DEFAULT_NEARBY_MAX_KM = 150;
+const DEFAULT_NEARBY_LIMIT = 6;
+
+export function getNearbyAirports(
+  iata: string,
+  options: { maxKm?: number; limit?: number } = {},
+): NearbyAirport[] {
+  const subject = getAirportByIata(iata);
+  if (!subject) return [];
+
+  const maxKm = options.maxKm ?? DEFAULT_NEARBY_MAX_KM;
+  const limit = options.limit ?? DEFAULT_NEARBY_LIMIT;
+  const subjectIata = subject.iata_code.toUpperCase();
+
+  const nearby: NearbyAirport[] = [];
+
+  for (const record of airports) {
+    if (record.iata_code.toUpperCase() === subjectIata) continue;
+
+    const distanceKm = haversineKm(
+      subject.latitude,
+      subject.longitude,
+      record.latitude,
+      record.longitude,
+    );
+
+    if (distanceKm > maxKm) continue;
+
+    nearby.push({
+      iata: record.iata_code,
+      name: record.name,
+      city: record.city_name,
+      distanceKm,
+      slug: record.iata_code.toLowerCase(),
+    });
+  }
+
+  nearby.sort((a, b) => a.distanceKm - b.distanceKm);
+  return nearby.slice(0, limit);
 }
 
 export function getMatchTermsForAirport(airport: AirportRecord): string[] {

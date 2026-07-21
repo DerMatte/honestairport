@@ -8,6 +8,7 @@ import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
+import { NearbyAirports } from "@/app/components/nearby-airports";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import {
   AirportPageSkeleton,
@@ -255,6 +256,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
             <CuratedAirportDetails airport={airport} />
           </Suspense>
         </section>
+
+        <section className="mt-10">
+          <NearbyAirports iata={airport.iata} />
+        </section>
       </div>
     </div>
   );
@@ -404,6 +409,10 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             guideMarkdown={guideContent.content}
             lounges={lounges}
           />
+        </section>
+
+        <section className="mt-10">
+          <NearbyAirports iata={frontmatter.iata} />
         </section>
       </div>
     </div>
