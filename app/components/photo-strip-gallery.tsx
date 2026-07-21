@@ -18,17 +18,13 @@ export function PhotoStripGallery({ images }: { images: AirportImage[] }) {
 
   return (
     <>
-      <div className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:thin]">
+      <div className="mt-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-0.5 pb-3 [scrollbar-width:thin]">
         {images.map((image, index) => (
-          <figure
-            key={image.url}
-            className="w-[82vw] max-w-[440px] shrink-0 snap-start overflow-hidden rounded-2xl border bg-card shadow-sm sm:w-[420px]"
-          >
+          <figure key={image.url} className="w-[78vw] max-w-[380px] shrink-0 snap-start sm:w-[340px]">
             <button
               type="button"
               onClick={() => setActiveIndex(index)}
-              className="group relative block w-full cursor-zoom-in overflow-hidden bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
-              style={{ aspectRatio: `${image.width} / ${image.height}` }}
+              className="group relative block aspect-[4/3] w-full cursor-zoom-in overflow-hidden rounded-3xl bg-muted shadow-sm ring-1 ring-black/5 transition-shadow duration-300 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
               aria-label={`Open larger preview: ${image.alt}`}
             >
               <Image
@@ -38,40 +34,46 @@ export function PhotoStripGallery({ images }: { images: AirportImage[] }) {
                 loading="lazy"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
-                sizes="(max-width: 640px) 82vw, 420px"
-                className="object-cover transition-transform duration-300 ease-[var(--ease-out)] pointer-fine:group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:pointer-fine:group-hover:scale-100"
+                sizes="(max-width: 640px) 78vw, 340px"
+                className="object-cover transition-transform duration-500 ease-[var(--ease-out)] pointer-fine:group-hover:scale-105 motion-reduce:transition-none motion-reduce:pointer-fine:group-hover:scale-100"
               />
-              <span className="absolute top-3 right-3 flex size-9 items-center justify-center rounded-full bg-black/65 text-white opacity-90 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-                <Expand className="size-4" aria-hidden="true" />
+              <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+              {image.caption ? (
+                <span className="absolute inset-x-3 bottom-3 line-clamp-2 text-left text-sm leading-snug font-medium text-white drop-shadow-sm">
+                  {image.caption}
+                </span>
+              ) : null}
+              <span className="absolute top-3 right-3 flex size-8 items-center justify-center rounded-full bg-black/45 text-white opacity-90 backdrop-blur-sm transition-all duration-200 group-hover:scale-105 group-hover:bg-black/65 group-hover:opacity-100">
+                <Expand className="size-3.5" aria-hidden="true" />
               </span>
             </button>
-            <figcaption className="space-y-1 border-t px-3 py-2.5 text-xs leading-5">
-              {image.caption ? (
-                <span className="line-clamp-2 block text-foreground">{image.caption}</span>
-              ) : null}
-              <span className="block text-muted-foreground">Credit: {image.credit}</span>
-              <span className="flex flex-wrap gap-x-3 gap-y-1">
+            <figcaption className="mt-2 px-0.5 text-xs text-muted-foreground">
+              <p className="truncate">Photo: {image.credit}</p>
+              <p className="mt-0.5 flex items-center gap-x-2.5">
                 {image.licenseUrl ? (
                   <a
                     href={image.licenseUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-medium text-primary underline-offset-2 hover:underline"
+                    className="underline-offset-2 hover:text-foreground hover:underline"
                   >
                     {image.license}
                   </a>
                 ) : (
-                  <span className="text-muted-foreground">{image.license}</span>
+                  <span>{image.license}</span>
                 )}
+                <span aria-hidden="true" className="text-muted-foreground/50">
+                  ·
+                </span>
                 <a
                   href={image.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-primary underline-offset-2 hover:underline"
+                  className="underline-offset-2 hover:text-foreground hover:underline"
                 >
-                  View source
+                  Source
                 </a>
-              </span>
+              </p>
             </figcaption>
           </figure>
         ))}

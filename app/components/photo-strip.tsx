@@ -17,10 +17,10 @@ export function PhotoStrip({
 
   return (
     <section aria-label={ariaLabel}>
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <div className="flex items-center gap-1.5 text-sm font-medium text-primary">
         <Camera className="size-4" aria-hidden="true" />
         <span>
-          {images.length} photo{images.length === 1 ? "" : "s"} · preview gallery
+          {images.length} photo{images.length === 1 ? "" : "s"}
         </span>
       </div>
       <PhotoStripGallery images={images} />
