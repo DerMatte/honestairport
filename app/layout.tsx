@@ -10,17 +10,25 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
-  axes: ["opsz"],
+  // Static weights keep the heading font smaller than the full opsz variable cut.
+  weight: ["500", "600"],
+  // `optional` prevents a late webfont swap from becoming the LCP paint on slow
+  // mobile networks (swap was ~85% of LCP render delay in Lighthouse).
+  display: "optional",
+  preload: true,
 });
 
 export const metadata: Metadata = {

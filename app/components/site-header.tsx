@@ -164,7 +164,9 @@ export function SiteHeader() {
         </Sheet>
       </div>
 
-      <AirportSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      {searchOpen ? (
+        <AirportSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      ) : null}
     </>
   );
 }

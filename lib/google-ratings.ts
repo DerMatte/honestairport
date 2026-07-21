@@ -23,8 +23,7 @@ export function rowToAirportGoogleRating(row: AirportGoogleRatingRow): AirportGo
     placeName: row.placeName,
     rating: row.rating,
     reviewCount: row.reviewCount,
-    // `unstable_cache` JSON-serializes rows, so on cache hits `fetchedAt`
-    // arrives as an ISO string rather than a Date.
+    // Drizzle may return a Date; normalize to ISO for JSON/`use cache` payloads.
     fetchedAt: new Date(row.fetchedAt).toISOString(),
   };
 }

@@ -119,20 +119,28 @@ export function HomePageSkeleton() {
         </div>
         <Skeleton className="min-h-[28rem] rounded-2xl" />
       </section>
-      <section className="mx-auto max-w-7xl px-6 pb-20">
-        <Skeleton className="mb-6 h-16 max-w-2xl" />
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
-          <Skeleton className="hidden h-96 rounded-2xl lg:block" />
-          <div className="space-y-5">
-            <Skeleton className="h-20 rounded-2xl" />
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {Array.from({ length: 9 }, (_, index) => (
-                <Skeleton key={index} className="h-56 rounded-2xl" />
-              ))}
-            </div>
+      <DirectorySkeleton />
+    </div>
+  );
+}
+
+/** Directory-only fallback when the static hero is already painted. */
+export function DirectorySkeleton() {
+  return (
+    <section className="mx-auto max-w-7xl px-6 pb-20 pt-4">
+      <Skeleton className="mb-6 h-12 max-w-2xl rounded-2xl" />
+      <Skeleton className="mb-6 h-16 max-w-2xl" />
+      <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+        <Skeleton className="hidden h-96 rounded-2xl lg:block" />
+        <div className="space-y-5">
+          <Skeleton className="h-20 rounded-2xl" />
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 6 }, (_, index) => (
+              <Skeleton key={index} className="h-56 rounded-2xl" />
+            ))}
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

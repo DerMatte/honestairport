@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { ResetPasswordForm } from "@/app/components/reset-password-form";
 import {
   Card,
@@ -9,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { isDatabaseConfigured } from "@/lib/db";
 
 export const metadata: Metadata = {
@@ -16,7 +18,27 @@ export const metadata: Metadata = {
   description: "Choose a new password for your account.",
 };
 
-export default async function ResetPasswordPage({
+function ResetPasswordFallback() {
+  return (
+    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
+      <Skeleton className="h-72 w-full rounded-xl" />
+    </main>
+  );
+}
+
+export default function ResetPasswordPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ token?: string; error?: string }>;
+}) {
+  return (
+    <Suspense fallback={<ResetPasswordFallback />}>
+      <ResetPasswordPageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function ResetPasswordPageContent({
   searchParams,
 }: {
   searchParams: Promise<{ token?: string; error?: string }>;

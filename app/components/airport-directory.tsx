@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState, useTransition } from "react";
 import {
   Filter,
   List,
@@ -32,7 +32,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
-import { useIsDesktop } from "@/hooks/use-mobile";
 import {
   amenityCategories,
   amenityLabel,
@@ -44,7 +43,7 @@ import { normalizeSearchValue } from "@/lib/airport-search-utils";
 import { cn } from "@/lib/utils";
 import type { AirportSummary } from "@/lib/airport-content";
 import type {
-  Airport,
+  AirportDirectoryAirport,
   AirportFilters,
   AirportSearchScope,
   AirportSort,
@@ -54,13 +53,16 @@ import type {
 } from "@/lib/types";
 
 interface AirportDirectoryProps {
-  scoredAirports: Airport[];
+  scoredAirports: AirportDirectoryAirport[];
   allAirports: AirportSummary[];
 }
 
 type DirectoryEntry =
-  | { kind: "scored"; airport: Airport }
+  | { kind: "scored"; airport: AirportDirectoryAirport }
   | { kind: "guide"; summary: AirportSummary };
+
+const INITIAL_VISIBLE = 12;
+const LOAD_MORE_STEP = 12;
 
 function matchesGuideQuery(
   summary: AirportSummary,
@@ -207,11 +209,37 @@ function FilterPanel({
   );
 }
 
+function MapPlaceholder({
+  count,
+  onLoad,
+}: {
+  count: number;
+  onLoad: () => void;
+}) {
+  return (
+    <div className="flex h-full min-h-72 flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_70%)] px-6 text-center">
+      <div className="rounded-2xl border bg-background/90 p-4 shadow-sm">
+        <MapIcon className="size-6 text-primary" aria-hidden="true" />
+      </div>
+      <div className="space-y-1">
+        <p className="text-sm font-medium">{count} scored airports ready to map</p>
+        <p className="max-w-xs text-xs leading-5 text-muted-foreground">
+          Load the interactive map when you want it — keeps the page light until then.
+        </p>
+      </div>
+      <Button onClick={onLoad}>Show map</Button>
+    </div>
+  );
+}
+
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
+  const deferredFilters = useDeferredValue(filters);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
   const [mobileMapMounted, setMobileMapMounted] = useState(false);
-  const isDesktop = useIsDesktop();
+  const [desktopMapMounted, setDesktopMapMounted] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+  const [, startTransition] = useTransition();
 
   const otherAirports = useMemo(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -219,23 +247,25 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   }, [allAirports, scoredAirports]);
 
   const hasDataFilters =
-    filters.minimumScore > 0 ||
-    filters.regions.length > 0 ||
-    filters.amenities.length > 0 ||
-    filters.disruptionStatuses.length > 0;
+    deferredFilters.minimumScore > 0 ||
+    deferredFilters.regions.length > 0 ||
+    deferredFilters.amenities.length > 0 ||
+    deferredFilters.disruptionStatuses.length > 0;
 
   const filteredScored = useMemo(
-    () => filterAndSortAirports(scoredAirports, filters),
-    [scoredAirports, filters],
+    () => filterAndSortAirports(scoredAirports, deferredFilters),
+    [scoredAirports, deferredFilters],
   );
 
   const filteredGuides = useMemo(() => {
     if (hasDataFilters) return [];
-    const normalizedQuery = normalizeSearchValue(filters.query);
+    const normalizedQuery = normalizeSearchValue(deferredFilters.query);
     return otherAirports
-      .filter((summary) => matchesGuideQuery(summary, normalizedQuery, filters.searchScope))
+      .filter((summary) =>
+        matchesGuideQuery(summary, normalizedQuery, deferredFilters.searchScope),
+      )
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [otherAirports, filters, hasDataFilters]);
+  }, [otherAirports, deferredFilters, hasDataFilters]);
 
   const filteredEntries: DirectoryEntry[] = useMemo(
     () => [
@@ -245,6 +275,9 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     [filteredScored, filteredGuides],
   );
 
+  const visibleEntries = filteredEntries.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredEntries.length;
+
   const activeFilterCount =
     filters.regions.length +
     filters.amenities.length +
@@ -253,7 +286,17 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     (filters.query.trim() ? 1 : 0);
 
   function resetFilters() {
-    setFilters({ ...DEFAULT_FILTERS });
+    startTransition(() => {
+      setFilters({ ...DEFAULT_FILTERS });
+      setVisibleCount(INITIAL_VISIBLE);
+    });
+  }
+
+  function updateFilters(next: AirportFilters) {
+    startTransition(() => {
+      setFilters(next);
+      setVisibleCount(INITIAL_VISIBLE);
+    });
   }
 
   function showMobileMap() {
@@ -279,7 +322,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           <SheetTitle>Filter airports</SheetTitle>
         </SheetHeader>
         <div className="px-4 pb-4">
-          <FilterPanel filters={filters} onFiltersChange={setFilters} onReset={resetFilters} />
+          <FilterPanel filters={filters} onFiltersChange={updateFilters} onReset={resetFilters} />
         </div>
       </SheetContent>
     </Sheet>
@@ -287,32 +330,11 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
   return (
     <div className="min-w-0 overflow-x-clip">
-      <section
-        className={cn(
-          "relative overflow-hidden border-b border-border/50",
-          mobileView === "map" && "max-lg:hidden",
-        )}
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_100%_at_85%_0%,color-mix(in_oklab,var(--chart-2)_18%,transparent),transparent_60%),linear-gradient(180deg,color-mix(in_oklab,var(--primary)_7%,var(--background)),var(--background))]"
-        />
-        <div className="relative mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20 lg:py-24">
-          <p className="hero-enter font-mono text-xs font-semibold tracking-[0.16em] text-primary uppercase">
-            Live airport operations board
-          </p>
-          <h1 className="hero-enter hero-enter-delay-1 mt-4 max-w-4xl text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            Honest reviews — get through every airport with speed
-          </h1>
-          <p className="hero-enter hero-enter-delay-2 mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            Compare Airportist Scores, disruption risk, security times, and practical
-            traveler advice before you fly.
-          </p>
-          <div className="hero-enter hero-enter-delay-3 mt-8 max-w-2xl">
-            <AirportDirectorySearch filters={filters} onFiltersChange={setFilters} />
-          </div>
+      <div className="mx-auto max-w-7xl px-5 pb-2 sm:px-6">
+        <div className="-mt-6 max-w-2xl sm:-mt-8">
+          <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
         </div>
-      </section>
+      </div>
 
       <section
         aria-labelledby="directory-heading"
@@ -343,7 +365,11 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           <div className="grid gap-6 xl:grid-cols-[230px_minmax(0,1fr)]">
             <aside className="hidden xl:block">
               <div className="sticky top-20">
-                <FilterPanel filters={filters} onFiltersChange={setFilters} onReset={resetFilters} />
+                <FilterPanel
+                  filters={filters}
+                  onFiltersChange={updateFilters}
+                  onReset={resetFilters}
+                />
               </div>
             </aside>
 
@@ -363,7 +389,9 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                   {filterSheet}
                   <Select
                     value={filters.sort}
-                    onValueChange={(value) => setFilters({ ...filters, sort: value as AirportSort })}
+                    onValueChange={(value) =>
+                      updateFilters({ ...filters, sort: value as AirportSort })
+                    }
                   >
                     <SelectTrigger className="w-40 sm:w-44" aria-label="Sort airports">
                       <SelectValue placeholder="Sort airports" />
@@ -400,15 +428,41 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                   </CardContent>
                 </Card>
               ) : (
-                <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
-                  {filteredEntries.map((entry) =>
-                    entry.kind === "scored" ? (
-                      <AirportCard key={entry.airport.iata} airport={entry.airport} />
-                    ) : (
-                      <AirportGuideCard key={entry.summary.iata} airport={entry.summary} />
-                    ),
-                  )}
-                </div>
+                <>
+                  <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
+                    {visibleEntries.map((entry) =>
+                      entry.kind === "scored" ? (
+                        <div
+                          key={entry.airport.iata}
+                          className="[content-visibility:auto] [contain-intrinsic-size:auto_22rem]"
+                        >
+                          <AirportCard airport={entry.airport} />
+                        </div>
+                      ) : (
+                        <div
+                          key={entry.summary.iata}
+                          className="[content-visibility:auto] [contain-intrinsic-size:auto_14rem]"
+                        >
+                          <AirportGuideCard airport={entry.summary} />
+                        </div>
+                      ),
+                    )}
+                  </div>
+                  {hasMore ? (
+                    <div className="flex justify-center pt-2">
+                      <Button
+                        variant="outline"
+                        onClick={() =>
+                          startTransition(() =>
+                            setVisibleCount((count) => count + LOAD_MORE_STEP),
+                          )
+                        }
+                      >
+                        Show more airports
+                      </Button>
+                    </div>
+                  ) : null}
+                </>
               )}
             </div>
           </div>
@@ -416,13 +470,22 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
         <aside
           aria-label="Map of filtered scored airports"
-          className="hidden border-l border-border/60 bg-muted/30 lg:sticky lg:top-14 lg:block lg:h-[calc(100dvh-3.5rem)] lg:overflow-hidden"
+          className="relative hidden border-l border-border/60 bg-muted/30 lg:sticky lg:top-14 lg:block lg:h-[calc(100dvh-3.5rem)] lg:overflow-hidden"
         >
           <div className="absolute top-3 left-3 z-10 rounded-lg border bg-background/90 px-3 py-2 shadow-sm backdrop-blur-sm">
-            <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">Live result set</p>
+            <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+              Live result set
+            </p>
             <p className="mt-0.5 text-sm font-medium">{filteredScored.length} scored airports</p>
           </div>
-          {isDesktop ? <LazyAirportMap airports={filteredScored} /> : null}
+          {desktopMapMounted ? (
+            <LazyAirportMap airports={filteredScored} />
+          ) : (
+            <MapPlaceholder
+              count={filteredScored.length}
+              onLoad={() => setDesktopMapMounted(true)}
+            />
+          )}
         </aside>
       </section>
 

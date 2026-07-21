@@ -40,6 +40,9 @@ interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Cache Components requires at least one param for build-time validation.
+const STATIC_PARAMS_PLACEHOLDER = "__placeholder__";
+
 export async function generateStaticParams() {
   const [guideIatas, scoredSlugs] = await Promise.all([
     getAllAirportIatas(),
@@ -49,6 +52,9 @@ export async function generateStaticParams() {
     ...scoredSlugs,
     ...guideIatas.map((iata) => iata.toLowerCase()),
   ]);
+  if (slugs.size === 0) {
+    return [{ slug: STATIC_PARAMS_PLACEHOLDER }];
+  }
   return [...slugs].map((slug) => ({ slug }));
 }
 

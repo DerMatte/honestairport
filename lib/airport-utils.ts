@@ -1,5 +1,6 @@
 import type {
   Airport,
+  AirportDirectoryAirport,
   AirportFilters,
   AirportSearchScope,
   AmenityCategory,
@@ -37,10 +38,57 @@ export const disruptionStatuses: DisruptionStatus[] = [
   "severe",
 ];
 
+export function toAirportDirectoryAirport(
+  airport: Airport,
+): AirportDirectoryAirport {
+  const featured = airport.amenities.filter((amenity) => amenity.isFeatured).slice(0, 2);
+  const amenityCategories = [
+    ...new Set(airport.amenities.map((amenity) => amenity.category)),
+  ];
+
+  return {
+    slug: airport.slug,
+    iata: airport.iata,
+    icao: airport.icao,
+    name: airport.name,
+    shortName: airport.shortName,
+    city: airport.city,
+    country: airport.country,
+    region: airport.region,
+    coordinates: airport.coordinates,
+    airportistScore: airport.airportistScore,
+    // Cards clamp to 3 lines — keep the RSC payload small.
+    summary:
+      airport.summary.length > 160
+        ? `${airport.summary.slice(0, 157).trimEnd()}…`
+        : airport.summary,
+    reviewCount: airport.reviewCount,
+    amenities: (
+      featured.length > 0
+        ? featured
+        : airport.amenities.slice(0, 2)
+    ).map((amenity) => ({
+      id: amenity.id,
+      category: amenity.category,
+      isFeatured: amenity.isFeatured,
+    })),
+    // Extra categories for filters only (no labels/descriptions).
+    amenityCategories,
+    stats: {
+      averageSecurityMinutes: airport.stats.averageSecurityMinutes,
+    },
+    disruption: {
+      status: airport.disruption.status,
+      departureDelayMinutes: airport.disruption.departureDelayMinutes,
+      cancellationsPercent: airport.disruption.cancellationsPercent,
+    },
+  };
+}
+
 export function filterAndSortAirports(
-  airportList: Airport[],
+  airportList: AirportDirectoryAirport[],
   filters: AirportFilters,
-): Airport[] {
+): AirportDirectoryAirport[] {
   const normalizedQuery = normalizeSearchValue(filters.query);
 
   const filtered = airportList.filter((airport) => {
@@ -56,7 +104,7 @@ export function filterAndSortAirports(
     const matchesAmenities =
       filters.amenities.length === 0 ||
       filters.amenities.every((category) =>
-        airport.amenities.some((amenity) => amenity.category === category),
+        airport.amenityCategories.includes(category),
       );
     const matchesDisruption =
       filters.disruptionStatuses.length === 0 ||
@@ -88,7 +136,7 @@ export function filterAndSortAirports(
 }
 
 function airportMatchesSearch(
-  airport: Airport,
+  airport: AirportDirectoryAirport,
   normalizedQuery: string,
   searchScope: AirportSearchScope,
 ): boolean {

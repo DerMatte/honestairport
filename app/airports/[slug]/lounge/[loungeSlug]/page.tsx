@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import {
   ArrowLeft,
   Clock3,
@@ -14,6 +15,7 @@ import {
   Users,
   Utensils,
 } from "lucide-react";
+import { AirportPageSkeleton } from "@/app/components/loading-skeletons";
 import {
   accessMethodLabel,
   AirportLoungeGrid,
@@ -40,8 +42,16 @@ interface LoungePageProps {
   params: Promise<{ slug: string; loungeSlug: string }>;
 }
 
+// Cache Components requires at least one param for build-time validation.
+const STATIC_PARAMS_PLACEHOLDER = "__placeholder__";
+
 export async function generateStaticParams() {
   const params = await getAllAirportLoungeParams();
+  if (params.length === 0) {
+    return [
+      { slug: STATIC_PARAMS_PLACEHOLDER, loungeSlug: STATIC_PARAMS_PLACEHOLDER },
+    ];
+  }
   return params.map(({ iata, slug }) => ({
     slug: iata.toLowerCase(),
     loungeSlug: slug,
@@ -130,8 +140,23 @@ function breadcrumbJsonLd(iata: string, airportName: string, slug: string, loung
   };
 }
 
-export default async function LoungePage({ params }: LoungePageProps) {
-  const { slug, loungeSlug } = await params;
+export default function LoungePage({ params }: LoungePageProps) {
+  return (
+    <Suspense fallback={<AirportPageSkeleton />}>
+      {params.then(({ slug, loungeSlug }) => (
+        <LoungePageContent slug={slug} loungeSlug={loungeSlug} />
+      ))}
+    </Suspense>
+  );
+}
+
+async function LoungePageContent({
+  slug,
+  loungeSlug,
+}: {
+  slug: string;
+  loungeSlug: string;
+}) {
   const iata = slug.trim().toUpperCase();
 
   const [lounge, airportName, images, airportLounges] = await Promise.all([

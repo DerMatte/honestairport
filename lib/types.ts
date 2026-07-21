@@ -147,6 +147,43 @@ export interface Airport {
   reviewCount: number;
 }
 
+/**
+ * Slim homepage/directory row — only fields cards, filters, and the map need.
+ * Keeps full editorial profiles (`tips`, `transport`, …) off the client payload.
+ */
+export interface AirportDirectoryAirport {
+  slug: string;
+  iata: string;
+  icao: string;
+  name: string;
+  shortName: string;
+  city: string;
+  country: string;
+  region: Region;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  airportistScore: number;
+  summary: string;
+  reviewCount: number;
+  amenities: Array<{
+    id: string;
+    category: AmenityCategory;
+    isFeatured?: boolean;
+  }>;
+  /** Distinct amenity categories for filters (not rendered on cards). */
+  amenityCategories: AmenityCategory[];
+  stats: {
+    averageSecurityMinutes: number;
+  };
+  disruption: {
+    status: DisruptionStatus;
+    departureDelayMinutes: number;
+    cancellationsPercent: number;
+  };
+}
+
 export interface AirportFilters {
   query: string;
   searchScope: AirportSearchScope;

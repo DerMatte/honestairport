@@ -6,7 +6,7 @@ import { Map, Marker, NavigationControl, Popup } from "@vis.gl/react-maplibre";
 import { ArrowRight } from "lucide-react";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { cn } from "@/lib/utils";
-import type { Airport, DisruptionStatus } from "@/lib/types";
+import type { AirportDirectoryAirport, DisruptionStatus } from "@/lib/types";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 const MAP_STYLES = {
@@ -31,7 +31,11 @@ function markerClasses(status: DisruptionStatus): string {
   }
 }
 
-export default function AirportInteractiveMap({ airports }: { airports: Airport[] }) {
+export default function AirportInteractiveMap({
+  airports,
+}: {
+  airports: AirportDirectoryAirport[];
+}) {
   const [selectedIata, setSelectedIata] = useState<string | null>(null);
   const [mapStyle] = useState(() =>
     typeof document !== "undefined" && document.documentElement.classList.contains("dark")
@@ -40,8 +44,8 @@ export default function AirportInteractiveMap({ airports }: { airports: Airport[
   );
 
   const { mappable, airportByIata } = useMemo(() => {
-    const nextMappable: Airport[] = [];
-    const nextByIata = new globalThis.Map<string, Airport>();
+    const nextMappable: AirportDirectoryAirport[] = [];
+    const nextByIata = new globalThis.Map<string, AirportDirectoryAirport>();
 
     for (const airport of airports) {
       if (

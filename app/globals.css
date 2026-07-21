@@ -173,11 +173,10 @@
 
 @keyframes hero-enter {
   from {
-    opacity: 0;
-    transform: translateY(14px);
+    /* Keep opacity at 1 so the LCP heading stays visible immediately. */
+    transform: translateY(10px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }

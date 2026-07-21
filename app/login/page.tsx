@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { LoginForm, type LoginNotice } from "@/app/components/login-form";
+import { Skeleton } from "@/components/ui/skeleton";
 import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
 
@@ -29,7 +31,29 @@ function noticeFromParams(params: {
   return null;
 }
 
-export default async function LoginPage({
+function LoginPageFallback() {
+  return (
+    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
+      <Skeleton className="h-10 w-40" />
+      <Skeleton className="mt-3 h-4 w-64" />
+      <Skeleton className="mt-8 h-72 w-full rounded-xl" />
+    </main>
+  );
+}
+
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; reset?: string }>;
+}) {
+  return (
+    <Suspense fallback={<LoginPageFallback />}>
+      <LoginPageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function LoginPageContent({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string; reset?: string }>;

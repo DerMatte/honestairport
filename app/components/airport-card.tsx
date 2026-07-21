@@ -5,10 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { amenityLabel, formatGuideFreshness } from "@/lib/airport-utils";
 import type { AirportSummary } from "@/lib/airport-content";
-import type { Airport } from "@/lib/types";
+import type { AirportDirectoryAirport } from "@/lib/types";
 
 interface AirportCardProps {
-  airport: Airport;
+  airport: AirportDirectoryAirport;
 }
 
 export function AirportCard({ airport }: AirportCardProps) {
@@ -21,6 +21,7 @@ export function AirportCard({ airport }: AirportCardProps) {
   return (
     <Link
       href={`/airports/${airport.slug}`}
+      prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
       <Card className="h-full border-border/70 bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30">
@@ -106,6 +107,7 @@ export function AirportGuideCard({ airport }: AirportGuideCardProps) {
   return (
     <Link
       href={`/airports/${airport.iata.toLowerCase()}`}
+      prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
       <Card className="h-full border-dashed border-border/70 bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30 pointer-fine:group-hover:bg-card/95">
