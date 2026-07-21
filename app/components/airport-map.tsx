@@ -57,7 +57,7 @@ function MapCanvas({
           }}
           aria-label={`Open ${airport.name}`}
         >
-          <span className="hero-map-pin relative flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg ring-4 ring-background transition group-hover:scale-125">
+          <span className="hero-map-pin relative flex size-4 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg ring-4 ring-background transition-transform duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:scale-110 motion-reduce:transition-none motion-reduce:pointer-fine:group-hover:scale-100">
             <span className="size-1.5 rounded-full bg-current" />
           </span>
           <span className="pointer-events-none absolute left-1/2 top-5 z-20 hidden -translate-x-1/2 rounded-xl border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-lg group-hover:block">

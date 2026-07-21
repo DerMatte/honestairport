@@ -122,7 +122,7 @@ function RatingPicker({
           aria-checked={value === star}
           aria-label={`${star} star${star === 1 ? "" : "s"}`}
           onClick={() => onChange(star)}
-          className="rounded-md p-0.5 transition hover:scale-110 focus-visible:outline-2 focus-visible:outline-ring"
+          className="rounded-md p-0.5 transition-transform duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:scale-110 motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:scale-100 focus-visible:outline-2 focus-visible:outline-ring"
         >
           <Star
             className={cn(

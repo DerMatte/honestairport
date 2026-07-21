@@ -7,8 +7,54 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { XIcon } from "lucide-react"
 
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />
+const SHEET_EXIT_DURATION_MS = 200
+
+const SheetMotionContext = React.createContext<{
+  open: boolean
+  present: boolean
+} | null>(null)
+
+function Sheet({
+  open: openProp,
+  defaultOpen = false,
+  onOpenChange,
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Root>) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
+  const open = openProp ?? uncontrolledOpen
+  const [present, setPresent] = React.useState(open)
+
+  React.useEffect(() => {
+    if (open) {
+      setPresent(true)
+      return
+    }
+
+    const timeoutId = window.setTimeout(
+      () => setPresent(false),
+      SHEET_EXIT_DURATION_MS
+    )
+
+    return () => window.clearTimeout(timeoutId)
+  }, [open])
+
+  function handleOpenChange(nextOpen: boolean) {
+    if (openProp === undefined) {
+      setUncontrolledOpen(nextOpen)
+    }
+    onOpenChange?.(nextOpen)
+  }
+
+  return (
+    <SheetMotionContext.Provider value={{ open, present: open || present }}>
+      <SheetPrimitive.Root
+        data-slot="sheet"
+        open={open}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
+    </SheetMotionContext.Provider>
+  )
 }
 
 function SheetTrigger({
@@ -26,21 +72,36 @@ function SheetClose({
 function SheetPortal({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Portal>) {
-  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
+  const motion = React.useContext(SheetMotionContext)
+
+  if (motion && !motion.present) {
+    return null
+  }
+
+  return (
+    <SheetPrimitive.Portal
+      {...props}
+      data-slot="sheet-portal"
+      forceMount={motion ? true : props.forceMount}
+    />
+  )
 }
 
 function SheetOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
+  const motion = React.useContext(SheetMotionContext)
+
   return (
     <SheetPrimitive.Overlay
+      {...props}
+      forceMount={motion ? true : props.forceMount}
       data-slot="sheet-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 z-50 bg-black/10 opacity-100 transition-opacity duration-[var(--duration-drawer)] ease-[var(--ease-out)] supports-backdrop-filter:backdrop-blur-xs data-closed:pointer-events-none data-closed:opacity-0 motion-reduce:duration-100",
         className
       )}
-      {...props}
     />
   )
 }
@@ -55,17 +116,22 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left"
   showCloseButton?: boolean
 }) {
+  const motion = React.useContext(SheetMotionContext)
+
   return (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content
+        {...props}
+        forceMount={motion ? true : props.forceMount}
         data-slot="sheet-content"
         data-side={side}
+        aria-hidden={motion && !motion.open ? true : undefined}
+        inert={motion && !motion.open ? true : undefined}
         className={cn(
-          "fixed z-50 flex flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-[side=bottom]:data-open:slide-in-from-bottom-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:animate-out data-closed:fade-out-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=right]:data-closed:slide-out-to-right-10 data-[side=top]:data-closed:slide-out-to-top-10",
+          "fixed z-50 flex translate-x-0 translate-y-0 flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground opacity-100 shadow-lg transition-[translate,opacity] duration-[var(--duration-drawer)] ease-[var(--ease-drawer)] data-closed:pointer-events-none data-closed:opacity-0 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=bottom]:data-closed:translate-y-full data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:data-closed:-translate-x-full data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:data-closed:translate-x-full data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-closed:-translate-y-full data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm motion-reduce:transition-opacity motion-reduce:duration-100 motion-reduce:ease-[var(--ease-out)]",
           className
         )}
-        {...props}
       >
         {children}
         {showCloseButton && (

@@ -19,8 +19,11 @@ export function AirportCard({ airport }: AirportCardProps) {
     featuredAmenities.length > 0 ? featuredAmenities : airport.amenities.slice(0, 2);
 
   return (
-    <Link href={`/airports/${airport.slug}`} className="group block h-full">
-      <Card className="h-full border-border/70 bg-card/95 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10">
+    <Link
+      href={`/airports/${airport.slug}`}
+      className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
+    >
+      <Card className="h-full border-border/70 bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30">
         <CardHeader className="gap-3">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -86,7 +89,7 @@ export function AirportCard({ airport }: AirportCardProps) {
           </span>
           <span className="flex items-center gap-1 font-medium text-primary">
             View guide
-            <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="size-3.5" />
           </span>
         </CardFooter>
       </Card>
@@ -101,8 +104,11 @@ interface AirportGuideCardProps {
 /** A lighter card for guides that don't have Airportist Score data yet. */
 export function AirportGuideCard({ airport }: AirportGuideCardProps) {
   return (
-    <Link href={`/airports/${airport.iata.toLowerCase()}`} className="group block h-full">
-      <Card className="h-full border-dashed border-border/70 bg-card/60 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:bg-card/95 hover:shadow-lg hover:shadow-primary/10">
+    <Link
+      href={`/airports/${airport.iata.toLowerCase()}`}
+      className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
+    >
+      <Card className="h-full border-dashed border-border/70 bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30 pointer-fine:group-hover:bg-card/95">
         <CardHeader className="gap-3">
           <div className="flex items-center justify-between gap-2">
             <Badge variant="outline" className="font-mono">
@@ -125,7 +131,7 @@ export function AirportGuideCard({ airport }: AirportGuideCardProps) {
           <span>No Airportist Score yet</span>
           <span className="flex items-center gap-1 font-medium text-primary">
             View guide
-            <ArrowUpRight className="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="size-3.5" />
           </span>
         </CardFooter>
       </Card>

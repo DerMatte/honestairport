@@ -190,7 +190,12 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
                   {status === "error" ? (
                     <Plane className="size-6" aria-hidden="true" />
                   ) : (
-                    <Loader2 className="size-6 animate-spin" aria-hidden="true" />
+                    <span
+                      className="flex size-6 animate-spin motion-reduce:animate-none"
+                      aria-hidden="true"
+                    >
+                      <Loader2 className="size-full" />
+                    </span>
                   )}
                 </div>
               </div>
@@ -220,7 +225,12 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
             <CardContent className="p-6 sm:p-8">
               {isWaitingForContent ? (
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                  <span
+                    className="flex size-4 animate-spin motion-reduce:animate-none"
+                    aria-hidden="true"
+                  >
+                    <Loader2 className="size-full" />
+                  </span>
                   Gathering airport facts and traveler tips…
                 </div>
               ) : (

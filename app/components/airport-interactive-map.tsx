@@ -82,7 +82,7 @@ export default function AirportInteractiveMap({
             type="button"
             aria-label={`Show ${airport.name}`}
             className={cn(
-              "flex size-4 cursor-pointer items-center justify-center rounded-full text-white shadow-lg ring-2 ring-background transition hover:scale-125",
+              "flex size-4 cursor-pointer items-center justify-center rounded-full text-white shadow-lg ring-2 ring-background transition-transform duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:scale-110 motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:scale-100",
               markerClasses(airport.disruption.status),
             )}
           >

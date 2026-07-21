@@ -259,9 +259,12 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     }
     setMobileView("map");
     requestAnimationFrame(() => {
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
       document
         .getElementById("airport-map")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        ?.scrollIntoView({ behavior, block: "start" });
     });
   }
 
