@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { MessageCircle, Plane } from "lucide-react";
+import { Plane, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Loading } from "@/components/ai-elements/loading";
 import { Button } from "@/components/ui/button";
@@ -25,13 +25,12 @@ export function AssistantLauncher() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
-          size="lg"
-          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+5rem)] z-40 h-11 rounded-full px-4 shadow-lg sm:right-6 lg:bottom-6"
-          aria-label="Open Ask HonestAirport"
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Ask HonestAirport"
+          title="Ask HonestAirport"
         >
-          <MessageCircle className="size-4" aria-hidden="true" />
-          <span className="hidden xs:inline">Ask HonestAirport</span>
-          <span className="xs:hidden">Ask</span>
+          <Sparkles className="size-4" aria-hidden="true" />
         </Button>
       </SheetTrigger>
       <SheetContent

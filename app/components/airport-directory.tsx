@@ -439,14 +439,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         </div>
       ) : null}
 
-      <div
-        className={cn(
-          "fixed z-40 lg:hidden",
-          mobileView === "map"
-            ? "top-[4.5rem] left-4"
-            : "right-4 bottom-[max(1rem,env(safe-area-inset-bottom))]",
-        )}
-      >
+      <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 lg:hidden">
         <Button
           size="lg"
           className="min-w-28 rounded-full shadow-xl ring-1 ring-background/80"

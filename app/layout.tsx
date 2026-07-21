@@ -3,7 +3,6 @@ import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
-import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -108,7 +107,6 @@ export default async function RootLayout({
             </p>
           </div>
         </footer>
-        <AssistantLauncher />
         <Analytics />
       </body>
     </html>

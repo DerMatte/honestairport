@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Search } from "lucide-react";
 import { AirportSearchDialog } from "@/app/components/airport-search-combobox";
+import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { LazyNearestAirportLink } from "@/app/components/nearest-airport-lazy";
 import { SiteSidebar } from "@/app/components/site-sidebar";
 import { Button } from "@/components/ui/button";
@@ -114,6 +115,8 @@ export function SiteHeader() {
         >
           <Search />
         </Button>
+
+        <AssistantLauncher />
 
         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
           <SheetTrigger asChild>
