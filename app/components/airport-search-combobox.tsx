@@ -306,7 +306,11 @@ function AirportSearchSurface({
 }: AirportSearchSurfaceProps) {
   return (
     <div className={cn("overflow-hidden", className)}>
-      <Command shouldFilter={false} className="rounded-none bg-transparent">
+      <Command
+        shouldFilter={false}
+        label="Search airports"
+        className="rounded-none bg-transparent"
+      >
         <InlineSearchBar
           query={query}
           locationFilter={locationFilter}
@@ -459,7 +463,12 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
 
   return (
     <div className="relative">
-      <Command shouldFilter={false} className="rounded-none bg-transparent">
+      {/* Keep a listbox mounted when closed so cmdk aria-controls stays valid. */}
+      <Command
+        shouldFilter={false}
+        label="Search airports"
+        className="rounded-none bg-transparent"
+      >
         <div className="rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/5 ring-1 ring-primary/5">
           <InlineSearchBar
             query={inputQuery}
@@ -492,7 +501,9 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
               listClassName="max-h-72"
             />
           </div>
-        ) : null}
+        ) : (
+          <CommandList className="hidden" />
+        )}
       </Command>
     </div>
   );
