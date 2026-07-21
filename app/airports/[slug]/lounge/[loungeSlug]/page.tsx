@@ -134,17 +134,18 @@ export default async function LoungePage({ params }: LoungePageProps) {
   const { slug, loungeSlug } = await params;
   const iata = slug.trim().toUpperCase();
 
-  const [lounge, airportName, images] = await Promise.all([
+  const [lounge, airportName, images, airportLounges] = await Promise.all([
     getAirportLounge(iata, loungeSlug),
     resolveAirportName(slug),
     getAirportLoungeImages(iata, loungeSlug),
+    getAirportLounges(iata),
   ]);
 
   if (!lounge) {
     notFound();
   }
 
-  const otherLounges = (await getAirportLounges(iata)).filter(
+  const otherLounges = airportLounges.filter(
     (other) => other.slug !== lounge.slug,
   );
   const displayAirportName = airportName ?? iata;
