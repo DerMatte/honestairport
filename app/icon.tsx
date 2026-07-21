@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { OG_BRAND_BLUE, PlaneIcon } from "@/lib/og-icons";
 
 export const size = {
   width: 32,
@@ -16,15 +17,11 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #0a0a0a 0%, #2d2d3a 100%)",
-          borderRadius: 8,
-          color: "#fafafa",
-          fontSize: 20,
-          fontWeight: 700,
-          fontFamily: "sans-serif",
+          background: OG_BRAND_BLUE,
+          borderRadius: 9,
         }}
       >
-        H
+        <PlaneIcon size={18} color="#fafafa" rotate={-45} />
       </div>
     ),
     size,
