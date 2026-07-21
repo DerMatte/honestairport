@@ -26,7 +26,7 @@ export function AssistantLauncher() {
       <SheetTrigger asChild>
         <Button
           size="lg"
-          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+5rem)] z-40 h-11 rounded-full px-4 shadow-lg sm:right-6 sm:bottom-6"
+          className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+5rem)] z-40 h-11 rounded-full px-4 shadow-lg sm:right-6 lg:bottom-6"
           aria-label="Open Ask HonestAirport"
         >
           <MessageCircle className="size-4" aria-hidden="true" />

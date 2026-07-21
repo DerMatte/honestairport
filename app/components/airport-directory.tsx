@@ -286,8 +286,13 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   );
 
   return (
-    <main className="min-w-0 overflow-x-clip">
-      <section className="relative overflow-hidden border-b border-border/50">
+    <div className="min-w-0 overflow-x-clip">
+      <section
+        className={cn(
+          "relative overflow-hidden border-b border-border/50",
+          mobileView === "map" && "max-lg:hidden",
+        )}
+      >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_100%_at_85%_0%,color-mix(in_oklab,var(--chart-2)_18%,transparent),transparent_60%),linear-gradient(180deg,color-mix(in_oklab,var(--primary)_7%,var(--background)),var(--background))]"
@@ -309,8 +314,14 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         </div>
       </section>
 
-      <section aria-labelledby="directory-heading" className="lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start">
-        <div className={cn("min-w-0 px-4 pt-8 pb-24 sm:px-6 lg:px-8 lg:pb-8", mobileView === "map" && "max-lg:invisible")}>
+      <section
+        aria-labelledby="directory-heading"
+        className={cn(
+          "lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start",
+          mobileView === "map" && "max-lg:hidden",
+        )}
+      >
+        <div className="min-w-0 px-4 pt-8 pb-24 sm:px-6 lg:px-8 lg:pb-8">
           <div className="mb-6 flex items-end justify-between gap-4 border-b pb-5">
             <div>
               <p className="font-mono text-xs font-semibold tracking-[0.14em] text-primary uppercase">
@@ -451,6 +462,6 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           {mobileView === "map" ? "List" : "Map"}
         </Button>
       </div>
-    </main>
+    </div>
   );
 }
