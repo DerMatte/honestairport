@@ -201,7 +201,7 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <AirportCurrentWeather iata={airport.iata} />
               </Suspense>
             </div>
-            <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
               {airport.name}
             </h1>
             <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
@@ -373,7 +373,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 Editorial guide
               </Badge>
             </div>
-            <h1 className="mt-5 max-w-4xl text-5xl leading-[1.06] tracking-tight text-balance sm:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
               {frontmatter.name}
             </h1>
             <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
