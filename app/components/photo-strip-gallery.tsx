@@ -47,34 +47,6 @@ export function PhotoStripGallery({ images }: { images: AirportImage[] }) {
                 <Expand className="size-3.5" aria-hidden="true" />
               </span>
             </button>
-            <figcaption className="mt-2 px-0.5 text-xs text-muted-foreground">
-              <p className="truncate">Photo: {image.credit}</p>
-              <p className="mt-0.5 flex items-center gap-x-2.5">
-                {image.licenseUrl ? (
-                  <a
-                    href={image.licenseUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline-offset-2 hover:text-foreground hover:underline"
-                  >
-                    {image.license}
-                  </a>
-                ) : (
-                  <span>{image.license}</span>
-                )}
-                <span aria-hidden="true" className="text-muted-foreground/50">
-                  ·
-                </span>
-                <a
-                  href={image.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline-offset-2 hover:text-foreground hover:underline"
-                >
-                  Source
-                </a>
-              </p>
-            </figcaption>
           </figure>
         ))}
       </div>
