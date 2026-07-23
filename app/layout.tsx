@@ -1,8 +1,16 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
+import {
+  NearestAirportHeaderLink,
+  NearestAirportSidebarItem,
+} from "@/app/components/nearest-airport";
+import {
+  NearestAirportLinkSkeleton,
+  NearestAirportSidebarSkeleton,
+} from "@/app/components/nearest-airport-skeletons";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -84,19 +92,18 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
-          <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
-            <Link href="/" className="flex shrink-0 items-center gap-2.5">
-              <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-                <Plane className="size-4 -rotate-45" aria-hidden="true" />
-              </span>
-              <span className="font-heading text-xl font-medium tracking-tight">
-                HonestAirport
-              </span>
-            </Link>
-            <SiteHeader />
-          </div>
-        </header>
+        <SiteHeader
+          nearestAirportSlot={
+            <Suspense fallback={<NearestAirportLinkSkeleton className="mr-2" />}>
+              <NearestAirportHeaderLink className="mr-2" />
+            </Suspense>
+          }
+          nearestAirportSidebarSlot={
+            <Suspense fallback={<NearestAirportSidebarSkeleton />}>
+              <NearestAirportSidebarItem />
+            </Suspense>
+          }
+        />
         <main id="main-content" className="flex-1">
           {children}
         </main>
