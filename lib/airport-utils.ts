@@ -82,7 +82,24 @@ export function toAirportDirectoryAirport(
       departureDelayMinutes: airport.disruption.departureDelayMinutes,
       cancellationsPercent: airport.disruption.cancellationsPercent,
     },
+    guideLastUpdated: airport.guideLastUpdated,
   };
+}
+
+/** Newest `lastUpdated` first; invalid/missing dates sink. Name is the tie-break. */
+export function compareGuideRecency(
+  aDate: string,
+  bDate: string,
+  aName: string,
+  bName: string,
+): number {
+  const aTime = new Date(aDate).getTime();
+  const bTime = new Date(bDate).getTime();
+  const aValid = !Number.isNaN(aTime);
+  const bValid = !Number.isNaN(bTime);
+  if (aValid && bValid && bTime !== aTime) return bTime - aTime;
+  if (aValid !== bValid) return aValid ? -1 : 1;
+  return aName.localeCompare(bName);
 }
 
 export function filterAndSortAirports(
@@ -127,6 +144,13 @@ export function filterAndSortAirports(
         return b.reviewCount - a.reviewCount;
       case "least-disruptions":
         return disruptionSeverityRank(a.disruption.status) - disruptionSeverityRank(b.disruption.status);
+      case "newest-guides":
+        return compareGuideRecency(
+          a.guideLastUpdated,
+          b.guideLastUpdated,
+          a.name,
+          b.name,
+        );
       default: {
         const exhaustiveCheck: never = filters.sort;
         return exhaustiveCheck;

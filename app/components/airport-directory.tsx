@@ -35,6 +35,7 @@ import { Slider } from "@/components/ui/slider";
 import {
   amenityCategories,
   amenityLabel,
+  compareGuideRecency,
   disruptionStatuses,
   filterAndSortAirports,
   regions,
@@ -262,18 +263,41 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     if (hasDataFilters) return [];
     const normalizedQuery = normalizeSearchValue(deferredFilters.query);
     const scope = deferredFilters.searchScope;
-    return otherAirports
+    const guides = otherAirports
       .filter((entry) => !normalizedQuery || entry.normalized[scope].includes(normalizedQuery))
       .map((entry) => entry.summary);
+
+    if (deferredFilters.sort === "newest-guides") {
+      return [...guides].sort((a, b) =>
+        compareGuideRecency(a.lastUpdated, b.lastUpdated, a.name, b.name),
+      );
+    }
+
+    return guides;
   }, [otherAirports, deferredFilters, hasDataFilters]);
 
-  const filteredEntries: DirectoryEntry[] = useMemo(
-    () => [
-      ...filteredScored.map((airport) => ({ kind: "scored" as const, airport })),
-      ...filteredGuides.map((summary) => ({ kind: "guide" as const, summary })),
-    ],
-    [filteredScored, filteredGuides],
-  );
+  const filteredEntries: DirectoryEntry[] = useMemo(() => {
+    const scoredEntries = filteredScored.map((airport) => ({
+      kind: "scored" as const,
+      airport,
+    }));
+    const guideEntries = filteredGuides.map((summary) => ({
+      kind: "guide" as const,
+      summary,
+    }));
+
+    if (deferredFilters.sort !== "newest-guides") {
+      return [...scoredEntries, ...guideEntries];
+    }
+
+    return [...scoredEntries, ...guideEntries].sort((a, b) => {
+      const aDate = a.kind === "scored" ? a.airport.guideLastUpdated : a.summary.lastUpdated;
+      const bDate = b.kind === "scored" ? b.airport.guideLastUpdated : b.summary.lastUpdated;
+      const aName = a.kind === "scored" ? a.airport.name : a.summary.name;
+      const bName = b.kind === "scored" ? b.airport.name : b.summary.name;
+      return compareGuideRecency(aDate, bDate, aName, bName);
+    });
+  }, [filteredScored, filteredGuides, deferredFilters.sort]);
 
   const visibleEntries = filteredEntries.slice(0, visibleCount);
   const hasMore = visibleCount < filteredEntries.length;
@@ -393,13 +417,14 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                       updateFilters({ ...filters, sort: value as AirportSort })
                     }
                   >
-                    <SelectTrigger className="w-40 sm:w-44" aria-label="Sort airports">
+                    <SelectTrigger className="w-44 sm:w-48" aria-label="Sort airports">
                       <SelectValue placeholder="Sort airports" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="highest-score">Highest score</SelectItem>
                       <SelectItem value="most-reviewed">Most reviewed</SelectItem>
                       <SelectItem value="least-disruptions">Least disruptions</SelectItem>
+                      <SelectItem value="newest-guides">Newest guides</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -94,7 +94,7 @@ function deriveSlug(iata: string): string {
 
 function rowToAirport(
   profile: AirportProfileRow,
-  guide: Pick<AirportGuideRow, "iata" | "name" | "city" | "country">,
+  guide: Pick<AirportGuideRow, "iata" | "name" | "city" | "country" | "lastUpdated">,
   reviewCount: number,
 ): Airport {
   return {
@@ -124,6 +124,7 @@ function rowToAirport(
       lastUpdated: new Date(profile.disruption.lastUpdated),
     },
     reviewCount,
+    guideLastUpdated: guide.lastUpdated,
   };
 }
 
