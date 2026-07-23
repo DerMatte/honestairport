@@ -213,7 +213,7 @@ function MapPlaceholder({
       <div className="space-y-1">
         <p className="text-sm font-medium">{count} scored airports ready to map</p>
         <p className="max-w-xs text-xs leading-5 text-muted-foreground">
-          Load the interactive map when you want it — keeps the page light until then.
+          Open it when you&apos;re ready — we leave it unloaded so the page stays fast.
         </p>
       </div>
       <Button onClick={onLoad}>Show map</Button>
@@ -489,24 +489,24 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         </aside>
       </section>
 
-      {mobileMapMounted ? (
-        <div
-          id="mobile-airport-map"
-          aria-hidden={mobileView !== "map"}
-          className={cn(
-            "fixed inset-x-0 top-14 bottom-0 z-30 bg-muted lg:hidden",
-            mobileView !== "map" && "invisible pointer-events-none",
-          )}
-        >
-          <LazyAirportMap airports={filteredScored} />
-        </div>
-      ) : null}
+      {/* Keep shell mounted so aria-controls always resolves. */}
+      <div
+        id="mobile-airport-map"
+        aria-hidden={mobileView !== "map"}
+        className={cn(
+          "fixed inset-x-0 top-14 bottom-0 z-30 bg-muted lg:hidden",
+          mobileView !== "map" && "invisible pointer-events-none",
+        )}
+      >
+        {mobileMapMounted ? <LazyAirportMap airports={filteredScored} /> : null}
+      </div>
 
       <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 lg:hidden">
         <Button
           size="lg"
           className="min-w-28 rounded-full shadow-xl ring-1 ring-background/80"
-          aria-controls={mobileView === "map" ? "directory-heading" : "mobile-airport-map"}
+          aria-controls="mobile-airport-map"
+          aria-expanded={mobileView === "map"}
           aria-pressed={mobileView === "map"}
           onClick={mobileView === "map" ? () => setMobileView("list") : showMobileMap}
         >
