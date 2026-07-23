@@ -1,10 +1,10 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
-// Kept in their own module (only depends on Skeleton + cn) so the
-// next/dynamic `loading` fallback in nearest-airport-lazy.tsx never has to
-// statically import the heavy nearest-airport-link module it is meant to
-// code-split away.
+// Kept in their own module (only depends on Skeleton + cn) so they can be
+// used as <Suspense> fallbacks for the RSC nearest-airport widgets in
+// nearest-airport.tsx without importing that server-only module from a
+// client component.
 export function NearestAirportLinkSkeleton({
   className,
 }: {

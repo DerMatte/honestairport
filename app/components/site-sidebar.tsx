@@ -1,15 +1,14 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ChevronsUpDown,
   Compass,
   LogIn,
   LogOut,
-  Plane,
   Settings,
 } from "lucide-react";
-import { LazyNearestAirportSidebarItem } from "@/app/components/nearest-airport-lazy";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +25,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -58,11 +56,13 @@ export function SiteSidebar({
   isPending,
   onNavigate,
   onSignOut,
+  nearestAirportSlot,
 }: {
   user: SiteSidebarUser | null;
   isPending: boolean;
   onNavigate: () => void;
   onSignOut: () => void;
+  nearestAirportSlot: ReactNode;
 }) {
   return (
     <Sidebar
@@ -73,28 +73,6 @@ export function SiteSidebar({
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_at_top_right,oklch(0.42_0.15_259_/_0.16),transparent_60%),linear-gradient(180deg,oklch(0.955_0.012_250),transparent)]"
       />
-
-      <SidebarHeader className="relative z-10 pb-0">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link href="/" onClick={onNavigate}>
-                <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-primary text-sidebar-primary-foreground shadow-sm ring-1 ring-sidebar-primary/20">
-                  <Plane className="size-4 -rotate-45" aria-hidden="true" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-heading text-base font-medium tracking-tight">
-                    HonestAirport
-                  </span>
-                  <span className="text-xs text-sidebar-foreground/60">
-                    Scores & traveler tips
-                  </span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
 
       <SidebarContent className="relative z-10">
         <SidebarGroup>
@@ -119,7 +97,7 @@ export function SiteSidebar({
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <LazyNearestAirportSidebarItem onNavigate={onNavigate} />
+            {nearestAirportSlot}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

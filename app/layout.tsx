@@ -1,7 +1,16 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
+import {
+  NearestAirportHeaderLink,
+  NearestAirportSidebarItem,
+} from "@/app/components/nearest-airport";
+import {
+  NearestAirportLinkSkeleton,
+  NearestAirportSidebarSkeleton,
+} from "@/app/components/nearest-airport-skeletons";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -83,7 +92,18 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <SiteHeader />
+        <SiteHeader
+          nearestAirportSlot={
+            <Suspense fallback={<NearestAirportLinkSkeleton className="mr-2" />}>
+              <NearestAirportHeaderLink className="mr-2" />
+            </Suspense>
+          }
+          nearestAirportSidebarSlot={
+            <Suspense fallback={<NearestAirportSidebarSkeleton />}>
+              <NearestAirportSidebarItem />
+            </Suspense>
+          }
+        />
         <main id="main-content" className="flex-1">
           {children}
         </main>

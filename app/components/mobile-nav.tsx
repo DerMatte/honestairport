@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { Dialog as NavDialog, VisuallyHidden } from "radix-ui";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { SiteSidebar } from "@/app/components/site-sidebar";
@@ -13,6 +14,7 @@ interface MobileNavProps {
   isPending: boolean;
   onNavigate: () => void;
   onSignOut: () => void;
+  nearestAirportSlot: ReactNode;
 }
 
 export function MobileNav({
@@ -22,6 +24,7 @@ export function MobileNav({
   isPending,
   onNavigate,
   onSignOut,
+  nearestAirportSlot,
 }: MobileNavProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -36,6 +39,19 @@ export function MobileNav({
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
+
+  // The nearest-airport link is server-rendered (no client onClick available),
+  // so close the panel on any route change as a catch-all alongside the
+  // explicit onNavigate handlers used by the other, client-rendered links.
+  const pathname = usePathname();
+  const isInitialPathname = useRef(true);
+  useEffect(() => {
+    if (isInitialPathname.current) {
+      isInitialPathname.current = false;
+      return;
+    }
+    onOpenChange(false);
+  }, [pathname, onOpenChange]);
 
   return (
     <NavDialog.Root open={open} onOpenChange={onOpenChange}>
@@ -69,6 +85,7 @@ export function MobileNav({
                       isPending={isPending}
                       onNavigate={onNavigate}
                       onSignOut={onSignOut}
+                      nearestAirportSlot={nearestAirportSlot}
                     />
                   </SidebarProvider>
                 </div>

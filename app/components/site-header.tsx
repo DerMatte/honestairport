@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
-import { LazyNearestAirportLink } from "@/app/components/nearest-airport-lazy";
 import { MobileNav } from "@/app/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +28,14 @@ const AirportSearchDialog = dynamic(
 const SCROLL_DELTA = 6;
 const TOP_REVEAL_OFFSET = 12;
 
-export function SiteHeader() {
+export function SiteHeader({
+  nearestAirportSlot,
+  nearestAirportSidebarSlot,
+}: {
+  /** RSC-rendered "Near you" link, streamed in behind a Suspense boundary. */
+  nearestAirportSlot: ReactNode;
+  nearestAirportSidebarSlot: ReactNode;
+}) {
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const shouldReduceMotion = useReducedMotion();
@@ -121,7 +127,7 @@ export function SiteHeader() {
 
           <div className="ml-auto flex items-center gap-1">
             <nav className="mr-1 hidden items-center md:flex">
-              <LazyNearestAirportLink className="mr-2" />
+              {nearestAirportSlot}
               {isPending ? (
                 <Skeleton className="h-8 w-[72px]" />
               ) : session ? (
@@ -261,6 +267,7 @@ export function SiteHeader() {
         isPending={isPending}
         onNavigate={() => setMenuOpen(false)}
         onSignOut={handleSignOut}
+        nearestAirportSlot={nearestAirportSidebarSlot}
       />
 
       {searchOpen ? (
