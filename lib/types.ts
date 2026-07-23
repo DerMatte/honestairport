@@ -31,7 +31,11 @@ export type TipCategory =
 
 export type ImportantTipCategory = "timing" | "terminal" | "food" | "status";
 
-export type AirportSort = "highest-score" | "most-reviewed" | "least-disruptions";
+export type AirportSort =
+  | "highest-score"
+  | "most-reviewed"
+  | "least-disruptions"
+  | "newest-guides";
 
 export type AirportSearchScope = "all" | "city" | "country";
 
@@ -145,6 +149,8 @@ export interface Airport {
   disruption: Disruption;
   /** Published review count (editorial + community), for sorting/ratingCount display. */
   reviewCount: number;
+  /** Guide editorial freshness (`airport_guides.last_updated`, YYYY-MM-DD). */
+  guideLastUpdated: string;
 }
 
 /**
@@ -182,6 +188,8 @@ export interface AirportDirectoryAirport {
     departureDelayMinutes: number;
     cancellationsPercent: number;
   };
+  /** Guide editorial freshness (`airport_guides.last_updated`, YYYY-MM-DD). */
+  guideLastUpdated: string;
 }
 
 export interface AirportFilters {
@@ -191,5 +199,7 @@ export interface AirportFilters {
   regions: Region[];
   amenities: AmenityCategory[];
   disruptionStatuses: DisruptionStatus[];
+  /** Keep only guides published/refreshed within the recent window. */
+  recentGuidesOnly: boolean;
   sort: AirportSort;
 }

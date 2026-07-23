@@ -35,8 +35,11 @@ import { Slider } from "@/components/ui/slider";
 import {
   amenityCategories,
   amenityLabel,
+  compareGuideRecency,
   disruptionStatuses,
   filterAndSortAirports,
+  isRecentGuide,
+  RECENT_GUIDE_DAYS,
   regions,
 } from "@/lib/airport-utils";
 import { normalizeSearchValue } from "@/lib/airport-search-utils";
@@ -77,6 +80,7 @@ const DEFAULT_FILTERS: AirportFilters = {
   regions: [],
   amenities: [],
   disruptionStatuses: [],
+  recentGuidesOnly: false,
   sort: "highest-score",
 };
 
@@ -166,6 +170,28 @@ function FilterPanel({
               </label>
             ))}
           </div>
+        </div>
+
+        <div className="space-y-3">
+          <Label>Guide freshness</Label>
+          <label className="flex items-start gap-2 text-sm">
+            <Checkbox
+              className="mt-0.5"
+              checked={filters.recentGuidesOnly}
+              onCheckedChange={(checked) =>
+                onFiltersChange({
+                  ...filters,
+                  recentGuidesOnly: checked === true,
+                })
+              }
+            />
+            <span>
+              <span className="block">New guides</span>
+              <span className="mt-0.5 block text-xs text-muted-foreground">
+                Published or refreshed in the last {RECENT_GUIDE_DAYS} days
+              </span>
+            </span>
+          </label>
         </div>
 
         <div className="space-y-3">
@@ -262,18 +288,49 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     if (hasDataFilters) return [];
     const normalizedQuery = normalizeSearchValue(deferredFilters.query);
     const scope = deferredFilters.searchScope;
-    return otherAirports
-      .filter((entry) => !normalizedQuery || entry.normalized[scope].includes(normalizedQuery))
+    const guides = otherAirports
+      .filter((entry) => {
+        if (normalizedQuery && !entry.normalized[scope].includes(normalizedQuery)) {
+          return false;
+        }
+        if (deferredFilters.recentGuidesOnly && !isRecentGuide(entry.summary.lastUpdated)) {
+          return false;
+        }
+        return true;
+      })
       .map((entry) => entry.summary);
+
+    if (deferredFilters.sort === "newest-guides") {
+      return [...guides].sort((a, b) =>
+        compareGuideRecency(a.lastUpdated, b.lastUpdated, a.name, b.name),
+      );
+    }
+
+    return guides;
   }, [otherAirports, deferredFilters, hasDataFilters]);
 
-  const filteredEntries: DirectoryEntry[] = useMemo(
-    () => [
-      ...filteredScored.map((airport) => ({ kind: "scored" as const, airport })),
-      ...filteredGuides.map((summary) => ({ kind: "guide" as const, summary })),
-    ],
-    [filteredScored, filteredGuides],
-  );
+  const filteredEntries: DirectoryEntry[] = useMemo(() => {
+    const scoredEntries = filteredScored.map((airport) => ({
+      kind: "scored" as const,
+      airport,
+    }));
+    const guideEntries = filteredGuides.map((summary) => ({
+      kind: "guide" as const,
+      summary,
+    }));
+
+    if (deferredFilters.sort !== "newest-guides") {
+      return [...scoredEntries, ...guideEntries];
+    }
+
+    return [...scoredEntries, ...guideEntries].sort((a, b) => {
+      const aDate = a.kind === "scored" ? a.airport.guideLastUpdated : a.summary.lastUpdated;
+      const bDate = b.kind === "scored" ? b.airport.guideLastUpdated : b.summary.lastUpdated;
+      const aName = a.kind === "scored" ? a.airport.name : a.summary.name;
+      const bName = b.kind === "scored" ? b.airport.name : b.summary.name;
+      return compareGuideRecency(aDate, bDate, aName, bName);
+    });
+  }, [filteredScored, filteredGuides, deferredFilters.sort]);
 
   const visibleEntries = filteredEntries.slice(0, visibleCount);
   const hasMore = visibleCount < filteredEntries.length;
@@ -283,6 +340,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     filters.amenities.length +
     filters.disruptionStatuses.length +
     (filters.minimumScore > 0 ? 1 : 0) +
+    (filters.recentGuidesOnly ? 1 : 0) +
     (filters.query.trim() ? 1 : 0);
 
   function resetFilters() {
@@ -393,13 +451,14 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                       updateFilters({ ...filters, sort: value as AirportSort })
                     }
                   >
-                    <SelectTrigger className="w-40 sm:w-44" aria-label="Sort airports">
+                    <SelectTrigger className="w-44 sm:w-48" aria-label="Sort airports">
                       <SelectValue placeholder="Sort airports" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="highest-score">Highest score</SelectItem>
                       <SelectItem value="most-reviewed">Most reviewed</SelectItem>
                       <SelectItem value="least-disruptions">Least disruptions</SelectItem>
+                      <SelectItem value="newest-guides">Newest guides</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

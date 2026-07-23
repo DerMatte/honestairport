@@ -82,7 +82,33 @@ export function toAirportDirectoryAirport(
       departureDelayMinutes: airport.disruption.departureDelayMinutes,
       cancellationsPercent: airport.disruption.cancellationsPercent,
     },
+    guideLastUpdated: airport.guideLastUpdated,
   };
+}
+
+/** Days a guide counts as "new" for the homepage recent-guides filter. */
+export const RECENT_GUIDE_DAYS = 30;
+
+export function isRecentGuide(isoDate: string, now = Date.now()): boolean {
+  const updated = new Date(isoDate).getTime();
+  if (Number.isNaN(updated)) return false;
+  return now - updated <= RECENT_GUIDE_DAYS * 24 * 60 * 60 * 1000;
+}
+
+/** Newest `lastUpdated` first; invalid/missing dates sink. Name is the tie-break. */
+export function compareGuideRecency(
+  aDate: string,
+  bDate: string,
+  aName: string,
+  bName: string,
+): number {
+  const aTime = new Date(aDate).getTime();
+  const bTime = new Date(bDate).getTime();
+  const aValid = !Number.isNaN(aTime);
+  const bValid = !Number.isNaN(bTime);
+  if (aValid && bValid && bTime !== aTime) return bTime - aTime;
+  if (aValid !== bValid) return aValid ? -1 : 1;
+  return aName.localeCompare(bName);
 }
 
 export function filterAndSortAirports(
@@ -109,13 +135,16 @@ export function filterAndSortAirports(
     const matchesDisruption =
       filters.disruptionStatuses.length === 0 ||
       filters.disruptionStatuses.includes(airport.disruption.status);
+    const matchesRecent =
+      !filters.recentGuidesOnly || isRecentGuide(airport.guideLastUpdated);
 
     return (
       matchesQuery &&
       matchesScore &&
       matchesRegion &&
       matchesAmenities &&
-      matchesDisruption
+      matchesDisruption &&
+      matchesRecent
     );
   });
 
@@ -127,6 +156,13 @@ export function filterAndSortAirports(
         return b.reviewCount - a.reviewCount;
       case "least-disruptions":
         return disruptionSeverityRank(a.disruption.status) - disruptionSeverityRank(b.disruption.status);
+      case "newest-guides":
+        return compareGuideRecency(
+          a.guideLastUpdated,
+          b.guideLastUpdated,
+          a.name,
+          b.name,
+        );
       default: {
         const exhaustiveCheck: never = filters.sort;
         return exhaustiveCheck;
