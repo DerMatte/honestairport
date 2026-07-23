@@ -2,6 +2,7 @@ import { checkBotId } from "botid/server";
 import { revalidateTag } from "next/cache";
 import { NextResponse, after } from "next/server";
 import { AIRPORT_GUIDES_CACHE_TAG, AIRPORT_PROFILES_CACHE_TAG } from "@/lib/airport-content";
+import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
 import { createAirportGuideStream } from "@/lib/generate-airport-guide";
 import { generateAirportScoreProfile } from "@/lib/generate-airport-profile";
@@ -16,11 +17,7 @@ import {
 } from "@/lib/airport-guides";
 import { upsertAirportProfile } from "@/lib/airport-profiles";
 import { getAirportByIata } from "@/lib/airports";
-import {
-  assertSameOrigin,
-  consumeRateLimit,
-  hashClientIp,
-} from "@/lib/request-security";
+import { assertSameOrigin, consumeRateLimit } from "@/lib/request-security";
 
 interface RouteParams {
   params: Promise<{ iata: string }>;
@@ -46,28 +43,36 @@ export async function POST(request: Request, { params }: RouteParams) {
     return NextResponse.json({ error: "Invalid origin" }, { status: 403 });
   }
 
-  const verification = await checkBotId();
-  if (verification.isBot) {
-    return NextResponse.json({ error: "Access denied" }, { status: 403 });
-  }
-
   if (!isDatabaseConfigured()) {
     return NextResponse.json({ error: "Database is not configured" }, { status: 503 });
   }
 
-  const ipHash = hashClientIp(request);
-  if (ipHash) {
-    const allowed = await consumeRateLimit(
-      `generate:${ipHash}`,
-      GENERATE_RATE_LIMIT,
-      GENERATE_RATE_WINDOW_MS,
+  const [session, verification] = await Promise.all([
+    auth.api.getSession({ headers: request.headers }),
+    checkBotId(),
+  ]);
+
+  if (!session) {
+    return NextResponse.json(
+      { error: "Sign in to request an on-demand guide." },
+      { status: 401 },
     );
-    if (!allowed) {
-      return NextResponse.json(
-        { error: "Too many guide generations — try again in an hour." },
-        { status: 429 },
-      );
-    }
+  }
+
+  if (verification.isBot) {
+    return NextResponse.json({ error: "Access denied" }, { status: 403 });
+  }
+
+  const allowed = await consumeRateLimit(
+    `generate:${session.user.id}`,
+    GENERATE_RATE_LIMIT,
+    GENERATE_RATE_WINDOW_MS,
+  );
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many guide generations — try again in an hour." },
+      { status: 429 },
+    );
   }
 
   if (!process.env.AI_GATEWAY_API_KEY?.trim()) {
@@ -86,6 +91,7 @@ export async function POST(request: Request, { params }: RouteParams) {
   try {
     const result = createAirportGuideStream(normalized, record, "");
     const encoder = new TextEncoder();
+    const requestedByUserId = session.user.id;
 
     // Resolved by the stream below with the saved guide markdown, or null on
     // any failure path, so the scoring step in `after` always settles.
@@ -168,7 +174,9 @@ export async function POST(request: Request, { params }: RouteParams) {
           if (!trimmedGuide) {
             throw new Error("Model returned no guide text");
           }
-          await upsertAirportGuide(parseAirportGuideMarkdown(trimmedGuide));
+          await upsertAirportGuide(parseAirportGuideMarkdown(trimmedGuide), {
+            requestedByUserId,
+          });
           revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
           safeEnqueue(buildGuideSaveMarker({ status: "ok" }));
           resolveSavedGuide(trimmedGuide);

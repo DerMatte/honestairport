@@ -31,6 +31,14 @@ function noticeFromParams(params: {
   return null;
 }
 
+/** Only allow relative in-app paths — reject protocol-relative / absolute URLs. */
+function safeNextPath(next: string | undefined): string {
+  if (!next || !next.startsWith("/") || next.startsWith("//")) {
+    return "/";
+  }
+  return next;
+}
+
 function LoginPageFallback() {
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
@@ -44,7 +52,7 @@ function LoginPageFallback() {
 export default function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; reset?: string }>;
+  searchParams: Promise<{ error?: string; reset?: string; next?: string }>;
 }) {
   return (
     <Suspense fallback={<LoginPageFallback />}>
@@ -56,22 +64,25 @@ export default function LoginPage({
 async function LoginPageContent({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string; reset?: string }>;
+  searchParams: Promise<{ error?: string; reset?: string; next?: string }>;
 }) {
   if (!isDatabaseConfigured()) {
     redirect("/");
   }
 
+  const params = await searchParams;
+  const nextPath = safeNextPath(params.next);
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (session) {
-    redirect("/");
+    redirect(nextPath);
   }
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
       <LoginForm
-        notice={noticeFromParams(await searchParams)}
+        notice={noticeFromParams(params)}
+        nextPath={nextPath}
         providers={{
           github: Boolean(
             process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET,

@@ -88,6 +88,11 @@ export const airportGuides = pgTable("airport_guides", {
   waterOptions: jsonb("water_options").$type<AirportWaterOption[]>().notNull().default([]),
   // Markdown body (everything below the frontmatter).
   content: text("content").notNull(),
+  // Account that requested on-demand generation. NULL for cron/CLI guides and
+  // rows that predate auth-gated generation. Preserved across later upserts.
+  requestedByUserId: text("requested_by_user_id").references(() => user.id, {
+    onDelete: "set null",
+  }),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

@@ -623,9 +623,15 @@ export async function airportGuideExists(iata: string): Promise<boolean> {
  * `airport_guide_revisions` inside the same transaction, so every overwrite
  * by the content pipeline stays recoverable.
  *
+ * `requestedByUserId` is only written on first insert (on-demand generation).
+ * Later cron/CLI upserts leave the original requester intact.
+ *
  * Throws when the guide fails validation.
  */
-export async function upsertAirportGuide(content: AirportContent): Promise<AirportGuideRow> {
+export async function upsertAirportGuide(
+  content: AirportContent,
+  options?: { requestedByUserId?: string },
+): Promise<AirportGuideRow> {
   const errors = validateAirportGuide(content);
   if (errors.length > 0) {
     throw new Error(
@@ -654,6 +660,13 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
     updatedAt: new Date(),
   };
 
+  const insertValues = {
+    ...values,
+    ...(options?.requestedByUserId
+      ? { requestedByUserId: options.requestedByUserId }
+      : {}),
+  };
+
   const db = getDb();
 
   return db.transaction(async (tx) => {
@@ -672,9 +685,10 @@ export async function upsertAirportGuide(content: AirportContent): Promise<Airpo
 
     const [row] = await tx
       .insert(airportGuides)
-      .values(values)
+      .values(insertValues)
       .onConflictDoUpdate({
         target: airportGuides.iata,
+        // Do not overwrite requested_by_user_id on refresh/upsert.
         set: values,
       })
       .returning();

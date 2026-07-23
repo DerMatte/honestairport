@@ -29,6 +29,16 @@ export interface LoginNotice {
 interface LoginFormProps {
   providers: Record<SocialProvider, boolean>;
   notice?: LoginNotice | null;
+  /** Same-origin path to return to after sign-in (e.g. `/airports/xyz`). */
+  nextPath?: string;
+}
+
+/** Only allow relative in-app paths — reject protocol-relative / absolute URLs. */
+function safeNextPath(nextPath: string | undefined): string {
+  if (!nextPath || !nextPath.startsWith("/") || nextPath.startsWith("//")) {
+    return "/";
+  }
+  return nextPath;
 }
 
 const SOCIAL_LABELS: Record<SocialProvider, string> = {
@@ -79,8 +89,9 @@ function sentCopy(
   }
 }
 
-export function LoginForm({ providers, notice }: LoginFormProps) {
+export function LoginForm({ providers, notice, nextPath }: LoginFormProps) {
   const router = useRouter();
+  const afterAuthPath = safeNextPath(nextPath);
   const [mode, setMode] = useState<Mode>("sign-in");
   const [sent, setSent] = useState<SentKind | null>(null);
   const [sentTo, setSentTo] = useState("");
@@ -121,7 +132,12 @@ export function LoginForm({ providers, notice }: LoginFormProps) {
       const result =
         mode === "sign-in"
           ? await signIn.email({ email, password })
-          : await signUp.email({ email, password, name, callbackURL: "/" });
+          : await signUp.email({
+              email,
+              password,
+              name,
+              callbackURL: afterAuthPath,
+            });
 
       if (result.error) {
         setError(result.error.message ?? "Something went wrong — try again.");
@@ -137,7 +153,7 @@ export function LoginForm({ providers, notice }: LoginFormProps) {
         return;
       }
 
-      router.push("/");
+      router.push(afterAuthPath);
       router.refresh();
     } finally {
       setSubmitting(false);
@@ -146,7 +162,10 @@ export function LoginForm({ providers, notice }: LoginFormProps) {
 
   async function handleSocial(provider: SocialProvider) {
     setError(null);
-    const result = await signIn.social({ provider, callbackURL: "/" });
+    const result = await signIn.social({
+      provider,
+      callbackURL: afterAuthPath,
+    });
 
     if (result.error) {
       setError(result.error.message ?? "Something went wrong — try again.");
@@ -169,7 +188,7 @@ export function LoginForm({ providers, notice }: LoginFormProps) {
           {sent === "verify" ? (
             <Button
               onClick={() => {
-                router.push("/");
+                router.push(afterAuthPath);
                 router.refresh();
               }}
             >
