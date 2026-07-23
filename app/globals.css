@@ -56,6 +56,7 @@
   --duration-press: 160ms;
   --duration-popover: 150ms;
   --duration-drawer: 200ms;
+  --site-header-offset: 3.5rem;
   --background: oklch(0.984 0.004 240);
   --foreground: oklch(0.22 0.03 258);
   --card: oklch(1 0 0);
@@ -209,6 +210,12 @@
   }
   to {
     transform: translate3d(3%, 2%, 0) scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(header[data-hidden]) {
+    --site-header-offset: 0rem;
   }
 }
 

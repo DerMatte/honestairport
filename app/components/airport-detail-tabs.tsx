@@ -11,6 +11,7 @@ import {
   Info,
   Luggage,
   Map,
+  Plane,
   ShieldCheck,
   Sparkles,
   Train,
@@ -73,6 +74,9 @@ interface AirportDetailTabsProps {
    */
   lounges?: AirportLoungeView[];
 }
+
+const detailTabClassName =
+  "h-9 px-3 text-xs sm:text-sm data-active:text-primary after:bg-primary";
 
 function amenityIcon(category: AmenityCategory) {
   switch (category) {
@@ -309,24 +313,73 @@ export function AirportDetailTabs({
   return (
     <AirportLiveStatusProvider iata={iata}>
       <Tabs defaultValue="overview" className="gap-6">
-        <div className="overflow-x-auto pb-1">
-          <TabsList className="w-max" variant="line">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            {showGettingThere ? (
-              <TabsTrigger value="getting-there">Getting There</TabsTrigger>
-            ) : null}
-            {showLounges ? <TabsTrigger value="lounges">Lounges</TabsTrigger> : null}
-            {showAmenities ? (
-              <TabsTrigger value="amenities">Amenities</TabsTrigger>
-            ) : null}
-            {showTips ? <TabsTrigger value="tips">Traveler Tips</TabsTrigger> : null}
-            {showWater ? <TabsTrigger value="water">Water</TabsTrigger> : null}
-            {guideMarkdown ? (
-              <TabsTrigger value="guide">Full Guide</TabsTrigger>
-            ) : null}
-            <TabsTrigger value="disruptions">Disruptions</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          </TabsList>
+        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
+          <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
+            <div className="flex shrink-0 items-center gap-2 border-r border-border/70 pr-3">
+              <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                <Plane className="size-4 -rotate-45" aria-hidden="true" />
+              </span>
+              <span className="font-mono text-xs font-semibold tracking-[0.12em] text-primary">
+                {iata}
+              </span>
+              <span className="hidden text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase lg:inline">
+                Guide
+              </span>
+            </div>
+
+            <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-1 after:right-0 after:w-6 after:bg-linear-to-l after:from-background after:to-transparent sm:after:hidden">
+              <div className="overflow-x-auto px-1 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <TabsList
+                  aria-label={`${iata} guide sections`}
+                  className="h-9 w-max gap-1 pr-5 sm:pr-0"
+                  variant="line"
+                >
+                  <TabsTrigger className={detailTabClassName} value="overview">
+                    Overview
+                  </TabsTrigger>
+                  {showGettingThere ? (
+                    <TabsTrigger
+                      className={detailTabClassName}
+                      value="getting-there"
+                    >
+                      Getting There
+                    </TabsTrigger>
+                  ) : null}
+                  {showLounges ? (
+                    <TabsTrigger className={detailTabClassName} value="lounges">
+                      Lounges
+                    </TabsTrigger>
+                  ) : null}
+                  {showAmenities ? (
+                    <TabsTrigger className={detailTabClassName} value="amenities">
+                      Amenities
+                    </TabsTrigger>
+                  ) : null}
+                  {showTips ? (
+                    <TabsTrigger className={detailTabClassName} value="tips">
+                      Traveler Tips
+                    </TabsTrigger>
+                  ) : null}
+                  {showWater ? (
+                    <TabsTrigger className={detailTabClassName} value="water">
+                      Water
+                    </TabsTrigger>
+                  ) : null}
+                  {guideMarkdown ? (
+                    <TabsTrigger className={detailTabClassName} value="guide">
+                      Full Guide
+                    </TabsTrigger>
+                  ) : null}
+                  <TabsTrigger className={detailTabClassName} value="disruptions">
+                    Disruptions
+                  </TabsTrigger>
+                  <TabsTrigger className={detailTabClassName} value="reviews">
+                    Reviews
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+            </div>
+          </div>
         </div>
 
         <TabsContent value="overview" className="space-y-6">
