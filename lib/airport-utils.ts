@@ -86,15 +86,6 @@ export function toAirportDirectoryAirport(
   };
 }
 
-/** Days a guide counts as "new" for the homepage recent-guides filter. */
-export const RECENT_GUIDE_DAYS = 30;
-
-export function isRecentGuide(isoDate: string, now = Date.now()): boolean {
-  const updated = new Date(isoDate).getTime();
-  if (Number.isNaN(updated)) return false;
-  return now - updated <= RECENT_GUIDE_DAYS * 24 * 60 * 60 * 1000;
-}
-
 /** Newest `lastUpdated` first; invalid/missing dates sink. Name is the tie-break. */
 export function compareGuideRecency(
   aDate: string,
@@ -135,16 +126,13 @@ export function filterAndSortAirports(
     const matchesDisruption =
       filters.disruptionStatuses.length === 0 ||
       filters.disruptionStatuses.includes(airport.disruption.status);
-    const matchesRecent =
-      !filters.recentGuidesOnly || isRecentGuide(airport.guideLastUpdated);
 
     return (
       matchesQuery &&
       matchesScore &&
       matchesRegion &&
       matchesAmenities &&
-      matchesDisruption &&
-      matchesRecent
+      matchesDisruption
     );
   });
 

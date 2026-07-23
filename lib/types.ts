@@ -199,7 +199,5 @@ export interface AirportFilters {
   regions: Region[];
   amenities: AmenityCategory[];
   disruptionStatuses: DisruptionStatus[];
-  /** Keep only guides published/refreshed within the recent window. */
-  recentGuidesOnly: boolean;
   sort: AirportSort;
 }
