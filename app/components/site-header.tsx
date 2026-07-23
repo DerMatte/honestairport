@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Plane, Search } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { LazyNearestAirportLink } from "@/app/components/nearest-airport-lazy";
 import { SiteSidebar } from "@/app/components/site-sidebar";
@@ -25,7 +26,6 @@ import {
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { signOut, useSession } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 
 const AirportSearchDialog = dynamic(
   () =>
@@ -41,6 +41,7 @@ const TOP_REVEAL_OFFSET = 12;
 export function SiteHeader() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
+  const shouldReduceMotion = useReducedMotion();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -103,12 +104,16 @@ export function SiteHeader() {
 
   return (
     <>
-      <header
-        className={cn(
-          "site-header sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md transition-transform duration-300 ease-[var(--ease-out)] will-change-transform",
-          hidden ? "-translate-y-full" : "translate-y-0",
-        )}
+      <motion.header
+        className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md"
         data-hidden={hidden ? "" : undefined}
+        initial={false}
+        animate={{ y: hidden && !shouldReduceMotion ? "-100%" : 0 }}
+        transition={
+          shouldReduceMotion
+            ? { duration: 0 }
+            : { type: "tween", duration: 0.3, ease: [0.23, 1, 0.32, 1] }
+        }
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
@@ -239,7 +244,7 @@ export function SiteHeader() {
             </Sheet>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {searchOpen ? (
         <AirportSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
