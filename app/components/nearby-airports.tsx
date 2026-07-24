@@ -38,11 +38,13 @@ export function NearbyAirports({ iata }: NearbyAirportsProps) {
               className="group flex items-center justify-between gap-4 px-4 py-4 transition hover:bg-muted/40 sm:px-5"
             >
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="outline" className="font-mono">
+                {/* No wrapping: the badge and name share one line on every row
+                    so short and long names produce the same row shape. */}
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline" className="shrink-0 font-mono">
                     {airport.iata}
                   </Badge>
-                  <span className="truncate font-medium">{airport.name}</span>
+                  <span className="min-w-0 truncate font-medium">{airport.name}</span>
                 </div>
                 <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
                   <MapPin className="size-3.5 shrink-0" aria-hidden="true" />

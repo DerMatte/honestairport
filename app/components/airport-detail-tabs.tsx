@@ -475,7 +475,7 @@ export function AirportDetailTabs({
             <CardHeader>
               <CardTitle>Key Stats</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-3">
+            <CardContent className="grid grid-cols-2 gap-3 lg:grid-cols-1">
               {[
                 ["Annual passengers", airport.stats.annualPassengers],
                 ["Terminals", airport.stats.terminals],

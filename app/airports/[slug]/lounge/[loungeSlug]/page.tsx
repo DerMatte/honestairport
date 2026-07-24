@@ -202,7 +202,7 @@ async function LoungePageContent({
         }}
       />
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
         <Link
           href={`/airports/${slug}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
