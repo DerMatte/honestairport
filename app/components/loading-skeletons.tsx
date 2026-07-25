@@ -3,28 +3,28 @@ import { cn } from "@/lib/utils";
 
 function HeroSkeleton() {
   return (
-    <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
+    <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
       <div>
         <div className="flex gap-2">
           <Skeleton className="h-5 w-14 rounded-full" />
           <Skeleton className="h-5 w-16 rounded-full" />
           <Skeleton className="h-5 w-28 rounded-full" />
         </div>
-        <Skeleton className="mt-5 h-24 max-w-4xl rounded-lg" />
-        <Skeleton className="mt-4 h-6 max-w-xl" />
-        <Skeleton className="mt-6 h-20 max-w-3xl" />
+        <Skeleton className="mt-4 h-24 max-w-4xl rounded-lg sm:mt-5" />
+        <Skeleton className="mt-3 h-6 max-w-xl sm:mt-4" />
+        <Skeleton className="mt-4 h-20 max-w-3xl sm:mt-6" />
       </div>
 
-      <div className="rounded-xl bg-card p-6 ring-1 ring-foreground/10">
+      <div className="rounded-xl bg-card p-5 ring-1 ring-foreground/10 sm:p-6">
         <div className="flex items-center justify-between gap-4">
           <div className="space-y-3">
             <Skeleton className="h-4 w-32" />
-            <Skeleton className="h-16 w-36" />
+            <Skeleton className="h-14 w-32 sm:h-16 sm:w-36" />
           </div>
-          <Skeleton className="size-14 rounded-3xl" />
+          <Skeleton className="size-12 rounded-3xl sm:size-14" />
         </div>
         <Skeleton className="mt-5 h-10 w-full rounded-2xl" />
-        <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="mt-4 grid grid-cols-2 gap-3 sm:mt-6">
           <Skeleton className="h-20 rounded-2xl" />
           <Skeleton className="h-20 rounded-2xl" />
         </div>
@@ -90,16 +90,16 @@ export function AirportPageSkeleton({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Skeleton className="h-5 w-28" />
         <HeroSkeleton />
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <PhotoGallerySkeleton />
         </div>
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <TipBentoSkeleton />
         </div>
-        <div className="mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <DetailTabsSkeleton />
         </div>
       </div>

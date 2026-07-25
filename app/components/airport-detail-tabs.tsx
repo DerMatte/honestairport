@@ -386,7 +386,7 @@ export function AirportDetailTabs({
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
               <p className="text-sm font-medium text-primary">Live airport status</p>
-              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight">
+              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
                 Current operations
               </h2>
             </div>
@@ -475,7 +475,7 @@ export function AirportDetailTabs({
             <CardHeader>
               <CardTitle>Key Stats</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-3">
+            <CardContent className="grid grid-cols-2 gap-3 lg:grid-cols-1">
               {[
                 ["Annual passengers", airport.stats.annualPassengers],
                 ["Terminals", airport.stats.terminals],

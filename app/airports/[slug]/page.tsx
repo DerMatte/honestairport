@@ -182,10 +182,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         }}
       />
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
+        <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="font-mono">
@@ -201,32 +201,36 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <AirportCurrentWeather iata={airport.iata} />
               </Suspense>
             </div>
-            <h1 className="mt-5 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
+            <h1 className="mt-4 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
               {airport.name}
             </h1>
-            <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
-              <MapPin className="size-5" aria-hidden="true" />
-              {airport.city}, {airport.country} · {airport.region}
+            <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:mt-4 sm:text-lg">
+              <MapPin className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+              <span>
+                {airport.city}, {airport.country} · {airport.region}
+              </span>
             </p>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
               {airport.summary}
             </p>
           </div>
 
-          <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
-            <CardContent className="p-6">
+          <Card className="border-primary/15 bg-card/95 py-0 shadow-xl shadow-primary/10">
+            <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <div className="text-sm text-muted-foreground">Airportist Score</div>
                   <div className="mt-1 flex items-end gap-2">
-                    <span className="font-mono text-6xl font-semibold tracking-tight text-primary">
+                    <span className="font-mono text-5xl font-semibold tracking-tight text-primary sm:text-6xl">
                       {airport.airportistScore.toFixed(1)}
                     </span>
-                    <span className="pb-2 text-muted-foreground">/ 10</span>
+                    <span className="pb-1.5 text-sm text-muted-foreground sm:pb-2 sm:text-base">
+                      / 10
+                    </span>
                   </div>
                 </div>
-                <div className="flex size-14 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-                  <Star className="size-6 fill-current" aria-hidden="true" />
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:size-14">
+                  <Star className="size-5 fill-current sm:size-6" aria-hidden="true" />
                 </div>
               </div>
 
@@ -234,7 +238,7 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <GoogleRatingByIata iata={airport.iata} />
               </Suspense>
 
-              <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+              <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:mt-6">
                 <div className="rounded-2xl border bg-muted/30 p-3">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Plane className="size-3.5" aria-hidden="true" />
@@ -256,25 +260,25 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
           </Card>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={airport.iata} />
           </Suspense>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<TipBentoSkeleton />}>
             <CuratedAirportTips airport={airport} />
           </Suspense>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<DetailTabsSkeleton />}>
             <CuratedAirportDetails airport={airport} />
           </Suspense>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <NearbyAirports iata={airport.iata} />
         </section>
       </div>
@@ -355,10 +359,10 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px]">
+        <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="font-mono">
@@ -373,20 +377,22 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 Editorial guide
               </Badge>
             </div>
-            <h1 className="mt-5 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
+            <h1 className="mt-4 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
               {frontmatter.name}
             </h1>
-            <p className="mt-4 flex items-center gap-2 text-lg text-muted-foreground">
-              <MapPin className="size-5" aria-hidden="true" />
-              {frontmatter.city}, {frontmatter.country}
+            <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:mt-4 sm:text-lg">
+              <MapPin className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+              <span>
+                {frontmatter.city}, {frontmatter.country}
+              </span>
             </p>
             <Suspense fallback={null}>
               <AirportCurrentWeather iata={frontmatter.iata} />
             </Suspense>
           </div>
 
-          <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
-            <CardContent className="p-6">
+          <Card className="border-primary/15 bg-card/95 py-0 shadow-xl shadow-primary/10">
+            <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <div className="text-sm text-muted-foreground">Guide quick facts</div>
@@ -394,8 +400,8 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                     Updated {formatGuideDate(guide.lastUpdated)}
                   </div>
                 </div>
-                <div className="flex size-14 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
-                  <BookOpenText className="size-6" aria-hidden="true" />
+                <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground sm:size-14">
+                  <BookOpenText className="size-5 sm:size-6" aria-hidden="true" />
                 </div>
               </div>
 
@@ -414,17 +420,17 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
           </Card>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={frontmatter.iata} />
           </Suspense>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <AirportTipBento guideTips={guide.importantTips} />
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<DetailTabsSkeleton />}>
             <GuideOnlyDetailTabs
               iata={frontmatter.iata}
@@ -435,7 +441,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
           </Suspense>
         </section>
 
-        <section className="mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <NearbyAirports iata={frontmatter.iata} />
         </section>
       </div>
