@@ -5,16 +5,19 @@ import {
   Filter,
   List,
   Map as MapIcon,
+  PanelLeftClose,
+  PanelLeftOpen,
   RotateCcw,
   Search,
   SlidersHorizontal,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { LazyAirportMap } from "@/app/components/airport-map-lazy";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
@@ -32,6 +35,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   amenityCategories,
   amenityLabel,
@@ -64,6 +73,7 @@ type DirectoryEntry =
 
 const INITIAL_VISIBLE = 12;
 const LOAD_MORE_STEP = 12;
+const FILTER_PANEL_WIDTH = 230;
 
 /** Guide-only airport with its search haystacks pre-normalized per scope. */
 interface GuideDirectoryEntry {
@@ -91,26 +101,49 @@ function FilterPanel({
   filters,
   onFiltersChange,
   onReset,
+  onClose,
 }: {
   filters: AirportFilters;
   onFiltersChange: (filters: AirportFilters) => void;
   onReset: () => void;
+  /** Shown as a small close affordance on the box itself; omitted in the mobile sheet. */
+  onClose?: () => void;
 }) {
   return (
     <Card className="border-border/70 bg-card/95 shadow-none">
-      <CardHeader className="flex-row items-center justify-between gap-3">
-        <div>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <SlidersHorizontal className="size-4" aria-hidden="true" />
-            Filters
-          </CardTitle>
-          <p className="mt-1 text-xs text-muted-foreground">Tune the board for your trip.</p>
-        </div>
-        <Button variant="ghost" size="sm" onClick={onReset}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <SlidersHorizontal className="size-4" aria-hidden="true" />
+          Filters
+        </CardTitle>
+        {onClose ? (
+          <CardAction>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="size-7 text-muted-foreground hover:text-foreground"
+                    onClick={onClose}
+                    aria-label="Hide filters"
+                  >
+                    <PanelLeftClose className="size-4" aria-hidden="true" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="left">Hide filters</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </CardAction>
+        ) : null}
+      </CardHeader>
+      <div className="flex items-start justify-between gap-3 px-4 pb-1">
+        <p className="text-xs text-muted-foreground">Tune the board for your trip.</p>
+        <Button variant="ghost" size="sm" onClick={onReset} className="shrink-0">
           <RotateCcw className="size-3.5" aria-hidden="true" />
           Reset
         </Button>
-      </CardHeader>
+      </div>
       <CardContent className="space-y-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-3 text-sm">
@@ -171,12 +204,9 @@ function FilterPanel({
 
         <div className="space-y-3">
           <Label>Current disruption</Label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="space-y-2">
             {disruptionStatuses.map((status) => (
-              <label
-                key={status}
-                className="flex items-center gap-2 rounded-xl border bg-background/60 p-2 text-sm"
-              >
+              <label key={status} className="flex items-center gap-2.5 text-sm">
                 <Checkbox
                   checked={filters.disruptionStatuses.includes(status)}
                   onCheckedChange={() =>
@@ -189,7 +219,7 @@ function FilterPanel({
                     })
                   }
                 />
-                <DisruptionBadge status={status} />
+                <DisruptionBadge status={status} className="pointer-events-none" />
               </label>
             ))}
           </div>
@@ -229,7 +259,12 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const [mobileMapMounted, setMobileMapMounted] = useState(false);
   const [desktopMapMounted, setDesktopMapMounted] = useState(false);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
+  const [filtersOpen, setFiltersOpen] = useState(true);
   const [, startTransition] = useTransition();
+  const shouldReduceMotion = useReducedMotion();
+  const filterPanelTransition = shouldReduceMotion
+    ? { duration: 0 }
+    : { type: "tween" as const, duration: 0.4, ease: [0.23, 1, 0.32, 1] as const };
 
   const otherAirports = useMemo<GuideDirectoryEntry[]>(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -391,18 +426,37 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
             </span>
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-[230px_minmax(0,1fr)]">
-            <aside className="hidden xl:block">
-              <div className="sticky top-20">
-                <FilterPanel
-                  filters={filters}
-                  onFiltersChange={updateFilters}
-                  onReset={resetFilters}
-                />
+          <div className="flex flex-col xl:flex-row xl:items-start">
+            <motion.aside
+              aria-hidden={!filtersOpen}
+              inert={!filtersOpen}
+              initial={false}
+              animate={{
+                width: filtersOpen ? FILTER_PANEL_WIDTH : 0,
+                marginRight: filtersOpen ? 24 : 0,
+              }}
+              transition={filterPanelTransition}
+              className="hidden shrink-0 overflow-hidden xl:block"
+            >
+              <div style={{ width: FILTER_PANEL_WIDTH }}>
+                <motion.div
+                  className="sticky top-20"
+                  initial={false}
+                  animate={{ rotateY: filtersOpen ? 0 : -100, opacity: filtersOpen ? 1 : 0 }}
+                  style={{ transformPerspective: 1400, transformOrigin: "left center" }}
+                  transition={filterPanelTransition}
+                >
+                  <FilterPanel
+                    filters={filters}
+                    onFiltersChange={updateFilters}
+                    onReset={resetFilters}
+                    onClose={() => setFiltersOpen(false)}
+                  />
+                </motion.div>
               </div>
-            </aside>
+            </motion.aside>
 
-            <div className="min-w-0 space-y-4">
+            <div className="min-w-0 flex-1 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card/90 p-3 shadow-sm">
                 <div aria-live="polite">
                   <div className="text-sm font-medium">
@@ -416,6 +470,22 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   {filterSheet}
+                  {!filtersOpen ? (
+                    <Button
+                      variant="outline"
+                      className="hidden xl:inline-flex"
+                      onClick={() => setFiltersOpen(true)}
+                      aria-expanded={filtersOpen}
+                    >
+                      <PanelLeftOpen className="size-4" aria-hidden="true" />
+                      Show filters
+                      {activeFilterCount > 0 ? (
+                        <span className="rounded-full bg-primary px-1.5 font-mono text-[10px] text-primary-foreground">
+                          {activeFilterCount}
+                        </span>
+                      ) : null}
+                    </Button>
+                  ) : null}
                   <Select
                     value={filters.sort}
                     onValueChange={(value) =>
@@ -459,19 +529,24 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 </Card>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
+                  <div
+                    className={cn(
+                      "grid grid-cols-1 gap-4 2xl:grid-cols-2",
+                      !filtersOpen && "xl:grid-cols-2",
+                    )}
+                  >
                     {visibleEntries.map((entry) =>
                       entry.kind === "scored" ? (
                         <div
                           key={entry.airport.iata}
-                          className="[content-visibility:auto] [contain-intrinsic-size:auto_22rem]"
+                          className="-mt-px pt-px [content-visibility:auto] [contain-intrinsic-size:auto_22rem]"
                         >
                           <AirportCard airport={entry.airport} />
                         </div>
                       ) : (
                         <div
                           key={entry.summary.iata}
-                          className="[content-visibility:auto] [contain-intrinsic-size:auto_14rem]"
+                          className="-mt-px pt-px [content-visibility:auto] [contain-intrinsic-size:auto_14rem]"
                         >
                           <AirportGuideCard airport={entry.summary} />
                         </div>

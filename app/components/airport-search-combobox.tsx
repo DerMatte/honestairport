@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Building2, Globe2, MapPin, Plane, Search, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -73,12 +74,20 @@ function InlineSearchBar({
   showSearchIcon = false,
 }: InlineSearchBarProps) {
   const config = searchScopeConfig("all");
+  const shouldReduceMotion = useReducedMotion();
+  const showClear = query.length > 0;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Backspace" && query === "" && locationFilter) {
       event.preventDefault();
       onClearLocationFilter();
     }
+  }
+
+  function handleClearQuery(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    onQueryChange("");
+    inputRef?.current?.focus();
   }
 
   return (
@@ -100,6 +109,35 @@ function InlineSearchBar({
           onKeyDown={handleKeyDown}
           placeholder={config.placeholder}
         />
+        <AnimatePresence initial={false}>
+          {showClear ? (
+            <motion.button
+              key="clear-query"
+              type="button"
+              initial={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, scale: 0.75 }
+              }
+              animate={{ opacity: 1, scale: 1 }}
+              exit={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, scale: 0.75 }
+              }
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { type: "tween", duration: 0.15, ease: [0.23, 1, 0.32, 1] }
+              }
+              onMouseDown={handleClearQuery}
+              className="shrink-0 rounded-full p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="size-3.5" aria-hidden="true" />
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
       </div>
       {showShortcut ? (
         <CommandShortcut className="pointer-events-none absolute top-1/2 right-4 hidden -translate-y-1/2 sm:inline-flex">

@@ -24,7 +24,7 @@ export function AirportCard({ airport }: AirportCardProps) {
       prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
-      <Card className="h-full border-border/70 bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30">
+      <Card className="h-full border border-border/70 bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30">
         <CardHeader className="gap-3">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -110,7 +110,7 @@ export function AirportGuideCard({ airport }: AirportGuideCardProps) {
       prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
-      <Card className="h-full border-dashed border-border/70 bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30 pointer-fine:group-hover:bg-card/95">
+      <Card className="h-full border border-dashed border-border/70 bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30 pointer-fine:group-hover:bg-card/95">
         <CardHeader className="gap-3">
           <div className="flex items-center justify-between gap-2">
             <Badge variant="outline" className="font-mono">
