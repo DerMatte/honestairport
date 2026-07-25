@@ -354,20 +354,25 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
   return (
     <div className="min-w-0 overflow-x-clip">
-      <div className="mx-auto max-w-7xl px-5 pb-2 sm:px-6">
-        <div className="-mt-6 max-w-2xl sm:-mt-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+        <div className="max-w-2xl">
           <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
         </div>
       </div>
 
+      <div
+        aria-hidden="true"
+        className="mt-6 border-b border-border/50 pb-28 sm:mt-8 sm:pb-40 lg:mt-10 lg:pb-56"
+      />
+
       <section
         aria-labelledby="directory-heading"
         className={cn(
-          "lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start",
+          "pt-14 lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start lg:pt-16",
           mobileView === "map" && "max-lg:hidden",
         )}
       >
-        <div className="min-w-0 px-4 pt-8 pb-24 sm:px-6 lg:px-8 lg:pb-8">
+        <div className="min-w-0 pr-5 pb-24 pl-5 sm:pr-6 sm:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pb-8">
           <div className="mb-6 flex items-end justify-between gap-4 border-b pb-5">
             <div>
               <p className="font-mono text-xs font-semibold tracking-[0.14em] text-primary uppercase">

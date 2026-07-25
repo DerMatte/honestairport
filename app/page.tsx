@@ -12,12 +12,12 @@ import { toAirportDirectoryAirport } from "@/lib/airport-utils";
 
 function HomeHero() {
   return (
-    <section className="relative overflow-hidden border-b border-border/50">
+    <section className="relative overflow-hidden">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_100%_at_85%_0%,color-mix(in_oklab,var(--chart-2)_18%,transparent),transparent_60%),linear-gradient(180deg,color-mix(in_oklab,var(--primary)_7%,var(--background)),var(--background))]"
       />
-      <div className="relative mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20 lg:py-24">
+      <div className="relative mx-auto max-w-7xl px-5 pt-14 pb-8 sm:px-6 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12">
         <p className="font-mono text-xs font-semibold tracking-[0.16em] text-primary uppercase">
           Live airport operations board
         </p>
