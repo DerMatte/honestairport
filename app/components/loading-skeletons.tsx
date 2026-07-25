@@ -90,16 +90,16 @@ export function AirportPageSkeleton({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Skeleton className="h-5 w-28" />
         <HeroSkeleton />
-        <div className="mt-8 sm:mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <PhotoGallerySkeleton />
         </div>
-        <div className="mt-8 sm:mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <TipBentoSkeleton />
         </div>
-        <div className="mt-8 sm:mt-10">
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <DetailTabsSkeleton />
         </div>
       </div>

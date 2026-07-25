@@ -22,7 +22,7 @@ export function NearbyAirports({ iata }: NearbyAirportsProps) {
     <section aria-labelledby="nearby-airports-heading">
       <h2
         id="nearby-airports-heading"
-        className="text-2xl font-semibold tracking-tight"
+        className="text-2xl font-semibold tracking-tight sm:text-3xl"
       >
         Nearby airports
       </h2>

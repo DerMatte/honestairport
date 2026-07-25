@@ -386,7 +386,7 @@ export function AirportDetailTabs({
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
               <p className="text-sm font-medium text-primary">Live airport status</p>
-              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight">
+              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
                 Current operations
               </h2>
             </div>

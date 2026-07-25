@@ -91,7 +91,7 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
       <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-primary">Most important tips</p>
-          <h2 id="important-tips-heading" className="text-2xl font-semibold tracking-tight">
+          <h2 id="important-tips-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
             Know before you go
           </h2>
         </div>

@@ -182,7 +182,7 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         }}
       />
 
-      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
         <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
@@ -260,25 +260,25 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
           </Card>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={airport.iata} />
           </Suspense>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<TipBentoSkeleton />}>
             <CuratedAirportTips airport={airport} />
           </Suspense>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<DetailTabsSkeleton />}>
             <CuratedAirportDetails airport={airport} />
           </Suspense>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <NearbyAirports iata={airport.iata} />
         </section>
       </div>
@@ -359,7 +359,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
         <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
@@ -420,17 +420,17 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
           </Card>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={frontmatter.iata} />
           </Suspense>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <AirportTipBento guideTips={guide.importantTips} />
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<DetailTabsSkeleton />}>
             <GuideOnlyDetailTabs
               iata={frontmatter.iata}
@@ -441,7 +441,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
           </Suspense>
         </section>
 
-        <section className="mt-8 sm:mt-10">
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <NearbyAirports iata={frontmatter.iata} />
         </section>
       </div>

@@ -168,7 +168,7 @@ export function AirportGeneratingView({ record }: AirportGeneratingViewProps) {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
-      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"

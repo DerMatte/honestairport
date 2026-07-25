@@ -202,7 +202,7 @@ async function LoungePageContent({
         }}
       />
 
-      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Link
           href={`/airports/${slug}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
@@ -391,7 +391,7 @@ async function LoungePageContent({
 
         {otherLounges.length ? (
           <section className="mt-12">
-            <h2 className="text-2xl font-semibold tracking-tight">
+            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
               Other lounges at {displayAirportName}
             </h2>
             <div className="mt-5">
