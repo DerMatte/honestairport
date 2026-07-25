@@ -4,6 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { getDb } from "@/lib/db";
 import * as schema from "@/lib/db/schema";
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/email";
+import { SITE_URL } from "@/lib/site";
 
 // Social providers are registered only when their credentials exist, so dev
 // and CI builds work without any OAuth apps configured — the login page
@@ -15,7 +16,12 @@ const appleEnabled = Boolean(
   process.env.APPLE_CLIENT_ID && process.env.APPLE_CLIENT_SECRET,
 );
 
+// Prefer BETTER_AUTH_URL; fall back to SITE_URL so an empty Vercel env
+// value doesn't leave Better Auth deriving origin from each request.
+const authBaseURL = process.env.BETTER_AUTH_URL?.trim() || SITE_URL;
+
 export const auth = betterAuth({
+  baseURL: authBaseURL,
   database: drizzleAdapter(getDb(), { provider: "pg", schema }),
   user: {
     additionalFields: {
