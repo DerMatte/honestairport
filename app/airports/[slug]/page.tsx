@@ -27,14 +27,13 @@ import {
   getAirportGuideSummary,
   getAirportGuideSummaryByIata,
   getAirportLoungesWithFallback,
-  getAirportSlugs,
-  getAllAirportIatas,
   getEditorialReviews,
   type AirportGoogleRating,
   type AirportGuideSummary,
   type AirportLoungeView,
 } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
+import { MAJOR_AIRPORTS_BY_RANK } from "@/lib/major-airports";
 import { formatGuideDate } from "@/lib/utils";
 import type { Airport } from "@/lib/types";
 
@@ -42,22 +41,12 @@ interface AirportPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Cache Components requires at least one param for build-time validation.
-const STATIC_PARAMS_PLACEHOLDER = "__placeholder__";
-
-export async function generateStaticParams() {
-  const [guideIatas, scoredSlugs] = await Promise.all([
-    getAllAirportIatas(),
-    getAirportSlugs(),
-  ]);
-  const slugs = new Set([
-    ...scoredSlugs,
-    ...guideIatas.map((iata) => iata.toLowerCase()),
-  ]);
-  if (slugs.size === 0) {
-    return [{ slug: STATIC_PARAMS_PLACEHOLDER }];
-  }
-  return [...slugs].map((slug) => ({ slug }));
+// Prerender the busiest airports; every other airport is rendered and cached
+// on its first visit.
+export function generateStaticParams() {
+  return MAJOR_AIRPORTS_BY_RANK.slice(0, 50).map(({ iata }) => ({
+    slug: iata.toLowerCase(),
+  }));
 }
 
 export async function generateMetadata({

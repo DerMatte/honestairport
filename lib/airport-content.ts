@@ -20,6 +20,7 @@ import {
   type AirportSummary,
 } from "./airport-guides";
 import {
+  fetchAllAirportImageRows,
   fetchAirportImageRows,
   rowToAirportImage,
   type AirportImage,
@@ -38,7 +39,11 @@ import {
   loungeRowToView,
   type AirportLoungeView,
 } from "./lounge-directory";
-import { fetchLoungeImageRows, loungeImageRowToAirportImage } from "./lounge-images";
+import {
+  fetchAllLoungeImageRows,
+  fetchLoungeImageRows,
+  loungeImageRowToAirportImage,
+} from "./lounge-images";
 import { getEditorialReviewsByIata } from "./reviews";
 import type { AirportUserReview } from "./review-schema";
 import type { Airport } from "./types";
@@ -84,6 +89,33 @@ export async function getAirportImages(iata: string): Promise<AirportImage[]> {
 
   const rows = await fetchAirportImageRows(iata.toUpperCase());
   return rows.map(rowToAirportImage);
+}
+
+/** All image URLs for sitemap generation, loaded in two queries instead of N+1. */
+export async function getSitemapImageUrls(): Promise<{
+  airports: Record<string, string[]>;
+  lounges: Record<string, string[]>;
+}> {
+  "use cache";
+  airportContentCacheLife();
+  cacheTag(AIRPORT_IMAGES_CACHE_TAG);
+
+  const [airportRows, loungeRows] = await Promise.all([
+    fetchAllAirportImageRows(),
+    fetchAllLoungeImageRows(),
+  ]);
+  const airports: Record<string, string[]> = {};
+  const lounges: Record<string, string[]> = {};
+
+  for (const row of airportRows) {
+    (airports[row.iata.toUpperCase()] ??= []).push(row.url);
+  }
+  for (const row of loungeRows) {
+    const key = `${row.iata.toUpperCase()}/${row.loungeSlug}`;
+    (lounges[key] ??= []).push(row.url);
+  }
+
+  return { airports, lounges };
 }
 
 export async function getAirportGoogleRating(

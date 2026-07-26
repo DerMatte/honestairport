@@ -1,10 +1,9 @@
 import type { MetadataRoute } from "next";
 import {
-  getAirportImages,
-  getAirportLoungeImages,
   getAirportSlugs,
   getAllAirportLoungeParams,
   getAllAirports,
+  getSitemapImageUrls,
 } from "@/lib/airport-content";
 import { SITE_URL } from "@/lib/site";
 
@@ -36,32 +35,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       a.iata.localeCompare(b.iata) || a.slug.localeCompare(b.slug),
   );
 
-  const [airportImageSets, loungeImageSets] = await Promise.all([
-    Promise.all(airportSlugs.map((slug) => getAirportImages(slug))),
-    Promise.all(
-      sortedLounges.map((lounge) =>
-        getAirportLoungeImages(lounge.iata, lounge.slug),
-      ),
-    ),
-  ]);
+  const imageUrls = await getSitemapImageUrls();
 
   const airportEntries = airportSlugs.map(
-    (slug, index): MetadataRoute.Sitemap[number] => ({
+    (slug): MetadataRoute.Sitemap[number] => ({
       url: `${SITE_URL}/airports/${slug}`,
       lastModified: validDate(guideBySlug.get(slug)?.lastUpdated),
       changeFrequency: "monthly",
       priority: scoredSlugSet.has(slug) ? 0.85 : 0.75,
-      images: airportImageSets[index].map((image) => image.url),
+      images: imageUrls.airports[slug.toUpperCase()] ?? [],
     }),
   );
 
   const loungeEntries = sortedLounges.map(
-    (lounge, index): MetadataRoute.Sitemap[number] => ({
+    (lounge): MetadataRoute.Sitemap[number] => ({
       url: `${SITE_URL}/airports/${lounge.iata.toLowerCase()}/lounge/${lounge.slug}`,
       lastModified: validDate(lounge.updatedAt),
       changeFrequency: "monthly",
       priority: 0.6,
-      images: loungeImageSets[index].map((image) => image.url),
+      images: imageUrls.lounges[`${lounge.iata.toUpperCase()}/${lounge.slug}`] ?? [],
     }),
   );
 

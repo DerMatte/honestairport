@@ -47,15 +47,15 @@ const STATIC_PARAMS_PLACEHOLDER = "__placeholder__";
 
 export async function generateStaticParams() {
   const params = await getAllAirportLoungeParams();
-  if (params.length === 0) {
+  const seed = params[0];
+  if (!seed) {
     return [
       { slug: STATIC_PARAMS_PLACEHOLDER, loungeSlug: STATIC_PARAMS_PLACEHOLDER },
     ];
   }
-  return params.map(({ iata, slug }) => ({
-    slug: iata.toLowerCase(),
-    loungeSlug: slug,
-  }));
+  // One real sample lets Cache Components validate the route without eagerly
+  // building every lounge. The remaining lounge pages are cached on first use.
+  return [{ slug: seed.iata.toLowerCase(), loungeSlug: seed.slug }];
 }
 
 /** Airport display name for titles and breadcrumbs, cheapest source first. */

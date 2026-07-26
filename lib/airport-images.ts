@@ -49,6 +49,21 @@ export async function fetchAirportImageRows(iata: string): Promise<AirportImageR
     .orderBy(asc(airportImages.sortOrder), asc(airportImages.createdAt));
 }
 
+export async function fetchAllAirportImageRows(): Promise<AirportImageRow[]> {
+  if (!isDatabaseConfigured()) {
+    return [];
+  }
+
+  return getDb()
+    .select()
+    .from(airportImages)
+    .orderBy(
+      asc(airportImages.iata),
+      asc(airportImages.sortOrder),
+      asc(airportImages.createdAt),
+    );
+}
+
 /** Image count per IATA, for picking which airport the sync works on next. */
 export async function fetchAirportImageCounts(): Promise<Map<string, number>> {
   if (!isDatabaseConfigured()) {

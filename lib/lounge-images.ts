@@ -59,6 +59,21 @@ export async function fetchAllLoungeImageRowsForAirport(
     .orderBy(asc(airportLoungeImages.loungeSlug), asc(airportLoungeImages.sortOrder));
 }
 
+export async function fetchAllLoungeImageRows(): Promise<AirportLoungeImageRow[]> {
+  if (!isDatabaseConfigured()) {
+    return [];
+  }
+
+  return getDb()
+    .select()
+    .from(airportLoungeImages)
+    .orderBy(
+      asc(airportLoungeImages.iata),
+      asc(airportLoungeImages.loungeSlug),
+      asc(airportLoungeImages.sortOrder),
+    );
+}
+
 /**
  * Replace one lounge's image set atomically and return blob URLs no longer
  * referenced (so the caller can delete orphaned blobs). Lounges the sync
