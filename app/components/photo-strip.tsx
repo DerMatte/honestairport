@@ -1,6 +1,7 @@
 import { Camera } from "lucide-react";
 import { PhotoStripGallery } from "@/app/components/photo-strip-gallery";
 import type { AirportImage } from "@/lib/airport-content";
+import { airportImageToPhoto } from "@/lib/photo";
 
 /**
  * Server wrapper for the rights-cleared airport photo gallery. The interactive
@@ -23,7 +24,7 @@ export function PhotoStrip({
           {images.length} photo{images.length === 1 ? "" : "s"}
         </span>
       </div>
-      <PhotoStripGallery images={images} />
+      <PhotoStripGallery images={images.map(airportImageToPhoto)} />
     </section>
   );
 }

@@ -10,7 +10,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { AirportImage } from "@/lib/airport-content";
+import type { Photo } from "@/lib/photo";
 
 const BLUR_DATA_URL =
   "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 20'%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/filter%3E%3Crect width='32' height='20' fill='%23dce3ea'/%3E%3Cpath d='M0 16 9 8l6 5 5-4 12 8v3H0z' fill='%23b8c5d1' filter='url(%23b)'/%3E%3C/svg%3E";
@@ -20,12 +20,13 @@ export default function PhotoLightbox({
   initialIndex,
   onClose,
 }: {
-  images: AirportImage[];
+  images: Photo[];
   initialIndex: number;
   onClose: () => void;
 }) {
   const [index, setIndex] = useState(initialIndex);
   const image = images[index];
+  const { attribution } = image;
   const hasMultiple = images.length > 1;
 
   function showPrevious() {
@@ -99,29 +100,36 @@ export default function PhotoLightbox({
 
         <div className="min-w-0 px-1 pr-10 text-sm">
           {image.caption ? <p className="truncate font-medium">{image.caption}</p> : null}
-          <p className="mt-1 text-xs text-muted-foreground">Credit: {image.credit}</p>
-          <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-            {image.licenseUrl ? (
-              <a
-                href={image.licenseUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-primary underline-offset-2 hover:underline"
-              >
-                {image.license}
-              </a>
-            ) : (
-              <span className="text-muted-foreground">{image.license}</span>
-            )}
-            <a
-              href={image.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-primary underline-offset-2 hover:underline"
-            >
-              View original source
-            </a>
-          </div>
+          {/* Absent for photos travelers upload themselves — nothing to credit. */}
+          {attribution ? (
+            <>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Credit: {attribution.credit}
+              </p>
+              <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+                {attribution.licenseUrl ? (
+                  <a
+                    href={attribution.licenseUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-primary underline-offset-2 hover:underline"
+                  >
+                    {attribution.license}
+                  </a>
+                ) : (
+                  <span className="text-muted-foreground">{attribution.license}</span>
+                )}
+                <a
+                  href={attribution.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-primary underline-offset-2 hover:underline"
+                >
+                  View original source
+                </a>
+              </div>
+            </>
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>

@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   boolean,
   check,
+  doublePrecision,
   index,
   integer,
   jsonb,
@@ -70,6 +71,57 @@ export const airportReviews = pgTable(
 
 export type AirportReviewRow = typeof airportReviews.$inferSelect;
 export type NewAirportReviewRow = typeof airportReviews.$inferInsert;
+
+/**
+ * Photos attached to a review, uploaded through the review form and served from
+ * Vercel Blob. No credit/license/source columns on purpose: these are the
+ * poster's own photos, unlike `airport_images` where attribution is a CC
+ * requirement. `alt` falls back to a generated string when the poster leaves
+ * the caption blank.
+ *
+ * Deleting a review cascades these rows but not the blobs behind them — reviews
+ * are pulled by flipping `status` to "hidden", never deleted, so that path is
+ * effectively unused. Blob keys are prefixed by review id for manual cleanup.
+ */
+export const airportReviewImages = pgTable(
+  "airport_review_images",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    reviewId: uuid("review_id")
+      .notNull()
+      .references(() => airportReviews.id, { onDelete: "cascade" }),
+    // Public Vercel Blob URL of the resized webp we serve.
+    url: text("url").notNull(),
+    alt: text("alt").notNull(),
+    caption: text("caption"),
+    width: integer("width").notNull(),
+    height: integer("height").notNull(),
+    sortOrder: smallint("sort_order").notNull().default(0),
+    // Read out of the upload's EXIF before the re-encode discards it, and kept
+    // server-side only: never returned by the reviews API, never rendered.
+    // EXIF is uploader-controlled and trivially forged, so treat all three as a
+    // soft signal for inspection, not proof of where a photo was taken.
+    //
+    // No time zone on purpose: EXIF DateTimeOriginal is a bare wall-clock
+    // reading from the camera with no offset, so pinning it to UTC would invent
+    // information the file never carried.
+    takenAt: timestamp("taken_at"),
+    gpsLatitude: doublePrecision("gps_latitude"),
+    gpsLongitude: doublePrecision("gps_longitude"),
+    /** Great-circle km from the tagged position to the airport's coordinates. */
+    gpsDistanceKm: real("gps_distance_km"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("airport_review_images_review_id_sort_order_idx").on(
+      table.reviewId,
+      table.sortOrder,
+    ),
+  ],
+);
+
+export type AirportReviewImageRow = typeof airportReviewImages.$inferSelect;
+export type NewAirportReviewImageRow = typeof airportReviewImages.$inferInsert;
 
 export const airportGuides = pgTable("airport_guides", {
   iata: varchar("iata", { length: 3 }).primaryKey(),
