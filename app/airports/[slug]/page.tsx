@@ -2,7 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  BookOpenText,
+  MapPin,
+  Plane,
+  ShieldCheck,
+  Star,
+} from "lucide-react";
 import { AirportCurrentWeather } from "@/app/components/airport-current-weather";
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
@@ -20,6 +28,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { airportJsonLd } from "@/lib/airport-utils";
+import { averageScoreBreakdown } from "@/lib/airport-score";
 import {
   getAirportBySlug,
   getAirportContent,
@@ -161,6 +170,8 @@ async function AirportPageResolved({ slug }: { slug: string }) {
 }
 
 function CuratedAirportPage({ airport }: { airport: Airport }) {
+  const breakdownAverage = averageScoreBreakdown(airport.scoreBreakdown);
+
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <script
@@ -226,6 +237,31 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
               <Suspense fallback={<GoogleRatingSkeleton />}>
                 <GoogleRatingByIata iata={airport.iata} />
               </Suspense>
+
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-border/70 pt-4 text-xs text-muted-foreground">
+                <span>
+                  Five-factor average{" "}
+                  <span className="font-mono text-foreground">
+                    {breakdownAverage.toFixed(1)}
+                  </span>
+                  {" · "}
+                  Updated{" "}
+                  <time dateTime={airport.scoreLastUpdated.toISOString()}>
+                    {new Intl.DateTimeFormat("en", {
+                      month: "short",
+                      year: "numeric",
+                      timeZone: "UTC",
+                    }).format(airport.scoreLastUpdated)}
+                  </time>
+                </span>
+                <Link
+                  href="/airportist-score"
+                  className="inline-flex items-center gap-1 font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  How scoring works
+                  <ArrowUpRight className="size-3" aria-hidden="true" />
+                </Link>
+              </div>
 
               <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:mt-6">
                 <div className="rounded-2xl border bg-muted/30 p-3">

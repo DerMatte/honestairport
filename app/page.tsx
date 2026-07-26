@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import { cacheLife, cacheTag } from "next/cache";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { AirportDirectory } from "@/app/components/airport-directory";
 import { DirectorySkeleton } from "@/app/components/loading-skeletons";
 import {
@@ -28,6 +30,13 @@ function HomeHero() {
           Compare Airportist Scores, disruption risk, security times, and practical
           traveler advice before you fly.
         </p>
+        <Link
+          href="/airportist-score"
+          className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+        >
+          See how Airportist Scores are made
+          <ArrowRight className="size-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

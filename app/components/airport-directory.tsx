@@ -401,9 +401,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
       />
 
       <section
+        id="airport-directory"
         aria-labelledby="directory-heading"
         className={cn(
-          "pt-14 lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start lg:pt-16",
+          "scroll-mt-16 pt-14 lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start lg:pt-16",
           mobileView === "map" && "max-lg:hidden",
         )}
       >

@@ -72,6 +72,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: `${SITE_URL}/airportist-score`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...airportEntries,
     ...loungeEntries,
   ];

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import {
   Baby,
   Bus,
@@ -49,6 +50,7 @@ import {
 } from "@/lib/airport-utils";
 import { buildRideshareDeepLink, getRideshareProviders } from "@/lib/rideshare";
 import { formatGuideDate } from "@/lib/utils";
+import { averageScoreBreakdown } from "@/lib/airport-score";
 import type {
   AirportGuideSection,
   AirportGuideSummary,
@@ -457,7 +459,25 @@ export function AirportDetailTabs({
         <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
           <Card>
             <CardHeader>
-              <CardTitle>Airportist Score Breakdown</CardTitle>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <CardTitle>Airportist Score Breakdown</CardTitle>
+                  <CardDescription className="mt-1">
+                    Equal-influence factors average{" "}
+                    <span className="font-mono text-foreground">
+                      {averageScoreBreakdown(airport.scoreBreakdown).toFixed(1)}
+                    </span>
+                    ; the calibrated overall is{" "}
+                    <span className="font-mono text-foreground">
+                      {airport.airportistScore.toFixed(1)}
+                    </span>
+                    .
+                  </CardDescription>
+                </div>
+                <Button asChild variant="outline" size="sm">
+                  <Link href="/airportist-score">Methodology</Link>
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="space-y-5">
               <ScoreMetric label="Comfort" value={airport.scoreBreakdown.comfort} />

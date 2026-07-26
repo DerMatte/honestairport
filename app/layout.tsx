@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
@@ -120,6 +121,12 @@ export default async function RootLayout({
               live rules, terminals, and operational alerts with official
               airport and airline sources.
             </p>
+            <Link
+              href="/airportist-score"
+              className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+            >
+              How Airportist Scores work
+            </Link>
           </div>
         </footer>
         <Analytics />

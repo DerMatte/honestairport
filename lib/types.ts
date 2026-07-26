@@ -149,6 +149,8 @@ export interface Airport {
   disruption: Disruption;
   /** Published review count (editorial + community), for sorting/ratingCount display. */
   reviewCount: number;
+  /** When the Airportist Score profile was last generated or editorially updated. */
+  scoreLastUpdated: Date;
   /** Guide editorial freshness (`airport_guides.last_updated`, YYYY-MM-DD). */
   guideLastUpdated: string;
 }

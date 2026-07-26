@@ -124,6 +124,7 @@ function rowToAirport(
       lastUpdated: new Date(profile.disruption.lastUpdated),
     },
     reviewCount,
+    scoreLastUpdated: profile.updatedAt,
     guideLastUpdated: guide.lastUpdated,
   };
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   ChevronsUpDown,
   Compass,
+  Gauge,
   LogIn,
   LogOut,
   Settings,
@@ -92,6 +93,25 @@ export function SiteSidebar({
                     <span className="font-medium">Browse airports</span>
                     <span className="truncate text-xs text-sidebar-foreground/60">
                       Scores, tips & traveler intel
+                    </span>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                size="lg"
+                className="h-auto items-start py-2.5"
+              >
+                <Link href="/airportist-score" onClick={onNavigate}>
+                  <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
+                    <Gauge className="size-4" aria-hidden="true" />
+                  </div>
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                    <span className="font-medium">How scores work</span>
+                    <span className="truncate text-xs text-sidebar-foreground/60">
+                      Method, factors & limits
                     </span>
                   </div>
                 </Link>
