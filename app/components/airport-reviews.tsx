@@ -4,7 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertTriangle, CheckCircle2, ImagePlus, RefreshCw, Star, X } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  ImagePlus,
+  Pencil,
+  RefreshCw,
+  Star,
+  X,
+} from "lucide-react";
 import { isAdmin } from "@/lib/admin";
 import { useSession } from "@/lib/auth-client";
 import { ReviewPhotoThumbs } from "@/app/components/review-photo-thumbs";
@@ -36,12 +44,104 @@ import {
 const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
 
 const ACCEPTED_PHOTO_TYPES = "image/jpeg,image/png,image/webp";
+const ACCEPTED_PHOTO_TYPE_SET = new Set(ACCEPTED_PHOTO_TYPES.split(","));
+
+/**
+ * Vercel Functions reject request bodies above 4.5 MB. Keep the entire photo
+ * batch comfortably below that ceiling after multipart overhead and text.
+ */
+const SAFE_MULTIPART_PHOTO_BYTES = Math.floor(3.5 * 1024 * 1024);
+const MAX_UPLOAD_PHOTO_DIMENSION = 1600;
 
 interface PendingPhoto {
   id: string;
   file: File;
   previewUrl: string;
   caption: string;
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  quality: number,
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error("This browser couldn't prepare that photo."));
+        }
+      },
+      "image/webp",
+      quality,
+    );
+  });
+}
+
+async function loadPhoto(file: File): Promise<HTMLImageElement> {
+  const url = URL.createObjectURL(file);
+
+  try {
+    const image = new Image();
+    image.decoding = "async";
+    image.src = url;
+    await image.decode();
+    return image;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+/**
+ * Shrink only when needed. Small files keep their original EXIF; larger camera
+ * files are converted to WebP so a batch of four fits through the Function
+ * request limit. The server still decodes and re-encodes every result.
+ */
+async function preparePhotoForUpload(file: File, maxBytes: number): Promise<File> {
+  if (file.size <= maxBytes) {
+    return file;
+  }
+
+  const image = await loadPhoto(file);
+  const initialScale = Math.min(
+    1,
+    MAX_UPLOAD_PHOTO_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight),
+  );
+  let width = Math.max(1, Math.round(image.naturalWidth * initialScale));
+  let height = Math.max(1, Math.round(image.naturalHeight * initialScale));
+
+  for (let sizeAttempt = 0; sizeAttempt < 5; sizeAttempt += 1) {
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      throw new Error("This browser couldn't prepare that photo.");
+    }
+
+    context.drawImage(image, 0, 0, width, height);
+
+    for (const quality of [0.82, 0.68, 0.54]) {
+      const blob = await canvasToBlob(canvas, quality);
+
+      if (blob.size <= maxBytes) {
+        const basename = file.name.replace(/\.[^.]+$/, "") || "review-photo";
+        return new File([blob], `${basename}.webp`, {
+          type: "image/webp",
+          lastModified: file.lastModified,
+        });
+      }
+    }
+
+    width = Math.max(1, Math.round(width * 0.78));
+    height = Math.max(1, Math.round(height * 0.78));
+  }
+
+  throw new Error(
+    `"${file.name}" is too detailed to upload with this batch. Try a smaller photo.`,
+  );
 }
 
 interface AirportReviewsProps {
@@ -88,6 +188,8 @@ function ReviewCard({
   title,
   body,
   images,
+  canEdit = false,
+  onEdit,
 }: {
   author: string;
   meta: string;
@@ -96,6 +198,8 @@ function ReviewCard({
   body: string;
   // Optional: cached editorial reviews from before photos shipped have no field.
   images?: ReviewImage[];
+  canEdit?: boolean;
+  onEdit?: () => void;
 }) {
   return (
     <Card>
@@ -107,7 +211,21 @@ function ReviewCard({
               {author} · {meta}
             </div>
           </div>
-          <StarRow rating={rating} />
+          <div className="flex items-center gap-2">
+            <StarRow rating={rating} />
+            {canEdit && onEdit ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="gap-1.5"
+                onClick={onEdit}
+              >
+                <Pencil className="size-3.5" aria-hidden="true" />
+                Edit
+              </Button>
+            ) : null}
+          </div>
         </div>
         <p className="mt-4 text-sm leading-6 text-muted-foreground">{body}</p>
         {images?.length ? <ReviewPhotoThumbs images={images} /> : null}
@@ -204,7 +322,8 @@ function ReviewForm({
   );
 
   function addPhotos(selected: FileList) {
-    const room = MAX_REVIEW_IMAGES - photos.length;
+    const currentPhotos = photosRef.current;
+    const room = MAX_REVIEW_IMAGES - currentPhotos.length;
     const accepted: PendingPhoto[] = [];
     let error: string | null = null;
 
@@ -221,6 +340,11 @@ function ReviewForm({
         continue;
       }
 
+      if (!ACCEPTED_PHOTO_TYPE_SET.has(file.type)) {
+        error = `"${file.name}" isn't a supported image (JPEG, PNG or WebP).`;
+        continue;
+      }
+
       accepted.push({
         id: crypto.randomUUID(),
         file,
@@ -229,20 +353,25 @@ function ReviewForm({
       });
     }
 
-    setPhotos((current) => [...current, ...accepted]);
+    // Keep the ref in sync immediately so rapid consecutive picker changes
+    // accumulate instead of both reading the same render's photo count.
+    const nextPhotos = [...currentPhotos, ...accepted];
+    photosRef.current = nextPhotos;
+    setPhotos(nextPhotos);
     setPhotoError(error);
   }
 
   function removePhoto(id: string) {
-    setPhotos((current) => {
-      const photo = current.find((candidate) => candidate.id === id);
+    const currentPhotos = photosRef.current;
+    const photo = currentPhotos.find((candidate) => candidate.id === id);
 
-      if (photo) {
-        URL.revokeObjectURL(photo.previewUrl);
-      }
+    if (photo) {
+      URL.revokeObjectURL(photo.previewUrl);
+    }
 
-      return current.filter((candidate) => candidate.id !== id);
-    });
+    const nextPhotos = currentPhotos.filter((candidate) => candidate.id !== id);
+    photosRef.current = nextPhotos;
+    setPhotos(nextPhotos);
     setPhotoError(null);
   }
 
@@ -270,11 +399,17 @@ function ReviewForm({
       formData.set("body", values.body);
       formData.set("website", values.website ?? "");
 
-      // Originals, deliberately not shrunk in the browser: a canvas re-encode
-      // holds pixels only, so it would strip the EXIF the server reads capture
-      // time and coordinates from. The server resizes on arrival.
+      const perPhotoBudget =
+        photos.length > 0
+          ? Math.floor(SAFE_MULTIPART_PHOTO_BYTES / photos.length)
+          : SAFE_MULTIPART_PHOTO_BYTES;
+
+      // Prepare sequentially to avoid holding several decoded phone photos in
+      // memory at once. This is what makes four-photo submissions fit through
+      // the hosting request limit.
       for (const photo of photos) {
-        formData.append("photos", photo.file);
+        const uploadFile = await preparePhotoForUpload(photo.file, perPhotoBudget);
+        formData.append("photos", uploadFile);
         formData.append("photoCaptions", photo.caption.trim());
       }
 
@@ -485,7 +620,7 @@ function ReviewForm({
                 Add photos
               </Button>
               <p className="text-xs text-muted-foreground">
-                Up to {MAX_REVIEW_IMAGES} photos · JPEG, PNG or WebP
+                {photos.length}/{MAX_REVIEW_IMAGES} selected · JPEG, PNG or WebP
               </p>
             </div>
             {photoError ? <p className="text-xs text-destructive">{photoError}</p> : null}
@@ -547,7 +682,7 @@ function ReviewForm({
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? photos.length > 0
-                  ? `Uploading ${photos.length} photo${photos.length === 1 ? "" : "s"}…`
+                  ? `Preparing ${photos.length} photo${photos.length === 1 ? "" : "s"}…`
                   : "Submitting…"
                 : "Post review"}
             </Button>
@@ -570,6 +705,188 @@ function ReviewForm({
   );
 }
 
+function EditReviewForm({
+  iata,
+  review,
+  onUpdated,
+  onCancel,
+}: {
+  iata: string;
+  review: AirportUserReview;
+  onUpdated: (review: AirportUserReview) => void;
+  onCancel: () => void;
+}) {
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<ReviewFormValues>({
+    resolver: zodResolver(reviewFormSchema),
+    defaultValues: {
+      author: review.author,
+      tripType: review.tripType as ReviewFormValues["tripType"],
+      rating: review.rating,
+      title: review.title,
+      body: review.body,
+      website: "",
+    },
+  });
+
+  const onSubmit = handleSubmit(async (values) => {
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(
+        `/api/airports/${encodeURIComponent(iata)}/reviews/${encodeURIComponent(review.id)}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        },
+      );
+      const payload = (await response.json().catch(() => null)) as
+        | { review?: AirportUserReview; error?: string }
+        | null;
+
+      if (!response.ok || !payload?.review) {
+        throw new Error(payload?.error ?? "Something went wrong saving your review.");
+      }
+
+      onUpdated(payload.review);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error ? error.message : "Something went wrong saving your review.",
+      );
+    }
+  });
+
+  const fieldPrefix = `edit-review-${review.id}`;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">Edit your review</CardTitle>
+        {review.images.length > 0 ? (
+          <p className="text-xs text-muted-foreground">
+            Your {review.images.length} attached{" "}
+            {review.images.length === 1 ? "photo stays" : "photos stay"} with the review.
+          </p>
+        ) : null}
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={onSubmit} className="space-y-4" noValidate>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label htmlFor={`${fieldPrefix}-author`}>Name</Label>
+              <Input
+                id={`${fieldPrefix}-author`}
+                aria-invalid={Boolean(errors.author)}
+                {...register("author")}
+              />
+              {errors.author ? (
+                <p className="text-xs text-destructive">{errors.author.message}</p>
+              ) : null}
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor={`${fieldPrefix}-trip-type`}>Trip type</Label>
+              <Controller
+                control={control}
+                name="tripType"
+                render={({ field }) => (
+                  <Select value={field.value ?? ""} onValueChange={field.onChange}>
+                    <SelectTrigger
+                      id={`${fieldPrefix}-trip-type`}
+                      className="w-full"
+                      aria-invalid={Boolean(errors.tripType)}
+                    >
+                      <SelectValue placeholder="Select trip type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TRIP_TYPES.map((tripType) => (
+                        <SelectItem key={tripType} value={tripType}>
+                          {tripType}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.tripType ? (
+                <p className="text-xs text-destructive">{errors.tripType.message}</p>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>Rating</Label>
+            <Controller
+              control={control}
+              name="rating"
+              render={({ field }) => (
+                <RatingPicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  invalid={Boolean(errors.rating)}
+                />
+              )}
+            />
+            {errors.rating ? (
+              <p className="text-xs text-destructive">{errors.rating.message}</p>
+            ) : null}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={`${fieldPrefix}-title`}>Title</Label>
+            <Input
+              id={`${fieldPrefix}-title`}
+              aria-invalid={Boolean(errors.title)}
+              {...register("title")}
+            />
+            {errors.title ? (
+              <p className="text-xs text-destructive">{errors.title.message}</p>
+            ) : null}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor={`${fieldPrefix}-body`}>Review</Label>
+            <Textarea
+              id={`${fieldPrefix}-body`}
+              aria-invalid={Boolean(errors.body)}
+              {...register("body")}
+            />
+            {errors.body ? (
+              <p className="text-xs text-destructive">{errors.body.message}</p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Saving…" : "Save changes"}
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              disabled={isSubmitting}
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+            {submitError ? (
+              <p className="flex items-center gap-1.5 text-sm text-destructive">
+                <AlertTriangle className="size-4" aria-hidden="true" />
+                {submitError}
+              </p>
+            ) : null}
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function AirportReviews({
   iata,
   seedReviews = [],
@@ -578,6 +895,7 @@ export function AirportReviews({
 }: AirportReviewsProps) {
   const [state, setState] = useState<ReviewsState>({ status: "loading" });
   const [reloadKey, setReloadKey] = useState(0);
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -626,6 +944,20 @@ export function AirportReviews({
         ? { status: "ready", reviews: [review, ...current.reviews] }
         : { status: "ready", reviews: [review] },
     );
+  }, []);
+
+  const handleUpdated = useCallback((updatedReview: AirportUserReview) => {
+    setState((current) =>
+      current.status === "ready"
+        ? {
+            status: "ready",
+            reviews: current.reviews.map((review) =>
+              review.id === updatedReview.id ? updatedReview : review,
+            ),
+          }
+        : current,
+    );
+    setEditingReviewId(null);
   }, []);
 
   const summary = useMemo(() => {
@@ -706,17 +1038,29 @@ export function AirportReviews({
 
       {state.status === "ready" ? (
         <div className="space-y-4">
-          {state.reviews.map((review) => (
-            <ReviewCard
-              key={review.id}
-              author={review.author}
-              meta={`${review.tripType} · ${dateFormatter.format(new Date(review.createdAt))}`}
-              rating={review.rating}
-              title={review.title}
-              body={review.body}
-              images={review.images}
-            />
-          ))}
+          {state.reviews.map((review) =>
+            editingReviewId === review.id ? (
+              <EditReviewForm
+                key={review.id}
+                iata={iata}
+                review={review}
+                onUpdated={handleUpdated}
+                onCancel={() => setEditingReviewId(null)}
+              />
+            ) : (
+              <ReviewCard
+                key={review.id}
+                author={review.author}
+                meta={`${review.tripType} · ${dateFormatter.format(new Date(review.createdAt))}`}
+                rating={review.rating}
+                title={review.title}
+                body={review.body}
+                images={review.images}
+                canEdit={review.canEdit}
+                onEdit={() => setEditingReviewId(review.id)}
+              />
+            ),
+          )}
         </div>
       ) : null}
 

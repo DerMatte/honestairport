@@ -66,4 +66,6 @@ export interface AirportUserReview {
   body: string;
   createdAt: string;
   images: ReviewImage[];
+  /** Computed for the current session; user ids are never exposed to the client. */
+  canEdit?: boolean;
 }

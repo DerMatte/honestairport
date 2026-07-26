@@ -22,6 +22,7 @@ const MAX_REVIEWS_PER_IP_PER_HOUR = 5;
 function toAirportUserReview(
   row: AirportReviewRow,
   images: ReviewImage[] = [],
+  canEdit = false,
 ): AirportUserReview {
   return {
     id: row.id,
@@ -32,6 +33,7 @@ function toAirportUserReview(
     body: row.body,
     createdAt: row.createdAt.toISOString(),
     images,
+    canEdit,
   };
 }
 
@@ -39,7 +41,10 @@ function toAirportUserReview(
  * Second query rather than a join: the row count is bounded by
  * MAX_REVIEWS_LISTED, and most reviews have no photos at all.
  */
-async function attachImages(rows: AirportReviewRow[]): Promise<AirportUserReview[]> {
+async function attachImages(
+  rows: AirportReviewRow[],
+  viewerUserId: string | null = null,
+): Promise<AirportUserReview[]> {
   if (rows.length === 0) {
     return [];
   }
@@ -57,11 +62,23 @@ async function attachImages(rows: AirportReviewRow[]): Promise<AirportUserReview
     }
   }
 
-  return rows.map((row) => toAirportUserReview(row, byReview.get(row.id) ?? []));
+  return rows.map((row) =>
+    toAirportUserReview(
+      row,
+      byReview.get(row.id) ?? [],
+      viewerUserId !== null && row.userId === viewerUserId,
+    ),
+  );
 }
 
-export async function getReviewsByIata(iata: string): Promise<AirportUserReview[]> {
-  const rows = await getDb()
+export async function getReviewsByIata(
+  iata: string,
+  viewerUserId:
+    | string
+    | null
+    | Promise<string | null> = null,
+): Promise<AirportUserReview[]> {
+  const rowsPromise = getDb()
     .select()
     .from(airportReviews)
     .where(
@@ -74,7 +91,14 @@ export async function getReviewsByIata(iata: string): Promise<AirportUserReview[
     .orderBy(desc(airportReviews.createdAt))
     .limit(MAX_REVIEWS_LISTED);
 
-  return attachImages(rows);
+  // Session lookup and review lookup are independent, so callers can pass the
+  // still-running session promise instead of adding an auth/database waterfall.
+  const [rows, resolvedViewerUserId] = await Promise.all([
+    rowsPromise,
+    Promise.resolve(viewerUserId),
+  ]);
+
+  return attachImages(rows, resolvedViewerUserId);
 }
 
 /** Curated reviews seeded from our own scoring/editorial process, shown as a separate lane. */
@@ -155,7 +179,7 @@ export async function createReview({
       .returning();
 
     if (images.length === 0) {
-      return toAirportUserReview(row);
+      return toAirportUserReview(row, [], true);
     }
 
     const imageRows = await tx
@@ -179,6 +203,50 @@ export async function createReview({
       )
       .returning();
 
-    return toAirportUserReview(row, imageRows.map(rowToReviewImage));
+    return toAirportUserReview(row, imageRows.map(rowToReviewImage), true);
   });
+}
+
+/**
+ * Update a published community review only when it belongs to the current
+ * account. The ownership predicate lives in the UPDATE itself, so a stale UI
+ * or a forged request can never edit somebody else's row.
+ */
+export async function updateReview({
+  id,
+  iata,
+  userId,
+  values,
+}: {
+  id: string;
+  iata: string;
+  userId: string;
+  values: ReviewFormValues;
+}): Promise<AirportUserReview | null> {
+  const [row] = await getDb()
+    .update(airportReviews)
+    .set({
+      author: values.author,
+      tripType: values.tripType,
+      rating: values.rating,
+      title: values.title,
+      body: values.body,
+    })
+    .where(
+      and(
+        eq(airportReviews.id, id),
+        eq(airportReviews.iata, iata),
+        eq(airportReviews.userId, userId),
+        eq(airportReviews.status, "published"),
+        eq(airportReviews.source, "community"),
+      ),
+    )
+    .returning();
+
+  if (!row) {
+    return null;
+  }
+
+  const imageRows = await fetchReviewImageRows([row.id]);
+  return toAirportUserReview(row, imageRows.map(rowToReviewImage), true);
 }

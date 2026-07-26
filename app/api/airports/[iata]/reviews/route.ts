@@ -97,7 +97,10 @@ export async function GET(_request: Request, { params }: RouteParams) {
   }
 
   try {
-    const reviews = await getReviewsByIata(normalized);
+    const sessionPromise = auth.api
+      .getSession({ headers: _request.headers })
+      .then((session) => session?.user.id ?? null);
+    const reviews = await getReviewsByIata(normalized, sessionPromise);
 
     return NextResponse.json(
       { reviews },
