@@ -1,5 +1,5 @@
 import { checkBotId } from "botid/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse, after } from "next/server";
 import { AIRPORT_GUIDES_CACHE_TAG, AIRPORT_PROFILES_CACHE_TAG } from "@/lib/airport-content";
 import { auth } from "@/lib/auth";
@@ -29,6 +29,10 @@ const GENERATE_RATE_WINDOW_MS = 60 * 60 * 1000;
 function normalizeIata(iata: string): string | null {
   const normalized = iata.trim().toUpperCase();
   return /^[A-Z]{3}$/.test(normalized) ? normalized : null;
+}
+
+function revalidateAirportPage(iata: string) {
+  revalidatePath(`/airports/${iata.toLowerCase()}`);
 }
 
 export async function POST(request: Request, { params }: RouteParams) {
@@ -85,6 +89,10 @@ export async function POST(request: Request, { params }: RouteParams) {
   }
 
   if (await airportGuideExists(normalized)) {
+    // The browser may still be showing the cached on-demand generation shell.
+    // Mark the concrete page stale before its router.refresh() retries it.
+    revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
+    revalidateAirportPage(normalized);
     return NextResponse.json({ error: "Guide already exists", iata: normalized }, { status: 409 });
   }
 
@@ -117,6 +125,7 @@ export async function POST(request: Request, { params }: RouteParams) {
         const profileInput = await generateAirportScoreProfile(normalized, record, guideMarkdown);
         await upsertAirportProfile(normalized, profileInput);
         revalidateTag(AIRPORT_PROFILES_CACHE_TAG, { expire: 0 });
+        revalidateAirportPage(normalized);
       } catch (error) {
         console.error(`Failed to generate Airportist Score for ${normalized}:`, error);
       }
@@ -178,6 +187,7 @@ export async function POST(request: Request, { params }: RouteParams) {
             requestedByUserId,
           });
           revalidateTag(AIRPORT_GUIDES_CACHE_TAG, { expire: 0 });
+          revalidateAirportPage(normalized);
           safeEnqueue(buildGuideSaveMarker({ status: "ok" }));
           resolveSavedGuide(trimmedGuide);
         } catch (error) {
