@@ -40,6 +40,22 @@ export const reviewFormSchema = z.object({
 
 export type ReviewFormValues = z.infer<typeof reviewFormSchema>;
 
+/** Max photos a single review can carry. Enforced on both sides of the form. */
+export const MAX_REVIEW_IMAGES = 4;
+
+/** Photo captions double as alt text, so keep them short enough to be read out. */
+export const MAX_REVIEW_CAPTION_LENGTH = 140;
+
+/** A photo attached to a review, as served by /api/airports/[iata]/reviews. */
+export interface ReviewImage {
+  id: string;
+  url: string;
+  alt: string;
+  caption?: string;
+  width: number;
+  height: number;
+}
+
 /** A published review as served by /api/airports/[iata]/reviews. */
 export interface AirportUserReview {
   id: string;
@@ -49,4 +65,5 @@ export interface AirportUserReview {
   title: string;
   body: string;
   createdAt: string;
+  images: ReviewImage[];
 }

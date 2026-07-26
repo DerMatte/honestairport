@@ -4,7 +4,7 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Expand } from "lucide-react";
-import type { AirportImage } from "@/lib/airport-content";
+import type { Photo } from "@/lib/photo";
 
 const BLUR_DATA_URL =
   "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 20'%3E%3Cfilter id='b'%3E%3CfeGaussianBlur stdDeviation='3'/%3E%3C/filter%3E%3Crect width='32' height='20' fill='%23dce3ea'/%3E%3Cpath d='M0 16 9 8l6 5 5-4 12 8v3H0z' fill='%23b8c5d1' filter='url(%23b)'/%3E%3C/svg%3E";
@@ -13,7 +13,7 @@ const PhotoLightbox = dynamic(() => import("./photo-lightbox"), {
   loading: () => null,
 });
 
-export function PhotoStripGallery({ images }: { images: AirportImage[] }) {
+export function PhotoStripGallery({ images }: { images: Photo[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (

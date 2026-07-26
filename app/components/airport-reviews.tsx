@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertTriangle, CheckCircle2, RefreshCw, Star } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ImagePlus, RefreshCw, Star, X } from "lucide-react";
 import { isAdmin } from "@/lib/admin";
 import { useSession } from "@/lib/auth-client";
+import { ReviewPhotoThumbs } from "@/app/components/review-photo-thumbs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,11 +23,26 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import {
+  MAX_REVIEW_CAPTION_LENGTH,
+  MAX_REVIEW_IMAGES,
   TRIP_TYPES,
   reviewFormSchema,
   type AirportUserReview,
   type ReviewFormValues,
+  type ReviewImage,
 } from "@/lib/review-schema";
+
+/** Mirrors the server's per-file ceiling in lib/review-images.ts. */
+const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
+
+const ACCEPTED_PHOTO_TYPES = "image/jpeg,image/png,image/webp";
+
+interface PendingPhoto {
+  id: string;
+  file: File;
+  previewUrl: string;
+  caption: string;
+}
 
 interface AirportReviewsProps {
   iata: string;
@@ -71,12 +87,15 @@ function ReviewCard({
   rating,
   title,
   body,
+  images,
 }: {
   author: string;
   meta: string;
   rating: number;
   title: string;
   body: string;
+  // Optional: cached editorial reviews from before photos shipped have no field.
+  images?: ReviewImage[];
 }) {
   return (
     <Card>
@@ -91,6 +110,7 @@ function ReviewCard({
           <StarRow rating={rating} />
         </div>
         <p className="mt-4 text-sm leading-6 text-muted-foreground">{body}</p>
+        {images?.length ? <ReviewPhotoThumbs images={images} /> : null}
       </CardContent>
     </Card>
   );
@@ -150,6 +170,9 @@ function ReviewForm({
     | { status: "success" }
     | { status: "error"; message: string }
   >({ status: "idle" });
+  const [photos, setPhotos] = useState<PendingPhoto[]>([]);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -162,25 +185,119 @@ function ReviewForm({
     defaultValues: { author: "", title: "", body: "", rating: 0, website: "" },
   });
 
+  // Object URLs outlive the component unless we hand them back. Removals revoke
+  // as they happen; this covers whatever is still pending at unmount, read
+  // through a ref so the cleanup never closes over a stale list.
+  const photosRef = useRef(photos);
+
+  useEffect(() => {
+    photosRef.current = photos;
+  }, [photos]);
+
+  useEffect(
+    () => () => {
+      for (const photo of photosRef.current) {
+        URL.revokeObjectURL(photo.previewUrl);
+      }
+    },
+    [],
+  );
+
+  function addPhotos(selected: FileList) {
+    const room = MAX_REVIEW_IMAGES - photos.length;
+    const accepted: PendingPhoto[] = [];
+    let error: string | null = null;
+
+    for (const file of Array.from(selected)) {
+      if (accepted.length >= room) {
+        error = `You can attach up to ${MAX_REVIEW_IMAGES} photos.`;
+        break;
+      }
+
+      if (file.size > MAX_PHOTO_BYTES) {
+        error = `"${file.name}" is too large (max ${Math.round(
+          MAX_PHOTO_BYTES / (1024 * 1024),
+        )} MB).`;
+        continue;
+      }
+
+      accepted.push({
+        id: crypto.randomUUID(),
+        file,
+        previewUrl: URL.createObjectURL(file),
+        caption: "",
+      });
+    }
+
+    setPhotos((current) => [...current, ...accepted]);
+    setPhotoError(error);
+  }
+
+  function removePhoto(id: string) {
+    setPhotos((current) => {
+      const photo = current.find((candidate) => candidate.id === id);
+
+      if (photo) {
+        URL.revokeObjectURL(photo.previewUrl);
+      }
+
+      return current.filter((candidate) => candidate.id !== id);
+    });
+    setPhotoError(null);
+  }
+
+  function clearPhotos() {
+    setPhotos((current) => {
+      for (const photo of current) {
+        URL.revokeObjectURL(photo.previewUrl);
+      }
+
+      return [];
+    });
+    setPhotoError(null);
+  }
+
   const onSubmit = handleSubmit(async (values) => {
     setSubmitState({ status: "idle" });
 
     try {
+      // Multipart so the photos and the review land in one atomic request.
+      const formData = new FormData();
+      formData.set("author", values.author);
+      formData.set("tripType", values.tripType);
+      formData.set("rating", String(values.rating));
+      formData.set("title", values.title);
+      formData.set("body", values.body);
+      formData.set("website", values.website ?? "");
+
+      // Originals, deliberately not shrunk in the browser: a canvas re-encode
+      // holds pixels only, so it would strip the EXIF the server reads capture
+      // time and coordinates from. The server resizes on arrival.
+      for (const photo of photos) {
+        formData.append("photos", photo.file);
+        formData.append("photoCaptions", photo.caption.trim());
+      }
+
       const response = await fetch(`/api/airports/${encodeURIComponent(iata)}/reviews`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        // No Content-Type: the browser has to add the multipart boundary.
+        headers: { "x-honestairport-form": "1" },
+        body: formData,
       });
 
       if (!response.ok) {
-        const payload = (await response.json().catch(() => null)) as
-          | { error?: string }
-          | null;
+        // A 413 comes from the platform as HTML, so there's no JSON error to read.
+        const payload =
+          response.status === 413
+            ? null
+            : ((await response.json().catch(() => null)) as { error?: string } | null);
         throw new Error(
           payload?.error ??
-            (response.status === 429
-              ? "Too many reviews submitted — try again later."
-              : "Something went wrong submitting your review."),
+            (response.status === 413
+              ? "Those photos are too large — try fewer or smaller photos."
+              : response.status === 429
+                ? "Too many reviews submitted — try again later."
+                : "Something went wrong submitting your review."),
         );
       }
 
@@ -191,6 +308,7 @@ function ReviewForm({
       }
 
       reset();
+      clearPhotos();
       setSubmitState({ status: "success" });
     } catch (error) {
       setSubmitState({
@@ -337,6 +455,82 @@ function ReviewForm({
             ) : null}
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor={`review-photos-${iata}`}>Photos (optional)</Label>
+            <input
+              ref={fileInputRef}
+              id={`review-photos-${iata}`}
+              type="file"
+              multiple
+              // Not image/* — iOS then hands us HEIC, which the server can't decode.
+              accept={ACCEPTED_PHOTO_TYPES}
+              className="sr-only"
+              onChange={(event) => {
+                if (event.target.files?.length) {
+                  addPhotos(event.target.files);
+                }
+                // Reset so picking the same file again still fires onChange.
+                event.target.value = "";
+              }}
+            />
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                className="gap-2"
+                disabled={photos.length >= MAX_REVIEW_IMAGES}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <ImagePlus className="size-4" aria-hidden="true" />
+                Add photos
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Up to {MAX_REVIEW_IMAGES} photos · JPEG, PNG or WebP
+              </p>
+            </div>
+            {photoError ? <p className="text-xs text-destructive">{photoError}</p> : null}
+            {photos.length > 0 ? (
+              <ul className="space-y-2">
+                {photos.map((photo) => (
+                  <li key={photo.id} className="flex items-center gap-3">
+                    {/* Local object URL, so next/image would only add indirection. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photo.previewUrl}
+                      alt=""
+                      className="size-14 shrink-0 rounded-lg object-cover ring-1 ring-black/5"
+                    />
+                    <Input
+                      value={photo.caption}
+                      maxLength={MAX_REVIEW_CAPTION_LENGTH}
+                      placeholder="Caption (optional)"
+                      aria-label={`Caption for ${photo.file.name}`}
+                      onChange={(event) =>
+                        setPhotos((current) =>
+                          current.map((candidate) =>
+                            candidate.id === photo.id
+                              ? { ...candidate, caption: event.target.value }
+                              : candidate,
+                          ),
+                        )
+                      }
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="shrink-0"
+                      aria-label={`Remove ${photo.file.name}`}
+                      onClick={() => removePhoto(photo.id)}
+                    >
+                      <X className="size-4" aria-hidden="true" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+
           {/* Honeypot — visually hidden from humans, tempting for bots. */}
           <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
             <label htmlFor={`review-website-${iata}`}>Website</label>
@@ -351,7 +545,11 @@ function ReviewForm({
 
           <div className="flex flex-wrap items-center gap-3">
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting…" : "Post review"}
+              {isSubmitting
+                ? photos.length > 0
+                  ? `Uploading ${photos.length} photo${photos.length === 1 ? "" : "s"}…`
+                  : "Submitting…"
+                : "Post review"}
             </Button>
             {submitState.status === "success" ? (
               <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -516,6 +714,7 @@ export function AirportReviews({
               rating={review.rating}
               title={review.title}
               body={review.body}
+              images={review.images}
             />
           ))}
         </div>
@@ -536,6 +735,7 @@ export function AirportReviews({
               rating={review.rating}
               title={review.title}
               body={review.body}
+              images={review.images}
             />
           ))}
         </div>
