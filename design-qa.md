@@ -5,6 +5,9 @@
 - Homepage production screenshot: `/tmp/flipflop-navbar-production.png`
 - Mobile production screenshot:
   `/tmp/flipflop-navbar-production-mobile-final.png`
+- Reported iPhone Safari failure: `/home/m/IMG_6282.png`
+- Stable mobile fallback evidence: `/tmp/safari-mobile-fallback.png`
+- Stable scrolled fallback evidence: `/tmp/safari-mobile-fallback-scrolled.png`
 - Airport-guide screenshot: `/tmp/flipflop-navbar-guide.png`
 - Mobile-menu screenshot: `/tmp/flipflop-mobile-menu-v2.png`
 - Desktop viewport: 1280 × 720 CSS px at device scale factor 1
@@ -48,6 +51,9 @@ without overflow, and the menu opens as a matching dark instrument panel.
 - Animated flap pseudo-elements finish at opacity `0`, leaving the static glyph
   layer to render after the transition instead of retaining active overlay
   layers.
+- At widths up to 760px and on iOS WebKit, the two 3D pseudo-element layers are
+  disabled entirely. The final glyph and physical tile seam remain, avoiding
+  Safari's mismatched half-glyph compositing while reducing mobile paint work.
 - No Three.js/WebGL dependency or client-side board renderer was added.
 - Production Web Vitals at `http://localhost:3000/`:
   - TTFB: 10.3ms
@@ -61,6 +67,10 @@ without overflow, and the menu opens as a matching dark instrument panel.
 
 - Production build rendered all 11 local database rows.
 - Desktop and mobile horizontal overflow: 0px.
+- Mobile fallback computed both animated pseudo-elements as `display: none`;
+  desktop retained the full `display: grid` flip animation.
+- Immediate-load and scrolled mobile screenshots both retained complete,
+  readable glyphs with no mismatched halves.
 - Navbar height: 57px.
 - Table heading follows the navbar offset and returns to `top: 0` when the
   navbar hides.

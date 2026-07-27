@@ -1309,4 +1309,38 @@
     grid-column: 4;
     grid-row: 1;
   }
+
+  /*
+   * Small screens favor a stable final glyph. Safari can leave the two
+   * animated half-flaps composited over the base character after scrolling,
+   * which makes the rows look like mismatched letter fragments.
+   */
+  .split-flap-char {
+    perspective: none;
+  }
+
+  .split-flap-char::before,
+  .split-flap-char::after {
+    display: none;
+    animation: none !important;
+    content: none;
+    opacity: 0;
+    transform: none;
+  }
+}
+
+/* iOS WebKit uses the same stable-glyph fallback at every viewport width. */
+@supports (-webkit-touch-callout: none) {
+  .split-flap-char {
+    perspective: none;
+  }
+
+  .split-flap-char::before,
+  .split-flap-char::after {
+    display: none;
+    animation: none !important;
+    content: none;
+    opacity: 0;
+    transform: none;
+  }
 }
