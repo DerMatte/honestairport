@@ -498,6 +498,8 @@
   }
 
   .split-flap-text {
+    --flap-delay: 0ms;
+    --flap-stagger: 22ms;
     display: inline-flex;
     min-width: 0;
     gap: 1px;
@@ -506,6 +508,7 @@
   }
 
   .split-flap-char {
+    --flap-i: 0;
     position: relative;
     display: inline-grid;
     width: 0.72em;
@@ -527,7 +530,6 @@
     box-shadow:
       inset 0 1px rgb(255 255 255 / 0.045),
       0 1px 1px #000;
-    perspective: 7em;
     color: var(--board-ink);
     font-family: var(--font-ibm-plex-mono), ui-monospace, monospace;
     font-size: clamp(0.72rem, 1.05vw, 0.92rem);
@@ -537,58 +539,69 @@
     text-shadow: 0 1px #000;
   }
 
+  /* Stagger from the parent --flap-delay; avoids a style attr on every tile. */
+  .split-flap-char:nth-child(1) { --flap-i: 0; }
+  .split-flap-char:nth-child(2) { --flap-i: 1; }
+  .split-flap-char:nth-child(3) { --flap-i: 2; }
+  .split-flap-char:nth-child(4) { --flap-i: 3; }
+  .split-flap-char:nth-child(5) { --flap-i: 4; }
+  .split-flap-char:nth-child(6) { --flap-i: 5; }
+  .split-flap-char:nth-child(7) { --flap-i: 6; }
+  .split-flap-char:nth-child(8) { --flap-i: 7; }
+  .split-flap-char:nth-child(9) { --flap-i: 8; }
+  .split-flap-char:nth-child(10) { --flap-i: 9; }
+  .split-flap-char:nth-child(11) { --flap-i: 10; }
+  .split-flap-char:nth-child(12) { --flap-i: 11; }
+  .split-flap-char:nth-child(13) { --flap-i: 12; }
+  .split-flap-char:nth-child(14) { --flap-i: 13; }
+  .split-flap-char:nth-child(15) { --flap-i: 14; }
+  .split-flap-char:nth-child(16) { --flap-i: 15; }
+  .split-flap-char:nth-child(17) { --flap-i: 16; }
+  .split-flap-char:nth-child(18) { --flap-i: 17; }
+  .split-flap-char:nth-child(19) { --flap-i: 18; }
+  .split-flap-char:nth-child(20) { --flap-i: 19; }
+  .split-flap-char:nth-child(21) { --flap-i: 20; }
+  .split-flap-char:nth-child(22) { --flap-i: 21; }
+  .split-flap-char:nth-child(23) { --flap-i: 22; }
+  .split-flap-char:nth-child(24) { --flap-i: 23; }
+
+  .split-flap-char[data-prev] {
+    perspective: 7em;
+  }
+
   .split-flap-char::before,
   .split-flap-char::after {
     position: absolute;
     inset: 0;
     display: grid;
     place-items: center;
+    pointer-events: none;
     backface-visibility: hidden;
-    background:
-      linear-gradient(
-        180deg,
-        #292d29 0%,
-        #1c201d 47%,
-        #090b09 48%,
-        #121512 52%,
-        #202420 100%
-      );
+    /* Solid fills — gradients already live on the settled tile. */
+    background: #1c201d;
     box-shadow: inset 0 1px rgb(255 255 255 / 0.04);
   }
 
-  .split-flap-char::before {
+  .split-flap-char[data-prev]::before {
     z-index: 3;
     clip-path: inset(0 0 50% 0);
     content: attr(data-prev);
     transform-origin: center center;
     animation: split-flap-top 260ms cubic-bezier(0.22, 1, 0.36, 1)
-      var(--flap-delay) both;
+      calc(var(--flap-delay) + (var(--flap-i) * var(--flap-stagger))) both;
   }
 
-  .split-flap-char::after {
+  .split-flap-char[data-prev]::after {
     z-index: 4;
     clip-path: inset(50% 0 0 0);
     content: attr(data-char);
     transform: rotateX(90deg);
     transform-origin: center center;
     animation: split-flap-bottom 280ms cubic-bezier(0.22, 1, 0.36, 1)
-      calc(var(--flap-delay) + 100ms) both;
-  }
-
-  .split-flap-char__glyph {
-    position: relative;
-    z-index: 1;
-  }
-
-  .split-flap-char__glyph::after {
-    position: absolute;
-    right: -50%;
-    bottom: 48%;
-    left: -50%;
-    height: 1px;
-    background: #050605;
-    box-shadow: 0 1px rgb(255 255 255 / 0.04);
-    content: "";
+      calc(
+        var(--flap-delay) + (var(--flap-i) * var(--flap-stagger)) + 100ms
+      )
+      both;
   }
 
   .split-flap-text[data-tone="amber"] .split-flap-char {
@@ -661,14 +674,17 @@
 @keyframes split-flap-top {
   0% {
     opacity: 1;
+    visibility: visible;
     transform: rotateX(0);
   }
   92% {
     opacity: 1;
+    visibility: visible;
     transform: rotateX(-92deg);
   }
   100% {
     opacity: 0;
+    visibility: hidden;
     transform: rotateX(-92deg);
   }
 }
@@ -676,14 +692,17 @@
 @keyframes split-flap-bottom {
   0% {
     opacity: 1;
+    visibility: visible;
     transform: rotateX(92deg);
   }
   92% {
     opacity: 1;
+    visibility: visible;
     transform: rotateX(0);
   }
   100% {
     opacity: 0;
+    visibility: hidden;
     transform: rotateX(0);
   }
 }
@@ -853,10 +872,11 @@
     animation: none !important;
   }
 
-  .split-flap-char::before,
-  .split-flap-char::after {
+  .split-flap-char[data-prev]::before,
+  .split-flap-char[data-prev]::after {
     animation: none !important;
     opacity: 0;
+    visibility: hidden;
   }
 
   [data-slot="dialog-content"],
@@ -1169,6 +1189,26 @@
   content-visibility: auto;
 }
 
+/*
+ * Flip only the first ~12 rows (heading is child 1). Deeper rows keep the
+ * mechanical tiles but skip compositor work so scroll stays smooth as the
+ * directory grows.
+ */
+.airport-board-only .airport-board-row:nth-child(n + 14) .split-flap-char {
+  perspective: none;
+}
+
+.airport-board-only
+  .airport-board-row:nth-child(n + 14)
+  .split-flap-char[data-prev]::before,
+.airport-board-only
+  .airport-board-row:nth-child(n + 14)
+  .split-flap-char[data-prev]::after {
+  display: none;
+  animation: none !important;
+  content: none;
+}
+
 .airport-board-only .airport-board-row:focus-visible {
   background: #18140f;
   box-shadow:
@@ -1193,9 +1233,10 @@
   box-shadow: inset 0 1px #70675a;
 }
 
-.airport-board-only .split-flap-char,
-.airport-board-only .split-flap-char::before,
-.airport-board-only .split-flap-char::after {
+.airport-board-only .split-flap-char {
+  width: 0.7em;
+  height: 1.42em;
+  flex-basis: 0.7em;
   border-color: #37312a;
   background: #201c18;
   color: #eee9df;
@@ -1203,15 +1244,19 @@
     inset 0 1px #322c25,
     inset 0 -1px #0b0907,
     0 1px 1px #000;
-}
-
-.airport-board-only .split-flap-char {
-  width: 0.7em;
-  height: 1.42em;
-  flex-basis: 0.7em;
   font-size: clamp(0.96rem, 1.35vw, 1.1rem);
   font-weight: 500;
   text-shadow: 0 1px #000;
+}
+
+.airport-board-only .split-flap-char[data-prev]::before,
+.airport-board-only .split-flap-char[data-prev]::after {
+  border-color: #37312a;
+  background: #201c18;
+  color: #eee9df;
+  box-shadow:
+    inset 0 1px #322c25,
+    inset 0 -1px #0b0907;
 }
 
 .airport-board-only .split-flap-text[data-tone="amber"] .split-flap-char {
@@ -1319,8 +1364,8 @@
     perspective: none;
   }
 
-  .split-flap-char::before,
-  .split-flap-char::after {
+  .split-flap-char[data-prev]::before,
+  .split-flap-char[data-prev]::after {
     display: none;
     animation: none !important;
     content: none;
@@ -1335,8 +1380,8 @@
     perspective: none;
   }
 
-  .split-flap-char::before,
-  .split-flap-char::after {
+  .split-flap-char[data-prev]::before,
+  .split-flap-char[data-prev]::after {
     display: none;
     animation: none !important;
     content: none;

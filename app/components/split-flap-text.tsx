@@ -35,28 +35,32 @@ export const SplitFlapText = memo(function SplitFlapText({
     .padEnd(length, " ")
     .split("");
 
+  const style =
+    delay > 0
+      ? ({ "--flap-delay": `${delay}ms` } as CSSProperties)
+      : undefined;
+
   return (
     <span
       className={cn("split-flap-text", className)}
       data-tone={tone}
-      aria-label={label}
+      aria-label={label || undefined}
+      style={style}
     >
-      <span className="sr-only">{label}</span>
       {characters.map((character, index) => {
-        const style = {
-          "--flap-delay": `${delay + index * 22}ms`,
-        } as CSSProperties;
+        const isBlank = character === " ";
 
         return (
           <span
-            key={`${character}-${index}`}
+            key={index}
             aria-hidden="true"
             className="split-flap-char"
             data-char={character}
-            data-prev={previousFlapCharacter(character)}
-            style={style}
+            {...(isBlank
+              ? {}
+              : { "data-prev": previousFlapCharacter(character) })}
           >
-            <span className="split-flap-char__glyph">{character}</span>
+            {isBlank ? null : character}
           </span>
         );
       })}
