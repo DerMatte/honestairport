@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { SplitFlapText } from "@/app/components/split-flap-text";
 import { disruptionLabel } from "@/lib/airport-utils";
 import type { AirportSummary } from "@/lib/airport-content";
@@ -24,15 +23,12 @@ export function AirportCard({ airport, sequence }: AirportCardProps) {
       aria-label={`Open the ${airport.name} guide`}
       className="airport-board-row group"
     >
-      <span className="airport-board-sequence" aria-hidden="true">
-        {String(sequence).padStart(2, "0")}
-      </span>
+      <span className="airport-board-indicator" aria-hidden="true" />
       <SplitFlapText
         className="airport-board-code"
         delay={delay}
         length={3}
         text={airport.iata}
-        tone="amber"
       />
       <SplitFlapText
         className="airport-board-destination"
@@ -52,18 +48,14 @@ export function AirportCard({ airport, sequence }: AirportCardProps) {
         delay={delay + 170}
         length={3}
         text={airport.airportistScore.toFixed(1)}
-        tone="amber"
       />
       <SplitFlapText
         className="airport-board-status"
         delay={delay + 220}
         length={8}
         text={disruptionLabel(airport.disruption.status)}
-        tone={airport.disruption.status === "normal" ? "blue" : "amber"}
+        tone={airport.disruption.status === "normal" ? "ivory" : "amber"}
       />
-      <span className="airport-board-open" aria-hidden="true">
-        <ArrowUpRight />
-      </span>
     </Link>
   );
 }
@@ -83,15 +75,15 @@ export function AirportGuideCard({ airport, sequence }: AirportGuideCardProps) {
       aria-label={`Open the ${airport.name} guide`}
       className="airport-board-row group"
     >
-      <span className="airport-board-sequence" aria-hidden="true">
-        {String(sequence).padStart(2, "0")}
-      </span>
+      <span
+        className="airport-board-indicator airport-board-indicator--muted"
+        aria-hidden="true"
+      />
       <SplitFlapText
         className="airport-board-code"
         delay={delay}
         length={3}
         text={airport.iata}
-        tone="blue"
       />
       <SplitFlapText
         className="airport-board-destination"
@@ -118,11 +110,8 @@ export function AirportGuideCard({ airport, sequence }: AirportGuideCardProps) {
         delay={delay + 220}
         length={8}
         text="GUIDE"
-        tone="blue"
+        tone="muted"
       />
-      <span className="airport-board-open" aria-hidden="true">
-        <ArrowUpRight />
-      </span>
     </Link>
   );
 }

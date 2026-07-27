@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
@@ -37,6 +37,7 @@ export function SiteHeader({
   nearestAirportSidebarSlot: ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { data: session, isPending } = useSession();
   const shouldReduceMotion = useReducedMotion();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -101,6 +102,10 @@ export function SiteHeader({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
     <>
