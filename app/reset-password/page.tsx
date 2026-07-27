@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ResetPasswordForm } from "@/app/components/reset-password-form";
+import { UtilityPageShell } from "@/app/components/utility-page-shell";
 import {
   Card,
   CardContent,
@@ -20,9 +21,16 @@ export const metadata: Metadata = {
 
 function ResetPasswordFallback() {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
+    <UtilityPageShell
+      code="RESET"
+      eyebrow="Account recovery"
+      title="Set a new password"
+      description="Replace the credentials for your HonestAirport account."
+      note="A completed reset signs out your other sessions so the new password is the only active one."
+      status="Secure link active"
+    >
       <Skeleton className="h-72 w-full rounded-xl" />
-    </main>
+    </UtilityPageShell>
   );
 }
 
@@ -50,7 +58,23 @@ async function ResetPasswordPageContent({
   const { token, error } = await searchParams;
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
+    <UtilityPageShell
+      code="RESET"
+      eyebrow="Account recovery"
+      title={token && !error ? "Set a new password" : "Reset link expired"}
+      description={
+        token && !error
+          ? "Replace the credentials for your HonestAirport account."
+          : "This recovery link is no longer cleared for use."
+      }
+      note={
+        token && !error
+          ? "A completed reset signs out your other sessions so the new password is the only active one."
+          : "Requesting another link from the sign-in page is the fastest way back into your account."
+      }
+      status={token && !error ? "Secure link active" : "Link out of service"}
+      statusTone={token && !error ? "normal" : "warning"}
+    >
       {token && !error ? (
         <ResetPasswordForm token={token} />
       ) : (
@@ -75,6 +99,6 @@ async function ResetPasswordPageContent({
           </CardContent>
         </Card>
       )}
-    </main>
+    </UtilityPageShell>
   );
 }

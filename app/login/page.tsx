@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { LoginForm, type LoginNotice } from "@/app/components/login-form";
+import { UtilityPageShell } from "@/app/components/utility-page-shell";
 import { Skeleton } from "@/components/ui/skeleton";
 import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
@@ -41,11 +42,15 @@ function safeNextPath(next: string | undefined): string {
 
 function LoginPageFallback() {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
-      <Skeleton className="h-10 w-40" />
-      <Skeleton className="mt-3 h-4 w-64" />
-      <Skeleton className="mt-8 h-72 w-full rounded-xl" />
-    </main>
+    <UtilityPageShell
+      code="AUTH"
+      eyebrow="Traveler account"
+      title="Welcome back"
+      description="Sign in to manage the details attached to your HonestAirport account."
+      note="Airport guides stay public. You only need an account to manage your profile or contribute."
+    >
+      <Skeleton className="h-[25rem] w-full rounded-xl" />
+    </UtilityPageShell>
   );
 }
 
@@ -79,7 +84,13 @@ async function LoginPageContent({
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-md flex-col px-4 py-12 sm:py-16">
+    <UtilityPageShell
+      code="AUTH"
+      eyebrow="Traveler account"
+      title="Welcome back"
+      description="Sign in to manage the details attached to your HonestAirport account."
+      note="Airport guides stay public. You only need an account to manage your profile or contribute."
+    >
       <LoginForm
         notice={noticeFromParams(params)}
         nextPath={nextPath}
@@ -92,6 +103,6 @@ async function LoginPageContent({
           ),
         }}
       />
-    </main>
+    </UtilityPageShell>
   );
 }

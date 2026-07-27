@@ -23,6 +23,7 @@ import {
   LoungeStatusBadge,
   LoungeVerdictBadge,
 } from "@/app/components/airport-lounges";
+import { SplitFlapText } from "@/app/components/split-flap-text";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PhotoStrip } from "@/app/components/photo-strip";
@@ -182,7 +183,7 @@ async function LoungePageContent({
     : [];
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
+    <div className="lounge-page min-h-screen">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -205,34 +206,78 @@ async function LoungePageContent({
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Link
           href={`/airports/${slug}`}
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+          className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground transition hover:text-foreground"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
           {displayAirportName} ({iata})
         </Link>
 
-        <section className="mt-8">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline" className="font-mono">
-              {iata}
-            </Badge>
-            <Badge variant="outline" className="rounded-full">
-              {lounge.terminal}
-            </Badge>
-            {lounge.zone ? (
-              <Badge variant="outline" className="rounded-full">
-                {lounge.zone}
+        <section className="skeuo-detail-hero mt-6 grid gap-6 p-5 sm:mt-8 sm:p-8 lg:grid-cols-[1fr_340px] lg:items-stretch">
+          <div className="flex flex-col justify-center">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="font-mono text-[#9a6415]">
+                {iata}
               </Badge>
-            ) : null}
-            {lounge.verdict ? <LoungeVerdictBadge verdict={lounge.verdict} /> : null}
-            <LoungeStatusBadge status={lounge.status} />
+              <Badge variant="outline" className="rounded-none font-mono">
+                {lounge.terminal}
+              </Badge>
+              {lounge.zone ? (
+                <Badge variant="outline" className="rounded-none font-mono">
+                  {lounge.zone}
+                </Badge>
+              ) : null}
+              {lounge.verdict ? (
+                <LoungeVerdictBadge verdict={lounge.verdict} />
+              ) : null}
+              <LoungeStatusBadge status={lounge.status} />
+            </div>
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
+              Lounge field report / {displayAirportName}
+            </p>
+            <h1 className="mt-2 max-w-4xl text-5xl leading-[0.95] uppercase tracking-[-0.015em] text-balance sm:text-6xl">
+              {lounge.name}
+            </h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+              {lounge.summary}
+            </p>
           </div>
-          <h1 className="mt-5 max-w-4xl text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl">
-            {lounge.name}
-          </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-muted-foreground">
-            {lounge.summary}
-          </p>
+
+          <Card className="board-shell lounge-briefing-board gap-0 border-board-ink/20 bg-board py-0 text-board-ink shadow-2xl shadow-black/30">
+            <CardContent className="flex h-full flex-col p-5 sm:p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-mono text-[9px] uppercase tracking-[0.17em] text-board-ink/45">
+                    Access briefing
+                  </p>
+                  <SplitFlapText
+                    className="mt-3"
+                    length={3}
+                    text={iata}
+                    tone="amber"
+                  />
+                </div>
+                <div className="lounge-briefing-board__lamp">
+                  <span aria-hidden="true" />
+                  {lounge.status === "open" ? "Open" : "Check status"}
+                </div>
+              </div>
+
+              <div className="mt-auto grid grid-cols-2 gap-2 pt-8">
+                <div>
+                  <span>Terminal</span>
+                  <strong>{lounge.terminal}</strong>
+                </div>
+                <div>
+                  <span>Access routes</span>
+                  <strong>{lounge.access.length || "Check"}</strong>
+                </div>
+                <div className="col-span-2">
+                  <span>Hours</span>
+                  <strong>{lounge.hours ?? "Verify before visiting"}</strong>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </section>
 
         {images.length ? (
@@ -242,7 +287,7 @@ async function LoungePageContent({
         ) : null}
 
         {lounge.status !== "open" ? (
-          <Card className="mt-8 border-red-500/30 bg-red-500/5">
+          <Card className="skeuo-alert-panel mt-8 border-red-500/30 bg-red-500/5">
             <CardContent className="flex items-start gap-3 p-5 text-sm leading-6">
               <TriangleAlert
                 className="mt-0.5 size-5 shrink-0 text-red-600 dark:text-red-400"
@@ -259,9 +304,9 @@ async function LoungePageContent({
 
         <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_360px]">
           <div className="space-y-6">
-            <Card>
+            <Card className="skeuo-lounge-card">
               <CardHeader>
-                <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:size-5">
+                <div className="skeuo-lounge-card__icon [&_svg]:size-5">
                   <KeyRound aria-hidden="true" />
                 </div>
                 <CardTitle>How to get in</CardTitle>
@@ -272,7 +317,7 @@ async function LoungePageContent({
                     {lounge.access.map((method, index) => (
                       <li
                         key={`${method.program}-${index}`}
-                        className="flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-xl border bg-muted/30 p-3 text-sm leading-6"
+                        className="lounge-access-row flex flex-wrap items-baseline gap-x-3 gap-y-1 p-3 text-sm leading-6"
                       >
                         <Badge variant="secondary" className="rounded-full">
                           {accessMethodLabel(method)}
@@ -296,9 +341,9 @@ async function LoungePageContent({
             </Card>
 
             {descriptionParagraphs.length ? (
-              <Card>
+              <Card className="skeuo-lounge-card">
                 <CardHeader>
-                  <div className="flex size-10 items-center justify-center rounded-2xl bg-primary/10 text-primary [&_svg]:size-5">
+                  <div className="skeuo-lounge-card__icon [&_svg]:size-5">
                     <DoorOpen aria-hidden="true" />
                   </div>
                   <CardTitle>The honest take</CardTitle>
@@ -315,7 +360,7 @@ async function LoungePageContent({
           </div>
 
           <div className="space-y-6">
-            <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
+            <Card className="skeuo-lounge-card">
               <CardHeader>
                 <CardTitle>At a glance</CardTitle>
               </CardHeader>
@@ -353,7 +398,7 @@ async function LoungePageContent({
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="skeuo-lounge-card">
               <CardHeader>
                 <CardTitle>Sources</CardTitle>
               </CardHeader>
@@ -391,7 +436,8 @@ async function LoungePageContent({
 
         {otherLounges.length ? (
           <section className="mt-12">
-            <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <p className="skeuo-label text-[#9a6415]">Continue exploring</p>
+            <h2 className="mt-2 text-3xl uppercase tracking-tight sm:text-4xl">
               Other lounges at {displayAirportName}
             </h2>
             <div className="mt-5">

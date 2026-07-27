@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { SettingsForm } from "@/app/components/settings-form";
+import { UtilityPageShell } from "@/app/components/utility-page-shell";
 import { Skeleton } from "@/components/ui/skeleton";
 import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
@@ -14,13 +15,16 @@ export const metadata: Metadata = {
 
 function SettingsPageFallback() {
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-12 sm:py-16">
-      <div className="space-y-1.5">
-        <Skeleton className="h-9 w-36" />
-        <Skeleton className="h-4 w-64" />
-      </div>
-      <Skeleton className="h-72 w-full rounded-xl" />
-    </div>
+    <UtilityPageShell
+      code="ACCOUNT"
+      eyebrow="Account control"
+      title="Your settings"
+      description="Manage how your account identifies you and keep its access secure."
+      note="Your email address is the fixed account identifier. Your display name and password can be updated here."
+      wide
+    >
+      <Skeleton className="h-[42rem] w-full rounded-xl" />
+    </UtilityPageShell>
   );
 }
 
@@ -44,15 +48,14 @@ async function SettingsPageContent() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-12 sm:py-16">
-      <div className="space-y-1.5">
-        <h1 className="font-heading text-3xl font-medium tracking-tight">
-          Settings
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Update your profile details and password.
-        </p>
-      </div>
+    <UtilityPageShell
+      code="ACCOUNT"
+      eyebrow="Account control"
+      title="Your settings"
+      description="Manage how your account identifies you and keep its access secure."
+      note="Your email address is the fixed account identifier. Your display name and password can be updated here."
+      wide
+    >
       <SettingsForm
         user={{
           name: session.user.name,
@@ -60,6 +63,6 @@ async function SettingsPageContent() {
           emailVerified: session.user.emailVerified,
         }}
       />
-    </div>
+    </UtilityPageShell>
   );
 }
