@@ -20,10 +20,13 @@ export function AirportCard({ airport, sequence }: AirportCardProps) {
     <Link
       href={`/airports/${airport.slug}`}
       prefetch={false}
-      aria-label={`Open the ${airport.name} guide`}
+      aria-label={`Open the ${airport.name} guide, disruption ${disruptionLabel(airport.disruption.status).toLowerCase()}`}
       className="airport-board-row group"
     >
-      <span className="airport-board-indicator" aria-hidden="true" />
+      <span
+        className={`airport-board-indicator airport-board-indicator--${airport.disruption.status}`}
+        aria-hidden="true"
+      />
       <SplitFlapText
         className="airport-board-code"
         delay={delay}

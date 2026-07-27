@@ -1128,9 +1128,36 @@
   }
 }
 
+/* Keep the full "HONEST AIRPORT" mark readable on narrow phones (SE-class). */
 @media (max-width: 420px) {
-  .split-flap-nav__title .split-flap-char:nth-child(n + 8) {
-    display: none;
+  .split-flap-nav__inner {
+    gap: 0.3rem;
+    padding-inline: 0.4rem;
+  }
+
+  .split-flap-nav__brand {
+    gap: 0.32rem;
+    min-width: min-content;
+  }
+
+  .split-flap-nav__title {
+    overflow: visible;
+  }
+
+  .split-flap-nav .split-flap-char {
+    width: 0.58em;
+    height: 1.32em;
+    flex-basis: 0.58em;
+    font-size: 0.64rem;
+  }
+
+  .split-flap-nav__actions {
+    gap: 0.1rem;
+  }
+
+  .split-flap-nav__actions [data-slot="button"] {
+    width: 1.9rem;
+    height: 1.9rem;
   }
 }
 
@@ -1225,6 +1252,38 @@
   box-shadow:
     inset 0 1px #b4ff9f,
     0 0 7px #54d837;
+}
+
+.airport-board-only .airport-board-indicator--normal {
+  border-color: #3d8f2e;
+  background: #65e148;
+  box-shadow:
+    inset 0 1px #b4ff9f,
+    0 0 7px #54d837;
+}
+
+.airport-board-only .airport-board-indicator--minor {
+  border-color: #a67c1a;
+  background: #e6b765;
+  box-shadow:
+    inset 0 1px #ffe2a8,
+    0 0 7px #d4a03a;
+}
+
+.airport-board-only .airport-board-indicator--moderate {
+  border-color: #a85a1a;
+  background: #e8893a;
+  box-shadow:
+    inset 0 1px #ffc08a,
+    0 0 7px #d47228;
+}
+
+.airport-board-only .airport-board-indicator--severe {
+  border-color: #9a2f2f;
+  background: #e24b4b;
+  box-shadow:
+    inset 0 1px #ff9b9b,
+    0 0 7px #c93a3a;
 }
 
 .airport-board-only .airport-board-indicator--muted {

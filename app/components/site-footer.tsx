@@ -3,10 +3,20 @@
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Plane } from "lucide-react";
 
+function shouldHideFooter(pathname: string | null): boolean {
+  if (!pathname || pathname === "/") {
+    return true;
+  }
+
+  // Airport guide pages already have back-nav; the light footer reads as a
+  // second closing band under the nearby-airports section.
+  return pathname === "/airports" || pathname.startsWith("/airports/");
+}
+
 export function SiteFooter() {
   const pathname = usePathname();
 
-  if (pathname === "/") {
+  if (shouldHideFooter(pathname)) {
     return null;
   }
 
@@ -27,7 +37,7 @@ export function SiteFooter() {
           </p>
         </div>
         <a
-          href="#main-content"
+          href="/"
           className="group inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-[#526166] transition-colors hover:text-primary"
         >
           Return to board
