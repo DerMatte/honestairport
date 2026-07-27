@@ -1,7 +1,11 @@
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
-import { Plane } from "lucide-react";
+import {
+  Barlow_Condensed,
+  Geist,
+  IBM_Plex_Mono,
+} from "next/font/google";
+import { ArrowUpRight, Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
 import {
   NearestAirportHeaderLink,
@@ -21,20 +25,18 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  display: "swap",
+  weight: ["400", "500", "600"],
+  display: "optional",
   preload: false,
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
   subsets: ["latin"],
-  // Static weights keep the heading font smaller than the full opsz variable cut.
-  weight: ["500", "600"],
-  // `optional` prevents a late webfont swap from becoming the LCP paint on slow
-  // mobile networks (swap was ~85% of LCP render delay in Lighthouse).
+  weight: ["500", "600", "700"],
   display: "optional",
   preload: true,
 });
@@ -71,8 +73,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  colorScheme: "light",
+  themeColor: "#101210",
+  colorScheme: "dark",
 };
 
 export default async function RootLayout({
@@ -83,7 +85,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${ibmPlexMono.variable} ${barlowCondensed.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a
@@ -107,19 +109,28 @@ export default async function RootLayout({
         <main id="main-content" className="flex-1">
           {children}
         </main>
-        <footer className="border-t border-border/60 bg-card/60">
-          <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 px-6 py-10 text-center">
-            <span className="flex items-center gap-2 text-sm font-medium">
-              <span className="flex size-6 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Plane className="size-3 -rotate-45" aria-hidden="true" />
+        <footer className="border-t border-white/10 bg-[#0b0d0c]">
+          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-10 sm:px-6 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <span className="flex items-center gap-3 font-heading text-xl font-semibold uppercase tracking-[0.08em] text-board-ink">
+                <span className="flex size-8 items-center justify-center border border-board-ink/25 bg-board-ink text-board">
+                  <Plane className="size-4 -rotate-45" aria-hidden="true" />
+                </span>
+                HonestAirport
               </span>
-              HonestAirport
-            </span>
-            <p className="max-w-2xl text-xs leading-5 text-muted-foreground">
+              <p className="mt-4 max-w-2xl text-xs leading-5 text-muted-foreground">
               Airportist Scores and guides are editorial content. Always verify
               live rules, terminals, and operational alerts with official
               airport and airline sources.
-            </p>
+              </p>
+            </div>
+            <a
+              href="#main-content"
+              className="group inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-board-ink/70 transition-colors hover:text-board-amber"
+            >
+              Return to board
+              <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
           </div>
         </footer>
         <Analytics />

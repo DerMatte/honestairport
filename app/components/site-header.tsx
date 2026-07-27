@@ -105,7 +105,7 @@ export function SiteHeader({
   return (
     <>
       <motion.header
-        className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md"
+        className="sticky top-0 z-50 border-b border-white/10 bg-[#0c0f0d]/95 backdrop-blur-md"
         data-hidden={hidden ? "" : undefined}
         initial={false}
         animate={{ y: hidden && !shouldReduceMotion ? "-100%" : 0 }}
@@ -115,13 +115,16 @@ export function SiteHeader({
             : { type: "tween", duration: 0.3, ease: [0.23, 1, 0.32, 1] }
         }
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
-          <Link href="/" className="flex shrink-0 items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-5 sm:px-6">
+          <Link href="/" className="group flex shrink-0 items-center gap-2.5">
+            <span className="flex size-8 items-center justify-center border border-board-amber/30 bg-board-amber text-primary-foreground shadow-sm transition-transform group-hover:-translate-y-0.5">
               <Plane className="size-4 -rotate-45" aria-hidden="true" />
             </span>
-            <span className="font-heading text-xl font-medium tracking-tight">
+            <span className="font-heading text-xl font-semibold uppercase tracking-[0.06em] text-board-ink">
               HonestAirport
+            </span>
+            <span className="hidden border-l border-white/15 pl-3 font-mono text-[9px] uppercase tracking-[0.16em] text-board-ink/40 lg:inline">
+              Field guide / 24H
             </span>
           </Link>
 
@@ -177,11 +180,11 @@ export function SiteHeader({
               size="sm"
               aria-label="Search airports"
               onClick={openSearch}
-              className="hidden gap-2 text-muted-foreground sm:inline-flex"
+              className="hidden gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground sm:inline-flex"
             >
               <Search className="size-4" aria-hidden="true" />
               Search
-              <kbd className="pointer-events-none hidden rounded-md border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground md:inline">
+              <kbd className="pointer-events-none hidden border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground md:inline">
                 ⌘K
               </kbd>
             </Button>

@@ -237,8 +237,8 @@ function MapPlaceholder({
   onLoad: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-72 flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--primary)_8%,transparent),transparent_70%)] px-6 text-center">
-      <div className="rounded-2xl border bg-background/90 p-4 shadow-sm">
+    <div className="flex h-full min-h-72 flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--board-blue)_13%,transparent),transparent_64%)] px-6 text-center">
+      <div className="border border-board-ink/15 bg-board-panel p-4 shadow-sm">
         <MapIcon className="size-6 text-primary" aria-hidden="true" />
       </div>
       <div className="space-y-1">
@@ -388,41 +388,50 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   );
 
   return (
-    <div className="min-w-0 overflow-x-clip">
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
-        <div className="max-w-2xl">
-          <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
+    <div className="min-w-0 overflow-x-clip bg-[#141714]">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 pt-8 sm:px-6 sm:pt-10">
+        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-2xl">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-board-amber">
+              Find your airport
+            </p>
+            <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
+          </div>
+          <p className="max-w-md text-xs leading-5 text-muted-foreground lg:text-right">
+            Search by airport, city, or country. Scores and operational signals
+            are independent editorial indicators.
+          </p>
         </div>
       </div>
 
       <div
         aria-hidden="true"
-        className="mt-6 border-b border-border/50 pb-28 sm:mt-8 sm:pb-40 lg:mt-10 lg:pb-56"
+        className="mx-auto mt-8 max-w-7xl px-5 sm:px-6"
       />
 
       <section
         aria-labelledby="directory-heading"
         className={cn(
-          "pt-14 lg:grid lg:grid-cols-[minmax(0,58%)_minmax(400px,42%)] lg:items-start lg:pt-16",
+          "pt-2 lg:grid lg:grid-cols-[minmax(0,62%)_minmax(380px,38%)] lg:items-start lg:pt-4",
           mobileView === "map" && "max-lg:hidden",
         )}
       >
         <div className="min-w-0 pr-5 pb-24 pl-5 sm:pr-6 sm:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pb-8">
-          <div className="mb-6 flex items-end justify-between gap-4 border-b pb-5">
+          <div className="mb-6 flex items-end justify-between gap-4 border-b border-white/10 pb-5">
             <div>
-              <p className="font-mono text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                Airport directory
+              <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-board-amber uppercase">
+                Master airport board
               </p>
-              <h2 id="directory-heading" className="mt-1 text-2xl tracking-tight sm:text-3xl">
-                {allAirports.length} airports, side by side
+              <h2 id="directory-heading" className="mt-2 text-3xl uppercase tracking-[0.02em] sm:text-4xl">
+                {allAirports.length} airports on file
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
                 Scored airports appear on the live map. Guide-only airports remain in the
                 list until location and audit data are complete.
               </p>
             </div>
-            <span className="hidden shrink-0 rounded-full border px-3 py-1 font-mono text-xs text-muted-foreground sm:block">
-              {filteredScored.length} mapped
+            <span className="hidden shrink-0 border border-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-board-blue sm:block">
+              {filteredScored.length} live profiles
             </span>
           </div>
 
@@ -457,7 +466,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
             </motion.aside>
 
             <div className="min-w-0 flex-1 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card/90 p-3 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-3 border border-white/10 bg-[#1b1e1b] p-3 shadow-sm">
                 <div aria-live="polite">
                   <div className="text-sm font-medium">
                     {filteredEntries.length} airport{filteredEntries.length === 1 ? "" : "s"} found
@@ -529,12 +538,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 </Card>
               ) : (
                 <>
-                  <div
-                    className={cn(
-                      "grid grid-cols-1 gap-4 2xl:grid-cols-2",
-                      !filtersOpen && "xl:grid-cols-2",
-                    )}
-                  >
+                  <div className="grid grid-cols-1 gap-3">
                     {visibleEntries.map((entry) =>
                       entry.kind === "scored" ? (
                         <div
@@ -575,9 +579,9 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
         <aside
           aria-label="Map of filtered scored airports"
-          className="relative hidden border-l border-border/60 bg-muted/30 lg:sticky lg:top-14 lg:block lg:h-[calc(100dvh-3.5rem)] lg:overflow-hidden"
+          className="relative hidden border-l border-white/10 bg-[#101210] lg:sticky lg:top-14 lg:block lg:h-[calc(100dvh-3.5rem)] lg:overflow-hidden"
         >
-          <div className="absolute top-3 left-3 z-10 rounded-lg border bg-background/90 px-3 py-2 shadow-sm backdrop-blur-sm">
+          <div className="absolute top-3 left-3 z-10 border border-white/15 bg-[#101210]/90 px-3 py-2 shadow-sm backdrop-blur-sm">
             <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
               Live result set
             </p>

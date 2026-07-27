@@ -88,10 +88,10 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
 
   return (
     <section aria-labelledby="important-tips-heading">
-      <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-4">
         <div>
-          <p className="text-sm font-medium text-primary">Most important tips</p>
-          <h2 id="important-tips-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+          <p className="font-mono text-[9px] font-medium uppercase tracking-[0.18em] text-board-amber">Most important tips</p>
+          <h2 id="important-tips-heading" className="mt-2 text-3xl uppercase tracking-[0.02em] sm:text-4xl">
             Know before you go
           </h2>
         </div>
@@ -108,16 +108,16 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
             <Card
               key={tip.id}
               size="sm"
-              className="border-border/70 bg-card/95 shadow-sm transition hover:border-primary/25 hover:shadow-md"
+              className="border-border/70 bg-card/95 shadow-sm transition hover:border-board-amber/30 hover:bg-[#1e211e]"
             >
               <CardHeader className="gap-2">
                 <div className="flex items-start justify-between gap-3">
-                  <Badge variant="secondary" className="rounded-full">
+                  <Badge variant="secondary" className="rounded-none font-mono text-[9px] uppercase tracking-[0.08em]">
                     {tip.label || style.label}
                   </Badge>
                   <span
                     className={cn(
-                      "flex size-8 shrink-0 items-center justify-center rounded-2xl [&_svg]:size-4",
+                      "flex size-8 shrink-0 items-center justify-center border border-current/15 [&_svg]:size-4",
                       style.className,
                     )}
                   >

@@ -162,7 +162,7 @@ async function AirportPageResolved({ slug }: { slug: string }) {
 
 function CuratedAirportPage({ airport }: { airport: Airport }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
+    <div className="min-h-screen bg-[#141714]">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -174,14 +174,14 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
-          <div>
+        <section className="mt-6 grid gap-6 border-y border-white/10 py-7 sm:mt-8 sm:py-9 lg:grid-cols-[1fr_360px] lg:items-stretch">
+          <div className="flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="font-mono">
+              <Badge variant="outline" className="rounded-none font-mono text-board-amber">
                 {airport.iata}
               </Badge>
               {airport.icao ? (
-                <Badge variant="outline" className="font-mono">
+                <Badge variant="outline" className="rounded-none font-mono">
                   {airport.icao}
                 </Badge>
               ) : null}
@@ -190,7 +190,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <AirportCurrentWeather iata={airport.iata} />
               </Suspense>
             </div>
-            <h1 className="mt-4 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-board-ink/45">
+              Airport field guide / {airport.region}
+            </p>
+            <h1 className="mt-2 max-w-4xl text-5xl leading-[0.95] uppercase tracking-[-0.015em] text-balance sm:text-6xl lg:text-7xl">
               {airport.name}
             </h1>
             <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:mt-4 sm:text-lg">
@@ -204,21 +207,21 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
             </p>
           </div>
 
-          <Card className="border-primary/15 bg-card/95 py-0 shadow-xl shadow-primary/10">
+          <Card className="board-shell gap-0 border-board-ink/20 bg-board py-0 shadow-2xl shadow-black/30">
             <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-muted-foreground">Airportist Score</div>
-                  <div className="mt-1 flex items-end gap-2">
-                    <span className="font-mono text-5xl font-semibold tracking-tight text-primary sm:text-6xl">
+                  <div className="font-mono text-[9px] uppercase tracking-[0.17em] text-board-ink/45">Airportist Score</div>
+                  <div className="mt-2 flex items-end gap-2">
+                    <span className="flap-field px-3 font-mono text-5xl font-semibold tracking-tight text-board-amber sm:text-6xl">
                       {airport.airportistScore.toFixed(1)}
                     </span>
-                    <span className="pb-1.5 text-sm text-muted-foreground sm:pb-2 sm:text-base">
+                    <span className="pb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
                       / 10
                     </span>
                   </div>
                 </div>
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:size-14">
+                <div className="flex size-12 shrink-0 items-center justify-center border border-board-amber/25 bg-board-amber text-primary-foreground sm:size-14">
                   <Star className="size-5 fill-current sm:size-6" aria-hidden="true" />
                 </div>
               </div>
@@ -228,15 +231,15 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
               </Suspense>
 
               <div className="mt-4 grid grid-cols-2 gap-3 text-sm sm:mt-6">
-                <div className="rounded-2xl border bg-muted/30 p-3">
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <div className="border border-white/10 bg-black/15 p-3">
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-muted-foreground">
                     <Plane className="size-3.5" aria-hidden="true" />
                     Passengers
                   </div>
                   <div className="mt-1 font-mono text-lg">{airport.stats.annualPassengers}</div>
                 </div>
-                <div className="rounded-2xl border bg-muted/30 p-3">
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <div className="border border-white/10 bg-black/15 p-3">
+                  <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-muted-foreground">
                     <ShieldCheck className="size-3.5" aria-hidden="true" />
                     Security
                   </div>
@@ -341,7 +344,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
+    <div className="min-h-screen bg-[#141714]">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -351,22 +354,25 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-6 grid gap-5 sm:mt-8 sm:gap-6 lg:grid-cols-[1fr_360px]">
-          <div>
+        <section className="mt-6 grid gap-6 border-y border-white/10 py-7 sm:mt-8 sm:py-9 lg:grid-cols-[1fr_360px]">
+          <div className="flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="font-mono">
+              <Badge variant="outline" className="rounded-none font-mono text-board-blue">
                 {frontmatter.iata}
               </Badge>
               {record?.icao_code ? (
-                <Badge variant="outline" className="font-mono">
+                <Badge variant="outline" className="rounded-none font-mono">
                   {record.icao_code}
                 </Badge>
               ) : null}
-              <Badge variant="secondary" className="rounded-full">
+              <Badge variant="secondary" className="rounded-none font-mono text-[9px] uppercase tracking-[0.08em]">
                 Editorial guide
               </Badge>
             </div>
-            <h1 className="mt-4 max-w-4xl text-4xl leading-[1.1] tracking-tight text-balance sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-6xl lg:leading-[1.06]">
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-board-ink/45">
+              Airport field guide / editorial file
+            </p>
+            <h1 className="mt-2 max-w-4xl text-5xl leading-[0.95] uppercase tracking-[-0.015em] text-balance sm:text-6xl lg:text-7xl">
               {frontmatter.name}
             </h1>
             <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:mt-4 sm:text-lg">
@@ -380,16 +386,16 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             </Suspense>
           </div>
 
-          <Card className="border-primary/15 bg-card/95 py-0 shadow-xl shadow-primary/10">
+          <Card className="board-shell border-board-ink/20 bg-board py-0 shadow-2xl shadow-black/30">
             <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-sm text-muted-foreground">Guide quick facts</div>
-                  <div className="mt-1 text-xs text-muted-foreground">
+                  <div className="font-mono text-[9px] uppercase tracking-[0.17em] text-board-ink/45">Guide quick facts</div>
+                  <div className="mt-1 font-mono text-[9px] uppercase tracking-[0.08em] text-muted-foreground">
                     Updated {formatGuideDate(guide.lastUpdated)}
                   </div>
                 </div>
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground sm:size-14">
+                <div className="flex size-12 shrink-0 items-center justify-center border border-board-blue/30 bg-board-blue text-[#111] sm:size-14">
                   <BookOpenText className="size-5 sm:size-6" aria-hidden="true" />
                 </div>
               </div>
@@ -399,8 +405,8 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               </Suspense>
               <ul className="mt-5 space-y-2 text-sm leading-6">
                 {guide.quickFacts.slice(0, 6).map((fact, index) => (
-                  <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2">
-                    <Plane className="mt-1 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                  <li key={`${frontmatter.iata}-fact-${index}`} className="flex gap-2 border-t border-white/8 pt-2 first:border-t-0 first:pt-0">
+                    <Plane className="mt-1 size-3.5 shrink-0 text-board-blue" aria-hidden="true" />
                     <span>{fact}</span>
                   </li>
                 ))}
@@ -464,7 +470,7 @@ function BackToAirportsLink() {
   return (
     <Link
       href="/"
-      className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+      className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground transition hover:text-board-amber"
     >
       <ArrowLeft className="size-4" aria-hidden="true" />
       All airports
@@ -489,7 +495,7 @@ function GoogleRatingLine({ googleRating }: { googleRating: AirportGoogleRating 
   }
 
   return (
-    <p className="mt-4 flex items-center gap-1.5 rounded-2xl border bg-muted/30 px-3 py-2 text-sm">
+    <p className="mt-4 flex items-center gap-1.5 border border-white/10 bg-black/15 px-3 py-2 text-sm">
       <Star className="size-3.5 fill-amber-400 text-amber-400" aria-hidden="true" />
       <span className="font-mono">{googleRating.rating.toFixed(1)}</span>
       <span className="text-muted-foreground">

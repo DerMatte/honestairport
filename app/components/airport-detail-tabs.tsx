@@ -76,7 +76,7 @@ interface AirportDetailTabsProps {
 }
 
 const detailTabClassName =
-  "h-9 px-3 text-xs sm:text-sm data-active:text-primary after:bg-primary";
+  "h-9 px-3 font-mono text-[10px] uppercase tracking-[0.08em] sm:text-[11px] data-active:text-board-amber after:bg-board-amber";
 
 function amenityIcon(category: AmenityCategory) {
   switch (category) {
@@ -313,13 +313,13 @@ export function AirportDetailTabs({
   return (
     <AirportLiveStatusProvider iata={iata}>
       <Tabs defaultValue="overview" className="gap-6">
-        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
+        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-white/10 bg-[#101210]/95 shadow-lg shadow-black/20 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:border">
           <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
             <div className="flex shrink-0 items-center gap-2 border-r border-border/70 pr-3">
-              <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+              <span className="flex size-8 items-center justify-center bg-board-amber text-primary-foreground shadow-sm">
                 <Plane className="size-4 -rotate-45" aria-hidden="true" />
               </span>
-              <span className="font-mono text-xs font-semibold tracking-[0.12em] text-primary">
+              <span className="font-mono text-xs font-semibold tracking-[0.12em] text-board-amber">
                 {iata}
               </span>
               <span className="hidden text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase lg:inline">
@@ -385,8 +385,8 @@ export function AirportDetailTabs({
         <TabsContent value="overview" className="space-y-6">
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
-              <p className="text-sm font-medium text-primary">Live airport status</p>
-              <h2 id="live-status-heading" className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              <p className="font-mono text-[9px] font-medium uppercase tracking-[0.18em] text-board-amber">Live airport status</p>
+              <h2 id="live-status-heading" className="mt-2 text-3xl uppercase tracking-[0.02em] sm:text-4xl">
                 Current operations
               </h2>
             </div>
