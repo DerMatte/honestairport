@@ -1,8 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Plane, Sparkles } from "lucide-react";
+import { RadioTower } from "lucide-react";
 import { useState } from "react";
+import { SplitFlapText } from "@/app/components/split-flap-text";
 import { Loading } from "@/components/ai-elements/loading";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +16,12 @@ import {
 } from "@/components/ui/sheet";
 
 const AssistantPanel = dynamic(() => import("@/app/components/assistant-panel"), {
-  loading: () => <Loading className="m-auto" label="Opening assistant" />,
+  loading: () => (
+    <Loading
+      className="assistant-loading m-auto"
+      label="Opening guide desk"
+    />
+  ),
 });
 
 export function AssistantLauncher() {
@@ -29,24 +35,31 @@ export function AssistantLauncher() {
           size="icon-sm"
           aria-label="Ask HonestAirport"
           title="Ask HonestAirport"
+          className="assistant-trigger"
         >
-          <Sparkles className="size-4" aria-hidden="true" />
+          <span className="assistant-trigger__lamp" aria-hidden="true" />
+          <RadioTower className="size-4" aria-hidden="true" />
         </Button>
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="h-[100dvh] w-full gap-0 sm:max-w-md"
-        aria-describedby="assistant-description"
+        className="assistant-sheet h-[100dvh] w-full gap-0 sm:max-w-md"
       >
-        <SheetHeader className="border-b border-border/60 pr-12">
-          <SheetTitle className="flex items-center gap-2 text-lg">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Plane className="size-3.5 -rotate-45" aria-hidden="true" />
-            </span>
-            Ask HonestAirport
+        <SheetHeader className="assistant-sheet__header pr-12">
+          <div className="assistant-sheet__status">
+            <span aria-hidden="true" />
+            Guide link / ready
+          </div>
+          <SheetTitle className="assistant-sheet__title">
+            <SplitFlapText
+              className="assistant-sheet__flaps"
+              length={9}
+              text="ASK GUIDE"
+              tone="amber"
+            />
           </SheetTitle>
-          <SheetDescription id="assistant-description">
-            Answers grounded in our airport guides and scores.
+          <SheetDescription className="assistant-sheet__description">
+            Grounded in HonestAirport guides and Airportist Scores.
           </SheetDescription>
         </SheetHeader>
         {open ? <AssistantPanel /> : null}

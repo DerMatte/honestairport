@@ -2,7 +2,7 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { RotateCcw, Trash2 } from "lucide-react";
+import { ArrowUpRight, Plane, RotateCcw, Trash2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { HonestAirportAssistantMessage } from "@/lib/assistant/honest-airport-agent";
 import {
@@ -66,46 +66,65 @@ export default function AssistantPanel() {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex items-center justify-end gap-1 border-b border-border/60 px-3 py-2">
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          disabled={messages.length === 0 || streaming}
-          onClick={() => void regenerate()}
-        >
-          <RotateCcw aria-hidden="true" />
-          Retry
-        </Button>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          disabled={messages.length === 0 && !error}
-          onClick={clearConversation}
-        >
-          <Trash2 aria-hidden="true" />
-          Clear
-        </Button>
+    <div className="assistant-panel flex min-h-0 flex-1 flex-col">
+      <div className="assistant-console-bar">
+        <div className="assistant-console-bar__label">
+          <span aria-hidden="true" />
+          Conversation log
+        </div>
+        <div className="flex items-center gap-1">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={messages.length === 0 || streaming}
+            onClick={() => void regenerate()}
+          >
+            <RotateCcw aria-hidden="true" />
+            Retry
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={messages.length === 0 && !error}
+            onClick={clearConversation}
+          >
+            <Trash2 aria-hidden="true" />
+            Clear
+          </Button>
+        </div>
       </div>
 
-      <Conversation>
-        <ConversationContent>
+      <Conversation className="assistant-conversation">
+        <ConversationContent className="assistant-conversation__content">
           {messages.length === 0 ? (
-            <div className="mx-auto flex max-w-sm flex-col items-center py-6 text-center">
-              <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-xl" aria-hidden="true">
-                ✈
+            <div className="assistant-empty">
+              <div className="assistant-empty__status">
+                <span aria-hidden="true" />
+                Guide desk ready
               </div>
-              <h3 className="mt-4 font-heading text-xl font-medium">Plan with the guide, not guesswork</h3>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Ask about Airportist Scores, terminals, transport, water, lounges,
-                and practical tips already published on HonestAirport.
+              <div className="assistant-empty__mark" aria-hidden="true">
+                <Plane />
+              </div>
+              <h3>Plan with the guide</h3>
+              <p>
+                Ask about scores, terminals, transport, water, lounges, and
+                practical tips already published on HonestAirport.
               </p>
-              <div className="mt-5 grid w-full gap-2">
-                {suggestions.map((suggestion) => (
-                  <Suggestion key={suggestion} onClick={() => ask(suggestion)}>
-                    {suggestion}
+              <div className="assistant-suggestions">
+                {suggestions.map((suggestion, index) => (
+                  <Suggestion
+                    key={suggestion}
+                    aria-label={suggestion}
+                    className="assistant-suggestion"
+                    onClick={() => ask(suggestion)}
+                  >
+                    <span aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span>{suggestion}</span>
+                    <ArrowUpRight aria-hidden="true" />
                   </Suggestion>
                 ))}
               </div>
@@ -120,23 +139,38 @@ export default function AssistantPanel() {
               if (!text) return null;
               const from = message.role === "user" ? "user" : "assistant";
               return (
-                <Message from={from} key={message.id}>
-                  <MessageContent from={from}>
-                    {from === "assistant" ? (
-                      <MessageResponse>{text}</MessageResponse>
-                    ) : (
-                      <p className="whitespace-pre-wrap">{text}</p>
-                    )}
-                  </MessageContent>
+                <Message
+                  className="assistant-message"
+                  from={from}
+                  key={message.id}
+                >
+                  <div className="assistant-message__stack">
+                    <span className="assistant-message__label">
+                      {from === "assistant" ? "Guide desk" : "Traveler"}
+                    </span>
+                    <MessageContent
+                      className="assistant-message__content"
+                      from={from}
+                    >
+                      {from === "assistant" ? (
+                        <MessageResponse>{text}</MessageResponse>
+                      ) : (
+                        <p className="whitespace-pre-wrap">{text}</p>
+                      )}
+                    </MessageContent>
+                  </div>
                 </Message>
               );
             })
           )}
 
-          {streaming ? <Loading /> : null}
+          {streaming ? <Loading className="assistant-loading" /> : null}
           {error ? (
-            <div role="alert" className="rounded-xl border border-destructive/30 bg-destructive/5 p-3 text-sm text-destructive">
-              <p>{error.message || "Ask HonestAirport is unavailable right now."}</p>
+            <div role="alert" className="assistant-error">
+              <p>
+                {error.message ||
+                  "Ask HonestAirport is unavailable right now."}
+              </p>
               <Button
                 type="button"
                 variant="outline"
@@ -152,8 +186,13 @@ export default function AssistantPanel() {
         </ConversationContent>
       </Conversation>
 
-      <div className="border-t border-border/60 bg-background p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="assistant-composer">
+        <div className="assistant-composer__label">
+          <span aria-hidden="true" />
+          Field question / 800 characters
+        </div>
         <PromptInput
+          className="assistant-prompt"
           onSubmit={(event) => {
             event.preventDefault();
             ask(input);
@@ -173,8 +212,9 @@ export default function AssistantPanel() {
             onClick={streaming ? stop : undefined}
           />
         </PromptInput>
-        <p className="mt-2 px-1 text-[11px] leading-4 text-muted-foreground">
-          Guide-based, not live. Verify terminals, hours, access, prices, and alerts with official sources.
+        <p className="assistant-composer__note">
+          Editorial guidance, not live operations. Verify terminals, hours,
+          access, prices, and alerts with official sources.
         </p>
       </div>
     </div>
