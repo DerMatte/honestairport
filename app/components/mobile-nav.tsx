@@ -78,7 +78,7 @@ export function MobileNav({
                     Find airports and manage your account.
                   </NavDialog.Description>
                 </VisuallyHidden.Root>
-                <div className="h-full w-full overflow-y-auto border-t border-border/60 bg-sidebar text-sidebar-foreground shadow-lg">
+                <div className="split-flap-mobile-nav h-full w-full overflow-y-auto border-t shadow-lg">
                   <SidebarProvider className="h-full w-full !min-h-0">
                     <SiteSidebar
                       user={user}

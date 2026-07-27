@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { CircleUserRound, Menu, Search, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { MobileNav } from "@/app/components/mobile-nav";
+import { SplitFlapText } from "@/app/components/split-flap-text";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -37,7 +38,6 @@ export function SiteHeader({
   nearestAirportSidebarSlot: ReactNode;
 }) {
   const router = useRouter();
-  const pathname = usePathname();
   const { data: session, isPending } = useSession();
   const shouldReduceMotion = useReducedMotion();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -103,14 +103,10 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (pathname === "/") {
-    return null;
-  }
-
   return (
     <>
       <motion.header
-        className="sticky top-0 z-50 border-b border-[#8d989c] bg-[linear-gradient(180deg,rgba(248,250,250,.96),rgba(196,205,208,.96))] text-[#283134] shadow-[inset_0_1px_white,0_1px_5px_rgb(50_61_65_/_0.22)] backdrop-blur-md"
+        className="split-flap-nav sticky top-0 z-50"
         data-hidden={hidden ? "" : undefined}
         initial={false}
         animate={{ y: hidden && !shouldReduceMotion ? "-100%" : 0 }}
@@ -120,24 +116,25 @@ export function SiteHeader({
             : { type: "tween", duration: 0.3, ease: [0.23, 1, 0.32, 1] }
         }
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-5 sm:px-6">
-          <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center rounded-[0.6rem] border border-[#638692] bg-[linear-gradient(180deg,#82b2c1_0%,#4d8192_52%,#376879_100%)] text-white shadow-[inset_0_1px_rgb(255_255_255_/_0.5),inset_0_-1px_rgb(0_0_0_/_0.18),0_2px_4px_rgb(47_63_68_/_0.28)] transition-transform group-hover:-translate-y-0.5">
-              <Plane className="size-4 -rotate-45" aria-hidden="true" />
-            </span>
-            <span className="font-heading text-xl font-semibold uppercase tracking-[0.06em]">
-              HonestAirport
-            </span>
-            <span className="hidden border-l border-[#7f8b8f]/35 pl-3 font-mono text-[9px] uppercase tracking-[0.16em] text-[#657276] lg:inline">
-              Field guide / 24H
+        <div className="split-flap-nav__inner">
+          <Link href="/" className="split-flap-nav__brand">
+            <span className="split-flap-nav__lamp" aria-hidden="true" />
+            <SplitFlapText
+              className="split-flap-nav__title"
+              delay={20}
+              length={14}
+              text="HONEST AIRPORT"
+            />
+            <span className="split-flap-nav__descriptor">
+              Airport field guide
             </span>
           </Link>
 
-          <div className="ml-auto flex items-center gap-1">
-            <nav className="mr-1 hidden items-center md:flex">
+          <div className="split-flap-nav__actions">
+            <nav className="split-flap-nav__desktop">
               {nearestAirportSlot}
               {isPending ? (
-                <Skeleton className="h-8 w-[72px]" />
+                <Skeleton className="h-8 w-[72px] bg-[#2b251f]" />
               ) : session ? (
                 <Popover>
                   <PopoverTrigger asChild>
@@ -185,11 +182,11 @@ export function SiteHeader({
               size="sm"
               aria-label="Search airports"
               onClick={openSearch}
-              className="hidden gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#526166] sm:inline-flex"
+              className="split-flap-nav__search hidden gap-2 sm:inline-flex"
             >
               <Search className="size-4" aria-hidden="true" />
               Search
-              <kbd className="pointer-events-none hidden border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground md:inline">
+              <kbd className="pointer-events-none hidden px-1.5 py-0.5 font-mono text-[9px] md:inline">
                 ⌘K
               </kbd>
             </Button>
