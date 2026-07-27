@@ -8,6 +8,7 @@ import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { MobileNav } from "@/app/components/mobile-nav";
+import { SplitFlap } from "@/app/components/split-flap";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -105,7 +106,7 @@ export function SiteHeader({
   return (
     <>
       <motion.header
-        className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md"
+        className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md"
         data-hidden={hidden ? "" : undefined}
         initial={false}
         animate={{ y: hidden && !shouldReduceMotion ? "-100%" : 0 }}
@@ -117,12 +118,19 @@ export function SiteHeader({
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+            <span className="flex size-8 items-center justify-center rounded-[0.3rem] bg-primary text-primary-foreground">
               <Plane className="size-4 -rotate-45" aria-hidden="true" />
             </span>
-            <span className="font-heading text-xl font-medium tracking-tight">
-              HonestAirport
-            </span>
+            <SplitFlap
+              value="HONESTAIRPORT"
+              className="hidden text-base font-bold tracking-tight sm:inline-flex"
+              charClassName="h-6"
+            />
+            <SplitFlap
+              value="HA"
+              className="text-base font-bold tracking-tight sm:hidden"
+              charClassName="h-6"
+            />
           </Link>
 
           <div className="ml-auto flex items-center gap-1">

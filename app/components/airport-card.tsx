@@ -3,6 +3,7 @@ import { ArrowUpRight, Clock3, MapPin, Star } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DisruptionBadge } from "@/app/components/disruption-status";
+import { SplitFlap } from "@/app/components/split-flap";
 import { amenityLabel, formatGuideFreshness } from "@/lib/airport-utils";
 import type { AirportSummary } from "@/lib/airport-content";
 import type { AirportDirectoryAirport } from "@/lib/types";
@@ -24,17 +25,18 @@ export function AirportCard({ airport }: AirportCardProps) {
       prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
-      <Card className="h-full border border-border/70 bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30">
+      <Card className="h-full border border-border bg-card/95 shadow-sm transition-[border-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/40">
         <CardHeader className="gap-3">
           <div className="flex items-start justify-between gap-3">
             <div>
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className="font-mono">
-                  {airport.iata}
-                </Badge>
+                <SplitFlap
+                  value={airport.iata}
+                  charClassName="h-7 text-base font-bold text-primary"
+                />
                 <DisruptionBadge status={airport.disruption.status} />
               </div>
-              <h3 className="mt-3 text-xl font-semibold tracking-tight">
+              <h3 className="mt-3 text-xl font-bold tracking-tight">
                 {airport.shortName}
               </h3>
               <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
@@ -42,19 +44,26 @@ export function AirportCard({ airport }: AirportCardProps) {
                 {airport.city}, {airport.country}
               </p>
             </div>
-            <div className="rounded-2xl border border-primary/15 bg-primary/5 px-3 py-2 text-center shadow-sm">
-              <div className="flex items-center justify-center gap-1 text-xs text-primary">
+            <div className="rounded-[0.3rem] border border-primary/25 bg-primary/10 px-3 py-2 text-center">
+              <div className="flex items-center justify-center gap-1 font-mono text-[0.65rem] font-bold tracking-[0.1em] text-primary uppercase">
                 <Star className="size-3 fill-current" aria-hidden="true" />
                 Score
               </div>
-              <div className="font-mono text-2xl font-semibold text-primary">
-                {airport.airportistScore.toFixed(1)}
-              </div>
+              <SplitFlap
+                value={airport.airportistScore.toFixed(1)}
+                className="mt-0.5 justify-center"
+                charClassName="h-8 text-2xl font-bold text-primary"
+              />
             </div>
           </div>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <div
+          aria-hidden="true"
+          className="h-px bg-[repeating-linear-gradient(90deg,var(--board-seam)_0,var(--board-seam)_6px,transparent_6px,transparent_10px)]"
+        />
+
+        <CardContent className="space-y-4 pt-1">
           <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
             {airport.summary}
           </p>
@@ -110,18 +119,19 @@ export function AirportGuideCard({ airport }: AirportGuideCardProps) {
       prefetch={false}
       className="group block h-full transition-[translate,scale] duration-[var(--duration-press)] ease-[var(--ease-out)] active:scale-[0.97] pointer-fine:hover:-translate-y-px motion-reduce:transition-none motion-reduce:active:scale-100 motion-reduce:pointer-fine:hover:translate-none"
     >
-      <Card className="h-full border border-dashed border-border/70 bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/30 pointer-fine:group-hover:bg-card/95">
+      <Card className="h-full border border-dashed border-border bg-card/60 shadow-sm transition-[border-color,background-color] duration-[var(--duration-press)] ease-[var(--ease-out)] pointer-fine:group-hover:border-primary/40 pointer-fine:group-hover:bg-card/95">
         <CardHeader className="gap-3">
           <div className="flex items-center justify-between gap-2">
-            <Badge variant="outline" className="font-mono">
-              {airport.iata}
-            </Badge>
+            <SplitFlap
+              value={airport.iata}
+              charClassName="h-6 text-sm font-bold text-muted-foreground"
+            />
             <span className="text-xs text-muted-foreground">
               {formatGuideFreshness(airport.lastUpdated)}
             </span>
           </div>
           <div>
-            <h3 className="text-lg font-semibold tracking-tight">{airport.name}</h3>
+            <h3 className="text-lg font-bold tracking-tight">{airport.name}</h3>
             <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
               <MapPin className="size-3.5" aria-hidden="true" />
               {airport.city}, {airport.country}

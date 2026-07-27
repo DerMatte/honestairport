@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Geist, Geist_Mono } from "next/font/google";
+import { Geist, Space_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
 import {
@@ -21,20 +21,13 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  variable: "--font-space-mono",
   subsets: ["latin"],
-  display: "swap",
-  preload: false,
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  // Static weights keep the heading font smaller than the full opsz variable cut.
-  weight: ["500", "600"],
-  // `optional` prevents a late webfont swap from becoming the LCP paint on slow
-  // mobile networks (swap was ~85% of LCP render delay in Lighthouse).
+  weight: ["400", "700"],
+  // Board mono now carries both headings and the site's small/UI text, so it's
+  // LCP-critical the way Fraunces was — same `optional` guard against a late
+  // webfont swap becoming the paint delay on slow mobile networks.
   display: "optional",
   preload: true,
 });
@@ -71,8 +64,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  colorScheme: "light",
+  themeColor: "#14171b",
+  colorScheme: "dark",
 };
 
 export default async function RootLayout({
@@ -83,7 +76,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <a

@@ -1,6 +1,7 @@
 import { AlertTriangle, CheckCircle2, CloudLightning, Plane } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { SplitFlap } from "@/app/components/split-flap";
 import { cn } from "@/lib/utils";
 import {
   disruptionLabel,
@@ -18,16 +19,17 @@ interface DisruptionStatusPanelProps {
   compact?: boolean;
 }
 
+/** Board-signal color per status: green/amber/amber/red, tuned for the dark casing. */
 function statusClasses(status: DisruptionStatus): string {
   switch (status) {
     case "normal":
-      return "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+      return "border-[color:var(--board-green)]/30 bg-[color:var(--board-green)]/10 text-[color:var(--board-green)]";
     case "minor":
-      return "border-yellow-500/20 bg-yellow-500/10 text-yellow-800 dark:text-yellow-300";
+      return "border-primary/30 bg-primary/10 text-primary";
     case "moderate":
-      return "border-orange-500/20 bg-orange-500/10 text-orange-800 dark:text-orange-300";
+      return "border-primary/40 bg-primary/15 text-primary";
     case "severe":
-      return "border-red-500/20 bg-red-500/10 text-red-700 dark:text-red-300";
+      return "border-[color:var(--board-red)]/40 bg-[color:var(--board-red)]/15 text-[color:var(--board-red)]";
     default: {
       const exhaustiveCheck: never = status;
       return exhaustiveCheck;
@@ -38,13 +40,13 @@ function statusClasses(status: DisruptionStatus): string {
 function progressClasses(status: DisruptionStatus): string {
   switch (status) {
     case "normal":
-      return "[&_[data-slot=progress-indicator]]:bg-emerald-500";
+      return "[&_[data-slot=progress-indicator]]:bg-[color:var(--board-green)]";
     case "minor":
-      return "[&_[data-slot=progress-indicator]]:bg-yellow-500";
+      return "[&_[data-slot=progress-indicator]]:bg-primary";
     case "moderate":
-      return "[&_[data-slot=progress-indicator]]:bg-orange-500";
+      return "[&_[data-slot=progress-indicator]]:bg-primary";
     case "severe":
-      return "[&_[data-slot=progress-indicator]]:bg-red-500";
+      return "[&_[data-slot=progress-indicator]]:bg-[color:var(--board-red)]";
     default: {
       const exhaustiveCheck: never = status;
       return exhaustiveCheck;
@@ -71,13 +73,19 @@ function statusIcon(status: DisruptionStatus) {
 
 export function DisruptionBadge({ status, className }: DisruptionBadgeProps) {
   return (
-    <Badge
-      variant="outline"
-      className={cn("gap-1.5 border", statusClasses(status), className)}
+    <span
+      className={cn(
+        "inline-flex h-5 items-center gap-1.5 rounded-[0.25rem] border px-1.5 [&>svg]:size-3",
+        statusClasses(status),
+        className,
+      )}
     >
       {statusIcon(status)}
-      {disruptionLabel(status)}
-    </Badge>
+      <SplitFlap
+        value={disruptionLabel(status).toUpperCase()}
+        charClassName="h-4 w-[0.85ch] bg-transparent! text-[0.65rem] font-bold shadow-none!"
+      />
+    </span>
   );
 }
 

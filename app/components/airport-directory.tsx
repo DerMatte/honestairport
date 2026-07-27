@@ -16,6 +16,7 @@ import { AirportDirectorySearch } from "@/app/components/airport-search-combobox
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { LazyAirportMap } from "@/app/components/airport-map-lazy";
 import { DisruptionBadge } from "@/app/components/disruption-status";
+import { SplitFlap } from "@/app/components/split-flap";
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -410,10 +411,12 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         <div className="min-w-0 pr-5 pb-24 pl-5 sm:pr-6 sm:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pb-8">
           <div className="mb-6 flex items-end justify-between gap-4 border-b pb-5">
             <div>
-              <p className="font-mono text-xs font-semibold tracking-[0.14em] text-primary uppercase">
-                Airport directory
-              </p>
-              <h2 id="directory-heading" className="mt-1 text-2xl tracking-tight sm:text-3xl">
+              <SplitFlap
+                value="AIRPORT DIRECTORY"
+                className="text-xs font-bold tracking-[0.14em] text-primary"
+                charClassName="h-5 text-[0.7rem]"
+              />
+              <h2 id="directory-heading" className="mt-1 text-2xl sm:text-3xl">
                 {allAirports.length} airports, side by side
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
@@ -421,7 +424,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 list until location and audit data are complete.
               </p>
             </div>
-            <span className="hidden shrink-0 rounded-full border px-3 py-1 font-mono text-xs text-muted-foreground sm:block">
+            <span className="hidden shrink-0 rounded-[0.3rem] border border-border px-3 py-1 font-mono text-xs text-muted-foreground sm:block">
               {filteredScored.length} mapped
             </span>
           </div>
