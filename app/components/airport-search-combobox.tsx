@@ -507,7 +507,7 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
         label="Search airports"
         className="rounded-none bg-transparent"
       >
-        <div className="board-shell border-board-ink/20 bg-card shadow-xl shadow-black/20">
+        <div className="skeuo-search-well">
           <InlineSearchBar
             query={inputQuery}
             locationFilter={locationFilter}

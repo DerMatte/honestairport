@@ -313,7 +313,7 @@ export function AirportDetailTabs({
   return (
     <AirportLiveStatusProvider iata={iata}>
       <Tabs defaultValue="overview" className="gap-6">
-        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-white/10 bg-[#101210]/95 shadow-lg shadow-black/20 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:border">
+        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-[#8d989c] bg-[linear-gradient(180deg,rgba(246,248,248,.96),rgba(202,210,212,.96))] text-[#283134] shadow-[inset_0_1px_white,0_3px_10px_rgb(50_61_65_/_0.18)] backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-xl sm:border">
           <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
             <div className="flex shrink-0 items-center gap-2 border-r border-border/70 pr-3">
               <span className="flex size-8 items-center justify-center bg-board-amber text-primary-foreground shadow-sm">

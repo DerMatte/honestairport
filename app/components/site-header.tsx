@@ -105,7 +105,7 @@ export function SiteHeader({
   return (
     <>
       <motion.header
-        className="sticky top-0 z-50 border-b border-white/10 bg-[#0c0f0d]/95 backdrop-blur-md"
+        className="sticky top-0 z-50 border-b border-[#8d989c] bg-[linear-gradient(180deg,rgba(248,250,250,.96),rgba(196,205,208,.96))] text-[#283134] shadow-[inset_0_1px_white,0_1px_5px_rgb(50_61_65_/_0.22)] backdrop-blur-md"
         data-hidden={hidden ? "" : undefined}
         initial={false}
         animate={{ y: hidden && !shouldReduceMotion ? "-100%" : 0 }}
@@ -117,13 +117,13 @@ export function SiteHeader({
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-5 sm:px-6">
           <Link href="/" className="group flex shrink-0 items-center gap-2.5">
-            <span className="flex size-8 items-center justify-center border border-board-amber/30 bg-board-amber text-primary-foreground shadow-sm transition-transform group-hover:-translate-y-0.5">
+            <span className="flex size-8 items-center justify-center rounded-[0.6rem] border border-[#638692] bg-[linear-gradient(180deg,#82b2c1_0%,#4d8192_52%,#376879_100%)] text-white shadow-[inset_0_1px_rgb(255_255_255_/_0.5),inset_0_-1px_rgb(0_0_0_/_0.18),0_2px_4px_rgb(47_63_68_/_0.28)] transition-transform group-hover:-translate-y-0.5">
               <Plane className="size-4 -rotate-45" aria-hidden="true" />
             </span>
-            <span className="font-heading text-xl font-semibold uppercase tracking-[0.06em] text-board-ink">
+            <span className="font-heading text-xl font-semibold uppercase tracking-[0.06em]">
               HonestAirport
             </span>
-            <span className="hidden border-l border-white/15 pl-3 font-mono text-[9px] uppercase tracking-[0.16em] text-board-ink/40 lg:inline">
+            <span className="hidden border-l border-[#7f8b8f]/35 pl-3 font-mono text-[9px] uppercase tracking-[0.16em] text-[#657276] lg:inline">
               Field guide / 24H
             </span>
           </Link>
@@ -180,7 +180,7 @@ export function SiteHeader({
               size="sm"
               aria-label="Search airports"
               onClick={openSearch}
-              className="hidden gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground sm:inline-flex"
+              className="hidden gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#526166] sm:inline-flex"
             >
               <Search className="size-4" aria-hidden="true" />
               Search

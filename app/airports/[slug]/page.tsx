@@ -7,6 +7,7 @@ import { AirportCurrentWeather } from "@/app/components/airport-current-weather"
 import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
+import { SplitFlapText } from "@/app/components/split-flap-text";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
 import { NearbyAirports } from "@/app/components/nearby-airports";
 import { DisruptionBadge } from "@/app/components/disruption-status";
@@ -162,7 +163,7 @@ async function AirportPageResolved({ slug }: { slug: string }) {
 
 function CuratedAirportPage({ airport }: { airport: Airport }) {
   return (
-    <div className="min-h-screen bg-[#141714]">
+    <div className="min-h-screen">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -174,10 +175,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-6 grid gap-6 border-y border-white/10 py-7 sm:mt-8 sm:py-9 lg:grid-cols-[1fr_360px] lg:items-stretch">
+        <section className="skeuo-detail-hero mt-6 grid gap-6 p-5 sm:mt-8 sm:p-8 lg:grid-cols-[1fr_360px] lg:items-stretch">
           <div className="flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="rounded-none font-mono text-board-amber">
+              <Badge variant="outline" className="font-mono text-[#9a6415]">
                 {airport.iata}
               </Badge>
               {airport.icao ? (
@@ -190,7 +191,7 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <AirportCurrentWeather iata={airport.iata} />
               </Suspense>
             </div>
-            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-board-ink/45">
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
               Airport field guide / {airport.region}
             </p>
             <h1 className="mt-2 max-w-4xl text-5xl leading-[0.95] uppercase tracking-[-0.015em] text-balance sm:text-6xl lg:text-7xl">
@@ -207,15 +208,18 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
             </p>
           </div>
 
-          <Card className="board-shell gap-0 border-board-ink/20 bg-board py-0 shadow-2xl shadow-black/30">
+          <Card className="board-shell gap-0 border-board-ink/20 bg-board py-0 text-board-ink shadow-2xl shadow-black/30">
             <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <div className="font-mono text-[9px] uppercase tracking-[0.17em] text-board-ink/45">Airportist Score</div>
                   <div className="mt-2 flex items-end gap-2">
-                    <span className="flap-field px-3 font-mono text-5xl font-semibold tracking-tight text-board-amber sm:text-6xl">
-                      {airport.airportistScore.toFixed(1)}
-                    </span>
+                    <SplitFlapText
+                      className="airport-score-flaps"
+                      length={3}
+                      text={airport.airportistScore.toFixed(1)}
+                      tone="amber"
+                    />
                     <span className="pb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-muted-foreground">
                       / 10
                     </span>
@@ -344,7 +348,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#141714]">
+    <div className="min-h-screen">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -354,10 +358,10 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <BackToAirportsLink />
 
-        <section className="mt-6 grid gap-6 border-y border-white/10 py-7 sm:mt-8 sm:py-9 lg:grid-cols-[1fr_360px]">
+        <section className="skeuo-detail-hero mt-6 grid gap-6 p-5 sm:mt-8 sm:p-8 lg:grid-cols-[1fr_360px]">
           <div className="flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="rounded-none font-mono text-board-blue">
+              <Badge variant="outline" className="font-mono text-primary">
                 {frontmatter.iata}
               </Badge>
               {record?.icao_code ? (
@@ -369,7 +373,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
                 Editorial guide
               </Badge>
             </div>
-            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-board-ink/45">
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground">
               Airport field guide / editorial file
             </p>
             <h1 className="mt-2 max-w-4xl text-5xl leading-[0.95] uppercase tracking-[-0.015em] text-balance sm:text-6xl lg:text-7xl">
@@ -386,7 +390,7 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             </Suspense>
           </div>
 
-          <Card className="board-shell border-board-ink/20 bg-board py-0 shadow-2xl shadow-black/30">
+          <Card className="board-shell border-board-ink/20 bg-board py-0 text-board-ink shadow-2xl shadow-black/30">
             <CardContent className="p-5 sm:p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>

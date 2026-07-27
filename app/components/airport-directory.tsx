@@ -3,21 +3,17 @@
 import { useDeferredValue, useMemo, useState, useTransition } from "react";
 import {
   Filter,
-  List,
   Map as MapIcon,
-  PanelLeftClose,
-  PanelLeftOpen,
   RotateCcw,
   Search,
   SlidersHorizontal,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { LazyAirportMap } from "@/app/components/airport-map-lazy";
 import { DisruptionBadge } from "@/app/components/disruption-status";
 import { Button } from "@/components/ui/button";
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
@@ -30,17 +26,12 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   amenityCategories,
   amenityLabel,
@@ -50,7 +41,6 @@ import {
   regions,
 } from "@/lib/airport-utils";
 import { normalizeSearchValue } from "@/lib/airport-search-utils";
-import { cn } from "@/lib/utils";
 import type { AirportSummary } from "@/lib/airport-content";
 import type {
   AirportDirectoryAirport,
@@ -71,15 +61,13 @@ type DirectoryEntry =
   | { kind: "scored"; airport: AirportDirectoryAirport }
   | { kind: "guide"; summary: AirportSummary };
 
-const INITIAL_VISIBLE = 12;
-const LOAD_MORE_STEP = 12;
-const FILTER_PANEL_WIDTH = 230;
-
-/** Guide-only airport with its search haystacks pre-normalized per scope. */
 interface GuideDirectoryEntry {
   summary: AirportSummary;
   normalized: Record<AirportSearchScope, string>;
 }
+
+const INITIAL_VISIBLE = 12;
+const LOAD_MORE_STEP = 12;
 
 const DEFAULT_FILTERS: AirportFilters = {
   query: "",
@@ -101,131 +89,107 @@ function FilterPanel({
   filters,
   onFiltersChange,
   onReset,
-  onClose,
 }: {
   filters: AirportFilters;
   onFiltersChange: (filters: AirportFilters) => void;
   onReset: () => void;
-  /** Shown as a small close affordance on the box itself; omitted in the mobile sheet. */
-  onClose?: () => void;
 }) {
   return (
-    <Card className="border-border/70 bg-card/95 shadow-none">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-base">
+    <div className="space-y-7 px-5 pb-8">
+      <div className="flex items-center justify-between gap-3 border-b pb-4">
+        <span className="flex items-center gap-2 font-heading text-lg font-semibold">
           <SlidersHorizontal className="size-4" aria-hidden="true" />
-          Filters
-        </CardTitle>
-        {onClose ? (
-          <CardAction>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="size-7 text-muted-foreground hover:text-foreground"
-                    onClick={onClose}
-                    aria-label="Hide filters"
-                  >
-                    <PanelLeftClose className="size-4" aria-hidden="true" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="left">Hide filters</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </CardAction>
-        ) : null}
-      </CardHeader>
-      <div className="flex items-start justify-between gap-3 px-4 pb-1">
-        <p className="text-xs text-muted-foreground">Tune the board for your trip.</p>
-        <Button variant="ghost" size="sm" onClick={onReset} className="shrink-0">
+          Tune the board
+        </span>
+        <Button variant="outline" size="sm" onClick={onReset}>
           <RotateCcw className="size-3.5" aria-hidden="true" />
           Reset
         </Button>
       </div>
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between gap-3 text-sm">
-            <Label>Minimum Airportist Score</Label>
-            <span className="font-mono">{filters.minimumScore.toFixed(1)}</span>
-          </div>
-          <Slider
-            aria-label="Minimum Airportist Score"
-            min={0}
-            max={10}
-            step={0.5}
-            value={[filters.minimumScore]}
-            onValueChange={(value) =>
-              onFiltersChange({ ...filters, minimumScore: value[0] ?? 0 })
-            }
-          />
-        </div>
 
-        <div className="space-y-3">
-          <Label>Region</Label>
-          <div className="space-y-2">
-            {regions.map((region) => (
-              <label key={region} className="flex items-center gap-2 text-sm">
-                <Checkbox
-                  checked={filters.regions.includes(region)}
-                  onCheckedChange={() =>
-                    onFiltersChange({
-                      ...filters,
-                      regions: toggleValue<Region>(filters.regions, region),
-                    })
-                  }
-                />
-                {region}
-              </label>
-            ))}
-          </div>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between gap-3 text-sm">
+          <Label>Minimum Airportist Score</Label>
+          <span className="skeuo-counter">{filters.minimumScore.toFixed(1)}</span>
         </div>
+        <Slider
+          aria-label="Minimum Airportist Score"
+          min={0}
+          max={10}
+          step={0.5}
+          value={[filters.minimumScore]}
+          onValueChange={(value) =>
+            onFiltersChange({ ...filters, minimumScore: value[0] ?? 0 })
+          }
+        />
+      </div>
 
-        <div className="space-y-3">
-          <Label>Amenities</Label>
-          <div className="space-y-2">
-            {amenityCategories.map((category) => (
-              <label key={category} className="flex items-center gap-2 text-sm">
-                <Checkbox
-                  checked={filters.amenities.includes(category)}
-                  onCheckedChange={() =>
-                    onFiltersChange({
-                      ...filters,
-                      amenities: toggleValue<AmenityCategory>(filters.amenities, category),
-                    })
-                  }
-                />
-                {amenityLabel(category)}
-              </label>
-            ))}
-          </div>
+      <div className="space-y-3">
+        <Label className="skeuo-label">Region</Label>
+        <div className="grid grid-cols-2 gap-2">
+          {regions.map((region) => (
+            <label key={region} className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={filters.regions.includes(region)}
+                onCheckedChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    regions: toggleValue<Region>(filters.regions, region),
+                  })
+                }
+              />
+              {region}
+            </label>
+          ))}
         </div>
+      </div>
 
-        <div className="space-y-3">
-          <Label>Current disruption</Label>
-          <div className="space-y-2">
-            {disruptionStatuses.map((status) => (
-              <label key={status} className="flex items-center gap-2.5 text-sm">
-                <Checkbox
-                  checked={filters.disruptionStatuses.includes(status)}
-                  onCheckedChange={() =>
-                    onFiltersChange({
-                      ...filters,
-                      disruptionStatuses: toggleValue<DisruptionStatus>(
-                        filters.disruptionStatuses,
-                        status,
-                      ),
-                    })
-                  }
-                />
-                <DisruptionBadge status={status} className="pointer-events-none" />
-              </label>
-            ))}
-          </div>
+      <div className="space-y-3">
+        <Label className="skeuo-label">Amenities</Label>
+        <div className="grid grid-cols-2 gap-2">
+          {amenityCategories.map((category) => (
+            <label key={category} className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={filters.amenities.includes(category)}
+                onCheckedChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    amenities: toggleValue<AmenityCategory>(
+                      filters.amenities,
+                      category,
+                    ),
+                  })
+                }
+              />
+              {amenityLabel(category)}
+            </label>
+          ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      <div className="space-y-3">
+        <Label className="skeuo-label">Current disruption</Label>
+        <div className="flex flex-wrap gap-2">
+          {disruptionStatuses.map((status) => (
+            <label key={status} className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={filters.disruptionStatuses.includes(status)}
+                onCheckedChange={() =>
+                  onFiltersChange({
+                    ...filters,
+                    disruptionStatuses: toggleValue<DisruptionStatus>(
+                      filters.disruptionStatuses,
+                      status,
+                    ),
+                  })
+                }
+              />
+              <DisruptionBadge status={status} className="pointer-events-none" />
+            </label>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -237,34 +201,33 @@ function MapPlaceholder({
   onLoad: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-72 flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--board-blue)_13%,transparent),transparent_64%)] px-6 text-center">
-      <div className="border border-board-ink/15 bg-board-panel p-4 shadow-sm">
-        <MapIcon className="size-6 text-primary" aria-hidden="true" />
+    <div className="flex h-full min-h-80 flex-col items-center justify-center gap-4 bg-[#dbe1e3] px-6 text-center">
+      <div className="skeuo-app-icon">
+        <MapIcon className="size-6" aria-hidden="true" />
       </div>
-      <div className="space-y-1">
-        <p className="text-sm font-medium">{count} scored airports ready to map</p>
-        <p className="max-w-xs text-xs leading-5 text-muted-foreground">
-          Open it when you&apos;re ready — we leave it unloaded so the page stays fast.
+      <div>
+        <p className="font-heading text-xl font-semibold">
+          {count} scored airports ready to map
+        </p>
+        <p className="mt-1 max-w-sm text-sm text-muted-foreground">
+          The map stays unloaded until you ask for it.
         </p>
       </div>
-      <Button onClick={onLoad}>Show map</Button>
+      <Button onClick={onLoad}>Load airport map</Button>
     </div>
   );
 }
 
-export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
+export function AirportDirectory({
+  scoredAirports,
+  allAirports,
+}: AirportDirectoryProps) {
   const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
   const deferredFilters = useDeferredValue(filters);
-  const [mobileView, setMobileView] = useState<"list" | "map">("list");
-  const [mobileMapMounted, setMobileMapMounted] = useState(false);
-  const [desktopMapMounted, setDesktopMapMounted] = useState(false);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [mapOpen, setMapOpen] = useState(false);
+  const [mapMounted, setMapMounted] = useState(false);
   const [, startTransition] = useTransition();
-  const shouldReduceMotion = useReducedMotion();
-  const filterPanelTransition = shouldReduceMotion
-    ? { duration: 0 }
-    : { type: "tween" as const, duration: 0.4, ease: [0.23, 1, 0.32, 1] as const };
 
   const otherAirports = useMemo<GuideDirectoryEntry[]>(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -299,7 +262,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     const normalizedQuery = normalizeSearchValue(deferredFilters.query);
     const scope = deferredFilters.searchScope;
     const guides = otherAirports
-      .filter((entry) => !normalizedQuery || entry.normalized[scope].includes(normalizedQuery))
+      .filter(
+        (entry) =>
+          !normalizedQuery || entry.normalized[scope].includes(normalizedQuery),
+      )
       .map((entry) => entry.summary);
 
     if (deferredFilters.sort === "newest-guides") {
@@ -326,8 +292,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     }
 
     return [...scoredEntries, ...guideEntries].sort((a, b) => {
-      const aDate = a.kind === "scored" ? a.airport.guideLastUpdated : a.summary.lastUpdated;
-      const bDate = b.kind === "scored" ? b.airport.guideLastUpdated : b.summary.lastUpdated;
+      const aDate =
+        a.kind === "scored" ? a.airport.guideLastUpdated : a.summary.lastUpdated;
+      const bDate =
+        b.kind === "scored" ? b.airport.guideLastUpdated : b.summary.lastUpdated;
       const aName = a.kind === "scored" ? a.airport.name : a.summary.name;
       const bName = b.kind === "scored" ? b.airport.name : b.summary.name;
       return compareGuideRecency(aDate, bDate, aName, bName);
@@ -336,7 +304,13 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
   const visibleEntries = filteredEntries.slice(0, visibleCount);
   const hasMore = visibleCount < filteredEntries.length;
-
+  const boardAnimationKey = JSON.stringify({
+    amenities: deferredFilters.amenities,
+    disruptionStatuses: deferredFilters.disruptionStatuses,
+    minimumScore: deferredFilters.minimumScore,
+    regions: deferredFilters.regions,
+    sort: deferredFilters.sort,
+  });
   const activeFilterCount =
     filters.regions.length +
     filters.amenities.length +
@@ -358,275 +332,199 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     });
   }
 
-  function showMobileMap() {
-    setMobileMapMounted(true);
-    setMobileView("map");
+  function toggleMap() {
+    setMapOpen((current) => !current);
   }
 
-  const filterSheet = (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" className="xl:hidden">
-          <Filter className="size-4" aria-hidden="true" />
-          Filters
-          {activeFilterCount > 0 ? (
-            <span className="rounded-full bg-primary px-1.5 font-mono text-[10px] text-primary-foreground">
-              {activeFilterCount}
-            </span>
-          ) : null}
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom" className="max-h-[88dvh] overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>Filter airports</SheetTitle>
-        </SheetHeader>
-        <div className="px-4 pb-4">
-          <FilterPanel filters={filters} onFiltersChange={updateFilters} onReset={resetFilters} />
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
-
   return (
-    <div className="min-w-0 overflow-x-clip bg-[#141714]">
-      <div className="relative z-10 mx-auto max-w-7xl px-5 pt-8 sm:px-6 sm:pt-10">
-        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div className="max-w-2xl">
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-board-amber">
-              Find your airport
-            </p>
-            <AirportDirectorySearch filters={filters} onFiltersChange={updateFilters} />
-          </div>
-          <p className="max-w-md text-xs leading-5 text-muted-foreground lg:text-right">
-            Search by airport, city, or country. Scores and operational signals
-            are independent editorial indicators.
-          </p>
-        </div>
-      </div>
-
-      <div
-        aria-hidden="true"
-        className="mx-auto mt-8 max-w-7xl px-5 sm:px-6"
-      />
-
-      <section
-        aria-labelledby="directory-heading"
-        className={cn(
-          "pt-2 lg:grid lg:grid-cols-[minmax(0,62%)_minmax(380px,38%)] lg:items-start lg:pt-4",
-          mobileView === "map" && "max-lg:hidden",
-        )}
-      >
-        <div className="min-w-0 pr-5 pb-24 pl-5 sm:pr-6 sm:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] lg:pb-8">
-          <div className="mb-6 flex items-end justify-between gap-4 border-b border-white/10 pb-5">
+    <section aria-labelledby="directory-heading" className="pb-16 sm:pb-24">
+      <div className="mx-auto max-w-[94rem] px-3 sm:px-6">
+        <div className="skeuo-console">
+          <div className="skeuo-console__top">
             <div>
-              <p className="font-mono text-[10px] font-semibold tracking-[0.18em] text-board-amber uppercase">
-                Master airport board
-              </p>
-              <h2 id="directory-heading" className="mt-2 text-3xl uppercase tracking-[0.02em] sm:text-4xl">
-                {allAirports.length} airports on file
+              <p className="skeuo-label">HonestAirport master board</p>
+              <h2 id="directory-heading">
+                {allAirports.length} airports, one honest timetable
               </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Scored airports appear on the live map. Guide-only airports remain in the
-                list until location and audit data are complete.
-              </p>
             </div>
-            <span className="hidden shrink-0 border border-white/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-board-blue sm:block">
-              {filteredScored.length} live profiles
-            </span>
+            <div className="skeuo-status-light">
+              <span aria-hidden="true" />
+              Board online
+            </div>
           </div>
 
-          <div className="flex flex-col xl:flex-row xl:items-start">
-            <motion.aside
-              aria-hidden={!filtersOpen}
-              inert={!filtersOpen}
-              initial={false}
-              animate={{
-                width: filtersOpen ? FILTER_PANEL_WIDTH : 0,
-                marginRight: filtersOpen ? 24 : 0,
-              }}
-              transition={filterPanelTransition}
-              className="hidden shrink-0 overflow-hidden xl:block"
-            >
-              <div style={{ width: FILTER_PANEL_WIDTH }}>
-                <motion.div
-                  className="sticky top-20"
-                  initial={false}
-                  animate={{ rotateY: filtersOpen ? 0 : -100, opacity: filtersOpen ? 1 : 0 }}
-                  style={{ transformPerspective: 1400, transformOrigin: "left center" }}
-                  transition={filterPanelTransition}
+          <div className="skeuo-control-deck">
+            <div className="min-w-0 flex-1">
+              <AirportDirectorySearch
+                filters={filters}
+                onFiltersChange={updateFilters}
+              />
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="skeuo-button">
+                    <Filter className="size-4" aria-hidden="true" />
+                    Filters
+                    {activeFilterCount > 0 ? (
+                      <span className="skeuo-button__count">
+                        {activeFilterCount}
+                      </span>
+                    ) : null}
+                  </Button>
+                </SheetTrigger>
+                <SheetContent
+                  side="right"
+                  className="w-[min(92vw,28rem)] overflow-y-auto border-l-[#8d969a] bg-[#eef1f2] p-0 text-[#202628]"
                 >
+                  <SheetHeader className="px-5 pt-6 pb-4">
+                    <SheetTitle>Board filters</SheetTitle>
+                    <SheetDescription>
+                      Narrow airports by score, region, amenities, or current
+                      disruption.
+                    </SheetDescription>
+                  </SheetHeader>
                   <FilterPanel
                     filters={filters}
                     onFiltersChange={updateFilters}
                     onReset={resetFilters}
-                    onClose={() => setFiltersOpen(false)}
                   />
-                </motion.div>
-              </div>
-            </motion.aside>
+                </SheetContent>
+              </Sheet>
 
-            <div className="min-w-0 flex-1 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-3 border border-white/10 bg-[#1b1e1b] p-3 shadow-sm">
-                <div aria-live="polite">
-                  <div className="text-sm font-medium">
-                    {filteredEntries.length} airport{filteredEntries.length === 1 ? "" : "s"} found
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {activeFilterCount > 0
-                      ? `${activeFilterCount} filter${activeFilterCount === 1 ? "" : "s"} active`
-                      : "All guides shown"}
-                  </p>
-                </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {filterSheet}
-                  {!filtersOpen ? (
-                    <Button
-                      variant="outline"
-                      className="hidden xl:inline-flex"
-                      onClick={() => setFiltersOpen(true)}
-                      aria-expanded={filtersOpen}
-                    >
-                      <PanelLeftOpen className="size-4" aria-hidden="true" />
-                      Show filters
-                      {activeFilterCount > 0 ? (
-                        <span className="rounded-full bg-primary px-1.5 font-mono text-[10px] text-primary-foreground">
-                          {activeFilterCount}
-                        </span>
-                      ) : null}
-                    </Button>
-                  ) : null}
-                  <Select
-                    value={filters.sort}
-                    onValueChange={(value) =>
-                      updateFilters({ ...filters, sort: value as AirportSort })
-                    }
-                  >
-                    <SelectTrigger className="w-44 sm:w-48" aria-label="Sort airports">
-                      <SelectValue placeholder="Sort airports" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="highest-score">Highest score</SelectItem>
-                      <SelectItem value="most-reviewed">Most reviewed</SelectItem>
-                      <SelectItem value="least-disruptions">Least disruptions</SelectItem>
-                      <SelectItem value="newest-guides">Newest guides</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+              <Select
+                value={filters.sort}
+                onValueChange={(value) =>
+                  updateFilters({ ...filters, sort: value as AirportSort })
+                }
+              >
+                <SelectTrigger
+                  className="skeuo-select w-44"
+                  aria-label="Sort airports"
+                >
+                  <SelectValue placeholder="Sort airports" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="highest-score">Highest score</SelectItem>
+                  <SelectItem value="most-reviewed">Most reviewed</SelectItem>
+                  <SelectItem value="least-disruptions">
+                    Least disruptions
+                  </SelectItem>
+                  <SelectItem value="newest-guides">Newest guides</SelectItem>
+                </SelectContent>
+              </Select>
 
-              {hasDataFilters && otherAirports.length > 0 ? (
-                <p className="rounded-lg bg-muted/60 px-3 py-2 text-xs leading-5 text-muted-foreground">
-                  Guide-only airports are hidden while score, amenity, region, or disruption
-                  filters are active.
-                </p>
-              ) : null}
-
-              {filteredEntries.length === 0 ? (
-                <Card className="border-dashed">
-                  <CardContent className="flex flex-col items-center px-6 py-14 text-center">
-                    <div className="rounded-full bg-muted p-4">
-                      <Search className="size-6 text-muted-foreground" aria-hidden="true" />
-                    </div>
-                    <h2 className="mt-4 text-xl font-semibold">No matching airports yet</h2>
-                    <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                      Try another airport, city, or country, or remove an active filter.
-                    </p>
-                    <Button className="mt-5" variant="outline" onClick={resetFilters}>
-                      Reset filters
-                    </Button>
-                  </CardContent>
-                </Card>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 gap-3">
-                    {visibleEntries.map((entry) =>
-                      entry.kind === "scored" ? (
-                        <div
-                          key={entry.airport.iata}
-                          className="-mt-px pt-px [content-visibility:auto] [contain-intrinsic-size:auto_22rem]"
-                        >
-                          <AirportCard airport={entry.airport} />
-                        </div>
-                      ) : (
-                        <div
-                          key={entry.summary.iata}
-                          className="-mt-px pt-px [content-visibility:auto] [contain-intrinsic-size:auto_14rem]"
-                        >
-                          <AirportGuideCard airport={entry.summary} />
-                        </div>
-                      ),
-                    )}
-                  </div>
-                  {hasMore ? (
-                    <div className="flex justify-center pt-2">
-                      <Button
-                        variant="outline"
-                        onClick={() =>
-                          startTransition(() =>
-                            setVisibleCount((count) => count + LOAD_MORE_STEP),
-                          )
-                        }
-                      >
-                        Show more airports
-                      </Button>
-                    </div>
-                  ) : null}
-                </>
-              )}
+              <Button
+                variant={mapOpen ? "default" : "outline"}
+                className="skeuo-button"
+                onClick={toggleMap}
+                aria-expanded={mapOpen}
+              >
+                <MapIcon className="size-4" aria-hidden="true" />
+                {mapOpen ? "Hide map" : "Map"}
+              </Button>
             </div>
           </div>
-        </div>
 
-        <aside
-          aria-label="Map of filtered scored airports"
-          className="relative hidden border-l border-white/10 bg-[#101210] lg:sticky lg:top-14 lg:block lg:h-[calc(100dvh-3.5rem)] lg:overflow-hidden"
-        >
-          <div className="absolute top-3 left-3 z-10 border border-white/15 bg-[#101210]/90 px-3 py-2 shadow-sm backdrop-blur-sm">
-            <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              Live result set
-            </p>
-            <p className="mt-0.5 text-sm font-medium">{filteredScored.length} scored airports</p>
+          <div className="skeuo-console__readout" aria-live="polite">
+            <span>
+              Showing {filteredEntries.length} airport
+              {filteredEntries.length === 1 ? "" : "s"}
+            </span>
+            <span>
+              {activeFilterCount > 0
+                ? `${activeFilterCount} active filter${activeFilterCount === 1 ? "" : "s"}`
+                : "All systems / all guides"}
+            </span>
           </div>
-          {desktopMapMounted ? (
-            <LazyAirportMap airports={filteredScored} />
-          ) : (
-            <MapPlaceholder
-              count={filteredScored.length}
-              onLoad={() => setDesktopMapMounted(true)}
-            />
-          )}
-        </aside>
-      </section>
 
-      {/* Keep shell mounted so aria-controls always resolves. */}
-      <div
-        id="mobile-airport-map"
-        aria-hidden={mobileView !== "map"}
-        className={cn(
-          "fixed inset-x-0 top-14 bottom-0 z-30 bg-muted lg:hidden",
-          mobileView !== "map" && "invisible pointer-events-none",
-        )}
-      >
-        {mobileMapMounted ? <LazyAirportMap airports={filteredScored} /> : null}
-      </div>
+          {mapOpen ? (
+            <div className="skeuo-map-well">
+              {mapMounted ? (
+                <LazyAirportMap airports={filteredScored} />
+              ) : (
+                <MapPlaceholder
+                  count={filteredScored.length}
+                  onLoad={() => setMapMounted(true)}
+                />
+              )}
+            </div>
+          ) : null}
 
-      <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-40 -translate-x-1/2 lg:hidden">
-        <Button
-          size="lg"
-          className="min-w-28 rounded-full shadow-xl ring-1 ring-background/80"
-          aria-controls="mobile-airport-map"
-          aria-expanded={mobileView === "map"}
-          aria-pressed={mobileView === "map"}
-          onClick={mobileView === "map" ? () => setMobileView("list") : showMobileMap}
-        >
-          {mobileView === "map" ? (
-            <List className="size-4" aria-hidden="true" />
-          ) : (
-            <MapIcon className="size-4" aria-hidden="true" />
-          )}
-          {mobileView === "map" ? "List" : "Map"}
-        </Button>
+          <div className="airport-board">
+            <div className="airport-board-heading">
+              <span>No.</span>
+              <span>Code</span>
+              <span>Airport</span>
+              <span>City / country</span>
+              <span>Score</span>
+              <span>Status</span>
+              <span aria-hidden="true" />
+            </div>
+
+            {hasDataFilters && otherAirports.length > 0 ? (
+              <p className="airport-board-notice">
+                Guide-only airports are hidden while data filters are active.
+              </p>
+            ) : null}
+
+            {filteredEntries.length === 0 ? (
+              <Card className="m-3 border-dashed bg-[#1c201f] text-white">
+                <CardContent className="flex flex-col items-center px-6 py-14 text-center">
+                  <Search
+                    className="size-6 text-board-amber"
+                    aria-hidden="true"
+                  />
+                  <h3 className="mt-4 font-heading text-2xl font-semibold">
+                    No matching airport
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm text-white/60">
+                    Try another airport, city, or country, or clear the active
+                    filters.
+                  </p>
+                  <Button className="mt-5" onClick={resetFilters}>
+                    Reset board
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div key={boardAnimationKey}>
+                {visibleEntries.map((entry, index) =>
+                  entry.kind === "scored" ? (
+                    <AirportCard
+                      key={entry.airport.iata}
+                      airport={entry.airport}
+                      sequence={index + 1}
+                    />
+                  ) : (
+                    <AirportGuideCard
+                      key={entry.summary.iata}
+                      airport={entry.summary}
+                      sequence={index + 1}
+                    />
+                  ),
+                )}
+              </div>
+            )}
+          </div>
+
+          {hasMore ? (
+            <div className="skeuo-console__footer">
+              <Button
+                variant="outline"
+                className="skeuo-button"
+                onClick={() =>
+                  startTransition(() =>
+                    setVisibleCount((count) => count + LOAD_MORE_STEP),
+                  )
+                }
+              >
+                Show more airports
+              </Button>
+            </div>
+          ) : null}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

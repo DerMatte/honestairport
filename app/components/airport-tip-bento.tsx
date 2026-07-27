@@ -88,7 +88,7 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
 
   return (
     <section aria-labelledby="important-tips-heading">
-      <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-white/10 pb-4">
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b pb-4">
         <div>
           <p className="font-mono text-[9px] font-medium uppercase tracking-[0.18em] text-board-amber">Most important tips</p>
           <h2 id="important-tips-heading" className="mt-2 text-3xl uppercase tracking-[0.02em] sm:text-4xl">
@@ -108,7 +108,7 @@ export function AirportTipBento({ airport, guideTips }: AirportTipBentoProps) {
             <Card
               key={tip.id}
               size="sm"
-              className="border-border/70 bg-card/95 shadow-sm transition hover:border-board-amber/30 hover:bg-[#1e211e]"
+              className="border-border/70 bg-card/90 shadow-[inset_0_1px_white,0_3px_10px_rgb(55_67_71_/_0.1)] transition hover:-translate-y-0.5 hover:border-primary/35 hover:bg-white"
             >
               <CardHeader className="gap-2">
                 <div className="flex items-start justify-between gap-3">
