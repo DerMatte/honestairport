@@ -14,8 +14,8 @@
  * version into airport_guide_revisions.
  */
 import fs from "node:fs/promises";
-import matter from "gray-matter";
 import {
+  airportContentToMarkdown,
   fetchAirportGuideRow,
   fetchAllAirportGuideRows,
   parseAirportGuideMarkdown,
@@ -29,12 +29,7 @@ loadLocalEnv();
 
 function guideToMarkdown(row: Awaited<ReturnType<typeof fetchAirportGuideRow>>): string {
   if (!row) throw new Error("row is null");
-  const { frontmatter, content } = rowToAirportContent(row);
-  // YAML serializers reject undefined values; only emit populated fields.
-  const data = Object.fromEntries(
-    Object.entries(frontmatter).filter(([, value]) => value !== undefined),
-  );
-  return matter.stringify(content + "\n", data);
+  return airportContentToMarkdown(rowToAirportContent(row));
 }
 
 async function list() {

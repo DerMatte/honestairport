@@ -252,7 +252,7 @@ export async function getAirportLounge(
 
 /** Every non-closed lounge URL, for generateStaticParams and the sitemap. */
 export async function getAllAirportLoungeParams(): Promise<
-  Array<{ iata: string; slug: string; updatedAt: Date }>
+  Array<{ iata: string; slug: string; name: string; updatedAt: Date }>
 > {
   "use cache";
   airportContentCacheLife();
@@ -261,7 +261,12 @@ export async function getAllAirportLoungeParams(): Promise<
   const rows = await fetchAllAirportLoungeRows();
   return rows
     .filter((row) => row.status !== "closed")
-    .map((row) => ({ iata: row.iata.toUpperCase(), slug: row.slug, updatedAt: row.updatedAt }));
+    .map((row) => ({
+      iata: row.iata.toUpperCase(),
+      slug: row.slug,
+      name: row.name,
+      updatedAt: row.updatedAt,
+    }));
 }
 
 /**

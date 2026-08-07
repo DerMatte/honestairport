@@ -72,6 +72,9 @@ export async function generateMetadata({
           description,
           alternates: {
             canonical: `/airports/${slug}`,
+            types: {
+              "text/markdown": `/airports/${slug}.md`,
+            },
           },
           openGraph: {
             title: `${record.name} (${record.iata_code}) Airport Guide`,
@@ -97,6 +100,9 @@ export async function generateMetadata({
       description,
       alternates: {
         canonical: `/airports/${slug}`,
+        types: {
+          "text/markdown": `/airports/${slug}.md`,
+        },
       },
       openGraph: {
         title: `${name} (${iata}) Airport Guide`,
@@ -115,6 +121,9 @@ export async function generateMetadata({
     description: `${airport.name} guide with Airportist Score, current disruption status, amenities, transport options, reviews, and traveler tips.`,
     alternates: {
       canonical: `/airports/${slug}`,
+      types: {
+        "text/markdown": `/airports/${slug}.md`,
+      },
     },
     openGraph: {
       title: `${airport.shortName} - HonestAirport`,

@@ -92,7 +92,12 @@ export async function generateMetadata({ params }: LoungePageProps): Promise<Met
   return {
     title,
     description: lounge.summary,
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      types: {
+        "text/markdown": `${canonical}.md`,
+      },
+    },
     openGraph: {
       title,
       description: lounge.summary,

@@ -447,6 +447,15 @@ export function rowToAirportContent(row: AirportGuideRow): AirportContent {
   };
 }
 
+/** Serialize a guide back to frontmatter + body markdown (same shape as `pnpm guide show`). */
+export function airportContentToMarkdown(content: AirportContent): string {
+  // YAML serializers reject undefined values; only emit populated fields.
+  const data = Object.fromEntries(
+    Object.entries(content.frontmatter).filter(([, value]) => value !== undefined),
+  );
+  return matter.stringify(`${content.content.trim()}\n`, data);
+}
+
 // --- Validation ---------------------------------------------------------------
 
 const nonEmptyString = z.string().trim().min(1);
