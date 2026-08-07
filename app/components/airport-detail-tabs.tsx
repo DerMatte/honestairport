@@ -6,7 +6,6 @@ import {
   CheckCircle2,
   Coffee,
   DoorOpen,
-  ExternalLink,
   Droplets,
   Info,
   Luggage,
@@ -25,13 +24,12 @@ import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
 } from "@/app/components/airport-live-status-loader";
-import { AirportLocalTime } from "@/app/components/airport-local-time";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
+import { AirportRideBooking } from "@/app/components/airport-ride-booking";
 import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviews } from "@/app/components/airport-reviews";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -47,7 +45,6 @@ import {
   pickTransportRecommendations,
   tipCategoryLabel,
 } from "@/lib/airport-utils";
-import { buildRideshareDeepLink, getRideshareProviders } from "@/lib/rideshare";
 import { formatGuideDate } from "@/lib/utils";
 import type {
   AirportGuideSection,
@@ -284,15 +281,6 @@ export function AirportDetailTabs({
   const transportRecommendations = airport?.transport.length
     ? pickTransportRecommendations(airport.transport)
     : {};
-  const rideshareProviders = airportRecord
-    ? getRideshareProviders(airportRecord.iata_country_code)
-    : [];
-  // Rideshare deep links live inside this option's own card since it's the
-  // closest match; airports without a taxi/rideshare entry get a standalone
-  // card instead (see the fallback after the transport grid below).
-  const rideBookingOption = airport?.transport.find(
-    (option) => option.type === "taxi" || option.type === "rideshare",
-  );
 
   const guideSections = guide?.sections;
   const hasGettingThereGuide = Boolean(
@@ -545,13 +533,19 @@ export function AirportDetailTabs({
           </div>
         ) : null}
 
+        {airportRecord ? (
+          <AirportRideBooking
+            airportRecord={airportRecord}
+            airportLabel={airport?.shortName ?? airportRecord.name}
+            transport={airport?.transport}
+          />
+        ) : null}
+
         <div className="grid gap-4 md:grid-cols-3">
           {airport?.transport.map((option) => {
             const badges = (["fastest", "cheapest", "luggage"] as const).filter(
               (key) => transportRecommendations[key] === option,
             );
-            const showRideBooking =
-              option === rideBookingOption && Boolean(airportRecord) && rideshareProviders.length > 0;
 
             return (
             <Card key={`${option.type}-${option.name}`} className="h-full">
@@ -574,7 +568,7 @@ export function AirportDetailTabs({
                 <p className="text-muted-foreground">{option.summary}</p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="rounded-xl border bg-muted/30 p-3">
-                    <div className="text-xs text-muted-foreground">Time</div>
+                    <div className="text-xs text-muted-foreground">Time to city</div>
                     <div className="mt-1 font-mono">{option.timeToCity}</div>
                   </div>
                   <div className="rounded-xl border bg-muted/30 p-3">
@@ -585,79 +579,11 @@ export function AirportDetailTabs({
                 <p className="rounded-xl bg-primary/5 p-3 text-xs text-muted-foreground">
                   Tip: {option.insiderTip}
                 </p>
-                {showRideBooking && airportRecord ? (
-                  <div className="space-y-3 rounded-xl border bg-muted/30 p-3">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {rideshareProviders.map((provider) => (
-                        <Button key={provider.id} asChild variant="outline" size="sm">
-                          <a
-                            href={buildRideshareDeepLink(provider.id, {
-                              latitude: airportRecord.latitude,
-                              longitude: airportRecord.longitude,
-                              nickname: airport?.shortName ?? airportRecord.name,
-                            })}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            {provider.label}
-                            <ExternalLink aria-hidden="true" />
-                          </a>
-                        </Button>
-                      ))}
-                      <AirportLocalTime
-                        timeZone={airportRecord.time_zone}
-                        label={`Local time at ${iata}:`}
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Opens the app with pickup set to the airport so you can check the live
-                      price and ETA there.
-                    </p>
-                  </div>
-                ) : null}
               </CardContent>
             </Card>
             );
           })}
         </div>
-
-        {!rideBookingOption && airportRecord && rideshareProviders.length ? (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Car className="size-4" aria-hidden="true" />
-                Book a ride from {iata}
-              </CardTitle>
-              <CardDescription>
-                Opens the app with pickup set to the airport so you can check the live price
-                and ETA there — we don&apos;t show a static estimate for rideshare since real
-                pricing is only accurate inside the app.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-wrap items-center gap-3">
-              {rideshareProviders.map((provider) => (
-                <Button key={provider.id} asChild variant="outline">
-                  <a
-                    href={buildRideshareDeepLink(provider.id, {
-                      latitude: airportRecord.latitude,
-                      longitude: airportRecord.longitude,
-                      nickname: airport?.shortName ?? airportRecord.name,
-                    })}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {provider.label}
-                    <ExternalLink aria-hidden="true" />
-                  </a>
-                </Button>
-              ))}
-              <AirportLocalTime
-                timeZone={airportRecord.time_zone}
-                label={`Local time at ${iata}:`}
-              />
-            </CardContent>
-          </Card>
-        ) : null}
       </TabsContent>
 
       <TabsContent value="lounges" className="space-y-4">
