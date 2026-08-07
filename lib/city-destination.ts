@@ -5,7 +5,7 @@ import { haversineKm } from "@/lib/geo";
 /** Compact city-center rows: [latitude, longitude, name]. */
 type CityCenterTuple = readonly [number, number, string];
 
-const CITY_CENTERS = cityCentersJson as Record<string, CityCenterTuple>;
+const CITY_CENTERS = cityCentersJson as unknown as Record<string, CityCenterTuple>;
 
 export interface CityDestination {
   /** IATA city code when known (e.g. NYC, LON). */
