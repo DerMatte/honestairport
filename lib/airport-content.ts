@@ -47,6 +47,7 @@ import {
 import { getEditorialReviewsByIata } from "./reviews";
 import type { AirportUserReview } from "./review-schema";
 import type { Airport } from "./types";
+import { getAirportByIata } from "./airports";
 
 export type {
   AirportBentoTip,
@@ -204,6 +205,21 @@ export async function getAllHonestAirports(): Promise<Airport[]> {
 
 export function getAirportBySlug(slug: string): Promise<Airport | null> {
   return getAirportProfile(slug);
+}
+
+/** Display name for titles/breadcrumbs: profile → guide → static airport record. */
+export async function resolveAirportDisplayName(slug: string): Promise<string | null> {
+  const profile = await getAirportBySlug(slug);
+  if (profile) {
+    return profile.shortName;
+  }
+
+  const guide = await getAirportContent(slug);
+  if (guide) {
+    return guide.frontmatter.name;
+  }
+
+  return getAirportByIata(slug)?.name ?? null;
 }
 
 export async function getAirportSlugs(): Promise<string[]> {

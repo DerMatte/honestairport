@@ -2,6 +2,9 @@ import {
   getAllAirportLoungeParams,
   getAllAirports,
   getAllHonestAirports,
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_LOUNGES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
 } from "@/lib/airport-content";
 import { buildLlmsTxt, markdownResponse } from "@/lib/page-markdown";
 
@@ -19,6 +22,14 @@ export async function GET() {
       guideCount: guides.length,
       loungeCount: lounges.length,
     }),
-    { contentType: "text/plain; charset=utf-8" },
+    {
+      contentType: "text/plain; charset=utf-8",
+      cacheTags: [
+        AIRPORT_GUIDES_CACHE_TAG,
+        AIRPORT_PROFILES_CACHE_TAG,
+        AIRPORT_LOUNGES_CACHE_TAG,
+      ],
+      canonicalPath: "/llms.txt",
+    },
   );
 }

@@ -1,9 +1,8 @@
 /**
  * Agent-readable markdown representations of public pages.
  *
- * Served from `/md/...` (and rewritten from `*.md` URLs / `Accept: text/markdown`).
- * Keeps the HTML pages untouched while giving agents a token-efficient copy of
- * the same content.
+ * Served from `/md/...` (rewritten from `*.md` URLs / `Accept: text/markdown`).
+ * Intra-site links are root-relative so previews and local hosts stay correct.
  */
 import matter from "gray-matter";
 import {
@@ -20,6 +19,9 @@ import type { AirportGoogleRating } from "@/lib/google-ratings";
 import type { AirportUserReview } from "@/lib/review-schema";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import type { Airport } from "@/lib/types";
+
+export const MARKDOWN_CACHE_CONTROL =
+  "public, s-maxage=300, stale-while-revalidate=86400";
 
 const AGENT_HINT =
   "Append `.md` to any page URL (or send `Accept: text/markdown`) for an agent-readable copy.";
@@ -43,17 +45,41 @@ function section(title: string, body: string | null | undefined): string {
   return `## ${title}\n\n${trimmed}\n`;
 }
 
+/** Root-relative path helper for intra-site markdown links. */
+export function mdHref(path: string): string {
+  return path.startsWith("/") ? path : `/${path}`;
+}
+
 export function markdownResponse(
   body: string,
-  init?: { status?: number; contentType?: string },
+  init?: {
+    status?: number;
+    contentType?: string;
+    cacheTags?: string[];
+    canonicalPath?: string;
+  },
 ): Response {
+  const headers = new Headers({
+    "Content-Type": init?.contentType ?? "text/markdown; charset=utf-8",
+    Vary: "Accept",
+    "Cache-Control": MARKDOWN_CACHE_CONTROL,
+  });
+
+  if (init?.cacheTags?.length) {
+    // Vercel CDN / cache purge: keep in sync with `revalidateTag` names.
+    headers.set("Cache-Tag", init.cacheTags.join(","));
+  }
+
+  if (init?.canonicalPath) {
+    headers.set(
+      "Link",
+      `<${mdHref(init.canonicalPath)}>; rel="canonical", <${mdHref(init.canonicalPath)}>; rel="alternate"; type="text/markdown"`,
+    );
+  }
+
   return new Response(body, {
     status: init?.status ?? 200,
-    headers: {
-      "Content-Type": init?.contentType ?? "text/markdown; charset=utf-8",
-      Vary: "Accept",
-      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400",
-    },
+    headers,
   });
 }
 
@@ -69,8 +95,9 @@ export function buildHomeMarkdown(input: {
     "",
     `> ${AGENT_HINT}`,
     "",
-    `- [Markdown sitemap](${SITE_URL}/sitemap.md)`,
-    `- [HTML home](${SITE_URL}/)`,
+    `- [Markdown sitemap](${mdHref("/sitemap.md")})`,
+    `- [HTML home](${mdHref("/")})`,
+    `- [llms.txt](${mdHref("/llms.txt")})`,
     "",
   ];
 
@@ -79,21 +106,22 @@ export function buildHomeMarkdown(input: {
     for (const airport of scored) {
       const slug = airport.slug || airport.iata.toLowerCase();
       lines.push(
-        `- [${airport.shortName} (${airport.iata}) — ${airport.airportistScore.toFixed(1)}/10](${SITE_URL}/airports/${slug}.md) — ${airport.city}, ${airport.country}`,
+        `- [${airport.shortName} (${airport.iata}) — ${airport.airportistScore.toFixed(1)}/10](${mdHref(`/airports/${slug}.md`)}) — ${airport.city}, ${airport.country}`,
       );
     }
     lines.push("");
   }
 
+  const scoredIatas = new Set(scored.map((airport) => airport.iata.toUpperCase()));
   const unscoredGuides = guides.filter(
-    (guide) => !scored.some((airport) => airport.iata.toUpperCase() === guide.iata.toUpperCase()),
+    (guide) => !scoredIatas.has(guide.iata.toUpperCase()),
   );
   if (unscoredGuides.length > 0) {
     lines.push("## Guide-only airports", "");
     for (const guide of unscoredGuides) {
       const slug = guide.iata.toLowerCase();
       lines.push(
-        `- [${guide.name} (${guide.iata})](${SITE_URL}/airports/${slug}.md) — ${guide.city}, ${guide.country}`,
+        `- [${guide.name} (${guide.iata})](${mdHref(`/airports/${slug}.md`)}) — ${guide.city}, ${guide.country}`,
       );
     }
     lines.push("");
@@ -115,10 +143,19 @@ export function buildSitemapMarkdown(input: {
   const scoredByIata = new Map(
     scored.map((airport) => [airport.iata.toUpperCase(), airport]),
   );
+  const loungesByIata = new Map<string, Array<{ slug: string; name: string }>>();
+  for (const lounge of lounges) {
+    const iata = lounge.iata.toUpperCase();
+    const bucket = loungesByIata.get(iata) ?? [];
+    bucket.push({ slug: lounge.slug, name: lounge.name });
+    loungesByIata.set(iata, bucket);
+  }
+
   const airportSlugs = [
     ...new Set([
       ...scored.map((airport) => (airport.slug || airport.iata).toLowerCase()),
       ...guides.map((guide) => guide.iata.toLowerCase()),
+      ...[...loungesByIata.keys()].map((iata) => iata.toLowerCase()),
     ]),
   ].sort();
 
@@ -127,7 +164,8 @@ export function buildSitemapMarkdown(input: {
     "",
     `> ${AGENT_HINT}`,
     "",
-    `- [Home](${SITE_URL}/index.md)`,
+    `- [Home](${mdHref("/index.md")})`,
+    `- [llms.txt](${mdHref("/llms.txt")})`,
     "",
     "## Airports",
     "",
@@ -137,24 +175,18 @@ export function buildSitemapMarkdown(input: {
     const iata = slug.toUpperCase();
     const profile = scoredByIata.get(iata);
     const guide = guides.find((entry) => entry.iata.toUpperCase() === iata);
-    const label =
-      profile?.shortName ??
-      guide?.name ??
-      iata;
+    const label = profile?.shortName ?? guide?.name ?? iata;
     const score = profile ? ` — ${profile.airportistScore.toFixed(1)}/10` : "";
-    lines.push(`- [${label} (${iata})${score}](${SITE_URL}/airports/${slug}.md)`);
-  }
-
-  if (lounges.length > 0) {
-    lines.push("", "## Lounges", "");
-    const sorted = [...lounges].sort(
-      (a, b) => a.iata.localeCompare(b.iata) || a.slug.localeCompare(b.slug),
+    lines.push(
+      `- [${label} (${iata})${score}](${mdHref(`/airports/${slug}.md`)})`,
     );
-    for (const lounge of sorted) {
-      const iata = lounge.iata.toUpperCase();
-      const slug = iata.toLowerCase();
+
+    const airportLounges = [...(loungesByIata.get(iata) ?? [])].sort((a, b) =>
+      a.slug.localeCompare(b.slug),
+    );
+    for (const lounge of airportLounges) {
       lines.push(
-        `- [${lounge.name} at ${iata}](${SITE_URL}/airports/${slug}/lounge/${lounge.slug}.md)`,
+        `  - [${lounge.name}](${mdHref(`/airports/${slug}/lounge/${lounge.slug}.md`)})`,
       );
     }
   }
@@ -263,7 +295,7 @@ function loungesSection(iata: string, lounges: AirportLoungeView[]): string {
   const slug = iata.toLowerCase();
   const items = lounges.map((lounge) => {
     const href = lounge.slug
-      ? `${SITE_URL}/airports/${slug}/lounge/${lounge.slug}.md`
+      ? mdHref(`/airports/${slug}/lounge/${lounge.slug}.md`)
       : null;
     const label = href ? `[${lounge.name}](${href})` : lounge.name;
     const meta = [lounge.terminal, lounge.verdict, lounge.status]
@@ -309,12 +341,12 @@ export function buildAirportPageMarkdown(input: {
     return null;
   }
 
-  const htmlUrl = `${SITE_URL}/airports/${slug}`;
+  const htmlPath = mdHref(`/airports/${slug}`);
   const header = [
-    `> Markdown for [${htmlUrl}](${htmlUrl}). ${AGENT_HINT}`,
+    `> Markdown for [${htmlPath}](${htmlPath}). ${AGENT_HINT}`,
     "",
-    `- [HTML page](${htmlUrl})`,
-    `- [Sitemap](${SITE_URL}/sitemap.md)`,
+    `- [HTML page](${htmlPath})`,
+    `- [Sitemap](${mdHref("/sitemap.md")})`,
     "",
   ].join("\n");
 
@@ -379,11 +411,11 @@ export function buildLoungePageMarkdown(input: {
 }): string {
   const { slug, loungeSlug, lounge, airportName, otherLounges } = input;
   const iata = slug.toUpperCase();
-  const htmlUrl = `${SITE_URL}/airports/${slug}/lounge/${loungeSlug}`;
-  const airportUrl = `${SITE_URL}/airports/${slug}.md`;
+  const htmlPath = mdHref(`/airports/${slug}/lounge/${loungeSlug}`);
+  const airportMd = mdHref(`/airports/${slug}.md`);
 
   const facts = [
-    `**Airport:** [${airportName} (${iata})](${airportUrl})`,
+    `**Airport:** [${airportName} (${iata})](${airportMd})`,
     `**Status:** ${lounge.status}`,
     `**Terminal:** ${lounge.terminal}`,
     lounge.zone ? `**Zone:** ${lounge.zone}` : null,
@@ -395,7 +427,7 @@ export function buildLoungePageMarkdown(input: {
   ].filter(Boolean) as string[];
 
   const parts: string[] = [
-    `> Markdown for [${htmlUrl}](${htmlUrl}). ${AGENT_HINT}`,
+    `> Markdown for [${htmlPath}](${htmlPath}). ${AGENT_HINT}`,
     "",
     `# ${lounge.name}`,
     "",
@@ -439,7 +471,7 @@ export function buildLoungePageMarkdown(input: {
         "Other lounges at this airport",
         bulletList(
           others.map((other) => {
-            const href = `${SITE_URL}/airports/${slug}/lounge/${other.slug}.md`;
+            const href = mdHref(`/airports/${slug}/lounge/${other.slug}.md`);
             return `[${other.name}](${href}) — ${other.terminal}`;
           }),
         ),
@@ -447,7 +479,7 @@ export function buildLoungePageMarkdown(input: {
     );
   }
 
-  parts.push(`- [Airport page](${airportUrl})`, `- [HTML page](${htmlUrl})`, "");
+  parts.push(`- [Airport page](${airportMd})`, `- [HTML page](${htmlPath})`, "");
   return `${parts.filter(Boolean).join("\n").trim()}\n`;
 }
 
@@ -462,6 +494,8 @@ export function buildLlmsTxt(input: {
 
 ${AGENT_HINT}
 
+Prefer the \`.md\` URL (or follow \`rel="alternate" type="text/markdown"\`). Requests that send \`Accept: text/markdown\` on an HTML URL are redirected to the canonical \`.md\` path.
+
 The site hosts ${input.scoredCount} scored airports, ${input.guideCount} guides, and ${input.loungeCount} lounge pages.
 
 ## Entry points
@@ -469,6 +503,7 @@ The site hosts ${input.scoredCount} scored airports, ${input.guideCount} guides,
 - HTML: ${SITE_URL}/
 - Markdown home: ${SITE_URL}/index.md
 - Markdown sitemap: ${SITE_URL}/sitemap.md
+- This file: ${SITE_URL}/llms.txt
 
 ## URL pattern
 

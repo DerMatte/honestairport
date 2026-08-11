@@ -1,5 +1,8 @@
-import { notFound } from "next/navigation";
 import {
+  AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_LOUNGES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
   getAirportBySlug,
   getAirportContent,
   getAirportGoogleRating,
@@ -10,8 +13,8 @@ import {
   getAllAirports,
   getAllHonestAirports,
   getEditorialReviews,
+  resolveAirportDisplayName,
 } from "@/lib/airport-content";
-import { getAirportByIata } from "@/lib/airports";
 import {
   buildAirportPageMarkdown,
   buildHomeMarkdown,
@@ -24,19 +27,19 @@ interface MdRouteProps {
   params: Promise<{ path?: string[] }>;
 }
 
-async function resolveAirportName(slug: string): Promise<string | null> {
-  const profile = await getAirportBySlug(slug);
-  if (profile) {
-    return profile.shortName;
-  }
-
-  const guide = await getAirportContent(slug);
-  if (guide) {
-    return guide.frontmatter.name;
-  }
-
-  return getAirportByIata(slug)?.name ?? null;
-}
+const HOME_CACHE_TAGS = [AIRPORT_GUIDES_CACHE_TAG, AIRPORT_PROFILES_CACHE_TAG];
+const AIRPORT_CACHE_TAGS = [
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
+  AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
+  AIRPORT_LOUNGES_CACHE_TAG,
+];
+const LOUNGE_CACHE_TAGS = [AIRPORT_LOUNGES_CACHE_TAG, AIRPORT_GUIDES_CACHE_TAG];
+const SITEMAP_CACHE_TAGS = [
+  AIRPORT_GUIDES_CACHE_TAG,
+  AIRPORT_PROFILES_CACHE_TAG,
+  AIRPORT_LOUNGES_CACHE_TAG,
+];
 
 async function homeMarkdown(): Promise<string> {
   const [scored, guides] = await Promise.all([
@@ -82,7 +85,7 @@ async function loungeMarkdown(
   const iata = slug.trim().toUpperCase();
   const [lounge, airportName, airportLounges] = await Promise.all([
     getAirportLounge(iata, loungeSlug),
-    resolveAirportName(slug),
+    resolveAirportDisplayName(slug),
     getAirportLounges(iata),
   ]);
 
@@ -103,19 +106,32 @@ export async function GET(_request: Request, { params }: MdRouteProps) {
   const { path = [] } = await params;
 
   if (path.length === 0 || (path.length === 1 && path[0] === "index")) {
-    return markdownResponse(await homeMarkdown());
+    return markdownResponse(await homeMarkdown(), {
+      cacheTags: HOME_CACHE_TAGS,
+      canonicalPath: "/index.md",
+    });
   }
 
   if (path.length === 1 && path[0] === "sitemap") {
-    return markdownResponse(await sitemapMarkdown());
+    return markdownResponse(await sitemapMarkdown(), {
+      cacheTags: SITEMAP_CACHE_TAGS,
+      canonicalPath: "/sitemap.md",
+    });
   }
 
   if (path.length === 2 && path[0] === "airports") {
-    const body = await airportMarkdown(path[1]);
+    const slug = path[1].toLowerCase();
+    const body = await airportMarkdown(slug);
     if (!body) {
-      notFound();
+      return markdownResponse("Not found\n", {
+        status: 404,
+        contentType: "text/plain; charset=utf-8",
+      });
     }
-    return markdownResponse(body);
+    return markdownResponse(body, {
+      cacheTags: AIRPORT_CACHE_TAGS,
+      canonicalPath: `/airports/${slug}.md`,
+    });
   }
 
   if (
@@ -123,12 +139,23 @@ export async function GET(_request: Request, { params }: MdRouteProps) {
     path[0] === "airports" &&
     path[2] === "lounge"
   ) {
-    const body = await loungeMarkdown(path[1], path[3]);
+    const slug = path[1].toLowerCase();
+    const loungeSlug = path[3];
+    const body = await loungeMarkdown(slug, loungeSlug);
     if (!body) {
-      notFound();
+      return markdownResponse("Not found\n", {
+        status: 404,
+        contentType: "text/plain; charset=utf-8",
+      });
     }
-    return markdownResponse(body);
+    return markdownResponse(body, {
+      cacheTags: LOUNGE_CACHE_TAGS,
+      canonicalPath: `/airports/${slug}/lounge/${loungeSlug}.md`,
+    });
   }
 
-  notFound();
+  return markdownResponse("Not found\n", {
+    status: 404,
+    contentType: "text/plain; charset=utf-8",
+  });
 }
