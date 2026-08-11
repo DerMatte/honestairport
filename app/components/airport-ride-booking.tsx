@@ -16,6 +16,7 @@ import {
   cityDestinationToDropoff,
   getRideshareProviders,
   getUberAffiliateSignupUrl,
+  rideshareDeepLinkPrefillsRoute,
 } from "@/lib/rideshare";
 import { pickTypicalCityFare } from "@/lib/transport-fares";
 import type { TransportOption } from "@/lib/types";
@@ -63,7 +64,7 @@ export function AirportRideBooking({
         </CardTitle>
         <CardDescription>
           {dropoff
-            ? `Pickup at ${airportRecord.iata_code}, dropoff set to ${cityName} city center so apps can show a live price.`
+            ? `Pickup at ${airportRecord.iata_code}. Where the app supports it, dropoff is set to ${cityName} city center for a live price.`
             : `Pickup set to ${airportRecord.iata_code}. Enter your destination in the app for a live price.`}
         </CardDescription>
       </CardHeader>
@@ -122,7 +123,9 @@ export function AirportRideBooking({
                     rel="noopener noreferrer"
                   >
                     {provider.label}
-                    {dropoff ? " → city" : ""}
+                    {dropoff && rideshareDeepLinkPrefillsRoute(provider.id)
+                      ? " → city"
+                      : ""}
                     <ExternalLink aria-hidden="true" />
                   </a>
                 </Button>

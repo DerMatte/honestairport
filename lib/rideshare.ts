@@ -126,50 +126,81 @@ function uberClientId(): string | undefined {
 }
 
 /**
- * Deep link that opens the Uber app (or m.uber.com) with pickup — and when
- * known, city-center dropoff — pre-filled so the rider sees a live price/ETA.
- * Optional `NEXT_PUBLIC_UBER_CLIENT_ID` enables partner attribution.
+ * Uber `/looking` Location JSON (url-encoded as a query value).
+ * https://developer.uber.com/docs/riders/ride-requests/tutorials/deep-links/introduction
+ */
+function encodeUberLookingLocation(
+  point: RidesharePickupPoint | RideshareDropoffPoint,
+): string {
+  const location: {
+    latitude: number;
+    longitude: number;
+    addressLine1: string;
+    addressLine2?: string;
+  } = {
+    latitude: point.latitude,
+    longitude: point.longitude,
+    addressLine1: point.nickname,
+  };
+  if (point.formattedAddress) {
+    location.addressLine2 = point.formattedAddress;
+  }
+  return JSON.stringify(location);
+}
+
+/**
+ * Deep link that opens the Uber app (or m.uber.com/looking) with pickup — and
+ * when known, city-center dropoff — pre-filled so the rider sees product
+ * selection with a live price/ETA. Optional `NEXT_PUBLIC_UBER_CLIENT_ID`
+ * enables partner attribution.
  * https://developer.uber.com/docs/riders/ride-requests/tutorials/deep-links/introduction
  */
 function buildUberDeepLink(options: RideshareDeepLinkOptions): string {
   const { pickup, dropoff } = options;
-  const params = new URLSearchParams({ action: "setPickup" });
+  const params = new URLSearchParams();
   const clientId = uberClientId();
   if (clientId) {
     params.set("client_id", clientId);
   }
-  params.set("pickup[latitude]", String(pickup.latitude));
-  params.set("pickup[longitude]", String(pickup.longitude));
-  params.set("pickup[nickname]", pickup.nickname);
-  if (pickup.formattedAddress) {
-    params.set("pickup[formatted_address]", pickup.formattedAddress);
-  }
+  params.set("pickup", encodeUberLookingLocation(pickup));
   if (dropoff) {
-    // Nickname (or formatted address) is required for dropoff to render in-app.
-    params.set("dropoff[latitude]", String(dropoff.latitude));
-    params.set("dropoff[longitude]", String(dropoff.longitude));
-    params.set("dropoff[nickname]", dropoff.nickname);
-    if (dropoff.formattedAddress) {
-      params.set("dropoff[formatted_address]", dropoff.formattedAddress);
-    }
+    params.set("drop[0]", encodeUberLookingLocation(dropoff));
   }
-  return `https://m.uber.com/ul/?${params.toString()}`;
+  return `https://m.uber.com/looking?${params.toString()}`;
 }
 
-/** Bolt rider deep link — pickup required; dropoff appended when known. */
-function buildBoltDeepLink(options: RideshareDeepLinkOptions): string {
-  const { pickup, dropoff } = options;
-  const params = new URLSearchParams({
-    pickup_latitude: String(pickup.latitude),
-    pickup_longitude: String(pickup.longitude),
-    pickup_address: pickup.nickname,
-  });
-  if (dropoff) {
-    params.set("destination_latitude", String(dropoff.latitude));
-    params.set("destination_longitude", String(dropoff.longitude));
-    params.set("destination_address", dropoff.nickname);
+/**
+ * Bolt no longer publishes a working param-preserving web deeplink.
+ * The former `https://bolt.eu/en/deeplink/?action=client_request_ride…` URL
+ * returns HTTP 404. Undocumented `bolt://ride?…` schemes are app-only and
+ * unsuitable as https fallbacks, and inventing query params on marketing
+ * pages would claim a prefill Bolt ignores. Open the rides landing instead
+ * (get-app / store CTAs); pickup/dropoff are intentionally omitted.
+ */
+function buildBoltDeepLink(_options: RideshareDeepLinkOptions): string {
+  return "https://bolt.eu/en/rides/";
+}
+
+/**
+ * Whether the provider's deep link actually prefills pickup/dropoff.
+ * Used so UI copy (e.g. "→ city") stays honest when a vendor only opens
+ * the app/store without route params.
+ */
+export function rideshareDeepLinkPrefillsRoute(
+  provider: RideshareProviderId,
+): boolean {
+  switch (provider) {
+    case "uber":
+    case "grab":
+    case "lyft":
+      return true;
+    case "bolt":
+      return false;
+    default: {
+      const exhaustiveCheck: never = provider;
+      return exhaustiveCheck;
+    }
   }
-  return `https://bolt.eu/en/deeplink/?action=client_request_ride&${params.toString()}`;
 }
 
 /** Grab rider deep link — booking screen with pickup (and dropoff when known). */
