@@ -37,33 +37,54 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const imageUrls = await getSitemapImageUrls();
 
-  const airportEntries = airportSlugs.map(
-    (slug): MetadataRoute.Sitemap[number] => ({
-      url: `${SITE_URL}/airports/${slug}`,
-      lastModified: validDate(guideBySlug.get(slug)?.lastUpdated),
-      changeFrequency: "monthly",
-      priority: scoredSlugSet.has(slug) ? 0.85 : 0.75,
-      images: imageUrls.airports[slug.toUpperCase()] ?? [],
-    }),
-  );
+  const latestGuideUpdate = airportSlugs.reduce<Date | undefined>((latest, slug) => {
+    const updated = validDate(guideBySlug.get(slug)?.lastUpdated);
+    return updated && (!latest || updated > latest) ? updated : latest;
+  }, undefined);
 
-  const loungeEntries = sortedLounges.map(
-    (lounge): MetadataRoute.Sitemap[number] => ({
-      url: `${SITE_URL}/airports/${lounge.iata.toLowerCase()}/lounge/${lounge.slug}`,
-      lastModified: validDate(lounge.updatedAt),
-      changeFrequency: "monthly",
-      priority: 0.6,
-      images: imageUrls.lounges[`${lounge.iata.toUpperCase()}/${lounge.slug}`] ?? [],
-    }),
-  );
+  const airportEntries = airportSlugs.flatMap((slug): MetadataRoute.Sitemap => {
+    const lastModified = validDate(guideBySlug.get(slug)?.lastUpdated);
+    const images = imageUrls.airports[slug.toUpperCase()] ?? [];
+    const priority = scoredSlugSet.has(slug) ? 0.85 : 0.75;
+    return [
+      {
+        url: `${SITE_URL}/airports/${slug}`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority,
+        images,
+      },
+      {
+        url: `${SITE_URL}/airports/${slug}.md`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: priority - 0.05,
+      },
+    ];
+  });
 
-  const latestGuideUpdate = airportEntries.reduce<Date | undefined>(
-    (latest, entry) => {
-      const updated = validDate(entry.lastModified);
-      return updated && (!latest || updated > latest) ? updated : latest;
-    },
-    undefined,
-  );
+  const loungeEntries = sortedLounges.flatMap((lounge): MetadataRoute.Sitemap => {
+    const iata = lounge.iata.toLowerCase();
+    const lastModified = validDate(lounge.updatedAt);
+    const images =
+      imageUrls.lounges[`${lounge.iata.toUpperCase()}/${lounge.slug}`] ?? [];
+    const html = `${SITE_URL}/airports/${iata}/lounge/${lounge.slug}`;
+    return [
+      {
+        url: html,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.6,
+        images,
+      },
+      {
+        url: `${html}.md`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.55,
+      },
+    ];
+  });
 
   return [
     {
@@ -71,6 +92,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: latestGuideUpdate,
       changeFrequency: "weekly",
       priority: 1,
+    },
+    {
+      url: `${SITE_URL}/index.md`,
+      lastModified: latestGuideUpdate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/sitemap.md`,
+      lastModified: latestGuideUpdate,
+      changeFrequency: "weekly",
+      priority: 0.4,
+    },
+    {
+      url: `${SITE_URL}/llms.txt`,
+      lastModified: latestGuideUpdate,
+      changeFrequency: "weekly",
+      priority: 0.4,
     },
     ...airportEntries,
     ...loungeEntries,

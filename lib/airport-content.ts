@@ -47,6 +47,7 @@ import {
 import { getEditorialReviewsByIata } from "./reviews";
 import type { AirportUserReview } from "./review-schema";
 import type { Airport } from "./types";
+import { getAirportByIata } from "./airports";
 
 export type {
   AirportBentoTip,
@@ -206,6 +207,21 @@ export function getAirportBySlug(slug: string): Promise<Airport | null> {
   return getAirportProfile(slug);
 }
 
+/** Display name for titles/breadcrumbs: profile → guide → static airport record. */
+export async function resolveAirportDisplayName(slug: string): Promise<string | null> {
+  const profile = await getAirportBySlug(slug);
+  if (profile) {
+    return profile.shortName;
+  }
+
+  const guide = await getAirportContent(slug);
+  if (guide) {
+    return guide.frontmatter.name;
+  }
+
+  return getAirportByIata(slug)?.name ?? null;
+}
+
 export async function getAirportSlugs(): Promise<string[]> {
   const profiles = await getAllAirportProfiles();
   return profiles.map((airport) => airport.slug);
@@ -252,7 +268,7 @@ export async function getAirportLounge(
 
 /** Every non-closed lounge URL, for generateStaticParams and the sitemap. */
 export async function getAllAirportLoungeParams(): Promise<
-  Array<{ iata: string; slug: string; updatedAt: Date }>
+  Array<{ iata: string; slug: string; name: string; updatedAt: Date }>
 > {
   "use cache";
   airportContentCacheLife();
@@ -261,7 +277,12 @@ export async function getAllAirportLoungeParams(): Promise<
   const rows = await fetchAllAirportLoungeRows();
   return rows
     .filter((row) => row.status !== "closed")
-    .map((row) => ({ iata: row.iata.toUpperCase(), slug: row.slug, updatedAt: row.updatedAt }));
+    .map((row) => ({
+      iata: row.iata.toUpperCase(),
+      slug: row.slug,
+      name: row.name,
+      updatedAt: row.updatedAt,
+    }));
 }
 
 /**

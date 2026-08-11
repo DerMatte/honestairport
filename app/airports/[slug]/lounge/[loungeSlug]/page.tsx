@@ -27,15 +27,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PhotoStrip } from "@/app/components/photo-strip";
 import {
-  getAirportBySlug,
-  getAirportContent,
   getAirportLounge,
   getAirportLoungeImages,
   getAirportLounges,
   getAllAirportLoungeParams,
+  resolveAirportDisplayName,
   type AirportLoungeView,
 } from "@/lib/airport-content";
-import { getAirportByIata } from "@/lib/airports";
 import { formatGuideDate } from "@/lib/utils";
 
 interface LoungePageProps {
@@ -58,27 +56,12 @@ export async function generateStaticParams() {
   return [{ slug: seed.iata.toLowerCase(), loungeSlug: seed.slug }];
 }
 
-/** Airport display name for titles and breadcrumbs, cheapest source first. */
-async function resolveAirportName(slug: string): Promise<string | null> {
-  const profile = await getAirportBySlug(slug);
-  if (profile) {
-    return profile.shortName;
-  }
-
-  const guide = await getAirportContent(slug);
-  if (guide) {
-    return guide.frontmatter.name;
-  }
-
-  return getAirportByIata(slug)?.name ?? null;
-}
-
 export async function generateMetadata({ params }: LoungePageProps): Promise<Metadata> {
   const { slug, loungeSlug } = await params;
   const iata = slug.trim().toUpperCase();
   const [lounge, airportName] = await Promise.all([
     getAirportLounge(iata, loungeSlug),
-    resolveAirportName(slug),
+    resolveAirportDisplayName(slug),
   ]);
 
   if (!lounge) {
@@ -92,7 +75,12 @@ export async function generateMetadata({ params }: LoungePageProps): Promise<Met
   return {
     title,
     description: lounge.summary,
-    alternates: { canonical },
+    alternates: {
+      canonical,
+      types: {
+        "text/markdown": `${canonical}.md`,
+      },
+    },
     openGraph: {
       title,
       description: lounge.summary,
@@ -164,7 +152,7 @@ async function LoungePageContent({
 
   const [lounge, airportName, images, airportLounges] = await Promise.all([
     getAirportLounge(iata, loungeSlug),
-    resolveAirportName(slug),
+    resolveAirportDisplayName(slug),
     getAirportLoungeImages(iata, loungeSlug),
     getAirportLounges(iata),
   ]);

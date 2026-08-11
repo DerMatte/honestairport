@@ -47,10 +47,13 @@ export const metadata: Metadata = {
   },
   description:
     "A traveler-focused airport directory with Airportist Scores, practical tips, amenities, and Flighty-style disruption signals.",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
+    alternates: {
+      canonical: "/",
+      types: {
+        "text/markdown": "/index.md",
+      },
+    },
+    openGraph: {
     type: "website",
     siteName: SITE_NAME,
     title: "HonestAirport - Airportist Scores and Traveler Tips",

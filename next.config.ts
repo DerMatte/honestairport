@@ -19,6 +19,15 @@ const nextConfig: NextConfig = {
     cpus: 4,
     optimizePackageImports: ["lucide-react", "radix-ui", "cmdk"],
   },
+  async headers() {
+    return [
+      {
+        // Internal markdown handler — canonical public URLs end in `.md`.
+        source: "/md/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
 };
 
 export default withBotId(nextConfig);
