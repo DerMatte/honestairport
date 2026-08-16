@@ -4,10 +4,12 @@ import type { FacilitatorClient } from "@x402/core/server";
 import { decodePaymentRequiredHeader } from "@x402/core/http";
 import type { Network } from "@x402/core/types";
 import { NextRequest, NextResponse } from "next/server";
+import { MARKDOWN_CACHE_CONTROL } from "./page-markdown";
 import {
   DEFAULT_X402_FACILITATOR_URL,
   DEFAULT_X402_NETWORK,
   DEFAULT_X402_PRICE,
+  PAID_MARKDOWN_CACHE_CONTROL,
   createX402ResourceServer,
   getX402SellerConfig,
   handleMarkdownWithOptionalPayment,
@@ -37,6 +39,12 @@ function testConfig(overrides: Partial<X402SellerConfig> = {}): X402SellerConfig
 }
 
 const TEST_ORIGIN = "http://x402.test";
+
+function assertNotPubliclyCached(response: Response, label: string): void {
+  const cache = response.headers.get("Cache-Control") ?? "";
+  assert.doesNotMatch(cache, /\bpublic\b/i, `${label} Cache-Control: ${cache}`);
+  assert.doesNotMatch(cache, /\bs-maxage\b/i, `${label} Cache-Control: ${cache}`);
+}
 
 function markdownRequest(path: string): NextRequest {
   return new NextRequest(new URL(path, TEST_ORIGIN), {
@@ -169,6 +177,7 @@ describe("handleMarkdownWithOptionalPayment", () => {
     assert.equal(served, 1);
     assert.equal(response.status, 200);
     assert.equal(await response.text(), "# LAX\n");
+    assert.equal(response.headers.get("Cache-Control"), null);
   });
 
   it("does not gate /index.md or /sitemap.md when the paywall is on", async () => {
@@ -183,12 +192,16 @@ describe("handleMarkdownWithOptionalPayment", () => {
         [...segments],
         async () => {
           served += 1;
-          return new NextResponse("free\n", { status: 200 });
+          return new NextResponse("free\n", {
+            status: 200,
+            headers: { "Cache-Control": MARKDOWN_CACHE_CONTROL },
+          });
         },
         { env: enabledEnv },
       );
       assert.equal(served, 1, path);
       assert.equal(response.status, 200, path);
+      assert.equal(response.headers.get("Cache-Control"), MARKDOWN_CACHE_CONTROL);
     }
   });
 
@@ -214,6 +227,11 @@ describe("handleMarkdownWithOptionalPayment", () => {
 
     assert.equal(served, 0);
     assert.equal(response.status, 402);
+    assertNotPubliclyCached(response, "402");
+    assert.match(
+      response.headers.get("Cache-Control") ?? "",
+      /no-store/i,
+    );
 
     const paymentRequired = response.headers.get("PAYMENT-REQUIRED");
     assert.ok(paymentRequired, "expected PAYMENT-REQUIRED header");
@@ -243,12 +261,43 @@ describe("handleMarkdownWithOptionalPayment", () => {
     );
 
     assert.equal(response.status, 402);
+    assertNotPubliclyCached(response, "lounge 402");
     const decoded = decodePaymentRequiredHeader(
       response.headers.get("PAYMENT-REQUIRED") ?? "",
     );
     assert.equal(
       decoded.resource.url,
       `${TEST_ORIGIN}/airports/lax/lounge/star-alliance.md`,
+    );
+  });
+
+  it("does not publicly cache a paid 200", async () => {
+    const config = testConfig();
+    const server = createX402ResourceServer(config, localFacilitator());
+    await server.initialize();
+
+    const response = await handleMarkdownWithOptionalPayment(
+      markdownRequest("/md/airports/lax"),
+      ["airports", "lax"],
+      async () =>
+        new NextResponse("# LAX\n", {
+          status: 200,
+          headers: { "Cache-Control": MARKDOWN_CACHE_CONTROL },
+        }),
+      {
+        env: enabledEnv,
+        server,
+        syncFacilitatorOnStart: false,
+        grantAccessWithoutPayment: true,
+      },
+    );
+
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), "# LAX\n");
+    assertNotPubliclyCached(response, "paid 200");
+    assert.equal(
+      response.headers.get("Cache-Control"),
+      PAID_MARKDOWN_CACHE_CONTROL,
     );
   });
 });

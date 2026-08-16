@@ -5,6 +5,7 @@
  * is off unless `X402_PAY_TO` is set, so production cannot surprise-charge.
  *
  * Settlement uses `withX402` (status < 400 only), so 404s never charge.
+ * Paid 200s and 402s use `private, no-store` so a CDN cannot replay a body.
  */
 import {
   HTTPFacilitatorClient,
@@ -13,7 +14,11 @@ import {
 } from "@x402/core/server";
 import type { Network } from "@x402/core/types";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { withX402, x402ResourceServer } from "@x402/next";
+import {
+  withX402FromHTTPServer,
+  x402HTTPResourceServer,
+  x402ResourceServer,
+} from "@x402/next";
 import { NextRequest, NextResponse } from "next/server";
 import { publicMarkdownPath } from "@/lib/markdown-negotiate";
 
@@ -27,6 +32,8 @@ export const DEFAULT_X402_NETWORK = "eip155:84532" satisfies Network;
 /** Public testnet facilitator. Override for a production facilitator on mainnet. */
 export const DEFAULT_X402_FACILITATOR_URL = "https://x402.org/facilitator";
 export const DEFAULT_X402_PRICE = "$0.01";
+/** Paid guide bodies and 402s must not land on a shared CDN. */
+export const PAID_MARKDOWN_CACHE_CONTROL = "private, no-store";
 
 export type X402Env = NodeJS.Dict<string>;
 
@@ -190,11 +197,19 @@ function toNextResponse(response: Response): NextResponse {
   });
 }
 
+/** Drop public / s-maxage so Vercel CDN cannot replay a paid body. */
+export function withoutPublicMarkdownCache(response: Response): Response {
+  response.headers.set("Cache-Control", PAID_MARKDOWN_CACHE_CONTROL);
+  return response;
+}
+
 export type PaidMarkdownGateOptions = {
   env?: X402Env;
   server?: x402ResourceServer;
   /** Defaults to true in production so the facilitator can advertise USDC details. */
   syncFacilitatorOnStart?: boolean;
+  /** Test seam: run the handler without a PAYMENT-SIGNATURE. */
+  grantAccessWithoutPayment?: boolean;
 };
 
 /**
@@ -215,17 +230,26 @@ export async function handleMarkdownWithOptionalPayment(
   }
 
   const server = options.server ?? getOrCreateX402Server(config);
-  const handler = async () => toNextResponse(await serve());
+  const handler = async () =>
+    toNextResponse(withoutPublicMarkdownCache(await serve()));
 
-  return withX402(
-    handler,
-    {
+  const httpServer = new x402HTTPResourceServer(server, {
+    "*": {
       ...paidMarkdownRouteConfig(config),
       resource: paidMarkdownResourceUrl(request, path),
     },
-    server,
+  });
+  if (options.grantAccessWithoutPayment) {
+    httpServer.onProtectedRequest(async () => ({ grantAccess: true }));
+  }
+
+  const gated = await withX402FromHTTPServer(
+    handler,
+    httpServer,
     undefined,
     undefined,
     options.syncFacilitatorOnStart ?? true,
   )(request);
+
+  return withoutPublicMarkdownCache(gated);
 }
