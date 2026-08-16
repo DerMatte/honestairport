@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 import type { FacilitatorClient } from "@x402/core/server";
 import { decodePaymentRequiredHeader } from "@x402/core/http";
+import type { Network } from "@x402/core/types";
 import { NextRequest, NextResponse } from "next/server";
 import {
   DEFAULT_X402_FACILITATOR_URL,
@@ -43,7 +44,9 @@ function markdownRequest(path: string): NextRequest {
   });
 }
 
-function localFacilitator(network = DEFAULT_X402_NETWORK): FacilitatorClient {
+function localFacilitator(
+  network: Network = DEFAULT_X402_NETWORK,
+): FacilitatorClient {
   return {
     async verify() {
       return { isValid: false, invalidReason: "test-unpaid" };

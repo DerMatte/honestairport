@@ -11,6 +11,7 @@ import {
   type FacilitatorClient,
   type RouteConfig,
 } from "@x402/core/server";
+import type { Network } from "@x402/core/types";
 import { ExactEvmScheme } from "@x402/evm/exact/server";
 import { withX402, x402ResourceServer } from "@x402/next";
 import { NextRequest, NextResponse } from "next/server";
@@ -22,24 +23,26 @@ export const X402_FACILITATOR_URL_ENV = "X402_FACILITATOR_URL";
 export const X402_PRICE_ENV = "X402_PRICE";
 
 /** Base Sepolia — first slice. Override with `X402_NETWORK=eip155:8453` for mainnet. */
-export const DEFAULT_X402_NETWORK = "eip155:84532";
+export const DEFAULT_X402_NETWORK = "eip155:84532" satisfies Network;
 /** Public testnet facilitator. Override for a production facilitator on mainnet. */
 export const DEFAULT_X402_FACILITATOR_URL = "https://x402.org/facilitator";
 export const DEFAULT_X402_PRICE = "$0.01";
 
-export type X402Env = {
-  X402_PAY_TO?: string;
-  X402_NETWORK?: string;
-  X402_FACILITATOR_URL?: string;
-  X402_PRICE?: string;
-};
+export type X402Env = NodeJS.Dict<string>;
 
 export type X402SellerConfig = {
   payTo: string;
-  network: string;
+  network: Network;
   facilitatorUrl: string;
   price: string;
 };
+
+function asNetwork(value: string): Network {
+  if (!value.includes(":")) {
+    throw new Error(`Invalid x402 network "${value}" (expected CAIP-2, e.g. eip155:84532)`);
+  }
+  return value as Network;
+}
 
 const AIRPORT_PUBLIC_MD = /^\/airports\/([^/]+)\.md$/;
 const LOUNGE_PUBLIC_MD = /^\/airports\/([^/]+)\/lounge\/([^/]+)\.md$/;
@@ -60,7 +63,7 @@ function normalizePathname(pathname: string): string {
   return pathname || "/";
 }
 
-function readTrimmed(env: X402Env, key: keyof X402Env): string | null {
+function readTrimmed(env: X402Env, key: string): string | null {
   const value = env[key]?.trim();
   return value ? value : null;
 }
@@ -115,7 +118,7 @@ export function getX402SellerConfig(
   }
   return {
     payTo,
-    network: readTrimmed(env, "X402_NETWORK") ?? DEFAULT_X402_NETWORK,
+    network: asNetwork(readTrimmed(env, "X402_NETWORK") ?? DEFAULT_X402_NETWORK),
     facilitatorUrl:
       readTrimmed(env, "X402_FACILITATOR_URL") ?? DEFAULT_X402_FACILITATOR_URL,
     price: readTrimmed(env, "X402_PRICE") ?? DEFAULT_X402_PRICE,
