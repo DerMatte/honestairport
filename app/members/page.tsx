@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense, type ReactNode } from "react";
 import { ArrowLeft, BadgeCheck } from "lucide-react";
 import { MembershipRestore } from "@/app/components/membership-restore";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { checkoutUrlForPath, getHtmlAccess } from "@/lib/whop-access";
 import { isWhopGateEnabled } from "@/lib/whop-gate";
 
@@ -29,14 +31,15 @@ function safeNextPath(value: string | undefined): string {
   return value;
 }
 
-export default async function MembersPage({ searchParams }: MembersPageProps) {
-  const params = await searchParams;
-  const nextPath = safeNextPath(params.next);
-  const paymentId = params.payment_id?.trim() || params.receipt?.trim() || null;
-  const gateOn = isWhopGateEnabled();
-  const access = gateOn ? await getHtmlAccess() : "open";
-  const checkoutHref = checkoutUrlForPath(nextPath);
+function MembersFallback() {
+  return (
+    <MembersShell>
+      <Skeleton className="h-24 w-full" />
+    </MembersShell>
+  );
+}
 
+function MembersShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <div className="mx-auto max-w-xl px-5 py-6 sm:px-6 sm:py-10">
@@ -61,48 +64,69 @@ export default async function MembersPage({ searchParams }: MembersPageProps) {
         </p>
 
         <Card className="mt-8 border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
-          <CardContent className="space-y-4 p-5 sm:p-6">
-            {!gateOn ? (
-              <p className="text-sm leading-6 text-muted-foreground">
-                Membership is not enabled in this environment (Whop API env is
-                unset), so airport pages stay open. Set{" "}
-                <span className="font-mono">WHOP_API_KEY</span> and{" "}
-                <span className="font-mono">WHOP_PRODUCT_ID</span> to turn the
-                gate on.
-              </p>
-            ) : access === "allowed" ? (
-              <div className="flex items-start gap-3">
-                <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <BadgeCheck className="size-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <h2 className="text-lg font-semibold tracking-tight">
-                    You&apos;re in
-                  </h2>
-                  <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                    This browser has an active membership. Open any airport page
-                    for the full guide. Members also get the existing Telegram
-                    community from the Whop product page — there is no Telegram
-                    bot in this app.
-                  </p>
-                  <Link
-                    href={nextPath}
-                    className="mt-3 inline-flex text-sm text-primary hover:underline"
-                  >
-                    Continue
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <MembershipRestore
-                paymentId={paymentId}
-                nextPath={nextPath}
-                checkoutHref={checkoutHref}
-              />
-            )}
-          </CardContent>
+          <CardContent className="space-y-4 p-5 sm:p-6">{children}</CardContent>
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function MembersPage({ searchParams }: MembersPageProps) {
+  return (
+    <Suspense fallback={<MembersFallback />}>
+      <MembersPageContent searchParams={searchParams} />
+    </Suspense>
+  );
+}
+
+async function MembersPageContent({ searchParams }: MembersPageProps) {
+  const params = await searchParams;
+  const nextPath = safeNextPath(params.next);
+  const paymentId = params.payment_id?.trim() || params.receipt?.trim() || null;
+  const gateOn = isWhopGateEnabled();
+  const access = gateOn ? await getHtmlAccess() : "open";
+  const checkoutHref = checkoutUrlForPath(nextPath);
+
+  return (
+    <MembersShell>
+      {!gateOn ? (
+        <p className="text-sm leading-6 text-muted-foreground">
+          Membership is not enabled in this environment (Whop API env is
+          unset), so airport pages stay open. Set{" "}
+          <span className="font-mono">WHOP_API_KEY</span> and{" "}
+          <span className="font-mono">WHOP_PRODUCT_ID</span> to turn the
+          gate on.
+        </p>
+      ) : access === "allowed" ? (
+        <div className="flex items-start gap-3">
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <BadgeCheck className="size-5" aria-hidden="true" />
+          </span>
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight">
+              You&apos;re in
+            </h2>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">
+              This browser has an active membership. Open any airport page
+              for the full guide. Members also get the existing Telegram
+              community from the Whop product page — there is no Telegram
+              bot in this app.
+            </p>
+            <Link
+              href={nextPath}
+              className="mt-3 inline-flex text-sm text-primary hover:underline"
+            >
+              Continue
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <MembershipRestore
+          paymentId={paymentId}
+          nextPath={nextPath}
+          checkoutHref={checkoutHref}
+        />
+      )}
+    </MembersShell>
   );
 }
