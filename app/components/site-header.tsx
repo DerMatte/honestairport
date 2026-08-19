@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
+import { MembershipNavLink } from "@/app/components/membership-nav-link";
 import { MobileNav } from "@/app/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,10 +32,13 @@ const TOP_REVEAL_OFFSET = 12;
 export function SiteHeader({
   nearestAirportSlot,
   nearestAirportSidebarSlot,
+  membershipEnabled = false,
 }: {
   /** RSC-rendered "Near you" link, streamed in behind a Suspense boundary. */
   nearestAirportSlot: ReactNode;
   nearestAirportSidebarSlot: ReactNode;
+  /** Public checkout URL is set — show Join even if the server gate is still off. */
+  membershipEnabled?: boolean;
 }) {
   const router = useRouter();
   const { data: session, isPending } = useSession();
@@ -127,6 +131,11 @@ export function SiteHeader({
 
           <div className="ml-auto flex items-center gap-1">
             <nav className="mr-1 hidden items-center md:flex">
+              {membershipEnabled ? (
+                <MembershipNavLink
+                  checkoutUrl={process.env.NEXT_PUBLIC_WHOP_CHECKOUT_URL ?? null}
+                />
+              ) : null}
               {nearestAirportSlot}
               {isPending ? (
                 <Skeleton className="h-8 w-[72px]" />
@@ -268,6 +277,7 @@ export function SiteHeader({
         onNavigate={() => setMenuOpen(false)}
         onSignOut={handleSignOut}
         nearestAirportSlot={nearestAirportSidebarSlot}
+        membershipEnabled={membershipEnabled}
       />
 
       {searchOpen ? (

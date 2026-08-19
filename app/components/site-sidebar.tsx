@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
+  BadgeCheck,
   ChevronsUpDown,
   Compass,
   LogIn,
@@ -57,12 +58,14 @@ export function SiteSidebar({
   onNavigate,
   onSignOut,
   nearestAirportSlot,
+  membershipEnabled = false,
 }: {
   user: SiteSidebarUser | null;
   isPending: boolean;
   onNavigate: () => void;
   onSignOut: () => void;
   nearestAirportSlot: ReactNode;
+  membershipEnabled?: boolean;
 }) {
   return (
     <Sidebar
@@ -98,6 +101,27 @@ export function SiteSidebar({
               </SidebarMenuButton>
             </SidebarMenuItem>
             {nearestAirportSlot}
+            {membershipEnabled ? (
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  size="lg"
+                  className="h-auto items-start py-2.5"
+                >
+                  <Link href="/members" onClick={onNavigate}>
+                    <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
+                      <BadgeCheck className="size-4" aria-hidden="true" />
+                    </div>
+                    <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                      <span className="font-medium">Join</span>
+                      <span className="truncate text-xs text-sidebar-foreground/60">
+                        Members — $8/month
+                      </span>
+                    </div>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ) : null}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

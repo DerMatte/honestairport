@@ -23,7 +23,8 @@ import {
   buildSitemapMarkdown,
   markdownResponse,
 } from "@/lib/page-markdown";
-import { handleMarkdownWithOptionalPayment } from "@/lib/x402";
+import { hasLiveWhopMembership } from "@/lib/whop-access";
+import { handleMarkdownWithOptionalPayment, isPaidMarkdownSegments } from "@/lib/x402";
 
 interface MdRouteProps {
   params: Promise<{ path?: string[] }>;
@@ -162,7 +163,10 @@ async function serveMarkdown(path: string[]): Promise<Response> {
 
 export async function GET(request: NextRequest, { params }: MdRouteProps) {
   const { path = [] } = await params;
+  const memberBypass =
+    isPaidMarkdownSegments(path) && (await hasLiveWhopMembership());
   return handleMarkdownWithOptionalPayment(request, path, () =>
     serveMarkdown(path),
+    { grantAccessWithoutPayment: memberBypass },
   );
 }

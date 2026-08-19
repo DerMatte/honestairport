@@ -15,6 +15,7 @@ interface MobileNavProps {
   onNavigate: () => void;
   onSignOut: () => void;
   nearestAirportSlot: ReactNode;
+  membershipEnabled?: boolean;
 }
 
 export function MobileNav({
@@ -25,6 +26,7 @@ export function MobileNav({
   onNavigate,
   onSignOut,
   nearestAirportSlot,
+  membershipEnabled = false,
 }: MobileNavProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -86,6 +88,7 @@ export function MobileNav({
                       onNavigate={onNavigate}
                       onSignOut={onSignOut}
                       nearestAirportSlot={nearestAirportSlot}
+                      membershipEnabled={membershipEnabled}
                     />
                   </SidebarProvider>
                 </div>
