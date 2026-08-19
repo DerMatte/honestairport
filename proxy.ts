@@ -43,6 +43,9 @@ function redirectToPublicMarkdown(
  * - `Accept` preferring text/markdown → 307 to the canonical `*.md` URL
  * - Direct `/md/...` hits redirect to the public `*.md` URL
  * - Unknown `*.md` paths (login/settings/…) → plain 404
+ *
+ * x402 charging for airport/lounge markdown lives on the `/md` route handler
+ * (`withX402`), not here — HTML and free markdown must keep passing through.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

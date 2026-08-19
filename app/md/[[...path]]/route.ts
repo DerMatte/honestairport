@@ -1,3 +1,4 @@
+import { NextRequest } from "next/server";
 import {
   AIRPORT_GOOGLE_RATINGS_CACHE_TAG,
   AIRPORT_GUIDES_CACHE_TAG,
@@ -22,6 +23,7 @@ import {
   buildSitemapMarkdown,
   markdownResponse,
 } from "@/lib/page-markdown";
+import { handleMarkdownWithOptionalPayment } from "@/lib/x402";
 
 interface MdRouteProps {
   params: Promise<{ path?: string[] }>;
@@ -102,9 +104,7 @@ async function loungeMarkdown(
   });
 }
 
-export async function GET(_request: Request, { params }: MdRouteProps) {
-  const { path = [] } = await params;
-
+async function serveMarkdown(path: string[]): Promise<Response> {
   if (path.length === 0 || (path.length === 1 && path[0] === "index")) {
     return markdownResponse(await homeMarkdown(), {
       cacheTags: HOME_CACHE_TAGS,
@@ -158,4 +158,11 @@ export async function GET(_request: Request, { params }: MdRouteProps) {
     status: 404,
     contentType: "text/plain; charset=utf-8",
   });
+}
+
+export async function GET(request: NextRequest, { params }: MdRouteProps) {
+  const { path = [] } = await params;
+  return handleMarkdownWithOptionalPayment(request, path, () =>
+    serveMarkdown(path),
+  );
 }
