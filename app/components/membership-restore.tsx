@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +33,21 @@ function messageForError(error: string): string {
   }
 }
 
+async function postUnlock(receiptId: string): Promise<
+  { ok: true } | { ok: false; error: string }
+> {
+  const res = await fetch("/api/whop/unlock", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ receiptId }),
+  });
+  const body = (await res.json().catch(() => null)) as { error?: string } | null;
+  if (res.ok) {
+    return { ok: true };
+  }
+  return { ok: false, error: body?.error ?? "unlock_failed" };
+}
+
 export function MembershipRestore({
   paymentId,
   nextPath,
@@ -44,57 +59,26 @@ export function MembershipRestore({
 }) {
   const router = useRouter();
   const [receipt, setReceipt] = useState(paymentId ?? "");
-  const [phase, setPhase] = useState<Phase>(
-    paymentId ? { name: "working" } : { name: "idle" },
-  );
-  const cancelled = useRef(false);
+  const [phase, setPhase] = useState<Phase>({ name: "idle" });
 
-  useEffect(() => {
-    cancelled.current = false;
-    return () => {
-      cancelled.current = true;
-    };
-  }, []);
-
-  const unlock = useCallback(
-    async (receiptId: string) => {
-      setPhase({ name: "working" });
-      try {
-        const res = await fetch("/api/whop/unlock", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ receiptId }),
-        });
-        const body = (await res.json().catch(() => null)) as
-          | { error?: string }
-          | null;
-        if (cancelled.current) return;
-        if (res.ok) {
-          setPhase({ name: "done" });
-          router.replace(nextPath);
-          router.refresh();
-          return;
-        }
-        setPhase({
-          name: "error",
-          message: messageForError(body?.error ?? "unlock_failed"),
-        });
-      } catch {
-        if (cancelled.current) return;
-        setPhase({
-          name: "error",
-          message: "We could not reach the server. Try again.",
-        });
+  async function unlock(receiptId: string) {
+    setPhase({ name: "working" });
+    try {
+      const result = await postUnlock(receiptId);
+      if (result.ok) {
+        setPhase({ name: "done" });
+        router.replace(nextPath);
+        router.refresh();
+        return;
       }
-    },
-    [nextPath, router],
-  );
-
-  useEffect(() => {
-    if (paymentId) {
-      void unlock(paymentId);
+      setPhase({ name: "error", message: messageForError(result.error) });
+    } catch {
+      setPhase({
+        name: "error",
+        message: "We could not reach the server. Try again.",
+      });
     }
-  }, [paymentId, unlock]);
+  }
 
   return (
     <div className="space-y-4">
@@ -119,9 +103,9 @@ export function MembershipRestore({
         <div className="space-y-1.5">
           <Label htmlFor="whop-receipt">Already subscribed?</Label>
           <p className="text-xs leading-5 text-muted-foreground">
-            After checkout, Whop may send you back here with a payment id. You
-            can also paste a <span className="font-mono">pay_…</span> receipt
-            to restore this browser.
+            After checkout, Whop may send you back here with a payment id. Paste
+            the <span className="font-mono">pay_…</span> receipt to restore this
+            browser, or submit the prefilled value if the URL already has one.
           </p>
           <Input
             id="whop-receipt"
