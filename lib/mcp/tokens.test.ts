@@ -81,7 +81,7 @@ describe("authenticateMcpToken / authorizeMcpRequest", () => {
   it("returns 401 with a garbage token", async () => {
     const garbage = await authorizeMcpRequest(
       requestWith({ authorization: "Bearer totally-not-valid" }),
-      async () => USER,
+      (raw) => authenticateMcpToken(raw, async () => USER),
     );
     assert.ok("response" in garbage);
     assert.equal(garbage.response.status, 401);
