@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: ["/", "/llms.txt", "/index.md", "/sitemap.md"],
-      disallow: ["/api/", "/login", "/reset-password", "/settings", "/md", "/md/"],
+      disallow: ["/api/", "/login", "/reset-password", "/settings", "/md", "/md/", "/mcp"],
     },
     host: SITE_URL,
     // XML for classic crawlers; markdown sitemap for agents.

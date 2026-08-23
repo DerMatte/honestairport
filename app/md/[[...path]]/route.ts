@@ -4,25 +4,19 @@ import {
   AIRPORT_GUIDES_CACHE_TAG,
   AIRPORT_LOUNGES_CACHE_TAG,
   AIRPORT_PROFILES_CACHE_TAG,
-  getAirportBySlug,
-  getAirportContent,
-  getAirportGoogleRating,
-  getAirportLounge,
-  getAirportLounges,
-  getAirportLoungesWithFallback,
   getAllAirportLoungeParams,
   getAllAirports,
   getAllHonestAirports,
-  getEditorialReviews,
-  resolveAirportDisplayName,
 } from "@/lib/airport-content";
 import {
-  buildAirportPageMarkdown,
   buildHomeMarkdown,
-  buildLoungePageMarkdown,
   buildSitemapMarkdown,
   markdownResponse,
 } from "@/lib/page-markdown";
+import {
+  loadAirportPageMarkdown,
+  loadLoungePageMarkdown,
+} from "@/lib/public-markdown";
 import { handleMarkdownWithOptionalPayment } from "@/lib/x402";
 
 interface MdRouteProps {
@@ -60,50 +54,6 @@ async function sitemapMarkdown(): Promise<string> {
   return buildSitemapMarkdown({ scored, guides, lounges });
 }
 
-async function airportMarkdown(slug: string): Promise<string | null> {
-  const iata = slug.trim().toUpperCase();
-  const [profile, guide, googleRating, lounges, reviews] = await Promise.all([
-    getAirportBySlug(slug),
-    getAirportContent(slug),
-    getAirportGoogleRating(iata),
-    getAirportLoungesWithFallback(iata),
-    getEditorialReviews(iata),
-  ]);
-
-  return buildAirportPageMarkdown({
-    slug: slug.trim().toLowerCase(),
-    profile,
-    guide,
-    googleRating,
-    lounges,
-    reviews,
-  });
-}
-
-async function loungeMarkdown(
-  slug: string,
-  loungeSlug: string,
-): Promise<string | null> {
-  const iata = slug.trim().toUpperCase();
-  const [lounge, airportName, airportLounges] = await Promise.all([
-    getAirportLounge(iata, loungeSlug),
-    resolveAirportDisplayName(slug),
-    getAirportLounges(iata),
-  ]);
-
-  if (!lounge) {
-    return null;
-  }
-
-  return buildLoungePageMarkdown({
-    slug: slug.trim().toLowerCase(),
-    loungeSlug,
-    lounge,
-    airportName: airportName ?? iata,
-    otherLounges: airportLounges,
-  });
-}
-
 async function serveMarkdown(path: string[]): Promise<Response> {
   if (path.length === 0 || (path.length === 1 && path[0] === "index")) {
     return markdownResponse(await homeMarkdown(), {
@@ -121,7 +71,7 @@ async function serveMarkdown(path: string[]): Promise<Response> {
 
   if (path.length === 2 && path[0] === "airports") {
     const slug = path[1].toLowerCase();
-    const body = await airportMarkdown(slug);
+    const body = await loadAirportPageMarkdown(slug);
     if (!body) {
       return markdownResponse("Not found\n", {
         status: 404,
@@ -141,7 +91,7 @@ async function serveMarkdown(path: string[]): Promise<Response> {
   ) {
     const slug = path[1].toLowerCase();
     const loungeSlug = path[3];
-    const body = await loungeMarkdown(slug, loungeSlug);
+    const body = await loadLoungePageMarkdown(slug, loungeSlug);
     if (!body) {
       return markdownResponse("Not found\n", {
         status: 404,

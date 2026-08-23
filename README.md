@@ -21,6 +21,29 @@ pnpm dev
 
 Open http://localhost:3000 to view the directory.
 
+## Remote MCP
+
+HonestAirport exposes a streamable-HTTP MCP server at `/mcp` for Cursor, Claude, and other agents. It is **not** public: every request except CORS preflight needs an account personal access token.
+
+1. Sign in and open Settings (`/settings`).
+2. Generate an MCP token. Copy it immediately — only a hash is stored.
+3. Add the remote server in Cursor (`Settings → MCP`) with URL `https://www.honestairport.com/mcp` (or your preview origin + `/mcp`) and header `Authorization: Bearer <token>`.
+
+Example `mcp.json` entry:
+
+```json
+{
+  "honestairport": {
+    "url": "https://www.honestairport.com/mcp",
+    "headers": {
+      "Authorization": "Bearer ha_mcp_..."
+    }
+  }
+}
+```
+
+Tools: `search_airports`, `get_airport`, `list_lounges`, `get_lounge`, `list_major_airports`. Search and list stay token-only. If `X402_PAY_TO` is set, `get_airport` and `get_lounge` may also return HTTP 402 after a valid token. Unsetting x402 never makes `/mcp` anonymous.
+
 ## Current MVP
 
 - Homepage hero with search by airport name, code, city, country, or region

@@ -26,6 +26,26 @@ const nextConfig: NextConfig = {
         source: "/md/:path*",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
+      {
+        source: "/mcp",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value:
+              "Authorization, Content-Type, Accept, MCP-Protocol-Version, Mcp-Session-Id, Mcp-Session, Last-Event-ID, PAYMENT-SIGNATURE, PAYMENT-REQUIRED",
+          },
+          {
+            key: "Access-Control-Expose-Headers",
+            value: "WWW-Authenticate, PAYMENT-REQUIRED, Mcp-Session-Id",
+          },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
     ];
   },
 };

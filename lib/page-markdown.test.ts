@@ -10,6 +10,7 @@ import {
 import {
   buildAirportPageMarkdown,
   buildHomeMarkdown,
+  buildLlmsTxt,
   buildLoungePageMarkdown,
   buildSitemapMarkdown,
   mdHref,
@@ -233,5 +234,19 @@ describe("markdown builders", () => {
     assert.ok(markdown);
     assert.match(markdown!, /Airportist Score/);
     assert.match(markdown!, /7\.5 \/ 10/);
+  });
+});
+
+describe("buildLlmsTxt", () => {
+  it("advertises the authenticated MCP endpoint", () => {
+    const text = buildLlmsTxt({
+      scoredCount: 1,
+      guideCount: 2,
+      loungeCount: 3,
+    });
+    assert.match(text, /\/mcp/);
+    assert.match(text, /Authorization: Bearer/);
+    assert.match(text, /search_airports/);
+    assert.match(text, /get_airport/);
   });
 });

@@ -2,19 +2,21 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
+import { McpTokenSettings } from "@/app/components/mcp-token-settings";
 import { SettingsForm } from "@/app/components/settings-form";
 import { Skeleton } from "@/components/ui/skeleton";
 import { auth } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
+import { getMcpTokenStatusForUser } from "@/lib/mcp/account-token";
 
 export const metadata: Metadata = {
   title: "Settings",
-  description: "Manage your HonestAirport profile and password.",
+  description: "Manage your HonestAirport profile, password, and MCP token.",
 };
 
 function SettingsPageFallback() {
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-12 sm:py-16">
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-6 px-4 py-12 sm:py-16">
       <div className="space-y-1.5">
         <Skeleton className="h-9 w-36" />
         <Skeleton className="h-4 w-64" />
@@ -44,13 +46,13 @@ async function SettingsPageContent() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-12 sm:py-16">
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-6 px-4 py-12 sm:py-16">
       <div className="space-y-1.5">
         <h1 className="font-heading text-3xl font-medium tracking-tight">
           Settings
         </h1>
         <p className="text-sm text-muted-foreground">
-          Update your profile details and password.
+          Update your profile, password, and MCP access token.
         </p>
       </div>
       <SettingsForm
@@ -59,6 +61,9 @@ async function SettingsPageContent() {
           email: session.user.email,
           emailVerified: session.user.emailVerified,
         }}
+      />
+      <McpTokenSettings
+        initialStatus={await getMcpTokenStatusForUser(session.user.id)}
       />
     </div>
   );

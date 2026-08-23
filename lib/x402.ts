@@ -1,8 +1,10 @@
 /**
  * Env-gated x402 paywall for machine-readable airport/lounge markdown.
  *
- * Humans on HTML stay free. Home / sitemap / llms.txt stay free. The paywall
- * is off unless `X402_PAY_TO` is set, so production cannot surprise-charge.
+ * Humans on HTML stay free. Home / sitemap / llms.txt stay free. `/mcp`
+ * always requires an account token first; x402 is an extra gate on
+ * get_airport / get_lounge only. The paywall is off unless `X402_PAY_TO`
+ * is set, so production cannot surprise-charge.
  *
  * Settlement uses `withX402` (status < 400 only), so 404s never charge.
  * Paid 200s and 402s use `private, no-store` so a CDN cannot replay a body.
