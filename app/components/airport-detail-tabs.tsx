@@ -693,7 +693,7 @@ export function AirportDetailTabs({
 
       <TabsContent value="tips" className="space-y-4">
         {lockPaid("tips", <>
-        <GuideSectionCard>
+        <GuideSectionCard
           description="The markdown guide's highest-signal tactics before the data-backed tips below."
           icon={<Sparkles aria-hidden="true" />}
           section={guideSections?.airportTricks}
