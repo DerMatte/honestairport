@@ -178,18 +178,12 @@ export function executeListMajorAirports(limit?: number): McpTextResult {
   });
 }
 
-export type PaidMcpToolCall =
-  | {
-      name: "get_airport";
-      iata: string;
-      segments: readonly ["airports", string];
-    }
-  | {
-      name: "get_lounge";
-      iata: string;
-      loungeSlug: string;
-      segments: readonly ["airports", string, "lounge", string];
-    };
+export type PaidMcpToolCall = {
+  name: "get_lounge";
+  iata: string;
+  loungeSlug: string;
+  segments: readonly ["airports", string, "lounge", string];
+};
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === "object"
@@ -221,53 +215,38 @@ function toolCallNameAndArgs(
   };
 }
 
-/** Peek at an MCP JSON-RPC body for x402-gated tool calls. */
+/**
+ * Peek at an MCP JSON-RPC body for x402-gated tool calls.
+ * Only `get_lounge` is paid. `get_airport` is token-only and never 402s.
+ */
 export function parsePaidMcpToolCall(body: unknown): PaidMcpToolCall | null {
   const call = toolCallNameAndArgs(body);
-  if (!call) {
+  if (!call || call.name !== "get_lounge") {
     return null;
   }
 
-  if (call.name === "get_airport") {
-    const iata = typeof call.args.iata === "string" ? parseIataCode(call.args.iata) : null;
-    if (!iata) {
-      return null;
-    }
-    return {
-      name: "get_airport",
-      iata,
-      segments: ["airports", iata.toLowerCase()],
-    };
+  const iata = typeof call.args.iata === "string" ? parseIataCode(call.args.iata) : null;
+  const loungeSlug =
+    typeof call.args.slug === "string"
+      ? call.args.slug.trim()
+      : typeof call.args.loungeSlug === "string"
+        ? call.args.loungeSlug.trim()
+        : "";
+  if (!iata || !loungeSlug) {
+    return null;
   }
-
-  if (call.name === "get_lounge") {
-    const iata = typeof call.args.iata === "string" ? parseIataCode(call.args.iata) : null;
-    const loungeSlug =
-      typeof call.args.slug === "string"
-        ? call.args.slug.trim()
-        : typeof call.args.loungeSlug === "string"
-          ? call.args.loungeSlug.trim()
-          : "";
-    if (!iata || !loungeSlug) {
-      return null;
-    }
-    return {
-      name: "get_lounge",
-      iata,
-      loungeSlug,
-      segments: ["airports", iata.toLowerCase(), "lounge", loungeSlug],
-    };
-  }
-
-  return null;
+  return {
+    name: "get_lounge",
+    iata,
+    loungeSlug,
+    segments: ["airports", iata.toLowerCase(), "lounge", loungeSlug],
+  };
 }
 
 export async function loadPaidToolMarkdown(
   paid: PaidMcpToolCall,
 ): Promise<string | null> {
   switch (paid.name) {
-    case "get_airport":
-      return loadAirportPageMarkdown(paid.iata.toLowerCase());
     case "get_lounge":
       return loadLoungePageMarkdown(paid.iata.toLowerCase(), paid.loungeSlug);
     default: {

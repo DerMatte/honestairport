@@ -11,8 +11,13 @@ import {
   executeSearchAirports,
   loadPaidToolMarkdown,
   parsePaidMcpToolCall,
+  type PaidMcpToolCall,
 } from "@/lib/mcp/tools";
 import { markdownResponse } from "@/lib/page-markdown";
+import {
+  userHasLiveWhopMembership,
+  type CheckWhopProductAccess,
+} from "@/lib/whop-access";
 import {
   handleMarkdownWithOptionalPayment,
   isX402Enabled,
@@ -140,6 +145,10 @@ export function mcpCorsPreflight(): Response {
 export type HandleMcpRequestOptions = {
   lookup?: McpAuthLookup;
   env?: X402Env;
+  /** Test seam: lounge markdown used only to decide whether to 402. */
+  loadPaidToolMarkdown?: (paid: PaidMcpToolCall) => Promise<string | null>;
+  /** Test seam: replace `users.checkAccess`. */
+  checkWhopAccess?: CheckWhopProductAccess;
 } & Pick<
   PaidMarkdownGateOptions,
   "server" | "syncFacilitatorOnStart" | "grantAccessWithoutPayment"
@@ -148,6 +157,7 @@ export type HandleMcpRequestOptions = {
 async function gatePaidToolIfNeeded(
   request: NextRequest,
   options: HandleMcpRequestOptions,
+  grantAccessWithoutPayment: boolean,
 ): Promise<Response | null> {
   if (request.method !== "POST" || !isX402Enabled(options.env ?? process.env)) {
     return null;
@@ -165,7 +175,8 @@ async function gatePaidToolIfNeeded(
     return null;
   }
 
-  const markdown = await loadPaidToolMarkdown(paid);
+  const loadMarkdown = options.loadPaidToolMarkdown ?? loadPaidToolMarkdown;
+  const markdown = await loadMarkdown(paid);
   if (!markdown) {
     return null;
   }
@@ -178,7 +189,7 @@ async function gatePaidToolIfNeeded(
       env: options.env,
       server: options.server,
       syncFacilitatorOnStart: options.syncFacilitatorOnStart,
-      grantAccessWithoutPayment: options.grantAccessWithoutPayment,
+      grantAccessWithoutPayment,
     },
   );
 
@@ -191,7 +202,8 @@ async function gatePaidToolIfNeeded(
 
 /**
  * Auth is mandatory. x402 (when `X402_PAY_TO` is set) can still 402
- * get_airport / get_lounge after a valid token — never instead of one.
+ * get_lounge after a valid token — never instead of one, and never
+ * get_airport. A live Whop membership on the account skips the charge.
  */
 export async function handleMcpRequest(
   request: NextRequest,
@@ -224,7 +236,20 @@ export async function handleMcpRequest(
     return withMcpCors(authorized.response);
   }
 
-  const paidGate = await gatePaidToolIfNeeded(request, options);
+  const env = options.env ?? process.env;
+  const grantAccessWithoutPayment =
+    options.grantAccessWithoutPayment === true ||
+    (await userHasLiveWhopMembership(
+      authorized.user,
+      env,
+      options.checkWhopAccess,
+    ));
+
+  const paidGate = await gatePaidToolIfNeeded(
+    request,
+    { ...options, env },
+    grantAccessWithoutPayment,
+  );
   if (paidGate) {
     return withMcpCors(paidGate);
   }

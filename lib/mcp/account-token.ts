@@ -19,6 +19,7 @@ export async function findUserByMcpTokenHash(
       id: user.id,
       email: user.email,
       name: user.name,
+      whopUserId: user.whopUserId,
       mcpTokenHash: user.mcpTokenHash,
     })
     .from(user)
@@ -29,7 +30,12 @@ export async function findUserByMcpTokenHash(
     return null;
   }
 
-  return { id: row.id, email: row.email, name: row.name };
+  return {
+    id: row.id,
+    email: row.email,
+    name: row.name,
+    whopUserId: row.whopUserId,
+  };
 }
 
 export async function verifyStoredMcpToken(

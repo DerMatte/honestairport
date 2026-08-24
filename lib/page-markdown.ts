@@ -512,7 +512,7 @@ Authenticated streamable-HTTP MCP server. Create a personal access token at ${SI
 
 Tools: \`search_airports\`, \`get_airport\`, \`list_lounges\`, \`get_lounge\`, \`list_major_airports\`.
 
-If x402 is enabled, \`get_airport\` and \`get_lounge\` may additionally return HTTP 402 + \`PAYMENT-REQUIRED\` after a valid token. Search and list stay token-only.
+If x402 is enabled, \`get_lounge\` may additionally return HTTP 402 + \`PAYMENT-REQUIRED\` after a valid token unless the account has a live Whop membership. \`get_airport\`, \`list_lounges\`, search, and list stay token-only. Airport overview \`.md\` and the lounge directory list are free; individual lounge \`.md\` (and extra airport-tab docs) may be paid.
 
 ## URL pattern
 

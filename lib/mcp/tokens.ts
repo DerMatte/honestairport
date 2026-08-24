@@ -16,6 +16,8 @@ export type McpTokenUser = {
   id: string;
   email: string;
   name: string;
+  /** Stored Whop user id for account-based membership skip (not a cookie). */
+  whopUserId?: string | null;
 };
 
 export type McpTokenStatus = {

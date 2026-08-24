@@ -73,18 +73,14 @@ describe("unknown IATA tool errors", () => {
 });
 
 describe("parsePaidMcpToolCall", () => {
-  it("extracts get_airport and get_lounge JSON-RPC calls", () => {
-    assert.deepEqual(
+  it("extracts get_lounge and never treats get_airport as paid", () => {
+    assert.equal(
       parsePaidMcpToolCall({
         jsonrpc: "2.0",
         method: "tools/call",
         params: { name: "get_airport", arguments: { iata: "lax" } },
       }),
-      {
-        name: "get_airport",
-        iata: "LAX",
-        segments: ["airports", "lax"],
-      },
+      null,
     );
     assert.deepEqual(
       parsePaidMcpToolCall({

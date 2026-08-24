@@ -42,7 +42,7 @@ Example `mcp.json` entry:
 }
 ```
 
-Tools: `search_airports`, `get_airport`, `list_lounges`, `get_lounge`, `list_major_airports`. Search and list stay token-only. If `X402_PAY_TO` is set, `get_airport` and `get_lounge` may also return HTTP 402 after a valid token. Unsetting x402 never makes `/mcp` anonymous.
+Tools: `search_airports`, `get_airport`, `list_lounges`, `get_lounge`, `list_major_airports`. `get_airport`, `list_lounges`, search, and list stay token-only. If `X402_PAY_TO` is set, `get_lounge` (individual lounge `.md` only) may also return HTTP 402 after a valid token unless the account has a live Whop membership (`user.whop_user_id` + `users.checkAccess`). The lounge directory list is free. Unsetting x402 never makes `/mcp` anonymous.
 
 ## Current MVP
 

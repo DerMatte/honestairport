@@ -25,6 +25,9 @@ export const user = pgTable(
     mcpTokenHash: text("mcp_token_hash"),
     mcpTokenPrefix: text("mcp_token_prefix"),
     mcpTokenCreatedAt: timestamp("mcp_token_created_at"),
+    // Whop member id for account-based membership skip (MCP has no cookie).
+    // Same column name as the Whop HTML gate so the branches can merge.
+    whopUserId: text("whop_user_id"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
