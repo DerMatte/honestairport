@@ -184,6 +184,7 @@ export interface AirportSearchResults {
 export async function searchAirports(
   query: string,
   location?: AirportLocationFilter,
+  options?: { limit?: number },
 ): Promise<AirportSearchResults> {
   const index = await getAirportSearchIndex();
   const normalizedQuery = normalizeSearchValue(query);
@@ -240,10 +241,16 @@ export async function searchAirports(
       ? mergeAirportsWithPriority([...ranked[0], ...singleAirportCities], filtered)
       : filtered;
 
+  const defaultLimit = location ? 50 : 8;
+  const limit =
+    typeof options?.limit === "number" && Number.isFinite(options.limit)
+      ? Math.max(1, Math.floor(options.limit))
+      : defaultLimit;
+
   return {
     // Location drill-downs list more rows than a free-text lookup, but the
     // reference dataset makes some countries huge, so they still get capped.
-    airports: location ? merged.slice(0, 50) : merged.slice(0, 8),
+    airports: merged.slice(0, limit),
     cities,
     countries,
     examples: null,

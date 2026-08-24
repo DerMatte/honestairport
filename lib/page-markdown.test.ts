@@ -11,6 +11,7 @@ import {
   buildAirportPageMarkdown,
   buildAirportTabMarkdown,
   buildHomeMarkdown,
+  buildLlmsTxt,
   buildLoungePageMarkdown,
   buildSitemapMarkdown,
   mdHref,
@@ -62,6 +63,10 @@ describe("markdown path helpers", () => {
     assert.equal(
       markdownRewritePath("/airports/lax/getting-there.md"),
       "/md/airports/lax/getting-there",
+    );
+    assert.equal(
+      markdownRewritePath("/airports/lax/water.md"),
+      "/md/airports/lax/water",
     );
     assert.equal(
       markdownRewritePath("/airports/lax/lounges.md"),
@@ -307,5 +312,22 @@ describe("markdown builders", () => {
     assert.doesNotMatch(markdown!, /## Amenities/);
     assert.doesNotMatch(markdown!, /## Traveler tips/);
     assert.doesNotMatch(markdown!, /## Getting there/);
+  });
+});
+
+describe("buildLlmsTxt", () => {
+  it("advertises the authenticated MCP endpoint", () => {
+    const text = buildLlmsTxt({
+      scoredCount: 1,
+      guideCount: 2,
+      loungeCount: 3,
+    });
+    assert.match(text, /\/mcp/);
+    assert.match(text, /Authorization: Bearer/);
+    assert.match(text, /search_airports/);
+    assert.match(text, /get_airport/);
+    assert.match(text, /get_lounge/);
+    assert.match(text, /lounge directory list are free/);
+    assert.doesNotMatch(text, /`get_airport` and `get_lounge` may/);
   });
 });

@@ -3,8 +3,6 @@
  * Prefer text/markdown only when its q-value beats text/html (and peers).
  */
 
-import { isAirportTabMarkdownSlug } from "@/lib/airport-tabs";
-
 export type NegotiatedMediaType = "text/markdown" | "text/html" | null;
 
 function parseAcceptParts(header: string): Array<{ type: string; q: number }> {
@@ -90,6 +88,45 @@ export function prefersMarkdown(acceptHeader: string | null): boolean {
   return preferredPageType(acceptHeader) === "text/markdown";
 }
 
+/**
+ * Airport-tab markdown slugs that are paid the same way as an individual
+ * lounge page if/when those routes exist. Overview (`/{iata}.md`) and the
+ * lounge directory (`/{iata}/lounges.md`) stay free.
+ */
+export const PAID_AIRPORT_TAB_SLUGS = [
+  "getting-there",
+  "amenities",
+  "tips",
+  "water",
+  "guide",
+  "disruptions",
+  "reviews",
+] as const;
+
+/** Lounge list / directory markdown — token-only, never x402. */
+export const FREE_AIRPORT_TAB_SLUGS = ["lounges"] as const;
+
+export type PaidAirportTabSlug = (typeof PAID_AIRPORT_TAB_SLUGS)[number];
+
+const PAID_AIRPORT_TAB_SET = new Set<string>(PAID_AIRPORT_TAB_SLUGS);
+const KNOWN_AIRPORT_TAB_SLUGS = [
+  ...PAID_AIRPORT_TAB_SLUGS,
+  ...FREE_AIRPORT_TAB_SLUGS,
+] as const;
+const KNOWN_AIRPORT_TAB_PATTERN = KNOWN_AIRPORT_TAB_SLUGS.join("|");
+const AIRPORT_TAB_PUBLIC_MD = new RegExp(
+  `^/airports/([^/]+)/(${KNOWN_AIRPORT_TAB_PATTERN})\\.md$`,
+  "i",
+);
+const AIRPORT_TAB_INTERNAL_MD = new RegExp(
+  `^/md/airports/([^/]+)/(${KNOWN_AIRPORT_TAB_PATTERN})$`,
+  "i",
+);
+
+export function isPaidAirportTabSlug(value: string): value is PaidAirportTabSlug {
+  return PAID_AIRPORT_TAB_SET.has(value.toLowerCase());
+}
+
 /** Public pages that have a markdown representation. */
 export function markdownRewritePath(pathname: string): string | null {
   if (pathname === "/" || pathname === "") {
@@ -102,19 +139,19 @@ export function markdownRewritePath(pathname: string): string | null {
     return "/md/sitemap";
   }
 
+  const airport = /^\/airports\/([^/]+?)(?:\.md)?$/.exec(pathname);
+  if (airport) {
+    return `/md/airports/${airport[1].toLowerCase()}`;
+  }
+
   const lounge = /^\/airports\/([^/]+)\/lounge\/([^/]+?)(?:\.md)?$/.exec(pathname);
   if (lounge) {
     return `/md/airports/${lounge[1].toLowerCase()}/lounge/${lounge[2]}`;
   }
 
-  const tab = /^\/airports\/([^/]+)\/([^/]+?)(?:\.md)?$/.exec(pathname);
-  if (tab && isAirportTabMarkdownSlug(tab[2])) {
-    return `/md/airports/${tab[1].toLowerCase()}/${tab[2]}`;
-  }
-
-  const airport = /^\/airports\/([^/]+?)(?:\.md)?$/.exec(pathname);
-  if (airport) {
-    return `/md/airports/${airport[1].toLowerCase()}`;
+  const tab = AIRPORT_TAB_PUBLIC_MD.exec(pathname);
+  if (tab) {
+    return `/md/airports/${tab[1].toLowerCase()}/${tab[2].toLowerCase()}`;
   }
 
   return null;
@@ -136,17 +173,17 @@ export function publicMarkdownPath(mdPath: string): string | null {
   if (mdPath === "/md/sitemap") {
     return "/sitemap.md";
   }
+  const airport = /^\/md\/airports\/([^/]+)$/.exec(mdPath);
+  if (airport) {
+    return `/airports/${airport[1]}.md`;
+  }
   const lounge = /^\/md\/airports\/([^/]+)\/lounge\/([^/]+)$/.exec(mdPath);
   if (lounge) {
     return `/airports/${lounge[1]}/lounge/${lounge[2]}.md`;
   }
-  const tab = /^\/md\/airports\/([^/]+)\/([^/]+)$/.exec(mdPath);
-  if (tab && isAirportTabMarkdownSlug(tab[2])) {
-    return `/airports/${tab[1]}/${tab[2]}.md`;
-  }
-  const airport = /^\/md\/airports\/([^/]+)$/.exec(mdPath);
-  if (airport) {
-    return `/airports/${airport[1]}.md`;
+  const tab = AIRPORT_TAB_INTERNAL_MD.exec(mdPath);
+  if (tab) {
+    return `/airports/${tab[1]}/${tab[2].toLowerCase()}.md`;
   }
   return null;
 }

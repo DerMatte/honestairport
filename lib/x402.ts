@@ -1,9 +1,12 @@
 /**
- * Env-gated x402 paywall for machine-readable paid airport intel.
+ * Env-gated x402 paywall for machine-readable lounge / airport-tab markdown.
  *
- * Free: home / sitemap / llms.txt, airport overview `.md`, and the lounge
- * *directory* (`/airports/{iata}/lounges.md`). Paid: extra airport tabs and
- * individual lounge pages. Off unless `X402_PAY_TO` is set.
+ * Humans on HTML stay free. Home / sitemap / llms.txt stay free. The default
+ * airport guide (`/airports/{iata}.md` and MCP `get_airport`) is always free
+ * after whatever auth that surface requires. `/mcp` always requires an
+ * account token first; x402 is an extra gate on `get_lounge` (and lounge /
+ * airport-tab `.md`) only. The paywall is off unless `X402_PAY_TO` is set,
+ * so production cannot surprise-charge.
  *
  * Settlement uses `withX402` (status < 400 only), so 404s never charge.
  * Paid 200s and 402s use `private, no-store` so a CDN cannot replay a body.
@@ -21,8 +24,10 @@ import {
   x402ResourceServer,
 } from "@x402/next";
 import { NextRequest, NextResponse } from "next/server";
-import { isPaidAirportTab } from "@/lib/airport-tabs";
-import { publicMarkdownPath } from "@/lib/markdown-negotiate";
+import {
+  isPaidAirportTabSlug,
+  publicMarkdownPath,
+} from "@/lib/markdown-negotiate";
 
 export const X402_PAY_TO_ENV = "X402_PAY_TO";
 export const X402_NETWORK_ENV = "X402_NETWORK";
@@ -55,8 +60,8 @@ function asNetwork(value: string): Network {
 
 const LOUNGE_PUBLIC_MD = /^\/airports\/([^/]+)\/lounge\/([^/]+)\.md$/;
 const LOUNGE_INTERNAL_MD = /^\/md\/airports\/([^/]+)\/lounge\/([^/]+)$/;
-const TAB_PUBLIC_MD = /^\/airports\/([^/]+)\/([^/]+)\.md$/;
-const TAB_INTERNAL_MD = /^\/md\/airports\/([^/]+)\/([^/]+)$/;
+const AIRPORT_TAB_PUBLIC_MD = /^\/airports\/([^/]+)\/([^/]+)\.md$/;
+const AIRPORT_TAB_INTERNAL_MD = /^\/md\/airports\/([^/]+)\/([^/]+)$/;
 
 type CachedServer = {
   key: string;
@@ -87,24 +92,25 @@ export function isX402Enabled(env: X402Env = process.env): boolean {
 }
 
 /**
- * Paid machine-API paths: individual lounge markdown and extra airport-tab
- * markdown (public `.md` or internal `/md/...`). Overview `.md`, the lounge
- * directory, HTML, `/`, `/index.md`, `/sitemap.md`, and `/llms.txt` are free.
+ * Paid machine-API paths only: individual lounge markdown and extra
+ * airport-tab markdown (public `.md` or internal `/md/...` after `proxy.ts`
+ * rewrite). The default airport guide, lounge directory list
+ * (`/{iata}/lounges.md`), HTML pages, `/`, `/index.md`, `/sitemap.md`, and
+ * `/llms.txt` are never paid.
  */
 export function isPaidMarkdownPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   if (LOUNGE_PUBLIC_MD.test(path) || LOUNGE_INTERNAL_MD.test(path)) {
     return true;
   }
-  const publicTab = TAB_PUBLIC_MD.exec(path);
-  if (publicTab && isPaidAirportTab(publicTab[2])) {
+
+  const publicTab = AIRPORT_TAB_PUBLIC_MD.exec(path);
+  if (publicTab && isPaidAirportTabSlug(publicTab[2])) {
     return true;
   }
-  const internalTab = TAB_INTERNAL_MD.exec(path);
-  if (internalTab && isPaidAirportTab(internalTab[2])) {
-    return true;
-  }
-  return false;
+
+  const internalTab = AIRPORT_TAB_INTERNAL_MD.exec(path);
+  return Boolean(internalTab && isPaidAirportTabSlug(internalTab[2]));
 }
 
 /** Catch-all `/md/[[...path]]` segments that correspond to a paid guide. */
@@ -123,7 +129,7 @@ export function isPaidMarkdownSegments(path: readonly string[]): boolean {
     path[0] === "airports" &&
     path[1] &&
     path[2] &&
-    isPaidAirportTab(path[2])
+    isPaidAirportTabSlug(path[2])
   ) {
     return true;
   }
@@ -154,7 +160,7 @@ export function paidMarkdownRouteConfig(config: X402SellerConfig): RouteConfig {
       network: config.network,
       payTo: config.payTo,
     },
-    description: "HonestAirport airport or lounge markdown guide",
+    description: "HonestAirport lounge or airport-tab markdown guide",
     mimeType: "text/markdown",
   };
 }
@@ -228,8 +234,9 @@ export type PaidMarkdownGateOptions = {
 
 /**
  * Run `serve` unchanged when the paywall is off or the path is free.
- * Paid airport/lounge markdown goes through `withX402` so unpaid clients get
- * HTTP 402 + `PAYMENT-REQUIRED`, and settlement happens only after status < 400.
+ * Paid lounge / airport-tab markdown goes through `withX402` so unpaid clients
+ * get HTTP 402 + `PAYMENT-REQUIRED`, and settlement happens only after status
+ * < 400. Airport `{iata}.md` is never gated.
  */
 export async function handleMarkdownWithOptionalPayment(
   request: NextRequest,

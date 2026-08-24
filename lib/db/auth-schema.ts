@@ -6,26 +6,36 @@ import {
   pgTable,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-export const user = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name").notNull(),
-  email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").default(false).notNull(),
-  image: text("image"),
-  // Server-managed privilege flag — never accepted from client signup input.
-  // "admin" may post reviews (and other gated writes); everyone else is "user".
-  role: text("role", { enum: ["user", "admin"] }).default("user").notNull(),
-  // Whop member id after a verified receipt unlock. Identifier only — not an
-  // `isPro` flag. HTML and x402 still live-check `users.checkAccess`.
-  whopUserId: text("whop_user_id"),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at")
-    .defaultNow()
-    .$onUpdate(() => /* @__PURE__ */ new Date())
-    .notNull(),
-});
+export const user = pgTable(
+  "user",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    email: text("email").notNull().unique(),
+    emailVerified: boolean("email_verified").default(false).notNull(),
+    image: text("image"),
+    // Server-managed privilege flag — never accepted from client signup input.
+    // "admin" may post reviews (and other gated writes); everyone else is "user".
+    role: text("role", { enum: ["user", "admin"] }).default("user").notNull(),
+    // MCP personal access token — SHA-256 of the raw token only. The plaintext
+    // is shown once at create/rotate time and is never stored.
+    mcpTokenHash: text("mcp_token_hash"),
+    mcpTokenPrefix: text("mcp_token_prefix"),
+    mcpTokenCreatedAt: timestamp("mcp_token_created_at"),
+    // Whop member id for account-based membership skip (MCP has no cookie).
+    // Same column name as the Whop HTML gate so the branches can merge.
+    whopUserId: text("whop_user_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [uniqueIndex("user_mcp_token_hash_uidx").on(table.mcpTokenHash)],
+);
 
 export const session = pgTable(
   "session",

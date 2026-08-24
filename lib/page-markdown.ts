@@ -681,6 +681,15 @@ The site hosts ${input.scoredCount} scored airports, ${input.guideCount} guides,
 - Markdown home: ${SITE_URL}/index.md
 - Markdown sitemap: ${SITE_URL}/sitemap.md
 - This file: ${SITE_URL}/llms.txt
+- Remote MCP: ${SITE_URL}/mcp
+
+## MCP (machine tools)
+
+Authenticated streamable-HTTP MCP server. Create a personal access token at ${SITE_URL}/settings and send \`Authorization: Bearer <token>\`. Unauthenticated requests receive HTTP 401.
+
+Tools: \`search_airports\`, \`get_airport\`, \`list_lounges\`, \`get_lounge\`, \`list_major_airports\`.
+
+If x402 is enabled, \`get_lounge\` may additionally return HTTP 402 + \`PAYMENT-REQUIRED\` after a valid token unless the account has a live Whop membership. \`get_airport\`, \`list_lounges\`, search, and list stay token-only. Airport overview \`.md\` and the lounge directory list are free; individual lounge \`.md\` (and extra airport-tab docs) may be paid.
 
 ## URL pattern
 
