@@ -246,12 +246,5 @@ export function parsePaidMcpToolCall(body: unknown): PaidMcpToolCall | null {
 export async function loadPaidToolMarkdown(
   paid: PaidMcpToolCall,
 ): Promise<string | null> {
-  switch (paid.name) {
-    case "get_lounge":
-      return loadLoungePageMarkdown(paid.iata.toLowerCase(), paid.loungeSlug);
-    default: {
-      const _exhaustive: never = paid;
-      return _exhaustive;
-    }
-  }
+  return loadLoungePageMarkdown(paid.iata.toLowerCase(), paid.loungeSlug);
 }
