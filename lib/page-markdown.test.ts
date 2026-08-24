@@ -10,6 +10,7 @@ import {
 import {
   buildAirportPageMarkdown,
   buildHomeMarkdown,
+  buildLlmsTxt,
   buildLoungePageMarkdown,
   buildSitemapMarkdown,
   mdHref,
@@ -58,6 +59,14 @@ describe("markdown path helpers", () => {
       markdownRewritePath("/airports/lax/lounge/star-alliance.md"),
       "/md/airports/lax/lounge/star-alliance",
     );
+    assert.equal(
+      markdownRewritePath("/airports/lax/water.md"),
+      "/md/airports/lax/water",
+    );
+    assert.equal(
+      markdownRewritePath("/airports/lax/lounges.md"),
+      "/md/airports/lax/lounges",
+    );
   });
 
   it("blocks private .md paths and round-trips canonical URLs", () => {
@@ -69,6 +78,14 @@ describe("markdown path helpers", () => {
     assert.equal(
       publicMarkdownPath("/md/airports/lax/lounge/star"),
       "/airports/lax/lounge/star.md",
+    );
+    assert.equal(
+      publicMarkdownPath("/md/airports/lax/getting-there"),
+      "/airports/lax/getting-there.md",
+    );
+    assert.equal(
+      publicMarkdownPath("/md/airports/lax/lounges"),
+      "/airports/lax/lounges.md",
     );
   });
 });
@@ -233,5 +250,22 @@ describe("markdown builders", () => {
     assert.ok(markdown);
     assert.match(markdown!, /Airportist Score/);
     assert.match(markdown!, /7\.5 \/ 10/);
+  });
+});
+
+describe("buildLlmsTxt", () => {
+  it("advertises the authenticated MCP endpoint", () => {
+    const text = buildLlmsTxt({
+      scoredCount: 1,
+      guideCount: 2,
+      loungeCount: 3,
+    });
+    assert.match(text, /\/mcp/);
+    assert.match(text, /Authorization: Bearer/);
+    assert.match(text, /search_airports/);
+    assert.match(text, /get_airport/);
+    assert.match(text, /get_lounge/);
+    assert.match(text, /lounge directory list are free/);
+    assert.doesNotMatch(text, /`get_airport` and `get_lounge` may/);
   });
 });
