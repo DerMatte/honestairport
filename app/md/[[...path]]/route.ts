@@ -4,11 +4,17 @@ import {
   AIRPORT_GUIDES_CACHE_TAG,
   AIRPORT_LOUNGES_CACHE_TAG,
   AIRPORT_PROFILES_CACHE_TAG,
+  getAirportBySlug,
+  getAirportContent,
+  getAirportLoungesWithFallback,
   getAllAirportLoungeParams,
   getAllAirports,
   getAllHonestAirports,
+  getEditorialReviews,
 } from "@/lib/airport-content";
+import { isAirportTabMarkdownSlug } from "@/lib/airport-tabs";
 import {
+  buildAirportTabMarkdown,
   buildHomeMarkdown,
   buildSitemapMarkdown,
   markdownResponse,
@@ -17,7 +23,8 @@ import {
   loadAirportPageMarkdown,
   loadLoungePageMarkdown,
 } from "@/lib/public-markdown";
-import { handleMarkdownWithOptionalPayment } from "@/lib/x402";
+import { hasLiveWhopMembership } from "@/lib/whop-access";
+import { handleMarkdownWithOptionalPayment, isPaidMarkdownSegments } from "@/lib/x402";
 
 interface MdRouteProps {
   params: Promise<{ path?: string[] }>;
@@ -85,6 +92,40 @@ async function serveMarkdown(path: string[]): Promise<Response> {
   }
 
   if (
+    path.length === 3 &&
+    path[0] === "airports" &&
+    isAirportTabMarkdownSlug(path[2])
+  ) {
+    const slug = path[1].toLowerCase();
+    const tab = path[2];
+    const iata = slug.trim().toUpperCase();
+    const [profile, guide, lounges, reviews] = await Promise.all([
+      getAirportBySlug(slug),
+      getAirportContent(slug),
+      getAirportLoungesWithFallback(iata),
+      getEditorialReviews(iata),
+    ]);
+    const body = buildAirportTabMarkdown({
+      slug,
+      tab,
+      profile,
+      guide,
+      lounges,
+      reviews,
+    });
+    if (!body) {
+      return markdownResponse("Not found\n", {
+        status: 404,
+        contentType: "text/plain; charset=utf-8",
+      });
+    }
+    return markdownResponse(body, {
+      cacheTags: AIRPORT_CACHE_TAGS,
+      canonicalPath: `/airports/${slug}/${tab}.md`,
+    });
+  }
+
+  if (
     path.length === 4 &&
     path[0] === "airports" &&
     path[2] === "lounge"
@@ -112,7 +153,10 @@ async function serveMarkdown(path: string[]): Promise<Response> {
 
 export async function GET(request: NextRequest, { params }: MdRouteProps) {
   const { path = [] } = await params;
+  const memberBypass =
+    isPaidMarkdownSegments(path) && (await hasLiveWhopMembership());
   return handleMarkdownWithOptionalPayment(request, path, () =>
     serveMarkdown(path),
+    { grantAccessWithoutPayment: memberBypass },
   );
 }

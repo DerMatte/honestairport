@@ -13,6 +13,7 @@ import {
 } from "@/app/components/nearest-airport-skeletons";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { isWhopNavEnabled } from "@/lib/whop-gate";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -96,6 +97,7 @@ export default async function RootLayout({
           Skip to content
         </a>
         <SiteHeader
+          membershipEnabled={isWhopNavEnabled()}
           nearestAirportSlot={
             <Suspense fallback={<NearestAirportLinkSkeleton className="mr-2" />}>
               <NearestAirportHeaderLink className="mr-2" />

@@ -29,6 +29,7 @@ import { AirportRideBooking } from "@/app/components/airport-ride-booking";
 import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviews } from "@/app/components/airport-reviews";
+import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -52,10 +53,12 @@ import type {
   AirportLoungeView,
 } from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
+import { isPaidAirportTab } from "@/lib/airport-tabs";
 import type { AirportUserReview } from "@/lib/review-schema";
 import type { Airport, AmenityCategory, TransportBestFor } from "@/lib/types";
+import type { HtmlAccess } from "@/lib/whop-gate";
 
-interface AirportDetailTabsProps {
+export interface AirportDetailTabsProps {
   /** Curated airport record; omit for guide-only airports. */
   airport?: Airport;
   guide?: AirportGuideSummary | null;
@@ -70,6 +73,11 @@ interface AirportDetailTabsProps {
    * `getAirportLoungesWithFallback`). Directory lounges link to subpages.
    */
   lounges?: AirportLoungeView[];
+  /**
+   * Live Whop result. `denied` keeps tab triggers visible but replaces paid
+   * tab bodies with a Join CTA. Overview and the lounges list stay open.
+   */
+  membershipAccess?: HtmlAccess;
 }
 
 const detailTabClassName =
@@ -263,6 +271,35 @@ function collectWaterGuideSections(
   });
 }
 
+function PaidTabBody({
+  access,
+  iata,
+  airportName,
+  children,
+}: {
+  access: HtmlAccess;
+  iata: string;
+  airportName: string;
+  children: ReactNode;
+}) {
+  if (access !== "denied") {
+    return children;
+  }
+  return (
+    <MembershipTeaser
+      variant="panel"
+      returnPath={`/airports/${iata.toLowerCase()}`}
+      teaser={{
+        name: airportName,
+        iata,
+        city: "",
+        country: null,
+        blurb: null,
+      }}
+    />
+  );
+}
+
 export function AirportDetailTabs({
   airport,
   guide,
@@ -270,12 +307,27 @@ export function AirportDetailTabs({
   guideMarkdown,
   seedReviews,
   lounges = [],
+  membershipAccess = "open",
 }: AirportDetailTabsProps) {
   const iata = airport?.iata ?? iataProp;
 
   if (!iata) {
     return null;
   }
+
+  const airportName = airport?.name ?? airport?.shortName ?? `${iata} airport`;
+  const lockPaid = (tab: string, body: ReactNode) =>
+    isPaidAirportTab(tab) ? (
+      <PaidTabBody
+        access={membershipAccess}
+        airportName={airportName}
+        iata={iata}
+      >
+        {body}
+      </PaidTabBody>
+    ) : (
+      body
+    );
 
   const airportRecord = getAirportByIata(iata);
   const transportRecommendations = airport?.transport.length
@@ -516,6 +568,7 @@ export function AirportDetailTabs({
       </TabsContent>
 
       <TabsContent value="getting-there" className="space-y-4">
+        {lockPaid("getting-there", <>
         {hasGettingThereGuide ? (
           <div className="grid gap-4 lg:grid-cols-2">
             <GuideSectionCard
@@ -584,6 +637,7 @@ export function AirportDetailTabs({
             );
           })}
         </div>
+        </>)}
       </TabsContent>
 
       <TabsContent value="lounges" className="space-y-4">
@@ -607,6 +661,7 @@ export function AirportDetailTabs({
       </TabsContent>
 
       <TabsContent value="amenities" className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {lockPaid("amenities", <>
         {airport?.amenities.map((amenity) => (
           <Card key={amenity.id}>
             <CardHeader>
@@ -633,9 +688,11 @@ export function AirportDetailTabs({
             </CardContent>
           </Card>
         ))}
+        </>)}
       </TabsContent>
 
       <TabsContent value="tips" className="space-y-4">
+        {lockPaid("tips", <>
         <GuideSectionCard
           description="The markdown guide's highest-signal tactics before the data-backed tips below."
           icon={<Sparkles aria-hidden="true" />}
@@ -687,9 +744,11 @@ export function AirportDetailTabs({
             </CardContent>
           </Card>
         ))}
+        </>)}
       </TabsContent>
 
       <TabsContent value="water" className="space-y-4">
+        {lockPaid("water", <>
         {guide?.waterOptions.length ? (
           <AirportWaterOptionGrid options={guide.waterOptions} />
         ) : (
@@ -712,37 +771,44 @@ export function AirportDetailTabs({
             </CardContent>
           </Card>
         ) : null}
+        </>)}
       </TabsContent>
 
       {guideMarkdown ? (
         <TabsContent value="guide" className="max-w-4xl">
-          <AirportGuideArticle content={guideMarkdown} />
+          {lockPaid("guide", <AirportGuideArticle content={guideMarkdown} />)}
         </TabsContent>
       ) : null}
 
       <TabsContent value="disruptions">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <ShieldCheck className="size-5" aria-hidden="true" />
-              Current Disruptions
-            </CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Live operational signals from Flighty or FAA, plus checkpoint waits where airports publish them.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <AirportLiveStatusPanel />
-          </CardContent>
-        </Card>
+        {lockPaid(
+          "disruptions",
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <ShieldCheck className="size-5" aria-hidden="true" />
+                Current Disruptions
+              </CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Live operational signals from Flighty or FAA, plus checkpoint waits where airports publish them.
+              </p>
+            </CardHeader>
+            <CardContent>
+              <AirportLiveStatusPanel />
+            </CardContent>
+          </Card>,
+        )}
       </TabsContent>
 
       <TabsContent value="reviews">
-        <AirportReviews
-          iata={iata}
-          seedReviews={seedReviews}
-          className="max-w-3xl"
-        />
+        {lockPaid(
+          "reviews",
+          <AirportReviews
+            iata={iata}
+            seedReviews={seedReviews}
+            className="max-w-3xl"
+          />,
+        )}
       </TabsContent>
       </Tabs>
     </AirportLiveStatusProvider>
