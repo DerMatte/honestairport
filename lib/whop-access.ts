@@ -1,5 +1,10 @@
+import { eq } from "drizzle-orm";
+import { headers } from "next/headers";
 import { cache } from "react";
 import { NotFoundError } from "@whop/sdk";
+import { auth } from "@/lib/auth";
+import { getDb, isDatabaseConfigured } from "@/lib/db";
+import { user } from "@/lib/db/auth-schema";
 import { SITE_URL } from "@/lib/site";
 import { getWhop } from "@/lib/whop";
 import {
@@ -7,6 +12,7 @@ import {
   isWhopGateEnabled,
   membershipCheckoutHref,
   resolveHtmlAccess,
+  resolveWhopUserId,
   type HtmlAccess,
   type WhopEnv,
 } from "@/lib/whop-gate";
@@ -25,6 +31,19 @@ export const checkProductAccess = cache(
   },
 );
 
+async function readAccountWhopUserId(): Promise<string | null> {
+  if (!isDatabaseConfigured()) {
+    return null;
+  }
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    const stored = session?.user?.whopUserId;
+    return typeof stored === "string" && stored.trim() ? stored.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Live membership check. Off / missing session never calls Whop. */
 export async function getHtmlAccess(
   env: WhopEnv = process.env,
@@ -33,9 +52,10 @@ export async function getHtmlAccess(
     return "open";
   }
   const session = await getWhopSession(env);
+  const accountWhopUserId = await readAccountWhopUserId();
   return resolveHtmlAccess({
     env,
-    whopUserId: session?.whopUserId ?? null,
+    whopUserId: resolveWhopUserId(session?.whopUserId, accountWhopUserId),
     checkAccess: checkProductAccess,
   });
 }
@@ -68,13 +88,47 @@ export function isWhopReceiptId(value: string): boolean {
   return RECEIPT_ID.test(value);
 }
 
+export type UnlockFromReceiptOptions = {
+  /** Better Auth user id to persist `whopUserId` on. Cookie still always saved. */
+  accountUserId?: string | null;
+};
+
+/**
+ * Write the verified Whop member id onto the signed-in Better Auth user.
+ * Identifier only — not an `isPro` flag. No-ops when the DB is unset.
+ */
+export async function persistWhopUserIdOnAccount(
+  accountUserId: string,
+  whopUserId: string,
+): Promise<boolean> {
+  if (!isDatabaseConfigured()) {
+    return false;
+  }
+  const userId = accountUserId.trim();
+  const stored = whopUserId.trim();
+  if (!userId || !stored) {
+    return false;
+  }
+  try {
+    await getDb()
+      .update(user)
+      .set({ whopUserId: stored, updatedAt: new Date() })
+      .where(eq(user.id, userId));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Exchange a verified Whop receipt for a session cookie.
  * Authorization still re-checks `users.checkAccess` on the next render.
+ * When the visitor is signed in, also persist `whopUserId` on their account.
  */
 export async function unlockFromReceipt(
   receiptId: string,
   env: WhopEnv = process.env,
+  options: UnlockFromReceiptOptions = {},
 ): Promise<UnlockResult> {
   if (!isWhopGateEnabled(env)) {
     return { ok: false, status: 404, error: "gate_off" };
@@ -128,6 +182,10 @@ export async function unlockFromReceipt(
   session.username = payment.user.username;
   session.unlockedAt = Date.now();
   await session.save();
+
+  if (options.accountUserId) {
+    await persistWhopUserIdOnAccount(options.accountUserId, payment.user.id);
+  }
 
   return { ok: true, username: payment.user.username };
 }

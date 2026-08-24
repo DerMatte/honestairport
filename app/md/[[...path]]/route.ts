@@ -16,8 +16,10 @@ import {
   getEditorialReviews,
   resolveAirportDisplayName,
 } from "@/lib/airport-content";
+import { isAirportTabMarkdownSlug } from "@/lib/airport-tabs";
 import {
   buildAirportPageMarkdown,
+  buildAirportTabMarkdown,
   buildHomeMarkdown,
   buildLoungePageMarkdown,
   buildSitemapMarkdown,
@@ -132,6 +134,40 @@ async function serveMarkdown(path: string[]): Promise<Response> {
     return markdownResponse(body, {
       cacheTags: AIRPORT_CACHE_TAGS,
       canonicalPath: `/airports/${slug}.md`,
+    });
+  }
+
+  if (
+    path.length === 3 &&
+    path[0] === "airports" &&
+    isAirportTabMarkdownSlug(path[2])
+  ) {
+    const slug = path[1].toLowerCase();
+    const tab = path[2];
+    const iata = slug.trim().toUpperCase();
+    const [profile, guide, lounges, reviews] = await Promise.all([
+      getAirportBySlug(slug),
+      getAirportContent(slug),
+      getAirportLoungesWithFallback(iata),
+      getEditorialReviews(iata),
+    ]);
+    const body = buildAirportTabMarkdown({
+      slug,
+      tab,
+      profile,
+      guide,
+      lounges,
+      reviews,
+    });
+    if (!body) {
+      return markdownResponse("Not found\n", {
+        status: 404,
+        contentType: "text/plain; charset=utf-8",
+      });
+    }
+    return markdownResponse(body, {
+      cacheTags: AIRPORT_CACHE_TAGS,
+      canonicalPath: `/airports/${slug}/${tab}.md`,
     });
   }
 

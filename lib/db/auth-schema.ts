@@ -17,6 +17,9 @@ export const user = pgTable("user", {
   // Server-managed privilege flag — never accepted from client signup input.
   // "admin" may post reviews (and other gated writes); everyone else is "user".
   role: text("role", { enum: ["user", "admin"] }).default("user").notNull(),
+  // Whop member id after a verified receipt unlock. Identifier only — not an
+  // `isPro` flag. HTML and x402 still live-check `users.checkAccess`.
+  whopUserId: text("whop_user_id"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

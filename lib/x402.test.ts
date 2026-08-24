@@ -132,13 +132,26 @@ describe("paid markdown path helpers", () => {
     assert.equal(isPaidMarkdownSegments(["sitemap"]), false);
   });
 
-  it("gates airport and lounge markdown (public and rewritten /md paths)", () => {
-    assert.equal(isPaidMarkdownPath("/airports/lax.md"), true);
-    assert.equal(isPaidMarkdownPath("/airports/LAX.md"), true);
-    assert.equal(isPaidMarkdownPath("/md/airports/lax"), true);
+  it("does not gate airport overview or lounge-directory markdown", () => {
+    assert.equal(isPaidMarkdownPath("/airports/lax.md"), false);
+    assert.equal(isPaidMarkdownPath("/airports/LAX.md"), false);
+    assert.equal(isPaidMarkdownPath("/md/airports/lax"), false);
+    assert.equal(isPaidMarkdownPath("/airports/lax/lounges.md"), false);
+    assert.equal(isPaidMarkdownPath("/md/airports/lax/lounges"), false);
+    assert.equal(isPaidMarkdownSegments(["airports", "lax"]), false);
+    assert.equal(isPaidMarkdownSegments(["airports", "lax", "lounges"]), false);
+  });
+
+  it("gates extra-tab and individual lounge markdown", () => {
+    assert.equal(isPaidMarkdownPath("/airports/lax/getting-there.md"), true);
+    assert.equal(isPaidMarkdownPath("/airports/lax/reviews.md"), true);
+    assert.equal(isPaidMarkdownPath("/md/airports/lax/tips"), true);
     assert.equal(isPaidMarkdownPath("/airports/lax/lounge/star-alliance.md"), true);
     assert.equal(isPaidMarkdownPath("/md/airports/lax/lounge/star-alliance"), true);
-    assert.equal(isPaidMarkdownSegments(["airports", "lax"]), true);
+    assert.equal(
+      isPaidMarkdownSegments(["airports", "lax", "getting-there"]),
+      true,
+    );
     assert.equal(
       isPaidMarkdownSegments(["airports", "lax", "lounge", "star-alliance"]),
       true,
@@ -146,10 +159,10 @@ describe("paid markdown path helpers", () => {
   });
 
   it("maps paid /md segments back to the public .md URL", () => {
-    const request = markdownRequest("/md/airports/lax");
+    const request = markdownRequest("/md/airports/lax/getting-there");
     assert.equal(
-      paidMarkdownResourceUrl(request, ["airports", "lax"]),
-      `${TEST_ORIGIN}/airports/lax.md`,
+      paidMarkdownResourceUrl(request, ["airports", "lax", "getting-there"]),
+      `${TEST_ORIGIN}/airports/lax/getting-there.md`,
     );
     assert.equal(
       paidMarkdownResourceUrl(
@@ -205,15 +218,40 @@ describe("handleMarkdownWithOptionalPayment", () => {
     }
   });
 
-  it("returns 402 with payment instructions for airport .md when enabled", async () => {
+  it("does not 402 airport overview or lounge-directory markdown when enabled", async () => {
+    const config = testConfig();
+    const server = createX402ResourceServer(config, localFacilitator());
+    await server.initialize();
+
+    for (const [path, segments] of [
+      ["/md/airports/lax", ["airports", "lax"]],
+      ["/md/airports/lax/lounges", ["airports", "lax", "lounges"]],
+    ] as const) {
+      let served = 0;
+      const response = await handleMarkdownWithOptionalPayment(
+        markdownRequest(path),
+        [...segments],
+        async () => {
+          served += 1;
+          return new NextResponse("# overview\n", { status: 200 });
+        },
+        { env: enabledEnv, server, syncFacilitatorOnStart: false },
+      );
+      assert.equal(served, 1, path);
+      assert.equal(response.status, 200, path);
+      assert.equal(await response.text(), "# overview\n");
+    }
+  });
+
+  it("returns 402 with payment instructions for a paid tab .md when enabled", async () => {
     const config = testConfig();
     const server = createX402ResourceServer(config, localFacilitator());
     await server.initialize();
 
     let served = 0;
     const response = await handleMarkdownWithOptionalPayment(
-      markdownRequest("/md/airports/lax"),
-      ["airports", "lax"],
+      markdownRequest("/md/airports/lax/getting-there"),
+      ["airports", "lax", "getting-there"],
       async () => {
         served += 1;
         return new NextResponse("# should not run\n", { status: 200 });
@@ -238,7 +276,10 @@ describe("handleMarkdownWithOptionalPayment", () => {
 
     const decoded = decodePaymentRequiredHeader(paymentRequired);
     assert.equal(decoded.x402Version, 2);
-    assert.equal(decoded.resource.url, `${TEST_ORIGIN}/airports/lax.md`);
+    assert.equal(
+      decoded.resource.url,
+      `${TEST_ORIGIN}/airports/lax/getting-there.md`,
+    );
     assert.ok(decoded.accepts.length >= 1);
 
     const accept = decoded.accepts[0];
@@ -277,10 +318,10 @@ describe("handleMarkdownWithOptionalPayment", () => {
     await server.initialize();
 
     const response = await handleMarkdownWithOptionalPayment(
-      markdownRequest("/md/airports/lax"),
-      ["airports", "lax"],
+      markdownRequest("/md/airports/lax/lounge/star-alliance"),
+      ["airports", "lax", "lounge", "star-alliance"],
       async () =>
-        new NextResponse("# LAX\n", {
+        new NextResponse("# lounge\n", {
           status: 200,
           headers: { "Cache-Control": MARKDOWN_CACHE_CONTROL },
         }),
@@ -293,7 +334,7 @@ describe("handleMarkdownWithOptionalPayment", () => {
     );
 
     assert.equal(response.status, 200);
-    assert.equal(await response.text(), "# LAX\n");
+    assert.equal(await response.text(), "# lounge\n");
     assertNotPubliclyCached(response, "paid 200");
     assert.equal(
       response.headers.get("Cache-Control"),

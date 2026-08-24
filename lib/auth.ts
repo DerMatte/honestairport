@@ -32,6 +32,12 @@ export const auth = betterAuth({
         // Privilege is DB/ops-managed — never accepted from signup or OAuth profile.
         input: false,
       },
+      whopUserId: {
+        type: "string",
+        required: false,
+        // Set only after a verified Whop receipt — never from signup input.
+        input: false,
+      },
     },
   },
   emailAndPassword: {

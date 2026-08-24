@@ -58,9 +58,10 @@ function MembersShell({ children }: { children: ReactNode }) {
         </div>
         <h1 className="mt-4 text-4xl tracking-tight">HonestAirport Members</h1>
         <p className="mt-3 text-base leading-7 text-muted-foreground">
-          Full airport HTML pages, lounge intel, and traveler reviews. The
-          homepage directory stays free. Machines can still pay per-guide via
-          x402 on <span className="font-mono">.md</span> URLs.
+          Extra airport tabs (getting there, amenities, tips, water, the full
+          guide, disruptions, reviews) and individual lounge pages. Overview
+          and the lounge directory stay free. Machines pay for paid{" "}
+          <span className="font-mono">.md</span> via x402.
         </p>
 
         <Card className="mt-8 border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
@@ -107,10 +108,10 @@ async function MembersPageContent({ searchParams }: MembersPageProps) {
               You&apos;re in
             </h2>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              This browser has an active membership. Open any airport page
-              for the full guide. Members also get the existing Telegram
-              community from the Whop product page — there is no Telegram
-              bot in this app.
+              This browser has an active membership. Extra airport tabs and
+              lounge pages are unlocked. Members also get the existing
+              Telegram community from the Whop product page — there is no
+              Telegram bot in this app.
             </p>
             <Link
               href={nextPath}

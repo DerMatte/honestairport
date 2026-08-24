@@ -3,6 +3,8 @@
  * Prefer text/markdown only when its q-value beats text/html (and peers).
  */
 
+import { isAirportTabMarkdownSlug } from "@/lib/airport-tabs";
+
 export type NegotiatedMediaType = "text/markdown" | "text/html" | null;
 
 function parseAcceptParts(header: string): Array<{ type: string; q: number }> {
@@ -100,14 +102,19 @@ export function markdownRewritePath(pathname: string): string | null {
     return "/md/sitemap";
   }
 
-  const airport = /^\/airports\/([^/]+?)(?:\.md)?$/.exec(pathname);
-  if (airport) {
-    return `/md/airports/${airport[1].toLowerCase()}`;
-  }
-
   const lounge = /^\/airports\/([^/]+)\/lounge\/([^/]+?)(?:\.md)?$/.exec(pathname);
   if (lounge) {
     return `/md/airports/${lounge[1].toLowerCase()}/lounge/${lounge[2]}`;
+  }
+
+  const tab = /^\/airports\/([^/]+)\/([^/]+?)(?:\.md)?$/.exec(pathname);
+  if (tab && isAirportTabMarkdownSlug(tab[2])) {
+    return `/md/airports/${tab[1].toLowerCase()}/${tab[2]}`;
+  }
+
+  const airport = /^\/airports\/([^/]+?)(?:\.md)?$/.exec(pathname);
+  if (airport) {
+    return `/md/airports/${airport[1].toLowerCase()}`;
   }
 
   return null;
@@ -129,13 +136,17 @@ export function publicMarkdownPath(mdPath: string): string | null {
   if (mdPath === "/md/sitemap") {
     return "/sitemap.md";
   }
-  const airport = /^\/md\/airports\/([^/]+)$/.exec(mdPath);
-  if (airport) {
-    return `/airports/${airport[1]}.md`;
-  }
   const lounge = /^\/md\/airports\/([^/]+)\/lounge\/([^/]+)$/.exec(mdPath);
   if (lounge) {
     return `/airports/${lounge[1]}/lounge/${lounge[2]}.md`;
+  }
+  const tab = /^\/md\/airports\/([^/]+)\/([^/]+)$/.exec(mdPath);
+  if (tab && isAirportTabMarkdownSlug(tab[2])) {
+    return `/airports/${tab[1]}/${tab[2]}.md`;
+  }
+  const airport = /^\/md\/airports\/([^/]+)$/.exec(mdPath);
+  if (airport) {
+    return `/airports/${airport[1]}.md`;
   }
   return null;
 }

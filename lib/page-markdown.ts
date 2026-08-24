@@ -9,7 +9,14 @@ import {
   airportContentToMarkdown,
   type AirportContent,
   type AirportSummary,
+  type AirportWaterOption,
 } from "@/lib/airport-guides";
+import {
+  PAID_AIRPORT_TAB_VALUES,
+  isAirportTabMarkdownSlug,
+  isPaidAirportTab,
+  type PaidAirportTabValue,
+} from "@/lib/airport-tabs";
 import {
   PROGRAM_LABELS,
   type AirportLoungeView,
@@ -180,6 +187,14 @@ export function buildSitemapMarkdown(input: {
     lines.push(
       `- [${label} (${iata})${score}](${mdHref(`/airports/${slug}.md`)})`,
     );
+    lines.push(
+      `  - [Lounge directory](${mdHref(`/airports/${slug}/lounges.md`)})`,
+    );
+    for (const tab of PAID_AIRPORT_TAB_VALUES) {
+      lines.push(
+        `  - [${tabMarkdownLabel(tab)}](${mdHref(`/airports/${slug}/${tab}.md`)})`,
+      );
+    }
 
     const airportLounges = [...(loungesByIata.get(iata) ?? [])].sort((a, b) =>
       a.slug.localeCompare(b.slug),
@@ -194,7 +209,46 @@ export function buildSitemapMarkdown(input: {
   return `${lines.join("\n").trim()}\n`;
 }
 
-function profileSections(airport: Airport, googleRating: AirportGoogleRating | null): string {
+function tabMarkdownLabel(tab: PaidAirportTabValue | "lounges"): string {
+  switch (tab) {
+    case "getting-there":
+      return "Getting there";
+    case "lounges":
+      return "Lounge directory";
+    case "amenities":
+      return "Amenities";
+    case "tips":
+      return "Traveler tips";
+    case "water":
+      return "Water";
+    case "guide":
+      return "Full guide";
+    case "disruptions":
+      return "Disruptions";
+    case "reviews":
+      return "Reviews";
+    default: {
+      const exhaustive: never = tab;
+      return exhaustive;
+    }
+  }
+}
+
+function moreIntelLinks(slug: string): string {
+  const items = [
+    `[Lounge directory](${mdHref(`/airports/${slug}/lounges.md`)}) (free)`,
+    ...PAID_AIRPORT_TAB_VALUES.map(
+      (tab) =>
+        `[${tabMarkdownLabel(tab)}](${mdHref(`/airports/${slug}/${tab}.md`)})`,
+    ),
+  ];
+  return section("More intel", bulletList(items));
+}
+
+function profileOverviewSections(
+  airport: Airport,
+  googleRating: AirportGoogleRating | null,
+): string {
   const breakdown = airport.scoreBreakdown;
   const parts: string[] = [
     `# ${airport.name} (${airport.iata})`,
@@ -241,53 +295,87 @@ function profileSections(airport: Airport, googleRating: AirportGoogleRating | n
     parts.push(section("Watch out for", bulletList(airport.watchOutFor)));
   }
 
-  if (airport.amenities.length > 0) {
-    parts.push(
-      section(
-        "Amenities",
-        bulletList(
-          airport.amenities.map(
-            (amenity) =>
-              `**${amenity.label}** (${amenity.quality}${amenity.isFeatured ? ", featured" : ""}): ${amenity.description}`,
-          ),
-        ),
-      ),
-    );
-  }
-
-  const tips = airport.importantTips?.length ? airport.importantTips : airport.tips;
-  if (tips.length > 0) {
-    parts.push(
-      section(
-        "Traveler tips",
-        tips
-          .map((tip) => {
-            const detail = "detail" in tip && tip.detail ? `\n  ${tip.detail}` : "";
-            const details = "details" in tip && tip.details ? `\n  ${tip.details}` : "";
-            return `- **${tip.title}** (${tip.category}): ${tip.summary}${detail}${details}`;
-          })
-          .join("\n"),
-      ),
-    );
-  }
-
-  if (airport.transport.length > 0) {
-    parts.push(
-      section(
-        "Getting there",
-        airport.transport
-          .map((option) => {
-            const best = option.bestFor?.length
-              ? ` Best for: ${option.bestFor.join(", ")}.`
-              : "";
-            return `- **${option.name}** (${option.type}): ${option.summary} ${option.timeToCity}, ${option.cost}.${best}${option.insiderTip ? ` Tip: ${option.insiderTip}` : ""}`;
-          })
-          .join("\n"),
-      ),
-    );
-  }
-
   return parts.filter(Boolean).join("\n").trim();
+}
+
+function amenitiesSection(airport: Airport): string {
+  if (airport.amenities.length === 0) return "";
+  return section(
+    "Amenities",
+    bulletList(
+      airport.amenities.map(
+        (amenity) =>
+          `**${amenity.label}** (${amenity.quality}${amenity.isFeatured ? ", featured" : ""}): ${amenity.description}`,
+      ),
+    ),
+  );
+}
+
+function tipsSection(airport: Airport): string {
+  const tips = airport.importantTips?.length ? airport.importantTips : airport.tips;
+  if (tips.length === 0) return "";
+  return section(
+    "Traveler tips",
+    tips
+      .map((tip) => {
+        const detail = "detail" in tip && tip.detail ? `\n  ${tip.detail}` : "";
+        const details = "details" in tip && tip.details ? `\n  ${tip.details}` : "";
+        return `- **${tip.title}** (${tip.category}): ${tip.summary}${detail}${details}`;
+      })
+      .join("\n"),
+  );
+}
+
+function gettingThereSection(airport: Airport): string {
+  if (airport.transport.length === 0) return "";
+  return section(
+    "Getting there",
+    airport.transport
+      .map((option) => {
+        const best = option.bestFor?.length
+          ? ` Best for: ${option.bestFor.join(", ")}.`
+          : "";
+        return `- **${option.name}** (${option.type}): ${option.summary} ${option.timeToCity}, ${option.cost}.${best}${option.insiderTip ? ` Tip: ${option.insiderTip}` : ""}`;
+      })
+      .join("\n"),
+  );
+}
+
+function waterSection(options: AirportWaterOption[] | undefined): string {
+  if (!options?.length) return "";
+  return section(
+    "Water",
+    bulletList(
+      options.map((option) => {
+        const flags = [
+          option.isBestValue ? "best value" : null,
+          option.isBestQuality ? "best quality" : null,
+        ]
+          .filter(Boolean)
+          .join(", ");
+        const meta = [option.kind, option.terminal, option.zone, option.price, flags]
+          .filter(Boolean)
+          .join(" · ");
+        return `**${option.name}** (${meta}): ${option.location}. ${option.summary}`;
+      }),
+    ),
+  );
+}
+
+function disruptionsSection(airport: Airport): string {
+  const { disruption } = airport;
+  return section(
+    "Disruptions",
+    bulletList([
+      `Status: ${disruption.status}`,
+      `Departure delay: ${disruption.departureDelayMinutes} min (${disruption.departureDelayPercent}%)`,
+      `Arrival delay: ${disruption.arrivalDelayMinutes} min (${disruption.arrivalDelayPercent}%)`,
+      `Cancellations: ${disruption.cancellationsPercent}%`,
+      ...(disruption.alerts.length > 0
+        ? disruption.alerts.map((alert) => `Alert: ${alert}`)
+        : ["No active alerts"]),
+    ]),
+  );
 }
 
 function loungesSection(iata: string, lounges: AirportLoungeView[]): string {
@@ -319,15 +407,6 @@ function reviewsSection(reviews: AirportUserReview[]): string {
   );
 }
 
-function injectAfterFrontmatter(markdown: string, preface: string): string {
-  const match = markdown.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n/);
-  if (!match) {
-    return `${preface}${markdown}`;
-  }
-  const body = markdown.slice(match[0].length).replace(/^\r?\n*/, "");
-  return `${match[0]}\n${preface}${body}`;
-}
-
 export function buildAirportPageMarkdown(input: {
   slug: string;
   profile: Airport | null;
@@ -346,50 +425,51 @@ export function buildAirportPageMarkdown(input: {
     `> Markdown for [${htmlPath}](${htmlPath}). ${AGENT_HINT}`,
     "",
     `- [HTML page](${htmlPath})`,
+    `- [Lounge directory](${mdHref(`/airports/${slug}/lounges.md`)})`,
     `- [Sitemap](${mdHref("/sitemap.md")})`,
     "",
   ].join("\n");
 
   if (guide && !profile) {
-    // Guide-only pages: serve the stored markdown document as-is (agents already
-    // know this shape from the content pipeline), with a short discovery header
-    // after frontmatter so YAML parsers still work.
-    const guideMarkdown = airportContentToMarkdown(guide).trim();
-    const extras = [loungesSection(guide.frontmatter.iata, lounges), reviewsSection(reviews)]
+    // Overview-only: keep YAML frontmatter, drop the paid full-guide body.
+    const { data } = matter(airportContentToMarkdown(guide));
+    const facts = guide.frontmatter.quickFacts ?? [];
+    const overview = [
+      `# ${guide.frontmatter.name} (${guide.frontmatter.iata})`,
+      "",
+      `${guide.frontmatter.city}, ${guide.frontmatter.country}`,
+      "",
+      facts.length > 0 ? section("Quick facts", bulletList(facts)) : "",
+      moreIntelLinks(slug),
+    ]
       .filter(Boolean)
-      .join("\n");
-    const withHeader = injectAfterFrontmatter(guideMarkdown, header);
-    return `${withHeader}${extras ? `\n\n${extras}` : ""}\n`;
+      .join("\n")
+      .trim();
+    return `${matter.stringify(`${header}${overview}\n`, data)}`;
   }
 
   if (profile && !guide) {
     const body = [
-      profileSections(profile, googleRating),
-      loungesSection(profile.iata, lounges),
-      reviewsSection(reviews),
+      profileOverviewSections(profile, googleRating),
+      moreIntelLinks(slug),
     ]
       .filter(Boolean)
       .join("\n\n");
     return `${header}${body}\n`;
   }
 
-  // Profile + guide: scored overview first, then the full guide document.
+  // Profile + guide: scored overview only. Paid tabs have their own `.md`.
   const guideDoc = airportContentToMarkdown(guide!);
-  const { content: guideBody, data: guideFrontmatter } = matter(guideDoc);
+  const { data: guideFrontmatter } = matter(guideDoc);
   const body = [
     header.trimEnd(),
     "",
-    profileSections(profile!, googleRating),
-    loungesSection(profile!.iata, lounges),
-    reviewsSection(reviews),
-    "## Traveler guide",
-    "",
-    guideBody.trim(),
+    profileOverviewSections(profile!, googleRating),
+    moreIntelLinks(slug),
   ]
     .filter(Boolean)
     .join("\n\n");
 
-  // Keep guide frontmatter so agents retain structured metadata.
   const data = Object.fromEntries(
     Object.entries({
       ...(guideFrontmatter as Record<string, unknown>),
@@ -400,6 +480,103 @@ export function buildAirportPageMarkdown(input: {
   );
 
   return `${matter.stringify(`${body}\n`, data)}`;
+}
+
+function tabPageHeader(slug: string, tab: string): string {
+  const htmlPath = mdHref(`/airports/${slug}`);
+  const tabPath = mdHref(`/airports/${slug}/${tab}.md`);
+  return [
+    `> Markdown for [${tabPath}](${tabPath}). ${AGENT_HINT}`,
+    "",
+    `- [Airport overview](${mdHref(`/airports/${slug}.md`)})`,
+    `- [HTML page](${htmlPath})`,
+    `- [Sitemap](${mdHref("/sitemap.md")})`,
+    "",
+  ].join("\n");
+}
+
+export function buildAirportTabMarkdown(input: {
+  slug: string;
+  tab: string;
+  profile: Airport | null;
+  guide: AirportContent | null;
+  lounges: AirportLoungeView[];
+  reviews: AirportUserReview[];
+}): string | null {
+  const { slug, tab, profile, guide, lounges, reviews } = input;
+  if (!isAirportTabMarkdownSlug(tab)) {
+    return null;
+  }
+  if (!profile && !guide && lounges.length === 0) {
+    return null;
+  }
+
+  const iata = (profile?.iata ?? guide?.frontmatter.iata ?? slug).toUpperCase();
+  const name = profile?.name ?? guide?.frontmatter.name ?? iata;
+  const header = tabPageHeader(slug, tab);
+  const title = `# ${name} (${iata}) — ${tabMarkdownLabel(
+    tab === "lounges" ? "lounges" : (tab as PaidAirportTabValue),
+  )}`;
+
+  let body = "";
+  if (tab === "lounges") {
+    body =
+      loungesSection(iata, lounges) ||
+      section("Lounges", "_No lounge directory yet._");
+  } else if (!isPaidAirportTab(tab)) {
+    return null;
+  } else {
+    switch (tab) {
+      case "getting-there":
+        body = profile
+          ? gettingThereSection(profile) ||
+            section("Getting there", "_No ground-transport intel yet._")
+          : section("Getting there", "_No ground-transport intel yet._");
+        break;
+      case "amenities":
+        body = profile
+          ? amenitiesSection(profile) ||
+            section("Amenities", "_No amenity intel yet._")
+          : section("Amenities", "_No amenity intel yet._");
+        break;
+      case "tips":
+        body = profile
+          ? tipsSection(profile) ||
+            section("Traveler tips", "_No traveler tips yet._")
+          : section("Traveler tips", "_No traveler tips yet._");
+        break;
+      case "water":
+        body =
+          waterSection(guide?.frontmatter.waterOptions) ||
+          section("Water", "_No water-bottle intel yet._");
+        break;
+      case "guide":
+        body = guide
+          ? airportContentToMarkdown(guide).trim()
+          : section("Full guide", "_No editorial guide yet._");
+        break;
+      case "disruptions":
+        body = profile
+          ? disruptionsSection(profile)
+          : section("Disruptions", "_No disruption snapshot yet._");
+        break;
+      case "reviews":
+        body =
+          reviewsSection(reviews) || section("Reviews", "_No reviews yet._");
+        break;
+      default: {
+        const exhaustive: never = tab;
+        return exhaustive;
+      }
+    }
+  }
+
+  if (tab === "guide" && guide) {
+    const { data } = matter(airportContentToMarkdown(guide));
+    return `${matter.stringify(`${header}${body}\n`, data)}`;
+  }
+
+  return `${header}${title}\n\n${body}\n`;
 }
 
 export function buildLoungePageMarkdown(input: {
@@ -508,8 +685,10 @@ The site hosts ${input.scoredCount} scored airports, ${input.guideCount} guides,
 ## URL pattern
 
 - Airport HTML: ${SITE_URL}/airports/{iata}
-- Airport markdown: ${SITE_URL}/airports/{iata}.md
+- Airport overview markdown (free): ${SITE_URL}/airports/{iata}.md
+- Lounge directory markdown (free): ${SITE_URL}/airports/{iata}/lounges.md
+- Paid tab markdown: ${SITE_URL}/airports/{iata}/{tab}.md
 - Lounge HTML: ${SITE_URL}/airports/{iata}/lounge/{slug}
-- Lounge markdown: ${SITE_URL}/airports/{iata}/lounge/{slug}.md
+- Lounge markdown (paid): ${SITE_URL}/airports/{iata}/lounge/{slug}.md
 `;
 }

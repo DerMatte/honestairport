@@ -9,6 +9,7 @@ import {
 } from "./markdown-negotiate";
 import {
   buildAirportPageMarkdown,
+  buildAirportTabMarkdown,
   buildHomeMarkdown,
   buildLoungePageMarkdown,
   buildSitemapMarkdown,
@@ -58,6 +59,14 @@ describe("markdown path helpers", () => {
       markdownRewritePath("/airports/lax/lounge/star-alliance.md"),
       "/md/airports/lax/lounge/star-alliance",
     );
+    assert.equal(
+      markdownRewritePath("/airports/lax/getting-there.md"),
+      "/md/airports/lax/getting-there",
+    );
+    assert.equal(
+      markdownRewritePath("/airports/lax/lounges.md"),
+      "/md/airports/lax/lounges",
+    );
   });
 
   it("blocks private .md paths and round-trips canonical URLs", () => {
@@ -69,6 +78,14 @@ describe("markdown path helpers", () => {
     assert.equal(
       publicMarkdownPath("/md/airports/lax/lounge/star"),
       "/airports/lax/lounge/star.md",
+    );
+    assert.equal(
+      publicMarkdownPath("/md/airports/lax/getting-there"),
+      "/airports/lax/getting-there.md",
+    );
+    assert.equal(
+      publicMarkdownPath("/md/airports/lax/lounges"),
+      "/airports/lax/lounges.md",
     );
   });
 });
@@ -132,11 +149,19 @@ describe("markdown builders", () => {
     assert.match(sitemap, /- \[Los Angeles International Airport \(LAX\)\]\(\/airports\/lax\.md\)/);
     assert.match(
       sitemap,
+      / {2}- \[Lounge directory\]\(\/airports\/lax\/lounges\.md\)/,
+    );
+    assert.match(
+      sitemap,
+      / {2}- \[Getting there\]\(\/airports\/lax\/getting-there\.md\)/,
+    );
+    assert.match(
+      sitemap,
       / {2}- \[Star Alliance Lounge\]\(\/airports\/lax\/lounge\/star-alliance-lounge\.md\)/,
     );
   });
 
-  it("keeps YAML frontmatter first for guide-only airports", () => {
+  it("keeps YAML frontmatter first and trims guide-only airport .md to overview", () => {
     const markdown = buildAirportPageMarkdown({
       slug: "lax",
       profile: null,
@@ -148,7 +173,52 @@ describe("markdown builders", () => {
     assert.ok(markdown);
     assert.ok(markdown!.startsWith("---\n"));
     assert.match(markdown!, /iata: LAX/);
-    assert.match(markdown!, /\]\(\/airports\/lax\/lounge\/star-alliance-lounge\.md\)/);
+    assert.match(markdown!, /\]\(\/airports\/lax\/lounges\.md\)/);
+    assert.doesNotMatch(markdown!, /Best Airport Tricks/);
+    assert.doesNotMatch(
+      markdown!,
+      /\]\(\/airports\/lax\/lounge\/star-alliance-lounge\.md\)/,
+    );
+  });
+
+  it("builds a free lounge-directory .md and paid extra-tab .md", () => {
+    const loungesMd = buildAirportTabMarkdown({
+      slug: "lax",
+      tab: "lounges",
+      profile: null,
+      guide,
+      lounges: [lounge],
+      reviews: [],
+    });
+    assert.ok(loungesMd);
+    assert.match(loungesMd!, /Lounge directory/);
+    assert.match(
+      loungesMd!,
+      /\]\(\/airports\/lax\/lounge\/star-alliance-lounge\.md\)/,
+    );
+
+    const tipsMd = buildAirportTabMarkdown({
+      slug: "lax",
+      tab: "tips",
+      profile: null,
+      guide,
+      lounges: [],
+      reviews: [],
+    });
+    assert.ok(tipsMd);
+    assert.match(tipsMd!, /Traveler tips/);
+
+    assert.equal(
+      buildAirportTabMarkdown({
+        slug: "lax",
+        tab: "overview",
+        profile: null,
+        guide,
+        lounges: [],
+        reviews: [],
+      }),
+      null,
+    );
   });
 
   it("renders lounge pages with relative airport links", () => {
@@ -233,5 +303,9 @@ describe("markdown builders", () => {
     assert.ok(markdown);
     assert.match(markdown!, /Airportist Score/);
     assert.match(markdown!, /7\.5 \/ 10/);
+    assert.match(markdown!, /\]\(\/airports\/lax\/lounges\.md\)/);
+    assert.doesNotMatch(markdown!, /## Amenities/);
+    assert.doesNotMatch(markdown!, /## Traveler tips/);
+    assert.doesNotMatch(markdown!, /## Getting there/);
   });
 });

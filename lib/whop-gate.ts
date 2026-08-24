@@ -5,8 +5,11 @@
  * There is no `isPro` flag in Postgres. The gate is off unless
  * `WHOP_API_KEY` and `WHOP_PRODUCT_ID` are set — same safety as x402.
  *
- * Machine markdown (`.md`) is not gated here; x402 still owns those paths.
- * A Whop member can skip x402 via `hasLiveWhopMembership` in the md route.
+ * Machine markdown (`.md`) is not gated here; x402 owns paid lounge and
+ * extra-tab `.md`. A Whop member can skip x402 via `hasLiveWhopMembership`.
+ *
+ * Cookie `whopUserId` and the Better Auth `user.whop_user_id` column are
+ * identifiers only — access is always a live `users.checkAccess` call.
  */
 
 export const WHOP_API_KEY_ENV = "WHOP_API_KEY";
@@ -95,22 +98,36 @@ const AIRPORT_HTML = /^\/airports\/([^/]+)$/;
 const LOUNGE_HTML = /^\/airports\/([^/]+)\/lounge\/([^/]+)$/;
 
 /**
- * HTML intel routes that require an active membership when the gate is on.
- * Airport/lounge `.md` stays with x402. Discovery, auth, and the homepage
- * directory are never gated.
+ * HTML routes that require an active membership when the gate is on.
+ * Only individual lounge pages are fully gated. The airport page itself
+ * stays reachable (overview + lounge directory are free; other tabs
+ * gate in `AirportDetailTabs`). `.md` stays with x402.
  */
 export function isGatedHtmlPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
   if (path.endsWith(".md")) {
     return false;
   }
-  return AIRPORT_HTML.test(path) || LOUNGE_HTML.test(path);
+  return LOUNGE_HTML.test(path);
 }
 
 /**
- * Everything that is not a gated HTML intel page stays free of the Whop
- * paywall (homepage, search, auth, generate/revalidate, discovery markdown,
- * robots/sitemap, and airport/lounge `.md` which x402 may still charge).
+ * Airport HTML page (`/airports/lax`) — free shell. Paid tabs are gated
+ * inside the page, not by this path helper.
+ */
+export function isAirportHtmlPath(pathname: string): boolean {
+  const path = normalizePathname(pathname);
+  if (path.endsWith(".md")) {
+    return false;
+  }
+  return AIRPORT_HTML.test(path);
+}
+
+/**
+ * Everything that is not a fully gated HTML lounge page stays free of the
+ * whole-page Whop paywall (homepage, airport overview, search, auth,
+ * discovery markdown, robots/sitemap). Extra airport tabs and lounge
+ * `.md` still charge via in-page teaser / x402.
  */
 export function isFreePublicPath(pathname: string): boolean {
   return !isGatedHtmlPath(pathname);
@@ -121,6 +138,22 @@ export function shouldShowMembershipTeaser(
   access: HtmlAccess,
 ): boolean {
   return access === "denied" && isGatedHtmlPath(pathname);
+}
+
+/**
+ * Prefer the Whop session cookie, then the signed-in account's stored
+ * `whopUserId`. Neither value is an entitlement — `checkAccess` still runs.
+ */
+export function resolveWhopUserId(
+  cookieWhopUserId?: string | null,
+  accountWhopUserId?: string | null,
+): string | null {
+  const fromCookie = cookieWhopUserId?.trim() || "";
+  if (fromCookie) {
+    return fromCookie;
+  }
+  const fromAccount = accountWhopUserId?.trim() || "";
+  return fromAccount || null;
 }
 
 export type ResolveHtmlAccessOptions = {

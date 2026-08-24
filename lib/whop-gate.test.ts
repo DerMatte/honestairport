@@ -7,6 +7,7 @@ import {
   getWhopCheckoutUrl,
   getWhopCompanyId,
   getWhopProductId,
+  isAirportHtmlPath,
   isFreePublicPath,
   isGatedHtmlPath,
   isWhopGateEnabled,
@@ -14,6 +15,7 @@ import {
   membershipCheckoutHref,
   readWhopSessionPassword,
   resolveHtmlAccess,
+  resolveWhopUserId,
   shouldShowMembershipTeaser,
 } from "./whop-gate";
 
@@ -40,14 +42,16 @@ const FREE_ROUTES = [
   "/api/airports/search",
   "/api/airports/LAX/generate",
   "/airports/lax.md",
+  "/airports/lax/lounges.md",
+  "/airports/lax/getting-there.md",
   "/airports/lax/lounge/star-alliance.md",
-];
-
-const GATED_ROUTES = [
   "/airports/lax",
   "/airports/LAX",
   "/airports/lax/",
   "/airports/muc",
+];
+
+const GATED_ROUTES = [
   "/airports/lax/lounge/star-alliance",
   "/airports/lax/lounge/centurion/",
 ];
@@ -70,14 +74,14 @@ describe("isWhopGateEnabled", () => {
 });
 
 describe("isGatedHtmlPath / isFreePublicPath", () => {
-  it("gates airport and lounge HTML only", () => {
+  it("gates individual lounge HTML only", () => {
     for (const path of GATED_ROUTES) {
       assert.equal(isGatedHtmlPath(path), true, path);
       assert.equal(isFreePublicPath(path), false, path);
     }
   });
 
-  it("keeps homepage, auth, discovery, search, generate, and markdown free", () => {
+  it("keeps homepage, airport overview, auth, discovery, search, generate, and markdown free", () => {
     for (const path of FREE_ROUTES) {
       assert.equal(isGatedHtmlPath(path), false, path);
       assert.equal(isFreePublicPath(path), true, path);
@@ -87,6 +91,8 @@ describe("isGatedHtmlPath / isFreePublicPath", () => {
   it("does not treat opengraph or unknown airport extras as gated HTML intel", () => {
     assert.equal(isGatedHtmlPath("/airports/lax/opengraph-image"), false);
     assert.equal(isFreePublicPath("/airports/lax/opengraph-image"), true);
+    assert.equal(isAirportHtmlPath("/airports/lax"), true);
+    assert.equal(isAirportHtmlPath("/airports/lax/lounge/star"), false);
   });
 });
 
@@ -97,13 +103,13 @@ describe("resolveHtmlAccess / shouldShowMembershipTeaser", () => {
     assert.equal(shouldShowMembershipTeaser("/airports/lax", "open"), false);
   });
 
-  it("denies a gated path without a membership session", async () => {
+  it("denies a gated lounge path without a membership session", async () => {
     const access = await resolveHtmlAccess({
       env: enabledEnv,
       whopUserId: null,
     });
     assert.equal(access, "denied");
-    assert.equal(shouldShowMembershipTeaser("/airports/lax", access), true);
+    assert.equal(shouldShowMembershipTeaser("/airports/lax", access), false);
     assert.equal(
       shouldShowMembershipTeaser("/airports/lax/lounge/star-alliance", access),
       true,
@@ -132,7 +138,10 @@ describe("resolveHtmlAccess / shouldShowMembershipTeaser", () => {
       },
     });
     assert.equal(allowed, "allowed");
-    assert.equal(shouldShowMembershipTeaser("/airports/lax", allowed), false);
+    assert.equal(
+      shouldShowMembershipTeaser("/airports/lax/lounge/star-alliance", allowed),
+      false,
+    );
 
     const canceled = await resolveHtmlAccess({
       env: enabledEnv,
@@ -140,7 +149,10 @@ describe("resolveHtmlAccess / shouldShowMembershipTeaser", () => {
       checkAccess: async () => false,
     });
     assert.equal(canceled, "denied");
-    assert.equal(shouldShowMembershipTeaser("/airports/lax", canceled), true);
+    assert.equal(
+      shouldShowMembershipTeaser("/airports/lax/lounge/star-alliance", canceled),
+      true,
+    );
   });
 
   it("denies when checkAccess throws (Whop outage)", async () => {
@@ -188,5 +200,14 @@ describe("session password / nav / checkout href", () => {
       url.searchParams.get("redirect"),
       "https://www.honestairport.com/members?next=%2Fairports%2Flax",
     );
+  });
+});
+
+describe("resolveWhopUserId", () => {
+  it("prefers the cookie id, then the signed-in account id", () => {
+    assert.equal(resolveWhopUserId("user_cookie", "user_account"), "user_cookie");
+    assert.equal(resolveWhopUserId(null, "user_account"), "user_account");
+    assert.equal(resolveWhopUserId("  ", "user_account"), "user_account");
+    assert.equal(resolveWhopUserId(null, null), null);
   });
 });

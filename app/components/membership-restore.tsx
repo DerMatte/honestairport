@@ -105,7 +105,8 @@ export function MembershipRestore({
           <p className="text-xs leading-5 text-muted-foreground">
             After checkout, Whop may send you back here with a payment id. Paste
             the <span className="font-mono">pay_…</span> receipt to restore this
-            browser, or submit the prefilled value if the URL already has one.
+            browser — and, if you are signed in, save the Whop id on your
+            account. Submit the prefilled value if the URL already has one.
           </p>
           <Input
             id="whop-receipt"

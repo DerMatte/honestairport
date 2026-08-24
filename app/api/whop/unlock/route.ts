@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { auth } from "@/lib/auth";
 import { unlockFromReceipt } from "@/lib/whop-access";
 
 const bodySchema = z.object({
@@ -12,7 +13,13 @@ export async function POST(request: Request) {
     return Response.json({ error: "invalid_receipt" }, { status: 400 });
   }
 
-  const result = await unlockFromReceipt(parsed.data.receiptId.trim());
+  const session = await auth.api.getSession({ headers: request.headers }).catch(
+    () => null,
+  );
+
+  const result = await unlockFromReceipt(parsed.data.receiptId.trim(), process.env, {
+    accountUserId: session?.user.id,
+  });
   if (result.ok) {
     return Response.json({ ok: true, username: result.username });
   }

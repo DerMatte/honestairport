@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArrowLeft, BookOpenText, MapPin, Plane, ShieldCheck, Star } from "lucide-react";
 import { AirportCurrentWeather } from "@/app/components/airport-current-weather";
-import { AirportDetailTabs } from "@/app/components/airport-detail-tabs";
+import { AirportDetailTabsGate } from "@/app/components/airport-detail-tabs-gate";
 import { AirportGeneratingView } from "@/app/components/airport-generating-view";
 import { AirportPhotoGallery } from "@/app/components/airport-photo-gallery";
 import { AirportTipBento } from "@/app/components/airport-tip-bento";
@@ -297,7 +297,7 @@ async function CuratedAirportDetails({ airport }: { airport: Airport }) {
     getAirportLoungesWithFallback(airport.iata),
   ]);
   return (
-    <AirportDetailTabs
+    <AirportDetailTabsGate
       airport={airport}
       guide={guide}
       seedReviews={seedReviews}
@@ -460,7 +460,7 @@ async function GuideOnlyDetailTabs({
 }) {
   const lounges = await loungesPromise;
   return (
-    <AirportDetailTabs
+    <AirportDetailTabsGate
       iata={iata}
       guide={guide}
       guideMarkdown={guideMarkdown}
