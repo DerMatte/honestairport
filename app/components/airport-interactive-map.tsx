@@ -122,7 +122,7 @@ export default function AirportInteractiveMap({
               </span>
             </span>
             <span className="mt-2 block text-muted-foreground">
-              {selected.stats.averageSecurityMinutes} min avg security · {selected.disruption.departureDelayMinutes} min avg delay
+              {selected.stats.averageSecurityMinutes} min average security · {selected.disruption.departureDelayMinutes} min avg delay
             </span>
             <Link
               href={`/airports/${selected.slug}`}

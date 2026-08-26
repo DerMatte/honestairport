@@ -5,6 +5,9 @@ interface RouteParams {
   params: Promise<{ iata: string }>;
 }
 
+export const LIVE_DATA_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=300, stale-while-revalidate=60";
+
 export async function GET(_request: Request, { params }: RouteParams) {
   const { iata } = await params;
   const normalized = iata.trim().toUpperCase();
@@ -17,7 +20,7 @@ export async function GET(_request: Request, { params }: RouteParams) {
 
   return NextResponse.json(data, {
     headers: {
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=600",
+      "Cache-Control": LIVE_DATA_CACHE_CONTROL,
     },
   });
 }

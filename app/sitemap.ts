@@ -111,6 +111,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly",
       priority: 0.4,
     },
+    {
+      url: `${SITE_URL}/tsa-tips`,
+      lastModified: new Date("2026-08-07"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
     ...airportEntries,
     ...loungeEntries,
   ];

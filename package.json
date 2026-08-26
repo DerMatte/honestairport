@@ -7,7 +7,7 @@
     "build": "pnpm validate:content && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test lib/*.test.ts lib/**/*.test.ts",
+    "test": "tsx --test lib/*.test.ts lib/**/*.test.ts tests/**/*.test.ts tests/**/*.test.tsx",
     "typecheck": "tsc --noEmit",
     "validate:content": "tsx scripts/validate-airports.ts",
     "db:generate": "drizzle-kit generate",

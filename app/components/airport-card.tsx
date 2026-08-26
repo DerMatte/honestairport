@@ -86,7 +86,7 @@ export function AirportCard({ airport }: AirportCardProps) {
         <CardFooter className="mt-auto justify-between text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Clock3 className="size-3.5" aria-hidden="true" />
-            {airport.stats.averageSecurityMinutes} min avg security
+            {airport.stats.averageSecurityMinutes} min average security
           </span>
           <span className="flex items-center gap-1 font-medium text-primary">
             View guide

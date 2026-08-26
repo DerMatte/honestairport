@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CircleUserRound, Menu, Plane, Search, X } from "lucide-react";
+import { CircleUserRound, Menu, Plane, Search, ShieldCheck, X } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { MembershipNavLink } from "@/app/components/membership-nav-link";
@@ -131,6 +131,12 @@ export function SiteHeader({
 
           <div className="ml-auto flex items-center gap-1">
             <nav className="mr-1 hidden items-center md:flex">
+              <Button variant="ghost" size="sm" className="gap-2" asChild>
+                <Link href="/tsa-tips">
+                  <ShieldCheck className="size-4" aria-hidden="true" />
+                  TSA tips
+                </Link>
+              </Button>
               {membershipEnabled ? (
                 <MembershipNavLink
                   checkoutUrl={process.env.NEXT_PUBLIC_WHOP_CHECKOUT_URL ?? null}
