@@ -247,7 +247,7 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                 <div className="rounded-2xl border bg-muted/30 p-3">
                   <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <ShieldCheck className="size-3.5" aria-hidden="true" />
-                    Security
+                    Average security
                   </div>
                   <div className="mt-1 font-mono text-lg">
                     {airport.stats.averageSecurityMinutes} min

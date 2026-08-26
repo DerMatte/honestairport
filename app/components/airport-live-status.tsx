@@ -1,9 +1,20 @@
-import { AlertTriangle, Clock3, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import {
+  AlertTriangle,
+  Clock3,
+  ExternalLink,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import type {
+  AirportDisruption,
+  AirportLiveData,
+  AirportSecurityData,
+  SecurityCheckpoint,
+} from "@/lib/airport-live-data";
 
-// Fixed locale + zone so the label doesn't depend on where it renders
-// (server locale) and can't mismatch on hydration.
-const fetchedAtFormatter = new Intl.DateTimeFormat("en", {
+const timestampFormatter = new Intl.DateTimeFormat("en", {
   month: "short",
   day: "numeric",
   hour: "2-digit",
@@ -11,11 +22,18 @@ const fetchedAtFormatter = new Intl.DateTimeFormat("en", {
   hour12: false,
   timeZone: "UTC",
 });
-import type { AirportLiveData, AirportDisruption, SecurityCheckpoint } from "@/lib/airport-live-data";
 
 interface AirportLiveStatusProps {
   data: AirportLiveData;
   className?: string;
+  officialAirportUrl?: string;
+}
+
+function formatTimestamp(value: string): string {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "recently"
+    : `${timestampFormatter.format(date)} UTC`;
 }
 
 function disruptionTitle(type: AirportDisruption["type"]): string {
@@ -76,7 +94,7 @@ function CheckpointRow({ checkpoint }: { checkpoint: SecurityCheckpoint }) {
   return (
     <div className="flex items-start justify-between gap-4 border-t border-zinc-200 pt-3 first:border-t-0 first:pt-0 dark:border-zinc-800">
       <div className="min-w-0">
-        <div className="font-medium text-sm">{checkpoint.name}</div>
+        <div className="text-sm font-medium">{checkpoint.name}</div>
         <div className="text-xs text-zinc-500 dark:text-zinc-400">
           {securityLaneLabel(checkpoint.laneType)}
           {checkpoint.terminal ? ` • ${checkpoint.terminal}` : ""}
@@ -85,10 +103,169 @@ function CheckpointRow({ checkpoint }: { checkpoint: SecurityCheckpoint }) {
       <div className="shrink-0 text-right">
         <div className="font-mono text-sm">{checkpoint.displayWait}</div>
         {checkpoint.lastUpdated ? (
-          <div className="text-[11px] text-zinc-500 dark:text-zinc-400">Updated {checkpoint.lastUpdated}</div>
+          <div className="text-[11px] text-zinc-500 dark:text-zinc-400">
+            Updated {checkpoint.lastUpdated}
+          </div>
         ) : null}
       </div>
     </div>
+  );
+}
+
+function SecuritySource({ security }: { security: AirportSecurityData }) {
+  if (security.kind === "unavailable" || !security.source) {
+    return null;
+  }
+
+  return (
+    <p className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
+      Source: {" "}
+      <a
+        href={security.sourceUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
+      >
+        {security.source}
+      </a>
+      {security.kind === "checkpoints" ? " · Official checkpoint feed" : " · Independent estimate"}
+      {` · Retrieved ${formatTimestamp(security.retrievedAt)}`}
+    </p>
+  );
+}
+
+function SecurityActions({
+  isUsAirport,
+  officialAirportUrl,
+}: {
+  isUsAirport: boolean;
+  officialAirportUrl?: string;
+}) {
+  if (!officialAirportUrl && !isUsAirport) {
+    return null;
+  }
+
+  return (
+    <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-t border-zinc-200 pt-4 text-xs dark:border-zinc-800">
+      {officialAirportUrl ? (
+        <a
+          href={officialAirportUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 font-medium text-primary underline-offset-4 hover:underline"
+        >
+          Official airport site
+          <ExternalLink className="size-3" aria-hidden="true" />
+        </a>
+      ) : null}
+      {isUsAirport ? (
+        <Link
+          href="/tsa-tips"
+          className="font-medium text-primary underline-offset-4 hover:underline"
+        >
+          TSA screening guide
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+function SecurityPanel({
+  data,
+  officialAirportUrl,
+}: {
+  data: AirportLiveData;
+  officialAirportUrl?: string;
+}) {
+  const { security } = data;
+  const isUsAirport = data.countryCode === "US";
+
+  return (
+    <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-sm font-semibold tracking-wide">
+          <ShieldCheck className="size-4" aria-hidden="true" />
+          Security wait times
+        </div>
+        {security.kind === "airport_estimate" ? (
+          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-blue-700 uppercase dark:bg-blue-950/40 dark:text-blue-300">
+            Estimate
+          </span>
+        ) : null}
+      </div>
+
+      {security.kind === "checkpoints" ? (
+        <div className="mt-4 space-y-3">
+          {security.checkpoints.map((checkpoint) => (
+            <CheckpointRow key={checkpoint.id} checkpoint={checkpoint} />
+          ))}
+        </div>
+      ) : security.kind === "airport_estimate" ? (
+        <div className="mt-4">
+          <p className="text-xs font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
+            Estimated airport-wide wait
+          </p>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="font-mono text-4xl font-semibold tracking-tight">
+              {security.estimatedWaitMinutes}
+            </span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">minutes</span>
+          </div>
+          <p className="mt-3 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+            This blended estimate applies to the airport as a whole, not a specific terminal or checkpoint. Actual waits can change quickly.
+          </p>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-950/40">
+              <div className="flex items-center gap-1.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+                <ShieldCheck className="size-3.5" aria-hidden="true" />
+                PreCheck availability
+              </div>
+              <p className="mt-1 text-sm font-medium">
+                {security.precheckAvailable === null
+                  ? "Not confirmed"
+                  : security.precheckAvailable
+                    ? "Available at this airport"
+                    : "Not listed"}
+              </p>
+            </div>
+            <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-950/40">
+              <div className="flex items-center gap-1.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+                <Users className="size-3.5" aria-hidden="true" />
+                Recent traveler report
+              </div>
+              <p className="mt-1 text-sm font-medium">
+                {security.travelerReportedMinutes === undefined
+                  ? "No current report"
+                  : `${security.travelerReportedMinutes} min · self-reported`}
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-3 rounded-xl border border-dashed border-zinc-300 bg-zinc-50/70 p-3 dark:border-zinc-700 dark:bg-zinc-950/30">
+          <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {security.message}
+          </p>
+          {security.source && security.sourceUrl ? (
+            <a
+              href={security.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-primary underline-offset-4 hover:underline"
+            >
+              {security.source}
+              <ExternalLink className="size-3" aria-hidden="true" />
+            </a>
+          ) : null}
+        </div>
+      )}
+
+      <SecuritySource security={security} />
+      <SecurityActions
+        isUsAirport={isUsAirport}
+        officialAirportUrl={officialAirportUrl}
+      />
+    </section>
   );
 }
 
@@ -100,8 +277,10 @@ function DisruptionRow({ disruption }: { disruption: AirportDisruption }) {
 
   return (
     <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-950/40">
-      <div className="font-medium text-sm">{disruptionTitle(disruption.type)}</div>
-      <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">{disruption.reason}</div>
+      <div className="text-sm font-medium">{disruptionTitle(disruption.type)}</div>
+      <div className="mt-1 text-sm text-zinc-700 dark:text-zinc-300">
+        {disruption.reason}
+      </div>
       {delayRange ? (
         <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
           {disruption.type === "closure" ? "Window" : "Delay range"}: {delayRange}
@@ -112,73 +291,20 @@ function DisruptionRow({ disruption }: { disruption: AirportDisruption }) {
   );
 }
 
-export function AirportLiveStatus({ data, className }: AirportLiveStatusProps) {
-  const hasSecurity = data.security.supported && data.security.checkpoints.length > 0;
+export function AirportLiveStatus({
+  data,
+  className,
+  officialAirportUrl,
+}: AirportLiveStatusProps) {
   const hasDisruptions = data.disruptions.supported;
-  const showSection = hasSecurity || hasDisruptions;
-
-  if (!showSection) {
-    return (
-      <div
-        className={cn(
-          "mb-8 rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900",
-          className,
-        )}
-      >
-        <div className="flex items-center gap-2 font-semibold text-sm tracking-wide">
-          <Clock3 className="size-4" aria-hidden="true" />
-          Live airport status
-        </div>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          Live security wait times and operational disruptions are not available for this airport yet.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className={cn("mb-8 grid gap-4 md:grid-cols-2", className)}>
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="flex items-center gap-2 font-semibold text-sm tracking-wide">
-          <ShieldCheck className="size-4" aria-hidden="true" />
-          Security wait times
-        </div>
-
-        {hasSecurity ? (
-          <div className="mt-4 space-y-3">
-            {data.security.checkpoints.map((checkpoint) => (
-              <CheckpointRow key={checkpoint.id} checkpoint={checkpoint} />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-            {data.security.message ??
-              "Checkpoint-level wait times are not published for this airport."}
-          </p>
-        )}
-
-        {data.security.source ? (
-          <p className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
-            Source:{" "}
-            {data.security.sourceUrl ? (
-              <a
-                href={data.security.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-zinc-700 dark:hover:text-zinc-300"
-              >
-                {data.security.source}
-              </a>
-            ) : (
-              data.security.source
-            )}
-          </p>
-        ) : null}
-      </section>
+      <SecurityPanel data={data} officialAirportUrl={officialAirportUrl} />
 
       <section className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 font-semibold text-sm tracking-wide">
+          <div className="flex items-center gap-2 text-sm font-semibold tracking-wide">
             <AlertTriangle className="size-4" aria-hidden="true" />
             Operational status
           </div>
@@ -217,13 +343,13 @@ export function AirportLiveStatus({ data, className }: AirportLiveStatusProps) {
 
         {data.disruptions.source ? (
           <p className="mt-4 text-[11px] text-zinc-500 dark:text-zinc-400">
-            Source:{" "}
+            Source: {" "}
             {data.disruptions.sourceUrl ? (
               <a
                 href={data.disruptions.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-zinc-700 dark:hover:text-zinc-300"
+                className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
               >
                 {data.disruptions.source}
               </a>
@@ -234,8 +360,9 @@ export function AirportLiveStatus({ data, className }: AirportLiveStatusProps) {
         ) : null}
       </section>
 
-      <p className="md:col-span-2 text-[11px] text-zinc-500 dark:text-zinc-400">
-        Live data fetched {fetchedAtFormatter.format(new Date(data.fetchedAt))} UTC • Estimates only — always confirm with official sources before travel.
+      <p className="flex items-center gap-1.5 text-[11px] text-zinc-500 md:col-span-2 dark:text-zinc-400">
+        <Clock3 className="size-3" aria-hidden="true" />
+        Status response {formatTimestamp(data.fetchedAt)} · Confirm live conditions with official sources before travel.
       </p>
     </div>
   );

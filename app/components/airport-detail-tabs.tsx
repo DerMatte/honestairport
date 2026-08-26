@@ -351,7 +351,10 @@ export function AirportDetailTabs({
   const showWater = Boolean(guide?.waterOptions.length || waterGuideSections.length);
 
   return (
-    <AirportLiveStatusProvider iata={iata}>
+    <AirportLiveStatusProvider
+      iata={iata}
+      officialAirportUrl={guide?.officialWebsite}
+    >
       <Tabs defaultValue="overview" className="gap-6">
         <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
           <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
@@ -520,7 +523,7 @@ export function AirportDetailTabs({
                 ["Annual passengers", airport.stats.annualPassengers],
                 ["Terminals", airport.stats.terminals],
                 ["On-time departures", `${airport.stats.onTimePercentage}%`],
-                ["Avg security", `${airport.stats.averageSecurityMinutes} min`],
+                ["Average security", `${airport.stats.averageSecurityMinutes} min`],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-xl border bg-muted/30 p-3">
                   <div className="text-xs text-muted-foreground">{label}</div>

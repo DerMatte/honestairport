@@ -82,6 +82,7 @@ export interface AirportSummary {
 export interface AirportGuideSummary {
   iata: string;
   lastUpdated: string;
+  officialWebsite?: string;
   quickFacts: string[];
   sources: string[];
   sourceLinks: AirportGuideSourceLink[];
@@ -398,18 +399,20 @@ export function getAirportGuideSummary(content: AirportContent): AirportGuideSum
   const quickFacts = Array.isArray(frontmatter.quickFacts) ? frontmatter.quickFacts : [];
   const sources = Array.isArray(frontmatter.sources) ? frontmatter.sources : [];
   const bentoTips = Array.isArray(frontmatter.bentoTips) ? frontmatter.bentoTips : [];
+  const normalizedSources = sources.filter(isNonEmptyString).map((source) => source.trim());
+  const sourceLinks = extractOfficialSourceLinks(content.content, normalizedSources);
 
   return {
     iata,
     lastUpdated: isNonEmptyString(frontmatter.lastUpdated)
       ? frontmatter.lastUpdated.trim()
       : "Unknown",
+    officialWebsite: isNonEmptyString(frontmatter.officialWebsite)
+      ? frontmatter.officialWebsite.trim()
+      : sourceLinks[0]?.href,
     quickFacts: quickFacts.filter(isNonEmptyString).map((fact) => fact.trim()),
-    sources: sources.filter(isNonEmptyString).map((source) => source.trim()),
-    sourceLinks: extractOfficialSourceLinks(
-      content.content,
-      sources.filter(isNonEmptyString).map((source) => source.trim()),
-    ),
+    sources: normalizedSources,
+    sourceLinks,
     importantTips: toImportantTips(iata, bentoTips),
     lounges: toLounges(frontmatter.lounges),
     waterOptions: toWaterOptions(frontmatter.waterOptions),

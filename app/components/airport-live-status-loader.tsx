@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -16,24 +17,39 @@ import type { AirportLiveData } from "@/lib/airport-live-data";
 
 interface AirportLiveStatusProviderProps {
   iata: string;
+  officialAirportUrl?: string;
   children: ReactNode;
 }
 
-type LiveStatusState =
+export type LiveStatusState =
   | { status: "loading"; data?: never; error?: never }
   | { status: "ready"; data: AirportLiveData; error?: never }
   | { status: "error"; data?: never; error: string };
 
-interface LiveStatusController {
+export interface LiveStatusController {
   state: LiveStatusState;
   reload: () => void;
+  officialAirportUrl?: string;
+}
+
+export const LIVE_STATUS_REFRESH_MS = 5 * 60 * 1000;
+
+export function shouldRefreshLiveStatus(
+  visibilityState: DocumentVisibilityState,
+  elapsedMs: number,
+): boolean {
+  return visibilityState === "visible" && elapsedMs >= LIVE_STATUS_REFRESH_MS;
 }
 
 const AirportLiveStatusContext = createContext<LiveStatusController | null>(null);
 
-function AirportLiveStatusSkeleton({ className }: { className?: string }) {
+export function AirportLiveStatusSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("mb-8 grid gap-4 md:grid-cols-2", className)}>
+    <div
+      role="status"
+      aria-label="Loading live airport status"
+      className={cn("mb-8 grid gap-4 md:grid-cols-2", className)}
+    >
       {[0, 1].map((item) => (
         <div key={item} className="rounded-2xl border bg-card p-5">
           <Skeleton className="h-4 w-40" />
@@ -48,15 +64,22 @@ function AirportLiveStatusSkeleton({ className }: { className?: string }) {
   );
 }
 
-function useAirportLiveStatus(iata: string): LiveStatusController {
+function useAirportLiveStatus(
+  iata: string,
+  officialAirportUrl?: string,
+): LiveStatusController {
   const [state, setState] = useState<LiveStatusState>({ status: "loading" });
   const [reloadKey, setReloadKey] = useState(0);
+  const lastRequestedAt = useRef(0);
 
   useEffect(() => {
     const controller = new AbortController();
 
     async function loadLiveStatus() {
-      setState({ status: "loading" });
+      lastRequestedAt.current = Date.now();
+      setState((current) =>
+        current.status === "ready" ? current : { status: "loading" },
+      );
 
       try {
         const response = await fetch(`/api/airports/${encodeURIComponent(iata)}/live`, {
@@ -88,20 +111,42 @@ function useAirportLiveStatus(iata: string): LiveStatusController {
     };
   }, [iata, reloadKey]);
 
+  useEffect(() => {
+    function refreshIfStale() {
+      if (
+        shouldRefreshLiveStatus(
+          document.visibilityState,
+          Date.now() - lastRequestedAt.current,
+        )
+      ) {
+        setReloadKey((key) => key + 1);
+      }
+    }
+
+    const interval = window.setInterval(refreshIfStale, LIVE_STATUS_REFRESH_MS);
+    document.addEventListener("visibilitychange", refreshIfStale);
+
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", refreshIfStale);
+    };
+  }, []);
+
   return {
     state,
     reload: () => setReloadKey((key) => key + 1),
+    officialAirportUrl,
   };
 }
 
-function AirportLiveStatusRenderer({
+export function AirportLiveStatusRenderer({
   className,
   controller,
 }: {
   className?: string;
   controller: LiveStatusController;
 }) {
-  const { state, reload } = controller;
+  const { state, reload, officialAirportUrl } = controller;
 
   if (state.status === "loading") {
     return <AirportLiveStatusSkeleton className={className} />;
@@ -129,14 +174,21 @@ function AirportLiveStatusRenderer({
     );
   }
 
-  return <AirportLiveStatus data={state.data} className={className} />;
+  return (
+    <AirportLiveStatus
+      data={state.data}
+      className={className}
+      officialAirportUrl={officialAirportUrl}
+    />
+  );
 }
 
 export function AirportLiveStatusProvider({
   iata,
+  officialAirportUrl,
   children,
 }: AirportLiveStatusProviderProps) {
-  const controller = useAirportLiveStatus(iata);
+  const controller = useAirportLiveStatus(iata, officialAirportUrl);
 
   return (
     <AirportLiveStatusContext.Provider value={controller}>

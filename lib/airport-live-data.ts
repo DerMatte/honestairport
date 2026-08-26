@@ -1,12 +1,18 @@
 import { compressToEncodedURIComponent } from "lz-string";
+import { z } from "zod";
+import { getAirportByIata } from "@/lib/airports";
 
 const FETCH_TIMEOUT_MS = 12_000;
-const LIVE_DATA_REVALIDATE_SECONDS = 3600;
+const SECURITY_FETCH_TIMEOUT_MS = 3_500;
+export const LIVE_DATA_REVALIDATE_SECONDS = 300;
 
 const FAA_NAS_STATUS_URL = "https://nasstatus.faa.gov/api/airport-status-information";
 const FLIGHTY_AIRPORTS_URL = "https://flighty.com/airports";
 const PORT_AUTHORITY_GRAPHQL_URL = "https://www.jfkairport.com/api/graphql";
 const LAX_WAIT_TIMES_URL = "https://www.flylax.com/wait-times";
+const TSA_WAIT_TIMES_API_URL = "https://www.tsawaittimes.com/api/airport";
+const TSA_WAIT_TIMES_SOURCE_URL = "https://www.tsawaittimes.com/";
+const MY_TSA_URL = "https://www.tsa.gov/mobile";
 
 const PORT_AUTHORITY_AIRPORTS = new Set(["JFK", "EWR", "LGA"]);
 const FAA_US_AIRPORTS = new Set(["JFK", "LAX", "EWR", "LGA", "ATL", "ORD", "DFW", "DEN", "SFO", "SEA", "MIA", "BOS", "IAD", "DCA", "PHX", "LAS", "MCO", "CLT", "MSP", "DTW", "PHL", "SLC", "BWI", "SAN", "TPA", "PDX", "STL", "HNL", "AUS", "BNA", "CLE", "PIT", "RDU", "SMF", "SJC", "OAK", "SAT", "IND", "CMH", "MCI", "MSY", "RSW", "PBI", "FLL", "OMA", "OKC", "ABQ", "TUS", "BOI", "GEG", "ANC"]);
@@ -33,6 +39,31 @@ export interface SecurityCheckpoint {
   lastUpdated?: string;
 }
 
+interface SecuritySource {
+  source: string;
+  sourceUrl: string;
+  retrievedAt: string;
+}
+
+export type AirportSecurityData =
+  | (SecuritySource & {
+      kind: "checkpoints";
+      checkpoints: SecurityCheckpoint[];
+    })
+  | (SecuritySource & {
+      kind: "airport_estimate";
+      estimatedWaitMinutes: number;
+      displayWait: string;
+      travelerReportedMinutes?: number;
+      precheckAvailable: boolean | null;
+    })
+  | {
+      kind: "unavailable";
+      message: string;
+      source?: string;
+      sourceUrl?: string;
+    };
+
 export interface AirportDisruption {
   type: DisruptionType;
   reason: string;
@@ -43,14 +74,9 @@ export interface AirportDisruption {
 
 export interface AirportLiveData {
   iata: string;
+  countryCode?: string;
   fetchedAt: string;
-  security: {
-    supported: boolean;
-    checkpoints: SecurityCheckpoint[];
-    message?: string;
-    source?: string;
-    sourceUrl?: string;
-  };
+  security: AirportSecurityData;
   disruptions: {
     supported: boolean;
     status: OperationalStatus;
@@ -80,9 +106,21 @@ interface PortAuthorityGraphqlResponse {
   errors?: Array<{ message?: string }>;
 }
 
-function withTimeout(signal?: AbortSignal): AbortSignal {
+const tsaWaitTimesResponseSchema = z
+  .object({
+    code: z.string().trim().length(3),
+    rightnow: z.coerce.number().finite().min(0).max(240),
+    rightnow_description: z.string().trim().optional(),
+    user_reported: z.coerce.number().finite().min(0).max(240).optional(),
+    precheck: z.union([z.boolean(), z.coerce.number().int().min(0).max(1)]).optional(),
+  })
+  .passthrough();
+
+export type TsaWaitTimesResponse = z.input<typeof tsaWaitTimesResponseSchema>;
+
+function withTimeout(timeoutMs = FETCH_TIMEOUT_MS, signal?: AbortSignal): AbortSignal {
   return AbortSignal.any([
-    AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    AbortSignal.timeout(timeoutMs),
     ...(signal ? [signal] : []),
   ]);
 }
@@ -97,6 +135,18 @@ function formatWaitMinutes(waitMinutes: number): string {
   }
 
   return `${waitMinutes} min`;
+}
+
+function responseRetrievedAt(response: Response): string {
+  const headerDate = response.headers.get("date");
+  if (headerDate) {
+    const date = new Date(headerDate);
+    if (!Number.isNaN(date.getTime())) {
+      return date.toISOString();
+    }
+  }
+
+  return new Date().toISOString();
 }
 
 function laneTypeFromQueue(queueType?: string): SecurityLaneType {
@@ -205,7 +255,11 @@ function isAdverseWeatherSummary(summary: string): boolean {
   );
 }
 
-async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<SecurityCheckpoint[]> {
+async function fetchPortAuthorityWaitTimes(
+  airportCode: string,
+  fetchImpl: typeof fetch = fetch,
+  timeoutMs = SECURITY_FETCH_TIMEOUT_MS,
+): Promise<{ checkpoints: SecurityCheckpoint[]; retrievedAt: string }> {
   const query = `query GetSecurityWaitTimes($airportCode: String!, $terminal: String) {
   securityWaitTimes(airportCode: $airportCode, terminal: $terminal) {
     title
@@ -228,7 +282,7 @@ async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<Securit
     query,
   };
 
-  const response = await fetch(PORT_AUTHORITY_GRAPHQL_URL, {
+  const response = await fetchImpl(PORT_AUTHORITY_GRAPHQL_URL, {
     method: "POST",
     headers: {
       "content-type": "text/plain",
@@ -237,7 +291,7 @@ async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<Securit
       referer: "https://www.jfkairport.com/",
     },
     body: compressToEncodedURIComponent(JSON.stringify(payload)),
-    signal: withTimeout(),
+    signal: withTimeout(timeoutMs),
     next: { revalidate: LIVE_DATA_REVALIDATE_SECONDS },
   });
 
@@ -253,7 +307,7 @@ async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<Securit
 
   const rows = json.data?.securityWaitTimes ?? [];
 
-  return rows.map((row, index) => {
+  const checkpoints = rows.map((row, index) => {
     const laneType = laneTypeFromQueue(row.queueType);
     const isOpen = row.isOpen === true && row.isWaitTimeAvailable !== false;
     const waitMinutes =
@@ -270,6 +324,8 @@ async function fetchPortAuthorityWaitTimes(airportCode: string): Promise<Securit
       lastUpdated: row.lastUpdated,
     } satisfies SecurityCheckpoint;
   });
+
+  return { checkpoints, retrievedAt: responseRetrievedAt(response) };
 }
 
 function waitTextToMinutes(waitText: string): number | null {
@@ -283,13 +339,20 @@ function waitTextToMinutes(waitText: string): number | null {
   return direct ? Number(direct[1]) : null;
 }
 
-async function fetchLaxWaitTimes(): Promise<{ checkpoints: SecurityCheckpoint[]; lastUpdated?: string }> {
-  const response = await fetch(LAX_WAIT_TIMES_URL, {
+async function fetchLaxWaitTimes(
+  fetchImpl: typeof fetch = fetch,
+  timeoutMs = SECURITY_FETCH_TIMEOUT_MS,
+): Promise<{
+  checkpoints: SecurityCheckpoint[];
+  lastUpdated?: string;
+  retrievedAt: string;
+}> {
+  const response = await fetchImpl(LAX_WAIT_TIMES_URL, {
     headers: {
       Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       "User-Agent": "TravelGuide/1.0 (+https://github.com/DerMatte/travelguide)",
     },
-    signal: withTimeout(),
+    signal: withTimeout(timeoutMs),
     next: { revalidate: LIVE_DATA_REVALIDATE_SECONDS },
   });
 
@@ -329,62 +392,156 @@ async function fetchLaxWaitTimes(): Promise<{ checkpoints: SecurityCheckpoint[];
   return {
     checkpoints,
     lastUpdated: timestampText,
+    retrievedAt: responseRetrievedAt(response),
   };
 }
 
-async function fetchSecurityWaitTimes(iata: string): Promise<AirportLiveData["security"]> {
+export function normalizeTsaWaitTimesResponse(
+  payload: unknown,
+  expectedIata: string,
+  retrievedAt = new Date().toISOString(),
+): Extract<AirportSecurityData, { kind: "airport_estimate" }> | null {
+  const parsed = tsaWaitTimesResponseSchema.safeParse(payload);
+
+  if (!parsed.success || parsed.data.code.toUpperCase() !== expectedIata.toUpperCase()) {
+    return null;
+  }
+
+  const estimatedWaitMinutes = Math.round(parsed.data.rightnow);
+  const travelerReported = parsed.data.user_reported;
+  const precheck = parsed.data.precheck;
+
+  return {
+    kind: "airport_estimate",
+    estimatedWaitMinutes,
+    displayWait: formatWaitMinutes(estimatedWaitMinutes),
+    travelerReportedMinutes:
+      typeof travelerReported === "number" && travelerReported > 0
+        ? Math.round(travelerReported)
+        : undefined,
+    precheckAvailable:
+      typeof precheck === "boolean"
+        ? precheck
+        : typeof precheck === "number"
+          ? precheck === 1
+          : null,
+    source: "TSAWaitTimes.com",
+    sourceUrl: TSA_WAIT_TIMES_SOURCE_URL,
+    retrievedAt,
+  };
+}
+
+async function fetchTsaWaitTimesEstimate(
+  iata: string,
+  apiKey: string,
+  fetchImpl: typeof fetch = fetch,
+  timeoutMs = SECURITY_FETCH_TIMEOUT_MS,
+): Promise<Extract<AirportSecurityData, { kind: "airport_estimate" }> | null> {
+  const response = await fetchImpl(
+    `${TSA_WAIT_TIMES_API_URL}/${encodeURIComponent(apiKey)}/${encodeURIComponent(iata)}/json`,
+    {
+      headers: { Accept: "application/json" },
+      signal: withTimeout(timeoutMs),
+      next: { revalidate: LIVE_DATA_REVALIDATE_SECONDS },
+    },
+  );
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const payload: unknown = await response.json();
+  return normalizeTsaWaitTimesResponse(payload, iata, responseRetrievedAt(response));
+}
+
+export async function fetchSecurityWaitTimes(
+  iata: string,
+  countryCode?: string,
+  options: { apiKey?: string; fetchImpl?: typeof fetch; timeoutMs?: number } = {},
+): Promise<AirportSecurityData> {
   const code = iata.toUpperCase();
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const timeoutMs = options.timeoutMs ?? SECURITY_FETCH_TIMEOUT_MS;
+  const isUsAirport = countryCode?.toUpperCase() === "US";
+  let officialSource: Pick<SecuritySource, "source" | "sourceUrl"> | undefined;
 
   if (PORT_AUTHORITY_AIRPORTS.has(code)) {
+    officialSource = {
+      source: "Port Authority of NY & NJ",
+      sourceUrl: "https://www.jfkairport.com/",
+    };
     try {
-      const checkpoints = await fetchPortAuthorityWaitTimes(code);
+      const { checkpoints, retrievedAt } = await fetchPortAuthorityWaitTimes(
+        code,
+        fetchImpl,
+        timeoutMs,
+      );
 
-      return {
-        supported: true,
-        checkpoints,
-        source: "Port Authority of NY & NJ",
-        sourceUrl: "https://www.jfkairport.com/",
-      };
-    } catch (error) {
-      return {
-        supported: false,
-        checkpoints: [],
-        message: error instanceof Error ? error.message : "Unable to load security wait times.",
-        source: "Port Authority of NY & NJ",
-        sourceUrl: "https://www.jfkairport.com/",
-      };
+      if (checkpoints.length > 0) {
+        return {
+          kind: "checkpoints",
+          checkpoints,
+          ...officialSource,
+          retrievedAt,
+        };
+      }
+    } catch {
+      // The aggregate provider below is the intentional fallback.
     }
   }
 
   if (code === "LAX") {
+    officialSource = {
+      source: "Los Angeles World Airports",
+      sourceUrl: LAX_WAIT_TIMES_URL,
+    };
     try {
-      const { checkpoints, lastUpdated } = await fetchLaxWaitTimes();
+      const { checkpoints, lastUpdated, retrievedAt } = await fetchLaxWaitTimes(
+        fetchImpl,
+        timeoutMs,
+      );
 
       return {
-        supported: true,
+        kind: "checkpoints",
         checkpoints: checkpoints.map((checkpoint) => ({
           ...checkpoint,
           lastUpdated,
         })),
-        source: "Los Angeles World Airports",
-        sourceUrl: LAX_WAIT_TIMES_URL,
+        ...officialSource,
+        retrievedAt,
       };
-    } catch (error) {
-      return {
-        supported: false,
-        checkpoints: [],
-        message: error instanceof Error ? error.message : "Unable to load security wait times.",
-        source: "Los Angeles World Airports",
-        sourceUrl: LAX_WAIT_TIMES_URL,
-      };
+    } catch {
+      // The aggregate provider below is the intentional fallback.
+    }
+  }
+
+  if (!isUsAirport) {
+    return {
+      kind: "unavailable",
+      message:
+        "Current security wait information is not available for this airport. Check the airport's official website or app before travel.",
+      ...officialSource,
+    };
+  }
+
+  const apiKey = options.apiKey ?? process.env.TSA_WAIT_TIMES_API_KEY;
+  if (apiKey) {
+    try {
+      const estimate = await fetchTsaWaitTimesEstimate(code, apiKey, fetchImpl, timeoutMs);
+      if (estimate) {
+        return estimate;
+      }
+    } catch {
+      // Return a safe fallback; provider and credential details stay server-side.
     }
   }
 
   return {
-    supported: false,
-    checkpoints: [],
+    kind: "unavailable",
     message:
-      "Live checkpoint wait times are not published for this airport. Check the official airport site or app before travel.",
+      "A current security estimate is not available. Check the official airport site or MyTSA before travel.",
+    source: officialSource?.source ?? "MyTSA",
+    sourceUrl: officialSource?.sourceUrl ?? MY_TSA_URL,
   };
 }
 
@@ -586,8 +743,9 @@ async function fetchFaaDisruptions(iata: string): Promise<AirportLiveData["disru
 
 export async function getAirportLiveData(iata: string): Promise<AirportLiveData> {
   const normalizedIata = iata.toUpperCase();
+  const countryCode = getAirportByIata(normalizedIata)?.iata_country_code;
   const [security, flightyDisruptions] = await Promise.all([
-    fetchSecurityWaitTimes(normalizedIata),
+    fetchSecurityWaitTimes(normalizedIata, countryCode),
     fetchFlightyDisruptions(normalizedIata),
   ]);
   const disruptions = flightyDisruptions.supported
@@ -596,6 +754,7 @@ export async function getAirportLiveData(iata: string): Promise<AirportLiveData>
 
   return {
     iata: normalizedIata,
+    countryCode,
     fetchedAt: new Date().toISOString(),
     security,
     disruptions,
