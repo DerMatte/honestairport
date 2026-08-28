@@ -1,4 +1,5 @@
 import { compressToEncodedURIComponent } from "lz-string";
+import { connection } from "next/server";
 import { cache } from "react";
 import { z } from "zod";
 import { getAirportByIata } from "@/lib/airports";
@@ -742,7 +743,9 @@ async function fetchFaaDisruptions(iata: string): Promise<AirportLiveData["disru
   }
 }
 
-export function getAirportLiveData(iata: string): Promise<AirportLiveData> {
+export async function getAirportLiveData(iata: string): Promise<AirportLiveData> {
+  // `fetchedAt` is `new Date()` — must not run while prerendering airport pages.
+  await connection();
   return getAirportLiveDataCached(iata.toUpperCase());
 }
 

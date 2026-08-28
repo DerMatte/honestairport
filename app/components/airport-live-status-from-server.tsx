@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import {
   AirportLiveStatusPanel,
   AirportLiveStatusProvider,
@@ -13,6 +14,10 @@ export async function AirportLiveStatusFromServer({
   officialAirportUrl?: string;
   className?: string;
 }) {
+  // Live ops use `new Date()` and uncached upstreams — wait for the request
+  // so Cache Components can prerender the airport page around this island.
+  await connection();
+
   try {
     const data = await getAirportLiveData(iata);
     return (
