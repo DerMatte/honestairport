@@ -11,7 +11,6 @@ import {
   Search,
   SlidersHorizontal,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
 import { LazyAirportMap } from "@/app/components/airport-map-lazy";
@@ -261,10 +260,6 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [, startTransition] = useTransition();
-  const shouldReduceMotion = useReducedMotion();
-  const filterPanelTransition = shouldReduceMotion
-    ? { duration: 0 }
-    : { type: "tween" as const, duration: 0.4, ease: [0.23, 1, 0.32, 1] as const };
 
   const otherAirports = useMemo<GuideDirectoryEntry[]>(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -427,24 +422,23 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
           </div>
 
           <div className="flex flex-col xl:flex-row xl:items-start">
-            <motion.aside
+            <aside
               aria-hidden={!filtersOpen}
               inert={!filtersOpen}
-              initial={false}
-              animate={{
+              className="hidden shrink-0 overflow-hidden transition-[width,margin] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none xl:block"
+              style={{
                 width: filtersOpen ? FILTER_PANEL_WIDTH : 0,
                 marginRight: filtersOpen ? 24 : 0,
               }}
-              transition={filterPanelTransition}
-              className="hidden shrink-0 overflow-hidden xl:block"
             >
               <div style={{ width: FILTER_PANEL_WIDTH }}>
-                <motion.div
-                  className="sticky top-20"
-                  initial={false}
-                  animate={{ rotateY: filtersOpen ? 0 : -100, opacity: filtersOpen ? 1 : 0 }}
-                  style={{ transformPerspective: 1400, transformOrigin: "left center" }}
-                  transition={filterPanelTransition}
+                <div
+                  className={cn(
+                    "sticky top-20 origin-left transition-[opacity,transform] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none",
+                    filtersOpen
+                      ? "translate-x-0 opacity-100"
+                      : "pointer-events-none -translate-x-3 opacity-0",
+                  )}
                 >
                   <FilterPanel
                     filters={filters}
@@ -452,9 +446,9 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                     onReset={resetFilters}
                     onClose={() => setFiltersOpen(false)}
                   />
-                </motion.div>
+                </div>
               </div>
-            </motion.aside>
+            </aside>
 
             <div className="min-w-0 flex-1 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card/90 p-3 shadow-sm">
