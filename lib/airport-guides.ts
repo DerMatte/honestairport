@@ -596,25 +596,43 @@ export async function fetchAllAirportGuideRows(): Promise<AirportGuideRow[]> {
   return getDb().select().from(airportGuides);
 }
 
+const GUIDE_IDENTITY_COLUMNS = {
+  iata: airportGuides.iata,
+  name: airportGuides.name,
+  city: airportGuides.city,
+  country: airportGuides.country,
+  lastUpdated: airportGuides.lastUpdated,
+} as const;
+
 /**
- * Summary columns only — the directory doesn't need full markdown bodies, and
- * this read grows with every airport the generation cron adds.
+ * Identity columns only — profile joins and the directory don't need markdown
+ * bodies, and those payloads grow with every airport the generation cron adds.
  */
+export async function fetchAirportGuideIdentity(
+  iata: string,
+): Promise<AirportSummary | null> {
+  if (!isDatabaseConfigured()) {
+    console.warn("DATABASE_URL is not set; airport guides are unavailable.");
+    return null;
+  }
+
+  const rows = await getDb()
+    .select(GUIDE_IDENTITY_COLUMNS)
+    .from(airportGuides)
+    .where(eq(airportGuides.iata, iata.toUpperCase()))
+    .limit(1);
+
+  return rows[0] ?? null;
+}
+
+/** Summary columns only — same identity set as `fetchAirportGuideIdentity`. */
 export async function fetchAllAirportGuideSummaries(): Promise<AirportSummary[]> {
   if (!isDatabaseConfigured()) {
     console.warn("DATABASE_URL is not set; airport guides are unavailable.");
     return [];
   }
 
-  return getDb()
-    .select({
-      iata: airportGuides.iata,
-      name: airportGuides.name,
-      city: airportGuides.city,
-      country: airportGuides.country,
-      lastUpdated: airportGuides.lastUpdated,
-    })
-    .from(airportGuides);
+  return getDb().select(GUIDE_IDENTITY_COLUMNS).from(airportGuides);
 }
 
 export async function listAirportGuideIatas(): Promise<string[]> {

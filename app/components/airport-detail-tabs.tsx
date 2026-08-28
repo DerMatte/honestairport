@@ -28,7 +28,7 @@ import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { AirportRideBooking } from "@/app/components/airport-ride-booking";
 import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
-import { AirportReviews } from "@/app/components/airport-reviews";
+import { AirportReviewsLazy } from "@/app/components/airport-reviews-lazy";
 import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -41,6 +41,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAirportByIata } from "@/lib/airports";
+import type { AirportLiveData } from "@/lib/airport-live-data";
 import {
   amenityLabel,
   pickTransportRecommendations,
@@ -78,6 +79,8 @@ export interface AirportDetailTabsProps {
    * tab bodies with a Join CTA. Overview and the lounges list stay open.
    */
   membershipAccess?: HtmlAccess;
+  /** Short-lived live status for first paint; the client poller refreshes it. */
+  initialLiveData?: AirportLiveData | null;
 }
 
 const detailTabClassName =
@@ -308,6 +311,7 @@ export function AirportDetailTabs({
   seedReviews,
   lounges = [],
   membershipAccess = "open",
+  initialLiveData,
 }: AirportDetailTabsProps) {
   const iata = airport?.iata ?? iataProp;
 
@@ -354,6 +358,7 @@ export function AirportDetailTabs({
     <AirportLiveStatusProvider
       iata={iata}
       officialAirportUrl={guide?.officialWebsite}
+      initialData={initialLiveData}
     >
       <Tabs defaultValue="overview" className="gap-6">
         <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
@@ -806,7 +811,7 @@ export function AirportDetailTabs({
       <TabsContent value="reviews">
         {lockPaid(
           "reviews",
-          <AirportReviews
+          <AirportReviewsLazy
             iata={iata}
             seedReviews={seedReviews}
             className="max-w-3xl"

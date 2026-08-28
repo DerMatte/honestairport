@@ -8,7 +8,10 @@
  * reads in Next's data cache with revalidation tags.
  */
 import { eq, sql } from "drizzle-orm";
-import { fetchAirportGuideRow, fetchAllAirportGuideRows } from "./airport-guides";
+import {
+  fetchAirportGuideIdentity,
+  fetchAllAirportGuideSummaries,
+} from "./airport-guides";
 import { getDb, isDatabaseConfigured } from "./db";
 import {
   airportProfiles,
@@ -221,7 +224,7 @@ export async function fetchAirportByIata(iata: string): Promise<Airport | null> 
   const normalized = iata.toUpperCase();
   const [profile, guide, reviewCount] = await Promise.all([
     fetchAirportProfileRow(normalized),
-    fetchAirportGuideRow(normalized),
+    fetchAirportGuideIdentity(normalized),
     fetchReviewCount(normalized),
   ]);
 
@@ -235,7 +238,7 @@ export async function fetchAirportByIata(iata: string): Promise<Airport | null> 
 export async function fetchAllAirports(): Promise<Airport[]> {
   const [profiles, guides, reviewCounts] = await Promise.all([
     fetchAllAirportProfileRows(),
-    fetchAllAirportGuideRows(),
+    fetchAllAirportGuideSummaries(),
     fetchReviewCounts(),
   ]);
 

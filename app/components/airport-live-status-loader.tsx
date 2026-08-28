@@ -18,6 +18,7 @@ import type { AirportLiveData } from "@/lib/airport-live-data";
 interface AirportLiveStatusProviderProps {
   iata: string;
   officialAirportUrl?: string;
+  initialData?: AirportLiveData | null;
   children: ReactNode;
 }
 
@@ -66,13 +67,24 @@ export function AirportLiveStatusSkeleton({ className }: { className?: string })
 
 function useAirportLiveStatus(
   iata: string,
-  officialAirportUrl?: string,
+  officialAirportUrl: string | undefined,
+  initialData?: AirportLiveData | null,
 ): LiveStatusController {
-  const [state, setState] = useState<LiveStatusState>({ status: "loading" });
+  const [state, setState] = useState<LiveStatusState>(() =>
+    initialData
+      ? { status: "ready", data: initialData }
+      : { status: "loading" },
+  );
   const [reloadKey, setReloadKey] = useState(0);
   const lastRequestedAt = useRef(0);
+  const skipInitialFetch = Boolean(initialData);
 
   useEffect(() => {
+    if (skipInitialFetch && reloadKey === 0) {
+      lastRequestedAt.current = Date.now();
+      return;
+    }
+
     const controller = new AbortController();
 
     async function loadLiveStatus() {
@@ -109,7 +121,7 @@ function useAirportLiveStatus(
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey]);
+  }, [iata, reloadKey, skipInitialFetch]);
 
   useEffect(() => {
     function refreshIfStale() {
@@ -186,9 +198,10 @@ export function AirportLiveStatusRenderer({
 export function AirportLiveStatusProvider({
   iata,
   officialAirportUrl,
+  initialData,
   children,
 }: AirportLiveStatusProviderProps) {
-  const controller = useAirportLiveStatus(iata, officialAirportUrl);
+  const controller = useAirportLiveStatus(iata, officialAirportUrl, initialData);
 
   return (
     <AirportLiveStatusContext.Provider value={controller}>
