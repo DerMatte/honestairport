@@ -61,6 +61,27 @@ export function TipBentoSkeleton() {
   );
 }
 
+export function ReviewsTabSkeleton() {
+  return (
+    <div className="max-w-3xl space-y-4">
+      <div className="rounded-2xl border bg-card p-5">
+        <Skeleton className="h-4 w-48" />
+        <div className="mt-4 space-y-2">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-3/4" />
+        </div>
+      </div>
+      <div className="rounded-2xl border bg-card p-5">
+        <Skeleton className="h-4 w-40" />
+        <div className="mt-4 space-y-2">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-2/3" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function DetailTabsSkeleton() {
   return (
     <div className="space-y-6">

@@ -148,15 +148,40 @@ interface AirportReviewsProps {
   iata: string;
   /** Editorial seed reviews shown after community ones. */
   seedReviews?: AirportUserReview[];
+  /** Server-resolved community reviews; skips the first client fetch. */
+  initialReviews?: AirportUserReview[];
+  /** Server already determined the reviews API is unavailable. */
+  initialUnavailable?: boolean;
   showHeading?: boolean;
   className?: string;
 }
 
-type ReviewsState =
+export type ReviewsState =
   | { status: "loading" }
   | { status: "ready"; reviews: AirportUserReview[] }
   | { status: "error"; error: string }
   | { status: "unavailable" };
+
+export function initialReviewsState(
+  initialReviews?: AirportUserReview[],
+  initialUnavailable = false,
+): ReviewsState {
+  if (initialUnavailable) {
+    return { status: "unavailable" };
+  }
+  if (initialReviews !== undefined) {
+    return { status: "ready", reviews: initialReviews };
+  }
+  return { status: "loading" };
+}
+
+/** Skip the mount-time fetch when the server already supplied a snapshot. */
+export function shouldClientFetchReviews(
+  reloadKey: number,
+  hasServerSnapshot: boolean,
+): boolean {
+  return reloadKey > 0 || !hasServerSnapshot;
+}
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -890,14 +915,23 @@ function EditReviewForm({
 export function AirportReviews({
   iata,
   seedReviews = [],
+  initialReviews,
+  initialUnavailable = false,
   showHeading = false,
   className,
 }: AirportReviewsProps) {
-  const [state, setState] = useState<ReviewsState>({ status: "loading" });
+  const hasServerSnapshot = initialUnavailable || initialReviews !== undefined;
+  const [state, setState] = useState<ReviewsState>(() =>
+    initialReviewsState(initialReviews, initialUnavailable),
+  );
   const [reloadKey, setReloadKey] = useState(0);
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!shouldClientFetchReviews(reloadKey, hasServerSnapshot)) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function loadReviews() {
@@ -936,7 +970,7 @@ export function AirportReviews({
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey]);
+  }, [hasServerSnapshot, iata, reloadKey]);
 
   const handleCreated = useCallback((review: AirportUserReview) => {
     setState((current) =>

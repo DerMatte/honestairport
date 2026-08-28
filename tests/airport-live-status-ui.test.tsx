@@ -2,8 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
+  AirportLiveStatusPanel,
+  AirportLiveStatusProvider,
   AirportLiveStatusRenderer,
+  initialLiveStatusState,
   LIVE_STATUS_REFRESH_MS,
+  shouldClientFetchLiveStatus,
   shouldRefreshLiveStatus,
 } from "@/app/components/airport-live-status-loader";
 import { AirportLiveStatus } from "@/app/components/airport-live-status";
@@ -127,6 +131,39 @@ test("visibility-aware refresh waits five minutes and only runs when visible", (
   assert.equal(shouldRefreshLiveStatus("visible", 299_999), false);
   assert.equal(shouldRefreshLiveStatus("hidden", 300_000), false);
   assert.equal(shouldRefreshLiveStatus("visible", 300_000), true);
+});
+
+test("SSR snapshot skips the mount-time live-status fetch", () => {
+  const snapshot = dataWith({
+    kind: "unavailable",
+    message: "Current security wait information is not available for this airport.",
+  }, "DE");
+
+  assert.deepEqual(initialLiveStatusState(), { status: "loading" });
+  assert.deepEqual(initialLiveStatusState(snapshot), { status: "ready", data: snapshot });
+  assert.equal(shouldClientFetchLiveStatus(0, true), false);
+  assert.equal(shouldClientFetchLiveStatus(0, false), true);
+  assert.equal(shouldClientFetchLiveStatus(1, true), true);
+});
+
+test("provider with initialData renders operations instead of the loading skeleton", () => {
+  const html = renderToStaticMarkup(
+    <AirportLiveStatusProvider
+      iata="ATL"
+      initialData={dataWith(
+        {
+          kind: "unavailable",
+          message: "Current security wait information is not available for this airport.",
+        },
+        "DE",
+      )}
+    >
+      <AirportLiveStatusPanel />
+    </AirportLiveStatusProvider>,
+  );
+
+  assert.doesNotMatch(html, /Loading live airport status/);
+  assert.match(html, /Current security wait information is not available/);
 });
 
 test("TSA guide exports metadata, review date, anchors, and safe official links", () => {
