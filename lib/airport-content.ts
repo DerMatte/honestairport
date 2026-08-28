@@ -209,12 +209,18 @@ export function getAirportBySlug(slug: string): Promise<Airport | null> {
 
 /** Display name for titles/breadcrumbs: profile → guide → static airport record. */
 export async function resolveAirportDisplayName(slug: string): Promise<string | null> {
-  const profile = await getAirportBySlug(slug);
+  // Most slugs are guide-only, so start both reads together. The catch keeps a
+  // rejection from going unhandled when the profile path returns first.
+  const profilePromise = getAirportBySlug(slug);
+  const guidePromise = getAirportContent(slug);
+  guidePromise.catch(() => {});
+
+  const profile = await profilePromise;
   if (profile) {
     return profile.shortName;
   }
 
-  const guide = await getAirportContent(slug);
+  const guide = await guidePromise;
   if (guide) {
     return guide.frontmatter.name;
   }
@@ -292,12 +298,18 @@ export async function getAllAirportLoungeParams(): Promise<
 export async function getAirportLoungesWithFallback(
   iata: string,
 ): Promise<AirportLoungeView[]> {
-  const lounges = await getAirportLounges(iata);
+  // Guide summary is only used when the directory is empty, but starting it
+  // now overlaps the lounge query instead of adding a second round trip.
+  const loungesPromise = getAirportLounges(iata);
+  const guidePromise = getAirportGuideSummaryByIata(iata);
+  guidePromise.catch(() => {});
+
+  const lounges = await loungesPromise;
   if (lounges.length > 0) {
     return lounges;
   }
 
-  const guide = await getAirportGuideSummaryByIata(iata);
+  const guide = await guidePromise;
   return (guide?.lounges ?? []).map(guideLoungeToView);
 }
 

@@ -1,4 +1,5 @@
 import { compressToEncodedURIComponent } from "lz-string";
+import { cache } from "react";
 import { z } from "zod";
 import { getAirportByIata } from "@/lib/airports";
 
@@ -741,25 +742,28 @@ async function fetchFaaDisruptions(iata: string): Promise<AirportLiveData["disru
   }
 }
 
-export async function getAirportLiveData(iata: string): Promise<AirportLiveData> {
-  const normalizedIata = iata.toUpperCase();
-  const countryCode = getAirportByIata(normalizedIata)?.iata_country_code;
+export function getAirportLiveData(iata: string): Promise<AirportLiveData> {
+  return getAirportLiveDataCached(iata.toUpperCase());
+}
+
+const getAirportLiveDataCached = cache(async (iata: string): Promise<AirportLiveData> => {
+  const countryCode = getAirportByIata(iata)?.iata_country_code;
   const [security, flightyDisruptions] = await Promise.all([
-    fetchSecurityWaitTimes(normalizedIata, countryCode),
-    fetchFlightyDisruptions(normalizedIata),
+    fetchSecurityWaitTimes(iata, countryCode),
+    fetchFlightyDisruptions(iata),
   ]);
   const disruptions = flightyDisruptions.supported
     ? flightyDisruptions
-    : await fetchFaaDisruptions(normalizedIata);
+    : await fetchFaaDisruptions(iata);
 
   return {
-    iata: normalizedIata,
+    iata,
     countryCode,
     fetchedAt: new Date().toISOString(),
     security,
     disruptions,
   };
-}
+});
 
 export function getSecurityLaneLabel(laneType: SecurityLaneType): string {
   return laneLabel(laneType);

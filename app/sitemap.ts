@@ -14,10 +14,11 @@ function validDate(value: string | Date | undefined): Date | undefined {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [guides, scoredSlugs, lounges] = await Promise.all([
+  const [guides, scoredSlugs, lounges, imageUrls] = await Promise.all([
     getAllAirports(),
     getAirportSlugs(),
     getAllAirportLoungeParams(),
+    getSitemapImageUrls(),
   ]);
 
   const guideBySlug = new Map(
@@ -34,8 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (a, b) =>
       a.iata.localeCompare(b.iata) || a.slug.localeCompare(b.slug),
   );
-
-  const imageUrls = await getSitemapImageUrls();
 
   const latestGuideUpdate = airportSlugs.reduce<Date | undefined>((latest, slug) => {
     const updated = validDate(guideBySlug.get(slug)?.lastUpdated);
