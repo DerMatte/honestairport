@@ -15,6 +15,11 @@ import {
 } from "lucide-react";
 import { isAdmin } from "@/lib/admin";
 import { useSession } from "@/lib/auth-client";
+import {
+  initialReviewsState,
+  shouldClientFetchReviews,
+  type ReviewsState,
+} from "@/app/components/airport-reviews-state";
 import { ReviewPhotoThumbs } from "@/app/components/review-photo-thumbs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +44,9 @@ import {
   type ReviewFormValues,
   type ReviewImage,
 } from "@/lib/review-schema";
+
+export type { ReviewsState };
+export { initialReviewsState, shouldClientFetchReviews };
 
 /** Mirrors the server's per-file ceiling in lib/review-images.ts. */
 const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
@@ -154,33 +162,6 @@ interface AirportReviewsProps {
   initialUnavailable?: boolean;
   showHeading?: boolean;
   className?: string;
-}
-
-export type ReviewsState =
-  | { status: "loading" }
-  | { status: "ready"; reviews: AirportUserReview[] }
-  | { status: "error"; error: string }
-  | { status: "unavailable" };
-
-export function initialReviewsState(
-  initialReviews?: AirportUserReview[],
-  initialUnavailable = false,
-): ReviewsState {
-  if (initialUnavailable) {
-    return { status: "unavailable" };
-  }
-  if (initialReviews !== undefined) {
-    return { status: "ready", reviews: initialReviews };
-  }
-  return { status: "loading" };
-}
-
-/** Skip the mount-time fetch when the server already supplied a snapshot. */
-export function shouldClientFetchReviews(
-  reloadKey: number,
-  hasServerSnapshot: boolean,
-): boolean {
-  return reloadKey > 0 || !hasServerSnapshot;
 }
 
 const dateFormatter = new Intl.DateTimeFormat("en", {

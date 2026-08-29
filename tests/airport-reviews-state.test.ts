@@ -3,7 +3,7 @@ import test from "node:test";
 import {
   initialReviewsState,
   shouldClientFetchReviews,
-} from "@/app/components/airport-reviews";
+} from "@/app/components/airport-reviews-state";
 import type { AirportUserReview } from "@/lib/review-schema";
 
 const sampleReview: AirportUserReview = {
