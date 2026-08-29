@@ -52,20 +52,22 @@ async function readAccountWhopUserId(): Promise<string | null> {
 }
 
 /** Live membership check. Off / missing session never calls Whop. */
-export async function getHtmlAccess(
+export const getHtmlAccess = cache(async function getHtmlAccess(
   env: WhopEnv = process.env,
 ): Promise<HtmlAccess> {
   if (!isWhopGateEnabled(env)) {
     return "open";
   }
-  const session = await getWhopSession(env);
-  const accountWhopUserId = await readAccountWhopUserId();
+  const [session, accountWhopUserId] = await Promise.all([
+    getWhopSession(env),
+    readAccountWhopUserId(),
+  ]);
   return resolveHtmlAccess({
     env,
     whopUserId: resolveWhopUserId(session?.whopUserId, accountWhopUserId),
     checkAccess: checkProductAccess,
   });
-}
+});
 
 /** True only when the gate is on and Whop currently grants the product. */
 export async function hasLiveWhopMembership(

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import {
   Baby,
   Bus,
@@ -20,15 +20,14 @@ import {
   Zap,
 } from "lucide-react";
 import { AirportGuideArticle } from "@/app/components/airport-guide-article";
-import {
-  AirportLiveStatusPanel,
-  AirportLiveStatusProvider,
-} from "@/app/components/airport-live-status-loader";
+import { AirportLiveStatusFromServer } from "@/app/components/airport-live-status-from-server";
+import { AirportLiveStatusSkeleton } from "@/app/components/airport-live-status-loader";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
 import { AirportRideBooking } from "@/app/components/airport-ride-booking";
 import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
-import { AirportReviewsLazy } from "@/app/components/airport-reviews-lazy";
+import { AirportReviewsFromServer } from "@/app/components/airport-reviews-from-server";
+import { ReviewsTabSkeleton } from "@/app/components/loading-skeletons";
 import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -41,7 +40,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAirportByIata } from "@/lib/airports";
-import type { AirportLiveData } from "@/lib/airport-live-data";
 import {
   amenityLabel,
   pickTransportRecommendations,
@@ -79,8 +77,6 @@ export interface AirportDetailTabsProps {
    * tab bodies with a Join CTA. Overview and the lounges list stay open.
    */
   membershipAccess?: HtmlAccess;
-  /** Short-lived live status for first paint; the client poller refreshes it. */
-  initialLiveData?: AirportLiveData | null;
 }
 
 const detailTabClassName =
@@ -311,7 +307,6 @@ export function AirportDetailTabs({
   seedReviews,
   lounges = [],
   membershipAccess = "open",
-  initialLiveData,
 }: AirportDetailTabsProps) {
   const iata = airport?.iata ?? iataProp;
 
@@ -355,12 +350,7 @@ export function AirportDetailTabs({
   const showWater = Boolean(guide?.waterOptions.length || waterGuideSections.length);
 
   return (
-    <AirportLiveStatusProvider
-      iata={iata}
-      officialAirportUrl={guide?.officialWebsite}
-      initialData={initialLiveData}
-    >
-      <Tabs defaultValue="overview" className="gap-6">
+    <Tabs defaultValue="overview" className="gap-6">
         <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
           <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
             <div className="flex shrink-0 items-center gap-2 border-r border-border/70 pr-3">
@@ -438,7 +428,13 @@ export function AirportDetailTabs({
                 Current operations
               </h2>
             </div>
-            <AirportLiveStatusPanel className="mb-0" />
+            <Suspense fallback={<AirportLiveStatusSkeleton className="mb-0" />}>
+              <AirportLiveStatusFromServer
+                iata={iata}
+                officialAirportUrl={guide?.officialWebsite}
+                className="mb-0"
+              />
+            </Suspense>
           </section>
 
         {/* Guide-only pages already surface quick facts in the hero card, so
@@ -802,7 +798,12 @@ export function AirportDetailTabs({
               </p>
             </CardHeader>
             <CardContent>
-              <AirportLiveStatusPanel />
+              <Suspense fallback={<AirportLiveStatusSkeleton />}>
+                <AirportLiveStatusFromServer
+                  iata={iata}
+                  officialAirportUrl={guide?.officialWebsite}
+                />
+              </Suspense>
             </CardContent>
           </Card>,
         )}
@@ -811,14 +812,15 @@ export function AirportDetailTabs({
       <TabsContent value="reviews">
         {lockPaid(
           "reviews",
-          <AirportReviewsLazy
-            iata={iata}
-            seedReviews={seedReviews}
-            className="max-w-3xl"
-          />,
+          <Suspense fallback={<ReviewsTabSkeleton />}>
+            <AirportReviewsFromServer
+              iata={iata}
+              seedReviews={seedReviews}
+              className="max-w-3xl"
+            />
+          </Suspense>,
         )}
       </TabsContent>
-      </Tabs>
-    </AirportLiveStatusProvider>
+    </Tabs>
   );
 }

@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     // Prerender workers each open a DB pool; cap them so builds stay under
     // the managed Postgres connection limit.
     cpus: 4,
-    optimizePackageImports: ["lucide-react", "radix-ui", "cmdk"],
+    optimizePackageImports: ["lucide-react", "radix-ui", "cmdk", "motion"],
   },
   async headers() {
     return [

@@ -15,6 +15,11 @@ import {
 } from "lucide-react";
 import { isAdmin } from "@/lib/admin";
 import { useSession } from "@/lib/auth-client";
+import {
+  initialReviewsState,
+  shouldClientFetchReviews,
+  type ReviewsState,
+} from "@/app/components/airport-reviews-state";
 import { ReviewPhotoThumbs } from "@/app/components/review-photo-thumbs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,6 +44,9 @@ import {
   type ReviewFormValues,
   type ReviewImage,
 } from "@/lib/review-schema";
+
+export type { ReviewsState };
+export { initialReviewsState, shouldClientFetchReviews };
 
 /** Mirrors the server's per-file ceiling in lib/review-images.ts. */
 const MAX_PHOTO_BYTES = 12 * 1024 * 1024;
@@ -148,15 +156,13 @@ interface AirportReviewsProps {
   iata: string;
   /** Editorial seed reviews shown after community ones. */
   seedReviews?: AirportUserReview[];
+  /** Server-resolved community reviews; skips the first client fetch. */
+  initialReviews?: AirportUserReview[];
+  /** Server already determined the reviews API is unavailable. */
+  initialUnavailable?: boolean;
   showHeading?: boolean;
   className?: string;
 }
-
-type ReviewsState =
-  | { status: "loading" }
-  | { status: "ready"; reviews: AirportUserReview[] }
-  | { status: "error"; error: string }
-  | { status: "unavailable" };
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
   month: "short",
@@ -890,14 +896,23 @@ function EditReviewForm({
 export function AirportReviews({
   iata,
   seedReviews = [],
+  initialReviews,
+  initialUnavailable = false,
   showHeading = false,
   className,
 }: AirportReviewsProps) {
-  const [state, setState] = useState<ReviewsState>({ status: "loading" });
+  const hasServerSnapshot = initialUnavailable || initialReviews !== undefined;
+  const [state, setState] = useState<ReviewsState>(() =>
+    initialReviewsState(initialReviews, initialUnavailable),
+  );
   const [reloadKey, setReloadKey] = useState(0);
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!shouldClientFetchReviews(reloadKey, hasServerSnapshot)) {
+      return;
+    }
+
     const controller = new AbortController();
 
     async function loadReviews() {
@@ -936,7 +951,7 @@ export function AirportReviews({
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey]);
+  }, [hasServerSnapshot, iata, reloadKey]);
 
   const handleCreated = useCallback((review: AirportUserReview) => {
     setState((current) =>

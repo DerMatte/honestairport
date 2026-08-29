@@ -32,8 +32,6 @@ import {
   type AirportGuideSummary,
   type AirportLoungeView,
 } from "@/lib/airport-content";
-import { getCachedAirportLiveData } from "@/lib/airport-live-cache";
-import type { AirportLiveData } from "@/lib/airport-live-data";
 import { getAirportByIata } from "@/lib/airports";
 import { MAJOR_AIRPORTS_BY_RANK } from "@/lib/major-airports";
 import { formatGuideDate } from "@/lib/utils";
@@ -293,11 +291,10 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
   // Guide summary is React.cache-deduped with CuratedAirportTips in the same request.
-  const [guide, seedReviews, lounges, initialLiveData] = await Promise.all([
+  const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
     getAirportLoungesWithFallback(airport.iata),
-    getCachedAirportLiveData(airport.iata),
   ]);
   return (
     <AirportDetailTabsGate
@@ -305,17 +302,15 @@ async function CuratedAirportDetails({ airport }: { airport: Airport }) {
       guide={guide}
       seedReviews={seedReviews}
       lounges={lounges}
-      initialLiveData={initialLiveData}
     />
   );
 }
 
 async function GuideOnlyAirportPage({ slug }: { slug: string }) {
   const iata = slug.trim().toUpperCase();
-  // Start lounges and live status alongside content — iata is known from the slug.
+  // Start lounges alongside content — iata is known from the slug.
   const guideContentPromise = getAirportContent(slug);
   const loungesPromise = getAirportLoungesWithFallback(iata);
-  const liveDataPromise = getCachedAirportLiveData(iata);
 
   const guideContent = await guideContentPromise;
 
@@ -440,7 +435,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               guide={guide}
               guideMarkdown={guideContent.content}
               loungesPromise={loungesPromise}
-              liveDataPromise={liveDataPromise}
             />
           </Suspense>
         </section>
@@ -458,25 +452,19 @@ async function GuideOnlyDetailTabs({
   guide,
   guideMarkdown,
   loungesPromise,
-  liveDataPromise,
 }: {
   iata: string;
   guide: AirportGuideSummary;
   guideMarkdown: string;
   loungesPromise: Promise<AirportLoungeView[]>;
-  liveDataPromise: Promise<AirportLiveData | null>;
 }) {
-  const [lounges, initialLiveData] = await Promise.all([
-    loungesPromise,
-    liveDataPromise,
-  ]);
+  const lounges = await loungesPromise;
   return (
     <AirportDetailTabsGate
       iata={iata}
       guide={guide}
       guideMarkdown={guideMarkdown}
       lounges={lounges}
-      initialLiveData={initialLiveData}
     />
   );
 }

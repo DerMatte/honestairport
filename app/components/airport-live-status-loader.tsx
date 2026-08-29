@@ -18,6 +18,7 @@ import type { AirportLiveData } from "@/lib/airport-live-data";
 interface AirportLiveStatusProviderProps {
   iata: string;
   officialAirportUrl?: string;
+  /** Server-resolved snapshot; skips the first client fetch when present. */
   initialData?: AirportLiveData | null;
   children: ReactNode;
 }
@@ -40,6 +41,20 @@ export function shouldRefreshLiveStatus(
   elapsedMs: number,
 ): boolean {
   return visibilityState === "visible" && elapsedMs >= LIVE_STATUS_REFRESH_MS;
+}
+
+export function initialLiveStatusState(
+  initialData?: AirportLiveData | null,
+): LiveStatusState {
+  return initialData ? { status: "ready", data: initialData } : { status: "loading" };
+}
+
+/** Skip the mount-time fetch when the server already supplied a snapshot. */
+export function shouldClientFetchLiveStatus(
+  reloadKey: number,
+  hasInitialData: boolean,
+): boolean {
+  return reloadKey > 0 || !hasInitialData;
 }
 
 const AirportLiveStatusContext = createContext<LiveStatusController | null>(null);
@@ -67,20 +82,18 @@ export function AirportLiveStatusSkeleton({ className }: { className?: string })
 
 function useAirportLiveStatus(
   iata: string,
-  officialAirportUrl: string | undefined,
+  officialAirportUrl?: string,
   initialData?: AirportLiveData | null,
 ): LiveStatusController {
   const [state, setState] = useState<LiveStatusState>(() =>
-    initialData
-      ? { status: "ready", data: initialData }
-      : { status: "loading" },
+    initialLiveStatusState(initialData),
   );
   const [reloadKey, setReloadKey] = useState(0);
   const lastRequestedAt = useRef(0);
-  const skipInitialFetch = Boolean(initialData);
+  const hasInitialData = Boolean(initialData);
 
   useEffect(() => {
-    if (skipInitialFetch && reloadKey === 0) {
+    if (!shouldClientFetchLiveStatus(reloadKey, hasInitialData)) {
       lastRequestedAt.current = Date.now();
       return;
     }
@@ -121,7 +134,7 @@ function useAirportLiveStatus(
     return () => {
       controller.abort();
     };
-  }, [iata, reloadKey, skipInitialFetch]);
+  }, [hasInitialData, iata, reloadKey]);
 
   useEffect(() => {
     function refreshIfStale() {

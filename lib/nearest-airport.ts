@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import { cache } from "react";
 import { getAllAirportIatas } from "@/lib/airport-content";
 import { getAirportByIata } from "@/lib/airports";
 import { haversineKm } from "@/lib/geo";
@@ -23,38 +24,43 @@ function parseCoordinate(value: string | null): number | null {
  * Resolves the visitor's nearest covered airport from Vercel's IP
  * geolocation headers. Reads `headers()`, so any caller must be rendered
  * inside a `<Suspense>` boundary under Cache Components.
+ *
+ * React.cache() dedupes the header read + IATA scan when the header link
+ * and sidebar item both resolve it in the same request.
  */
-export async function getNearestAirportFromRequest(): Promise<NearestAirport | null> {
-  const headerList = await headers();
-  const latitude = parseCoordinate(headerList.get("x-vercel-ip-latitude"));
-  const longitude = parseCoordinate(headerList.get("x-vercel-ip-longitude"));
+export const getNearestAirportFromRequest = cache(
+  async function getNearestAirportFromRequest(): Promise<NearestAirport | null> {
+    const headerList = await headers();
+    const latitude = parseCoordinate(headerList.get("x-vercel-ip-latitude"));
+    const longitude = parseCoordinate(headerList.get("x-vercel-ip-longitude"));
 
-  if (latitude === null || longitude === null) {
-    return null;
-  }
-
-  const iatas = await getAllAirportIatas();
-
-  let nearest: ReturnType<typeof getAirportByIata> | undefined;
-  let nearestKm = Infinity;
-  for (const iata of iatas) {
-    const record = getAirportByIata(iata);
-    if (!record) continue;
-    const km = haversineKm(latitude, longitude, record.latitude, record.longitude);
-    if (km < nearestKm) {
-      nearestKm = km;
-      nearest = record;
+    if (latitude === null || longitude === null) {
+      return null;
     }
-  }
 
-  if (!nearest || nearestKm > MAX_DISTANCE_KM) {
-    return null;
-  }
+    const iatas = await getAllAirportIatas();
 
-  return {
-    iata: nearest.iata_code,
-    slug: nearest.iata_code.toLowerCase(),
-    city: nearest.city_name,
-    name: nearest.name,
-  };
-}
+    let nearest: ReturnType<typeof getAirportByIata> | undefined;
+    let nearestKm = Infinity;
+    for (const iata of iatas) {
+      const record = getAirportByIata(iata);
+      if (!record) continue;
+      const km = haversineKm(latitude, longitude, record.latitude, record.longitude);
+      if (km < nearestKm) {
+        nearestKm = km;
+        nearest = record;
+      }
+    }
+
+    if (!nearest || nearestKm > MAX_DISTANCE_KM) {
+      return null;
+    }
+
+    return {
+      iata: nearest.iata_code,
+      slug: nearest.iata_code.toLowerCase(),
+      city: nearest.city_name,
+      name: nearest.name,
+    };
+  },
+);

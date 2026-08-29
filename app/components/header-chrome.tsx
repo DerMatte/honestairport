@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { Menu, Search, X } from "lucide-react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
-import { MobileNav } from "@/app/components/mobile-nav";
 import { Button } from "@/components/ui/button";
 
 const AirportSearchDialog = dynamic(
@@ -13,6 +12,13 @@ const AirportSearchDialog = dynamic(
       default: mod.AirportSearchDialog,
     })),
   { ssr: false },
+);
+
+const MobileNav = dynamic(
+  () =>
+    import("@/app/components/mobile-nav").then((mod) => ({
+      default: mod.MobileNav,
+    })),
 );
 
 const SCROLL_DELTA = 6;
@@ -29,6 +35,7 @@ export function HeaderChrome({
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuMounted, setMenuMounted] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
@@ -40,7 +47,13 @@ export function HeaderChrome({
 
   function toggleMenu() {
     setHidden(false);
-    setMenuOpen((current) => !current);
+    setMenuOpen((current) => {
+      const next = !current;
+      if (next) {
+        setMenuMounted(true);
+      }
+      return next;
+    });
   }
 
   useEffect(() => {
@@ -137,11 +150,13 @@ export function HeaderChrome({
         </div>
       </header>
 
-      <MobileNav
-        open={menuOpen}
-        onOpenChange={setMenuOpen}
-        nearestAirportSlot={nearestAirportSidebarSlot}
-      />
+      {menuMounted ? (
+        <MobileNav
+          open={menuOpen}
+          onOpenChange={setMenuOpen}
+          nearestAirportSlot={nearestAirportSidebarSlot}
+        />
+      ) : null}
 
       {searchOpen ? (
         <AirportSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />

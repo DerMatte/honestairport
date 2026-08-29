@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, LogIn, MapPin, Plane, RotateCw, Sparkles } from "lucide-react";
-import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSession } from "@/lib/auth-client";
 import { extractGuideSaveMarker, extractStreamableGuideBody } from "@/lib/airport-guide-markdown";
 import type { AirportRecord } from "@/lib/airports";
+
+const AirportGuideArticle = dynamic(
+  () =>
+    import("@/app/components/airport-guide-article").then((mod) => ({
+      default: mod.AirportGuideArticle,
+    })),
+);
 
 interface AirportGeneratingViewProps {
   record: AirportRecord;

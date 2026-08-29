@@ -34,6 +34,9 @@ interface OgAirport {
 }
 
 async function getOgAirport(slug: string): Promise<OgAirport | null> {
+  // Guide-only slugs are the common case — don't wait for a profile miss.
+  const guidePromise = getAirportContent(slug);
+  guidePromise.catch(() => {});
   const airport = await getAirportBySlug(slug);
 
   if (airport) {
@@ -45,7 +48,7 @@ async function getOgAirport(slug: string): Promise<OgAirport | null> {
     };
   }
 
-  const guide = await getAirportContent(slug);
+  const guide = await guidePromise;
 
   if (!guide) {
     return null;
@@ -61,9 +64,10 @@ async function getOgAirport(slug: string): Promise<OgAirport | null> {
 
 export default async function Image({ params }: OgImageProps) {
   const { slug } = await params;
+  const fontsPromise = getOgFonts();
   const airport = await getOgAirport(slug);
   const [fonts, images] = await Promise.all([
-    getOgFonts(),
+    fontsPromise,
     airport ? getAirportImages(airport.iata) : Promise.resolve([]),
   ]);
   const photoDataUrl = images[0]?.url
