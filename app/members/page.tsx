@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 import {
   MembersLanding,
   MembersLandingFallback,
 } from "@/app/components/members-landing";
 import { MembershipRestore } from "@/app/components/membership-restore";
+import { auth } from "@/lib/auth";
+import { isDatabaseConfigured } from "@/lib/db";
 import { checkoutUrlForPath, getHtmlAccess } from "@/lib/whop-access";
 import { isWhopGateEnabled } from "@/lib/whop-gate";
 
@@ -40,6 +43,26 @@ function safeNextPath(value: string | undefined): string {
   return value;
 }
 
+function membersLoginHref(nextPath: string): string {
+  const membersPath =
+    nextPath === "/"
+      ? "/members"
+      : `/members?next=${encodeURIComponent(nextPath)}`;
+  return `/login?next=${encodeURIComponent(membersPath)}`;
+}
+
+async function readSignedIn(): Promise<boolean> {
+  if (!isDatabaseConfigured()) {
+    return false;
+  }
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    return Boolean(session);
+  } catch {
+    return false;
+  }
+}
+
 export default function MembersPage({ searchParams }: MembersPageProps) {
   return (
     <Suspense fallback={<MembersLandingFallback />}>
@@ -53,7 +76,10 @@ async function MembersPageContent({ searchParams }: MembersPageProps) {
   const nextPath = safeNextPath(params.next);
   const paymentId = params.payment_id?.trim() || params.receipt?.trim() || null;
   const gateOn = isWhopGateEnabled();
-  const access = gateOn ? await getHtmlAccess() : "open";
+  const [access, signedIn] = await Promise.all([
+    gateOn ? getHtmlAccess() : Promise.resolve("open" as const),
+    readSignedIn(),
+  ]);
 
   return (
     <MembersLanding
@@ -62,6 +88,8 @@ async function MembersPageContent({ searchParams }: MembersPageProps) {
       paymentId={paymentId}
       access={access}
       gateOn={gateOn}
+      signInHref={membersLoginHref(nextPath)}
+      signedIn={signedIn}
       restoreForm={
         <MembershipRestore paymentId={paymentId} nextPath={nextPath} />
       }

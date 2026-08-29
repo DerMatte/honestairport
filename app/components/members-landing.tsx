@@ -32,6 +32,8 @@ export function MembersLanding({
   access,
   gateOn,
   restoreForm,
+  signInHref,
+  signedIn,
 }: {
   checkoutHref: string;
   nextPath: string;
@@ -39,6 +41,8 @@ export function MembersLanding({
   access: HtmlAccess;
   gateOn: boolean;
   restoreForm: ReactNode;
+  signInHref: string;
+  signedIn: boolean;
 }) {
   const allowed = access === "allowed";
   const returningFromCheckout = Boolean(paymentId) && !allowed;
@@ -98,6 +102,14 @@ export function MembersLanding({
                 >
                   Already a member?
                 </a>
+                {signedIn ? null : (
+                  <Link
+                    href={signInHref}
+                    className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    Sign in
+                  </Link>
+                )}
               </div>
             )}
           </div>
@@ -226,6 +238,20 @@ export function MembersLanding({
                     <p className="mt-1 text-sm text-muted-foreground">
                       Restore this browser with the pay_… id from your Whop
                       receipt.
+                      {signedIn ? (
+                        " Signed in — restore also saves the Whop id on your account."
+                      ) : (
+                        <>
+                          {" "}
+                          <Link
+                            href={signInHref}
+                            className="underline-offset-4 hover:text-foreground hover:underline"
+                          >
+                            Sign in
+                          </Link>{" "}
+                          first if you want it saved on your account.
+                        </>
+                      )}
                     </p>
                   </div>
                   <span className="text-sm text-primary group-open:hidden">

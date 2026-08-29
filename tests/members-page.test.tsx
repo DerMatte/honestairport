@@ -14,6 +14,8 @@ function landing(
     paymentId: string | null;
     access: "open" | "allowed" | "denied";
     gateOn: boolean;
+    signedIn: boolean;
+    signInHref: string;
   }> = {},
 ) {
   const paymentId = overrides.paymentId ?? null;
@@ -24,6 +26,8 @@ function landing(
       paymentId={paymentId}
       access={overrides.access ?? "denied"}
       gateOn={overrides.gateOn ?? true}
+      signedIn={overrides.signedIn ?? false}
+      signInHref={overrides.signInHref ?? "/login?next=%2Fmembers"}
       restoreForm={
         <form>
           <label htmlFor="whop-receipt">Whop receipt</label>
@@ -69,9 +73,20 @@ test("logged-out members page sells $8/month and the real free vs paid split", (
   assert.doesNotMatch(html, /WHOP_API_KEY/);
   assert.match(html, /href="#restore"/);
   assert.match(html, /Already a member\?/);
+  assert.match(html, /href="\/login\?next=%2Fmembers"/);
+  assert.match(html, />Sign in</);
   assert.match(html, /id="restore"/);
   assert.match(html, /Restore access/);
   assert.doesNotMatch(html, /You&#x27;re in/);
+  assert.doesNotMatch(html, /admin/);
+  assert.doesNotMatch(html, /owner/);
+});
+
+test("signed-in non-members still see Subscribe, not a Sign in CTA", () => {
+  const html = landing({ signedIn: true });
+  assert.match(html, /Subscribe — \$8\/month/);
+  assert.doesNotMatch(html, />Sign in</);
+  assert.match(html, /saves the Whop id on your account/);
 });
 
 test("restore stays secondary unless a receipt is in the URL", () => {
