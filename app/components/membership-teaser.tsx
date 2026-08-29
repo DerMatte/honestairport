@@ -51,7 +51,7 @@ export function MembershipTeaser({
             </a>
           </Button>
           <Button size="lg" variant="outline" className="sm:flex-1" asChild>
-            <Link href={`/members?next=${encodeURIComponent(returnPath)}`}>
+            <Link href={`/members?next=${encodeURIComponent(returnPath)}#restore`}>
               Already a member?
             </Link>
           </Button>
