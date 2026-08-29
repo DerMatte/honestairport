@@ -117,6 +117,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/members`,
+      lastModified: new Date("2026-08-29"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
     ...airportEntries,
     ...loungeEntries,
   ];

@@ -51,11 +51,9 @@ async function postUnlock(receiptId: string): Promise<
 export function MembershipRestore({
   paymentId,
   nextPath,
-  checkoutHref,
 }: {
   paymentId: string | null;
   nextPath: string;
-  checkoutHref: string;
 }) {
   const router = useRouter();
   const [receipt, setReceipt] = useState(paymentId ?? "");
@@ -81,58 +79,49 @@ export function MembershipRestore({
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col gap-2 sm:flex-row">
-        <Button size="lg" className="sm:flex-1" asChild>
-          <a href={checkoutHref} rel="noopener noreferrer">
-            Subscribe — $8/month
-          </a>
-        </Button>
+    <form
+      className="space-y-3"
+      onSubmit={(event) => {
+        event.preventDefault();
+        const value = receipt.trim();
+        if (value) {
+          void unlock(value);
+        }
+      }}
+    >
+      <div className="space-y-1.5">
+        <Label htmlFor="whop-receipt">Whop receipt</Label>
+        <p className="text-xs leading-5 text-muted-foreground">
+          Paste the <span className="font-mono">pay_…</span> id from checkout.
+          That unlocks this browser — and, if you are signed in, saves the Whop
+          id on your account.
+        </p>
+        <Input
+          id="whop-receipt"
+          name="receiptId"
+          value={receipt}
+          onChange={(event) => setReceipt(event.target.value)}
+          placeholder="pay_…"
+          autoComplete="off"
+          autoFocus={Boolean(paymentId)}
+          disabled={phase.name === "working"}
+        />
       </div>
-
-      <form
-        className="space-y-3"
-        onSubmit={(event) => {
-          event.preventDefault();
-          const value = receipt.trim();
-          if (value) {
-            void unlock(value);
-          }
-        }}
+      <Button
+        type="submit"
+        variant="outline"
+        disabled={phase.name === "working" || !receipt.trim()}
       >
-        <div className="space-y-1.5">
-          <Label htmlFor="whop-receipt">Already subscribed?</Label>
-          <p className="text-xs leading-5 text-muted-foreground">
-            After checkout, Whop may send you back here with a payment id. Paste
-            the <span className="font-mono">pay_…</span> receipt to restore this
-            browser — and, if you are signed in, save the Whop id on your
-            account. Submit the prefilled value if the URL already has one.
-          </p>
-          <Input
-            id="whop-receipt"
-            name="receiptId"
-            value={receipt}
-            onChange={(event) => setReceipt(event.target.value)}
-            placeholder="pay_…"
-            autoComplete="off"
-            disabled={phase.name === "working"}
-          />
-        </div>
-        <Button
-          type="submit"
-          variant="outline"
-          disabled={phase.name === "working" || !receipt.trim()}
-        >
-          {phase.name === "working" ? "Restoring…" : "Restore access"}
-        </Button>
-      </form>
-
+        {phase.name === "working" ? "Restoring…" : "Restore access"}
+      </Button>
       {phase.name === "error" ? (
         <p className="text-sm text-destructive">{phase.message}</p>
       ) : null}
       {phase.name === "done" ? (
-        <p className="text-sm text-muted-foreground">Access restored. Redirecting…</p>
+        <p className="text-sm text-muted-foreground">
+          Access restored. Redirecting…
+        </p>
       ) : null}
-    </div>
+    </form>
   );
 }
