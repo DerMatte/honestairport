@@ -16,8 +16,9 @@
  * Usage:
  *   pnpm generate:airport:grok LHR                # one specific airport (guide + score)
  *   pnpm generate:airport:grok CDG "focus on transfers"
- *   pnpm generate:airport:grok --next             # next missing guide, then next
- *                                                 # unscored airport, then the stalest guide
+ *   pnpm generate:airport:grok --next             # next missing guide, then score
+ *                                                 # an existing guide-only airport, then
+ *                                                 # refresh the stalest guide
  *   pnpm generate:airport:grok --next --dry-run   # show what --next would pick
  *
  * Designed for one-by-one background runs on the VPS (see cron entry using
@@ -47,6 +48,7 @@ import {
 } from "./grok-headless";
 import { loadLocalEnv } from "./load-env";
 import { requestSiteRevalidation } from "./revalidate-site";
+import { scoreExistingGuide } from "./score-existing-guides";
 
 loadLocalEnv();
 
@@ -117,17 +119,15 @@ export async function generateAirportGuideWithGrok(iata: string, extraInstructio
 interface NextTarget {
   iata: string;
   reason: string;
+  kind: "research" | "score";
 }
 
 /**
  * Next airport to work on, in priority order:
  *  1. Any major airport still missing a guide (by traffic rank).
- *  2. Any major airport with a guide but no Airportist Score yet — rate the
- *     whole catalog one by one, highest-traffic first.
- *  3. Any other guide still missing a score (stalest first) — catches
- *     airports whose guide was generated on demand by a visitor before the
- *     scoring step ran (or where it failed), so nothing stays an
- *     editorial-only page forever.
+ *  2. Any major airport with a guide but no Airportist Score yet — score it
+ *     from the existing guide (no rewrite).
+ *  3. Any other guide still missing a score (stalest first).
  *  4. Once everything is both guided and scored, refresh the guide (and its
  *     score) with the oldest `lastUpdated` so the catalog keeps improving
  *     indefinitely.
@@ -145,6 +145,7 @@ async function pickNextTarget(): Promise<NextTarget | null> {
       return {
         iata: candidate.iata,
         reason: `missing major airport #${candidate.rank} (${candidate.name})`,
+        kind: "research",
       };
     }
   }
@@ -154,6 +155,7 @@ async function pickNextTarget(): Promise<NextTarget | null> {
       return {
         iata: candidate.iata,
         reason: `missing Airportist Score for #${candidate.rank} (${candidate.name})`,
+        kind: "score",
       };
     }
   }
@@ -165,6 +167,7 @@ async function pickNextTarget(): Promise<NextTarget | null> {
     return {
       iata: unscored.iata.toUpperCase(),
       reason: `guide without Airportist Score (lastUpdated ${unscored.lastUpdated})`,
+      kind: "score",
     };
   }
 
@@ -176,6 +179,7 @@ async function pickNextTarget(): Promise<NextTarget | null> {
   return {
     iata: stalest.iata.toUpperCase(),
     reason: `stalest guide (lastUpdated ${stalest.lastUpdated})`,
+    kind: "research",
   };
 }
 
@@ -196,8 +200,20 @@ async function main() {
       return;
     }
     await logLine(`--next picked ${target.iata}: ${target.reason}`);
-    await generateAirportGuideWithGrok(target.iata);
-    return;
+    switch (target.kind) {
+      case "score": {
+        const score = await scoreExistingGuide(target.iata);
+        await logLine(`✅ ${target.iata} Airportist Score ${score} written from existing guide`);
+        return;
+      }
+      case "research":
+        await generateAirportGuideWithGrok(target.iata);
+        return;
+      default: {
+        const exhaustiveCheck: never = target.kind;
+        throw new Error(`Unhandled next-target kind: ${exhaustiveCheck}`);
+      }
+    }
   }
 
   const iata = positional[0];

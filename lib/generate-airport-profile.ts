@@ -1,10 +1,17 @@
 import { createGateway } from "@ai-sdk/gateway";
 import { generateObject } from "ai";
 import { regionForCountryCode, type AirportProfileInput } from "@/lib/airport-profiles";
-import { airportScoreProfileSchema } from "@/lib/airport-profile-schema";
+import {
+  airportScoreProfileSchema,
+  type AirportScoreProfile,
+} from "@/lib/airport-profile-schema";
 import type { AirportRecord } from "@/lib/airports";
 
-function buildAirportScorePrompt(iata: string, record: AirportRecord, guideMarkdown: string): string {
+export function buildAirportScorePrompt(
+  iata: string,
+  record: AirportRecord,
+  guideMarkdown: string,
+): string {
   const normalizedIata = iata.toUpperCase();
 
   return `You are scoring ${normalizedIata} airport (${record.name}, ${record.city_name}) for the Airportist Score, a 0-10 traveler-experience rating.
@@ -63,6 +70,16 @@ export async function generateAirportScoreProfile(
       },
     },
   });
+
+  return profileInputFromScore(normalizedIata, record, object);
+}
+
+export function profileInputFromScore(
+  iata: string,
+  record: AirportRecord,
+  object: AirportScoreProfile,
+): AirportProfileInput {
+  const normalizedIata = iata.toUpperCase();
 
   return {
     // Empty when the reference record has no ICAO (1.2k smaller airfields) —
