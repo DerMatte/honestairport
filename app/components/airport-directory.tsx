@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Filter,
@@ -57,6 +57,7 @@ import {
   clearDirectoryDataFilters,
   directoryFiltersEqual,
   directorySearchHref,
+  directoryUrlSyncAction,
   hasDirectoryChipFilters,
   hasDirectoryDataFilters,
   parseDirectorySearchParams,
@@ -303,8 +304,24 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [, startTransition] = useTransition();
+  const lastWrittenKeyRef = useRef<string | null>(null);
+  const writeGenerationRef = useRef(0);
+  const appliedGenerationRef = useRef(0);
 
   useEffect(() => {
+    const action = directoryUrlSyncAction({
+      incomingKey: searchKey,
+      lastWrittenKey: lastWrittenKeyRef.current,
+      writeGeneration: writeGenerationRef.current,
+      appliedGeneration: appliedGenerationRef.current,
+    });
+    if (action === "ignore") {
+      return;
+    }
+    if (action === "ack-write") {
+      appliedGenerationRef.current = writeGenerationRef.current;
+      return;
+    }
     const next = parseDirectorySearchParams(new URLSearchParams(searchKey));
     setFilters((prev) => (directoryFiltersEqual(prev, next) ? prev : next));
   }, [searchKey]);
@@ -404,9 +421,13 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   function writeFilters(next: AirportFilters) {
     const href = directorySearchHref(next, searchParams);
     const nextKey = href.startsWith("/?") ? href.slice(2) : "";
-    if (nextKey !== searchKey) {
-      router.replace(href, { scroll: false });
+    lastWrittenKeyRef.current = nextKey;
+    writeGenerationRef.current += 1;
+    if (nextKey === searchKey) {
+      appliedGenerationRef.current = writeGenerationRef.current;
+      return;
     }
+    router.replace(href, { scroll: false });
   }
 
   function resetFilters() {

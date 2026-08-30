@@ -476,7 +476,7 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
     onFiltersChange({ ...filters, query: "", searchScope: "all" });
   }
 
-  const showPanel = focused || Boolean(query.trim()) || locationFilter !== null;
+  const showPanel = focused;
 
   return (
     <div className="relative">

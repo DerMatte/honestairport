@@ -5,6 +5,7 @@ import {
   clearDirectoryDataFilters,
   directoryFiltersEqual,
   directorySearchHref,
+  directoryUrlSyncAction,
   hasDirectoryChipFilters,
   hasDirectoryDataFilters,
   parseDirectorySearchParams,
@@ -146,5 +147,43 @@ describe("directory filter helpers", () => {
     });
     assert.equal(hasDirectoryDataFilters(cleared), false);
     assert.equal(hasDirectoryChipFilters(cleared), true);
+  });
+});
+
+describe("directoryUrlSyncAction", () => {
+  it("applies the URL when no write is in flight", () => {
+    assert.equal(
+      directoryUrlSyncAction({
+        incomingKey: "q=Germany",
+        lastWrittenKey: "q=France",
+        writeGeneration: 2,
+        appliedGeneration: 2,
+      }),
+      "apply",
+    );
+  });
+
+  it("ignores a stale URL while a newer write is in flight", () => {
+    assert.equal(
+      directoryUrlSyncAction({
+        incomingKey: "q=a",
+        lastWrittenKey: "q=ab",
+        writeGeneration: 3,
+        appliedGeneration: 2,
+      }),
+      "ignore",
+    );
+  });
+
+  it("acknowledges the write that just landed", () => {
+    assert.equal(
+      directoryUrlSyncAction({
+        incomingKey: "q=ab",
+        lastWrittenKey: "q=ab",
+        writeGeneration: 3,
+        appliedGeneration: 2,
+      }),
+      "ack-write",
+    );
   });
 });

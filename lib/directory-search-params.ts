@@ -212,3 +212,23 @@ export function hasDirectoryDataFilters(filters: AirportFilters): boolean {
 export function hasDirectoryChipFilters(filters: AirportFilters): boolean {
   return Boolean(filters.query.trim()) || hasDirectoryDataFilters(filters);
 }
+
+/**
+ * Incoming `searchKey` vs an in-flight `router.replace`. Ignore stale
+ * replacements so rapid typing cannot roll filters back; apply when the
+ * URL is the source of truth (back/forward, or no write in flight).
+ */
+export function directoryUrlSyncAction(input: {
+  incomingKey: string;
+  lastWrittenKey: string | null;
+  writeGeneration: number;
+  appliedGeneration: number;
+}): "apply" | "ignore" | "ack-write" {
+  if (input.writeGeneration === input.appliedGeneration) {
+    return "apply";
+  }
+  if (input.incomingKey === (input.lastWrittenKey ?? "")) {
+    return "ack-write";
+  }
+  return "ignore";
+}
