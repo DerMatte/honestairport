@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
 import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,8 @@ export function HeaderChrome({
   nearestAirportSidebarSlot: ReactNode;
   membershipSlot?: ReactNode;
 }) {
+  const pathname = usePathname();
+  const pinHeader = pathname.startsWith("/airports/");
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuMounted, setMenuMounted] = useState(false);
@@ -71,6 +74,11 @@ export function HeaderChrome({
   }, []);
 
   useEffect(() => {
+    if (pinHeader) {
+      setHidden(false);
+      return;
+    }
+
     lastScrollY.current = window.scrollY;
 
     function updateVisibility() {
@@ -97,7 +105,7 @@ export function HeaderChrome({
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pinHeader]);
 
   return (
     <>
@@ -109,7 +117,7 @@ export function HeaderChrome({
           {brand}
 
           <div className="ml-auto flex items-center gap-1">
-            <nav className="mr-1 hidden items-center md:flex">{desktopNav}</nav>
+            <nav className="mr-1 hidden items-center gap-1 md:flex">{desktopNav}</nav>
 
             <Button
               variant="ghost"

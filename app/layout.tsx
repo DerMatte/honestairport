@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
@@ -124,6 +125,29 @@ export default async function RootLayout({
               </span>
               HonestAirport
             </span>
+            <nav
+              aria-label="Footer"
+              className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs"
+            >
+              <Link
+                href="/"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Directory
+              </Link>
+              <Link
+                href="/tsa-tips"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                TSA tips
+              </Link>
+              <Link
+                href="/members"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Members
+              </Link>
+            </nav>
             <p className="max-w-2xl text-xs leading-5 text-muted-foreground">
               Airportist Scores and guides are editorial content. Always verify
               live rules, terminals, and operational alerts with official

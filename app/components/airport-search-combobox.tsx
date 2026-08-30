@@ -440,7 +440,9 @@ interface AirportDirectorySearchProps {
 
 export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDirectorySearchProps) {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
   const resultsPanelRef = useRef<HTMLDivElement>(null);
+  const blurTimeoutRef = useRef<number>(0);
   const [focused, setFocused] = useState(false);
   const query = filters.query;
   const scope = filters.searchScope;
@@ -476,7 +478,7 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
     onFiltersChange({ ...filters, query: "", searchScope: "all" });
   }
 
-  const showPanel = focused || Boolean(query.trim()) || locationFilter !== null;
+  const showPanel = focused;
 
   return (
     <div className="relative">
@@ -490,12 +492,20 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
           <InlineSearchBar
             query={inputQuery}
             locationFilter={locationFilter}
+            inputRef={inputRef}
             onQueryChange={updateQuery}
             onClearLocationFilter={clearLocationFilter}
-            onFocus={() => setFocused(true)}
+            onFocus={() => {
+              window.clearTimeout(blurTimeoutRef.current);
+              setFocused(true);
+            }}
             onBlur={() => {
-              window.setTimeout(() => {
-                if (resultsPanelRef.current?.contains(document.activeElement)) {
+              blurTimeoutRef.current = window.setTimeout(() => {
+                const active = document.activeElement;
+                if (
+                  inputRef.current === active ||
+                  resultsPanelRef.current?.contains(active)
+                ) {
                   return;
                 }
                 setFocused(false);
@@ -522,6 +532,9 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
           <CommandList className="hidden" />
         )}
       </Command>
+      <p className="mt-2 px-1 text-xs leading-5 text-muted-foreground">
+        Cities and countries filter this list. An airport name opens its guide.
+      </p>
     </div>
   );
 }

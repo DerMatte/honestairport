@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { SiteSidebar } from "@/app/components/site-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
-test("mobile sidebar keeps browse and account, and omits TSA and Join", () => {
+test("mobile sidebar keeps browse, account, TSA tips, and Members", () => {
   const html = renderToStaticMarkup(
     <SidebarProvider>
       <SiteSidebar
@@ -19,7 +19,9 @@ test("mobile sidebar keeps browse and account, and omits TSA and Join", () => {
 
   assert.match(html, /Browse airports/);
   assert.match(html, /Sign in/);
-  assert.doesNotMatch(html, /TSA screening/);
-  assert.doesNotMatch(html, /tsa-tips/);
+  assert.match(html, /href="\/tsa-tips"/);
+  assert.match(html, /TSA tips/);
+  assert.match(html, /href="\/members"/);
+  assert.match(html, /Members/);
   assert.doesNotMatch(html, />Join</);
 });

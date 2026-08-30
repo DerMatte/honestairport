@@ -8,6 +8,8 @@ import {
   LogIn,
   LogOut,
   Settings,
+  ShieldCheck,
+  Users,
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -94,6 +96,44 @@ export function SiteSidebar({
                     <span className="font-medium">Browse airports</span>
                     <span className="truncate text-xs text-sidebar-foreground/60">
                       Scores, tips & traveler intel
+                    </span>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                size="lg"
+                className="h-auto items-start py-2.5"
+              >
+                <Link href="/tsa-tips" onClick={onNavigate}>
+                  <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
+                    <ShieldCheck className="size-4" aria-hidden="true" />
+                  </div>
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                    <span className="font-medium">TSA tips</span>
+                    <span className="truncate text-xs text-sidebar-foreground/60">
+                      IDs, liquids & PreCheck
+                    </span>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                size="lg"
+                className="h-auto items-start py-2.5"
+              >
+                <Link href="/members" onClick={onNavigate}>
+                  <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
+                    <Users className="size-4" aria-hidden="true" />
+                  </div>
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                    <span className="font-medium">Members</span>
+                    <span className="truncate text-xs text-sidebar-foreground/60">
+                      $8/month airport intel
                     </span>
                   </div>
                 </Link>

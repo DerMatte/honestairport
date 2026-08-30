@@ -45,10 +45,12 @@ async function HomeDirectory() {
   ]);
 
   return (
-    <AirportDirectory
-      scoredAirports={scoredAirports.map(toAirportDirectoryAirport)}
-      allAirports={allAirports}
-    />
+    <Suspense fallback={<DirectorySkeleton />}>
+      <AirportDirectory
+        scoredAirports={scoredAirports.map(toAirportDirectoryAirport)}
+        allAirports={allAirports}
+      />
+    </Suspense>
   );
 }
 
