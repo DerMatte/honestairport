@@ -13,15 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   isMucLayoversPreviewEnabled,
   isMucZoneId,
   lookupMucLayover,
@@ -110,30 +101,26 @@ function MucZoneSelect({
   return (
     <div className="min-w-0 space-y-1.5">
       <Label htmlFor={id}>{label}</Label>
-      <Select
+      <select
+        id={id}
         value={value}
-        onValueChange={(next) => {
-          if (isMucZoneId(next)) {
-            onChange(next);
+        onChange={(event) => {
+          if (isMucZoneId(event.target.value)) {
+            onChange(event.target.value);
           }
         }}
+        className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
       >
-        <SelectTrigger id={id} className="w-full">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {MUC_ZONE_GROUPS.map((group) => (
-            <SelectGroup key={group.label}>
-              <SelectLabel>{group.label}</SelectLabel>
-              {group.zones.map((zone) => (
-                <SelectItem key={zone.id} value={zone.id}>
-                  {zone.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          ))}
-        </SelectContent>
-      </Select>
+        {MUC_ZONE_GROUPS.map((group) => (
+          <optgroup key={group.label} label={group.label}>
+            {group.zones.map((zone) => (
+              <option key={zone.id} value={zone.id}>
+                {zone.label}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
     </div>
   );
 }
