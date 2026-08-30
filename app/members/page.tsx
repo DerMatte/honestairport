@@ -14,13 +14,13 @@ import { isWhopGateEnabled } from "@/lib/whop-gate";
 export const metadata: Metadata = {
   title: "Members: $8/month airport intel",
   description:
-    "Join HonestAirport Members for $8/month. Unlock extra airport tabs and lounge pages. Overview, the lounge directory, home, and search stay free. Cancel anytime.",
+    "Join HonestAirport Members for $8/month. Unlock extra airport tabs and lounge pages. Overview, Getting There, the lounge directory, home, and search stay free. Cancel anytime.",
   alternates: { canonical: "/members" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "HonestAirport Members — $8/month",
     description:
-      "Unlock extra airport tabs and lounge pages. Overview and the lounge directory stay free. Cancel anytime.",
+      "Unlock extra airport tabs and lounge pages. Overview, Getting There, and the lounge directory stay free. Cancel anytime.",
     type: "website",
     url: "/members",
   },

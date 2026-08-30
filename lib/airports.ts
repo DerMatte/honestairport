@@ -70,6 +70,18 @@ export interface NearbyAirport {
 const DEFAULT_NEARBY_MAX_KM = 150;
 const DEFAULT_NEARBY_LIMIT = 6;
 
+/**
+ * Military / non-passenger names. `AirportRecord` has no type field, so
+ * nearby suggestions use this heuristic (SIN → Senai / Hang Nadim, not
+ * Paya Lebar or Tengah).
+ */
+const NON_PASSENGER_AIRPORT_NAME =
+  /\b(air base|airbase|afb|air force|raf|rnab|heliport|army airfield)\b/i;
+
+export function isPassengerAirportName(name: string): boolean {
+  return !NON_PASSENGER_AIRPORT_NAME.test(name);
+}
+
 export function getNearbyAirports(
   iata: string,
   options: { maxKm?: number; limit?: number } = {},
@@ -85,6 +97,7 @@ export function getNearbyAirports(
 
   for (const record of airports) {
     if (record.iata_code.toUpperCase() === subjectIata) continue;
+    if (!isPassengerAirportName(record.name)) continue;
 
     const distanceKm = haversineKm(
       subject.latitude,

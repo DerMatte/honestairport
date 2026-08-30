@@ -3,6 +3,14 @@
  * Prefer text/markdown only when its q-value beats text/html (and peers).
  */
 
+import {
+  FREE_AIRPORT_TAB_VALUES,
+  PAID_AIRPORT_TAB_VALUES,
+  isAirportTabMarkdownSlug,
+  isPaidAirportTab,
+  type PaidAirportTabValue,
+} from "./airport-tabs";
+
 export type NegotiatedMediaType = "text/markdown" | "text/html" | null;
 
 function parseAcceptParts(header: string): Array<{ type: string; q: number }> {
@@ -89,26 +97,21 @@ export function prefersMarkdown(acceptHeader: string | null): boolean {
 }
 
 /**
- * Airport-tab markdown slugs that are paid the same way as an individual
- * lounge page if/when those routes exist. Overview (`/{iata}.md`) and the
- * lounge directory (`/{iata}/lounges.md`) stay free.
+ * Paid the same way as an individual lounge page. Derived from
+ * `lib/airport-tabs.ts` so HTML and `.md` paywalls stay aligned.
+ * Overview (`/{iata}.md`) stays free. Getting There and the lounge
+ * directory (`/{iata}/lounges.md`) are token-only, never x402.
  */
-export const PAID_AIRPORT_TAB_SLUGS = [
-  "getting-there",
-  "amenities",
-  "tips",
-  "water",
-  "guide",
-  "disruptions",
-  "reviews",
-] as const;
+export const PAID_AIRPORT_TAB_SLUGS = PAID_AIRPORT_TAB_VALUES;
 
-/** Lounge list / directory markdown — token-only, never x402. */
-export const FREE_AIRPORT_TAB_SLUGS = ["lounges"] as const;
+/** Free airport-tab markdown (Getting There + lounge directory). */
+export const FREE_AIRPORT_TAB_SLUGS = FREE_AIRPORT_TAB_VALUES.filter(
+  (tab): tab is Exclude<(typeof FREE_AIRPORT_TAB_VALUES)[number], "overview"> =>
+    isAirportTabMarkdownSlug(tab),
+);
 
-export type PaidAirportTabSlug = (typeof PAID_AIRPORT_TAB_SLUGS)[number];
+export type PaidAirportTabSlug = PaidAirportTabValue;
 
-const PAID_AIRPORT_TAB_SET = new Set<string>(PAID_AIRPORT_TAB_SLUGS);
 const KNOWN_AIRPORT_TAB_SLUGS = [
   ...PAID_AIRPORT_TAB_SLUGS,
   ...FREE_AIRPORT_TAB_SLUGS,
@@ -124,7 +127,7 @@ const AIRPORT_TAB_INTERNAL_MD = new RegExp(
 );
 
 export function isPaidAirportTabSlug(value: string): value is PaidAirportTabSlug {
-  return PAID_AIRPORT_TAB_SET.has(value.toLowerCase());
+  return isPaidAirportTab(value.toLowerCase());
 }
 
 /** Public pages that have a markdown representation. */

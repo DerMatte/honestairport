@@ -12,10 +12,10 @@ import {
   type AirportWaterOption,
 } from "@/lib/airport-guides";
 import {
-  PAID_AIRPORT_TAB_VALUES,
+  AIRPORT_TAB_VALUES,
   isAirportTabMarkdownSlug,
   isPaidAirportTab,
-  type PaidAirportTabValue,
+  type AirportTabMarkdownSlug,
 } from "@/lib/airport-tabs";
 import {
   PROGRAM_LABELS,
@@ -190,7 +190,8 @@ export function buildSitemapMarkdown(input: {
     lines.push(
       `  - [Lounge directory](${mdHref(`/airports/${slug}/lounges.md`)})`,
     );
-    for (const tab of PAID_AIRPORT_TAB_VALUES) {
+    for (const tab of AIRPORT_TAB_VALUES) {
+      if (tab === "overview" || tab === "lounges") continue;
       lines.push(
         `  - [${tabMarkdownLabel(tab)}](${mdHref(`/airports/${slug}/${tab}.md`)})`,
       );
@@ -209,7 +210,7 @@ export function buildSitemapMarkdown(input: {
   return `${lines.join("\n").trim()}\n`;
 }
 
-function tabMarkdownLabel(tab: PaidAirportTabValue | "lounges"): string {
+function tabMarkdownLabel(tab: AirportTabMarkdownSlug): string {
   switch (tab) {
     case "getting-there":
       return "Getting there";
@@ -237,10 +238,13 @@ function tabMarkdownLabel(tab: PaidAirportTabValue | "lounges"): string {
 function moreIntelLinks(slug: string): string {
   const items = [
     `[Lounge directory](${mdHref(`/airports/${slug}/lounges.md`)}) (free)`,
-    ...PAID_AIRPORT_TAB_VALUES.map(
-      (tab) =>
-        `[${tabMarkdownLabel(tab)}](${mdHref(`/airports/${slug}/${tab}.md`)})`,
-    ),
+    ...AIRPORT_TAB_VALUES.flatMap((tab) => {
+      if (tab === "overview" || tab === "lounges") return [];
+      const suffix = isPaidAirportTab(tab) ? "" : " (free)";
+      return [
+        `[${tabMarkdownLabel(tab)}](${mdHref(`/airports/${slug}/${tab}.md`)})${suffix}`,
+      ];
+    }),
   ];
   return section("More intel", bulletList(items));
 }
@@ -514,17 +518,13 @@ export function buildAirportTabMarkdown(input: {
   const iata = (profile?.iata ?? guide?.frontmatter.iata ?? slug).toUpperCase();
   const name = profile?.name ?? guide?.frontmatter.name ?? iata;
   const header = tabPageHeader(slug, tab);
-  const title = `# ${name} (${iata}) — ${tabMarkdownLabel(
-    tab === "lounges" ? "lounges" : (tab as PaidAirportTabValue),
-  )}`;
+  const title = `# ${name} (${iata}) — ${tabMarkdownLabel(tab)}`;
 
   let body = "";
   if (tab === "lounges") {
     body =
       loungesSection(iata, lounges) ||
       section("Lounges", "_No lounge directory yet._");
-  } else if (!isPaidAirportTab(tab)) {
-    return null;
   } else {
     switch (tab) {
       case "getting-there":
@@ -689,12 +689,13 @@ Authenticated streamable-HTTP MCP server. Create a personal access token at ${SI
 
 Tools: \`search_airports\`, \`get_airport\`, \`list_lounges\`, \`get_lounge\`, \`list_major_airports\`.
 
-If x402 is enabled, \`get_lounge\` may additionally return HTTP 402 + \`PAYMENT-REQUIRED\` after a valid token unless the account has a live Whop membership. \`get_airport\`, \`list_lounges\`, search, and list stay token-only. Airport overview \`.md\` and the lounge directory list are free; individual lounge \`.md\` (and extra airport-tab docs) may be paid.
+If x402 is enabled, \`get_lounge\` may additionally return HTTP 402 + \`PAYMENT-REQUIRED\` after a valid token unless the account has a live Whop membership. \`get_airport\`, \`list_lounges\`, search, and list stay token-only. Airport overview, Getting There, and the lounge directory \`.md\` are free; individual lounge \`.md\` and other extra-tab docs may be paid.
 
 ## URL pattern
 
 - Airport HTML: ${SITE_URL}/airports/{iata}
 - Airport overview markdown (free): ${SITE_URL}/airports/{iata}.md
+- Getting There markdown (free): ${SITE_URL}/airports/{iata}/getting-there.md
 - Lounge directory markdown (free): ${SITE_URL}/airports/{iata}/lounges.md
 - Paid tab markdown: ${SITE_URL}/airports/{iata}/{tab}.md
 - Lounge HTML: ${SITE_URL}/airports/{iata}/lounge/{slug}

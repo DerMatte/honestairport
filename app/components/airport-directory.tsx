@@ -573,7 +573,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         >
           <div className="absolute top-3 left-3 z-10 rounded-lg border bg-background/90 px-3 py-2 shadow-sm backdrop-blur-sm">
             <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              Live result set
+              Scored airports on the map
             </p>
             <p className="mt-0.5 text-sm font-medium">{filteredScored.length} scored airports</p>
           </div>

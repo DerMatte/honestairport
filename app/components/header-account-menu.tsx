@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CircleUserRound } from "lucide-react";
@@ -12,7 +13,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { signOut, useSession } from "@/lib/auth-client";
 
-export function HeaderAccountMenu() {
+export function HeaderAccountMenu({
+  membershipSlot,
+}: {
+  membershipSlot?: ReactNode;
+}) {
   const router = useRouter();
   const { data: session, isPending } = useSession();
 
@@ -46,6 +51,7 @@ export function HeaderAccountMenu() {
         <p className="truncate text-xs text-muted-foreground">
           {session.user.email}
         </p>
+        {membershipSlot ? <div className="mt-2">{membershipSlot}</div> : null}
         <div className="mt-3 flex flex-col gap-2">
           <Button variant="outline" size="sm" className="w-full" asChild>
             <Link href="/settings">Settings</Link>

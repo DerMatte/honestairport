@@ -97,11 +97,11 @@ export function McpTokenSettings({ initialStatus }: McpTokenSettingsProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>MCP token</CardTitle>
+        <CardTitle>Personal access token</CardTitle>
         <CardDescription>
-          Personal access token for the remote MCP server at{" "}
-          <code className="text-xs">/mcp</code>. Shown once when you create it —
-          regenerate from this page if you lose it.
+          For the remote MCP server at <code className="text-xs">/mcp</code>.
+          Shown once when you create it — regenerate from this page if you lose
+          it.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">

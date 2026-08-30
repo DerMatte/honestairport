@@ -11,12 +11,14 @@ interface MobileNavProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   nearestAirportSlot: ReactNode;
+  membershipSlot?: ReactNode;
 }
 
 export function MobileNav({
   open,
   onOpenChange,
   nearestAirportSlot,
+  membershipSlot,
 }: MobileNavProps) {
   const router = useRouter();
   const { data: session, isPending } = useSession();
@@ -81,6 +83,7 @@ export function MobileNav({
                 onNavigate={() => onOpenChange(false)}
                 onSignOut={handleSignOut}
                 nearestAirportSlot={nearestAirportSlot}
+                membershipSlot={membershipSlot}
               />
             </SidebarProvider>
           </div>

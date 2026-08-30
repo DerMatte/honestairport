@@ -28,10 +28,12 @@ export function HeaderChrome({
   brand,
   desktopNav,
   nearestAirportSidebarSlot,
+  membershipSlot,
 }: {
   brand: ReactNode;
   desktopNav: ReactNode;
   nearestAirportSidebarSlot: ReactNode;
+  membershipSlot?: ReactNode;
 }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -155,6 +157,7 @@ export function HeaderChrome({
           open={menuOpen}
           onOpenChange={setMenuOpen}
           nearestAirportSlot={nearestAirportSidebarSlot}
+          membershipSlot={membershipSlot}
         />
       ) : null}
 

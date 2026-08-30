@@ -140,6 +140,12 @@ describe("paid markdown path helpers", () => {
     assert.equal(isPaidMarkdownPath("/airports/lax/lounges.md"), false);
     assert.equal(isPaidMarkdownPath("/md/airports/lax/lounges"), false);
     assert.equal(isPaidMarkdownSegments(["airports", "lax", "lounges"]), false);
+    assert.equal(isPaidMarkdownPath("/airports/lax/getting-there.md"), false);
+    assert.equal(isPaidMarkdownPath("/md/airports/lax/getting-there"), false);
+    assert.equal(
+      isPaidMarkdownSegments(["airports", "lax", "getting-there"]),
+      false,
+    );
   });
 
   it("gates individual lounge and extra airport-tab markdown", () => {
@@ -150,7 +156,6 @@ describe("paid markdown path helpers", () => {
       true,
     );
     for (const tab of [
-      "getting-there",
       "amenities",
       "tips",
       "water",
@@ -224,6 +229,23 @@ describe("handleMarkdownWithOptionalPayment", () => {
       assert.equal(response.status, 200, path);
       assert.equal(response.headers.get("Cache-Control"), MARKDOWN_CACHE_CONTROL);
     }
+  });
+
+  it("does not 402 Getting There markdown when the paywall is on", async () => {
+    let served = 0;
+    const response = await handleMarkdownWithOptionalPayment(
+      markdownRequest("/md/airports/lax/getting-there"),
+      ["airports", "lax", "getting-there"],
+      async () => {
+        served += 1;
+        return new NextResponse("# Getting there\n", { status: 200 });
+      },
+      { env: enabledEnv },
+    );
+
+    assert.equal(served, 1);
+    assert.equal(response.status, 200);
+    assert.equal(await response.text(), "# Getting there\n");
   });
 
   it("does not 402 the lounge directory list when the paywall is on", async () => {

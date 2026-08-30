@@ -11,22 +11,45 @@ export function MembershipTeaser({
   returnPath,
   scope = "airport",
   variant = "page",
+  title,
+  heading,
+  backHref,
+  backLabel,
 }: {
   teaser: AirportTeaser;
   returnPath: string;
   scope?: "airport" | "lounge";
   variant?: "page" | "panel";
+  /** Visible H1 — lounge name or tab name. Defaults to the airport name. */
+  title?: string;
+  heading?: string;
+  backHref?: string;
+  backLabel?: string;
 }) {
   const checkoutHref = checkoutUrlForPath(returnPath);
   const place = [teaser.city, teaser.country].filter(Boolean).join(", ");
+  const pageHeading = heading ?? title ?? teaser.name;
+  const airportHref = `/airports/${teaser.iata.toLowerCase()}`;
+  const resolvedBackHref =
+    backHref ??
+    (scope === "lounge" ? `${airportHref}?tab=lounges` : airportHref);
+  const resolvedBackLabel =
+    backLabel ??
+    (scope === "lounge" ? "Back to lounges" : `Back to ${teaser.iata}`);
   const fallbackBlurb =
     scope === "lounge"
-      ? "Full lounge pages — access rules, hours, and photos — are for HonestAirport members. The airport overview and lounge directory stay free."
-      : "Getting there, amenities, tips, water, the full guide, disruptions, and reviews are for HonestAirport members. Overview and the lounge directory stay free.";
+      ? "Full lounge pages — access rules, hours, and photos — are for HonestAirport members. The airport overview, Getting There, and lounge directory stay free."
+      : "Amenities, tips, water, disruptions, and reviews are for HonestAirport members. Overview, Getting There, and the lounge directory stay free.";
   const joinCopy =
     scope === "lounge"
       ? "$8/month unlocks every lounge page and the extra airport tabs. Cancel anytime — access ends when the membership ends."
       : "$8/month unlocks the extra airport tabs and every lounge page. Cancel anytime — access ends when the membership ends.";
+  const panelTitle = heading
+    ? `Unlock ${heading}`
+    : "Join HonestAirport Members";
+  const panelCopy = heading
+    ? `${heading} is for HonestAirport members. ${joinCopy}`
+    : joinCopy;
 
   const cta = (
     <Card className="border-primary/15 bg-card/95 shadow-xl shadow-primary/10">
@@ -37,10 +60,10 @@ export function MembershipTeaser({
           </span>
           <div>
             <h2 className="text-lg font-semibold tracking-tight">
-              Join HonestAirport Members
+              {variant === "panel" ? panelTitle : "Join HonestAirport Members"}
             </h2>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              {joinCopy}
+              {variant === "panel" ? panelCopy : joinCopy}
             </p>
           </div>
         </div>
@@ -68,11 +91,11 @@ export function MembershipTeaser({
     <div className="min-h-screen bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,color-mix(in_oklab,var(--primary)_8%,transparent),transparent),radial-gradient(circle_at_top,var(--muted),transparent_34%)]">
       <div className="mx-auto max-w-3xl px-5 py-6 sm:px-6 sm:py-10">
         <Link
-          href="/"
+          href={resolvedBackHref}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
-          All airports
+          {resolvedBackLabel}
         </Link>
 
         <section className="mt-8">
@@ -85,9 +108,17 @@ export function MembershipTeaser({
             </Badge>
           </div>
           <h1 className="mt-4 max-w-3xl text-4xl leading-[1.1] tracking-tight text-balance sm:text-5xl">
-            {teaser.name}
+            {pageHeading}
           </h1>
-          {place ? (
+          {heading || title ? (
+            <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:text-lg">
+              <MapPin className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
+              <span>
+                {teaser.name}
+                {place ? ` · ${place}` : ""}
+              </span>
+            </p>
+          ) : place ? (
             <p className="mt-3 flex items-start gap-2 text-base text-muted-foreground sm:text-lg">
               <MapPin className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
               <span>{place}</span>

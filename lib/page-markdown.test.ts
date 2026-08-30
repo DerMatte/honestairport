@@ -186,7 +186,7 @@ describe("markdown builders", () => {
     );
   });
 
-  it("builds a free lounge-directory .md and paid extra-tab .md", () => {
+  it("builds free lounge-directory and getting-there .md plus paid extra-tab .md", () => {
     const loungesMd = buildAirportTabMarkdown({
       slug: "lax",
       tab: "lounges",
@@ -201,6 +201,17 @@ describe("markdown builders", () => {
       loungesMd!,
       /\]\(\/airports\/lax\/lounge\/star-alliance-lounge\.md\)/,
     );
+
+    const gettingThereMd = buildAirportTabMarkdown({
+      slug: "lax",
+      tab: "getting-there",
+      profile: null,
+      guide,
+      lounges: [],
+      reviews: [],
+    });
+    assert.ok(gettingThereMd);
+    assert.match(gettingThereMd!, /Getting there/);
 
     const tipsMd = buildAirportTabMarkdown({
       slug: "lax",
@@ -327,7 +338,7 @@ describe("buildLlmsTxt", () => {
     assert.match(text, /search_airports/);
     assert.match(text, /get_airport/);
     assert.match(text, /get_lounge/);
-    assert.match(text, /lounge directory list are free/);
+    assert.match(text, /lounge directory `\.md` are free/);
     assert.doesNotMatch(text, /`get_airport` and `get_lounge` may/);
   });
 });
