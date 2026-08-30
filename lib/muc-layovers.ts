@@ -140,6 +140,19 @@ export function isMucZoneId(value: string): value is MucZoneId {
   return MUC_ZONE_BY_ID[value as MucZoneId] !== undefined;
 }
 
+export const MUC_DEFAULT_FROM: MucZoneId = "t2";
+export const MUC_DEFAULT_TO: MucZoneId = "t2-sat";
+
+export function parseMucZoneId(
+  value: string | null | undefined,
+  fallback: MucZoneId,
+): MucZoneId {
+  if (value && isMucZoneId(value)) {
+    return value;
+  }
+  return fallback;
+}
+
 export function mucLayoverMinutesLabel(minutes: string | null): string {
   return minutes ?? "unpublished";
 }

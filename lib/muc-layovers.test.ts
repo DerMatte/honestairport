@@ -9,6 +9,7 @@ import {
   isMucLayoversIata,
   isMucLayoversPreviewEnabled,
   isMucZoneId,
+  parseMucZoneId,
   lookupMucLayover,
   mucLayoverMinutesLabel,
   mucPathTypeLabel,
@@ -137,5 +138,8 @@ describe("lookupMucLayover never invents minutes", () => {
   it("rejects unknown zone ids", () => {
     assert.equal(isMucZoneId("t3"), false);
     assert.equal(isMucZoneId("t2"), true);
+    assert.equal(parseMucZoneId("t1-f", "t2"), "t1-f");
+    assert.equal(parseMucZoneId("nope", "t2"), "t2");
+    assert.equal(parseMucZoneId(null, "t2-sat"), "t2-sat");
   });
 });

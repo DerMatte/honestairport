@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, ExternalLink, Info, Route } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -17,7 +17,10 @@ import {
   isMucZoneId,
   lookupMucLayover,
   mucLayoverMinutesLabel,
+  parseMucZoneId,
   MUC_CONNECTING_FLIGHTS_URL,
+  MUC_DEFAULT_FROM,
+  MUC_DEFAULT_TO,
   MUC_ZONE_GROUPS,
   type MucPathType,
   type MucZoneId,
@@ -25,9 +28,6 @@ import {
 } from "@/lib/muc-layovers";
 
 export const MUC_LAYOVERS_ANCHOR = "muc-layovers";
-
-const DEFAULT_FROM: MucZoneId = "t2";
-const DEFAULT_TO: MucZoneId = "t2-sat";
 
 function pathTypeBadgeClass(pathType: MucPathType): string {
   switch (pathType) {
@@ -89,11 +89,13 @@ export function MucLayoverResultPanel({
 
 function MucZoneSelect({
   id,
+  name,
   label,
   value,
   onChange,
 }: {
   id: string;
+  name: "from" | "to";
   label: string;
   value: MucZoneId;
   onChange: (zone: MucZoneId) => void;
@@ -103,6 +105,7 @@ function MucZoneSelect({
       <Label htmlFor={id}>{label}</Label>
       <select
         id={id}
+        name={name}
         value={value}
         onChange={(event) => {
           if (isMucZoneId(event.target.value)) {
@@ -125,10 +128,41 @@ function MucZoneSelect({
   );
 }
 
-export function MucLayoverWayfindingCard() {
-  const [from, setFrom] = useState<MucZoneId>(DEFAULT_FROM);
-  const [to, setTo] = useState<MucZoneId>(DEFAULT_TO);
+/**
+ * Client preview shell. `useSearchParams` stays in this component so the
+ * airport page can keep prerendering under Cache Components (wrap in
+ * Suspense at the callsite). Origin/destination are URL-driven so the
+ * published result is in the HTML even when client JS fails to hydrate.
+ */
+export function MucLayoverWayfinding({ iata }: { iata: string }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const enabled = isMucLayoversPreviewEnabled(iata, searchParams.get("layovers"));
+  const from = parseMucZoneId(searchParams.get("from"), MUC_DEFAULT_FROM);
+  const to = parseMucZoneId(searchParams.get("to"), MUC_DEFAULT_TO);
   const result = lookupMucLayover(from, to);
+
+  useEffect(() => {
+    if (!enabled || searchParams.get("layovers") !== "1") {
+      return;
+    }
+    document.getElementById(MUC_LAYOVERS_ANCHOR)?.scrollIntoView({
+      block: "start",
+    });
+  }, [enabled, searchParams]);
+
+  if (!enabled) {
+    return null;
+  }
+
+  function replacePair(nextFrom: MucZoneId, nextTo: MucZoneId) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("layovers", "1");
+    params.set("from", nextFrom);
+    params.set("to", nextTo);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
 
   return (
     <Card id={MUC_LAYOVERS_ANCHOR} className="scroll-mt-[var(--site-header-offset)]">
@@ -150,66 +184,49 @@ export function MucLayoverWayfindingCard() {
           MUC preview
         </Badge>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end">
-          <MucZoneSelect
-            id="muc-layover-from"
-            label="I am at"
-            value={from}
-            onChange={setFrom}
-          />
-          <ArrowRight
-            className="mx-auto hidden size-4 text-muted-foreground sm:mb-2.5 sm:block"
-            aria-hidden="true"
-          />
-          <MucZoneSelect
-            id="muc-layover-to"
-            label="I need"
-            value={to}
-            onChange={setTo}
-          />
-        </div>
+      <CardContent>
+        <form method="get" className="space-y-4">
+          <input type="hidden" name="layovers" value="1" />
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end">
+            <MucZoneSelect
+              id="muc-layover-from"
+              name="from"
+              label="I am at"
+              value={from}
+              onChange={(next) => replacePair(next, to)}
+            />
+            <ArrowRight
+              className="mx-auto hidden size-4 text-muted-foreground sm:mb-2.5 sm:block"
+              aria-hidden="true"
+            />
+            <MucZoneSelect
+              id="muc-layover-to"
+              name="to"
+              label="I need"
+              value={to}
+              onChange={(next) => replacePair(from, next)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="block text-xs font-medium text-primary underline-offset-2 hover:underline"
+          >
+            Show path
+          </button>
 
-        <MucLayoverResultPanel result={result} />
+          <MucLayoverResultPanel result={result} />
 
-        <a
-          href={MUC_CONNECTING_FLIGHTS_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-primary transition hover:underline"
-        >
-          <ExternalLink className="size-3.5" aria-hidden="true" />
-          munich-airport.com connecting flights
-        </a>
+          <a
+            href={MUC_CONNECTING_FLIGHTS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-primary transition hover:underline"
+          >
+            <ExternalLink className="size-3.5" aria-hidden="true" />
+            munich-airport.com connecting flights
+          </a>
+        </form>
       </CardContent>
     </Card>
   );
-}
-
-/**
- * Client preview shell. `useSearchParams` stays in this component so the
- * airport page can keep prerendering under Cache Components (wrap in
- * Suspense at the callsite).
- */
-export function MucLayoverWayfinding({ iata }: { iata: string }) {
-  const searchParams = useSearchParams();
-  const enabled = isMucLayoversPreviewEnabled(iata, searchParams.get("layovers"));
-
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    if (searchParams.get("layovers") !== "1") {
-      return;
-    }
-    document.getElementById(MUC_LAYOVERS_ANCHOR)?.scrollIntoView({
-      block: "start",
-    });
-  }, [enabled, searchParams]);
-
-  if (!enabled) {
-    return null;
-  }
-
-  return <MucLayoverWayfindingCard />;
 }
