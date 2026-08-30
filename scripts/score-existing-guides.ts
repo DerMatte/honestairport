@@ -1,8 +1,7 @@
 #!/usr/bin/env tsx
 /**
- * Convert guide-only airports into scored ("normal") airports by writing an
- * Airportist Score profile from the existing guide markdown. Does not rewrite
- * the guide or touch lastUpdated.
+ * Write Airportist Score profiles from existing guide markdown. Does not
+ * rewrite the guide or touch lastUpdated.
  *
  * Usage:
  *   pnpm score:guides --dry-run
@@ -126,7 +125,7 @@ async function logLine(message: string) {
 function parseArgs() {
   const args = process.argv.slice(2);
   const positional = args.filter((arg) => !arg.startsWith("--"));
-  let limit = Number.POSITIVE_INFINITY;
+  let limit: number | undefined;
 
   for (let i = 0; i < args.length; i += 1) {
     if (args[i] === "--limit" && args[i + 1]) {
@@ -148,7 +147,7 @@ async function main() {
   const unscored = await listUnscoredGuideIatas();
 
   if (options.dryRun && !options.iata) {
-    const shown = unscored.slice(0, Number.isFinite(options.limit) ? options.limit : unscored.length);
+    const shown = unscored.slice(0, options.limit);
     console.log(
       `${unscored.length} guide-only airport${unscored.length === 1 ? "" : "s"} need a score` +
         (shown.length ? `:\n  ${shown.join("\n  ")}` : "."),

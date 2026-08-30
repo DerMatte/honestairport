@@ -19,7 +19,6 @@
  *   pnpm generate:airport:grok --next             # next missing guide, then score
  *                                                 # an existing guide-only airport, then
  *                                                 # refresh the stalest guide
- *   pnpm score:guides --all                       # score every remaining guide-only airport
  *   pnpm generate:airport:grok --next --dry-run   # show what --next would pick
  *
  * Designed for one-by-one background runs on the VPS (see cron entry using
@@ -120,7 +119,6 @@ export async function generateAirportGuideWithGrok(iata: string, extraInstructio
 interface NextTarget {
   iata: string;
   reason: string;
-  /** `score` writes a profile from the existing guide; `research` regenerates both. */
   kind: "research" | "score";
 }
 
@@ -129,8 +127,7 @@ interface NextTarget {
  *  1. Any major airport still missing a guide (by traffic rank).
  *  2. Any major airport with a guide but no Airportist Score yet — score it
  *     from the existing guide (no rewrite).
- *  3. Any other guide still missing a score (stalest first) — same score-only
- *     path, so on-demand guides are not stuck as editorial-only pages.
+ *  3. Any other guide still missing a score (stalest first).
  *  4. Once everything is both guided and scored, refresh the guide (and its
  *     score) with the oldest `lastUpdated` so the catalog keeps improving
  *     indefinitely.
