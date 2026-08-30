@@ -65,7 +65,7 @@ test("logged-out members page sells $8/month and the real free vs paid split", (
   assert.match(html, /Lounge directory on the airport page/);
   assert.match(html, /Home and search/);
   assert.match(html, /Getting There — ground transport/);
-  assert.match(html, /Amenities, tips, water, the full guide/);
+  assert.match(html, /Amenities, tips, water, disruptions/);
   assert.match(html, /Individual lounge pages/);
   assert.match(html, /Back to LAX/);
   assert.match(html, /href="\/airports\/lax"/);
