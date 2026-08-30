@@ -27,6 +27,18 @@ export function SiteHeader({
       desktopNav={
         <>
           {nearestAirportSlot}
+          <Link
+            href="/tsa-tips"
+            className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            TSA tips
+          </Link>
+          <Link
+            href="/members"
+            className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Members
+          </Link>
           <HeaderAccountMenu />
         </>
       }

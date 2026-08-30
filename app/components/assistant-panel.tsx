@@ -25,13 +25,23 @@ import { Button } from "@/components/ui/button";
 
 const transport = new DefaultChatTransport({ api: "/api/assistant" });
 
-const suggestions = [
+const defaultSuggestions = [
   "What should I know before a layover at JFK?",
   "Compare Heathrow and Schiphol using HonestAirport's guides and scores.",
   "How do I get from SIN to the city, and what details should I verify?",
 ];
 
-export default function AssistantPanel() {
+function suggestionsForAirport(iata?: string): string[] {
+  if (!iata) return defaultSuggestions;
+  return [
+    `What should I know about security at ${iata}?`,
+    `How do I get from ${iata} to the city?`,
+    `Which lounges are worth it at ${iata}?`,
+  ];
+}
+
+export default function AssistantPanel({ iata }: { iata?: string }) {
+  const suggestions = suggestionsForAirport(iata);
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
   const {
@@ -163,7 +173,7 @@ export default function AssistantPanel() {
             autoFocus
             aria-label="Ask HonestAirport"
             maxLength={800}
-            placeholder="Ask about an airport…"
+            placeholder={iata ? `Ask about ${iata}…` : "Ask about an airport…"}
             value={input}
             onChange={(event) => setInput(event.currentTarget.value)}
           />
