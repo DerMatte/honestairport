@@ -28,14 +28,17 @@ describe("MucLayoverResultPanel", () => {
     leadOrder(html, "T2–satellite PTS", "Stay airside — PTS");
   });
 
-  it("leads with the trap when walk time is not published — no unpublished hero", () => {
+  it("shows a muted not-published line above the trap — no unpublished hero", () => {
     const html = renderToStaticMarkup(
       <MucLayoverResultPanel result={lookupMucLayover("t1-a", "t1-b")} />,
     );
+    assert.match(html, /Walk time not published/);
     assert.match(html, /MCT are unpublished/);
     assert.doesNotMatch(html, />unpublished</);
+    assert.doesNotMatch(html, /text-2xl[^"]*"[^>]*>Walk time not published/);
     assert.doesNotMatch(html, /5–7/);
     assert.doesNotMatch(html, /06:00–23:00/);
+    leadOrder(html, "Walk time not published", "MCT are unpublished");
     leadOrder(html, "MCT are unpublished", "Same-zone walk");
   });
 
@@ -46,7 +49,9 @@ describe("MucLayoverResultPanel", () => {
     assert.match(html, /Hall F/);
     assert.match(html, /Tel Aviv/);
     assert.match(html, /Reclear trap/);
+    assert.match(html, /Walk time not published/);
     assert.doesNotMatch(html, />unpublished</);
+    leadOrder(html, "Walk time not published", "Hall F");
     leadOrder(html, "Hall F", "Reclear trap");
   });
 
@@ -59,6 +64,10 @@ describe("MucLayoverResultPanel", () => {
     assert.match(html, /T1–T2 shuttle 06:00–23:00/);
     assert.match(html, /Different-terminal transfer/);
     leadOrder(html, "5–7 min ride", "SAS checks in");
+    const trapStart = html.indexOf("SAS checks in");
+    const hoursRow = html.indexOf("T1–T2 shuttle 06:00–23:00");
+    assert.ok(trapStart >= 0 && hoursRow > trapStart);
+    assert.doesNotMatch(html.slice(trapStart, hoursRow), /06:00–23:00/);
     leadOrder(html, "SAS checks in", "T1–T2 shuttle 06:00–23:00");
     leadOrder(html, "T1–T2 shuttle 06:00–23:00", "Different-terminal transfer");
     const sasAt = html.indexOf("SAS checks in");
@@ -70,12 +79,14 @@ describe("MucLayoverResultPanel", () => {
     const html = renderToStaticMarkup(
       <MucLayoverResultPanel result={lookupMucLayover("t2-g", "t2-h")} />,
     );
+    assert.match(html, /Walk time not published/);
     assert.match(html, /Passport control/);
     assert.match(html, /Reclear trap/);
     assert.doesNotMatch(html, />unpublished</);
     assert.doesNotMatch(html, /5–7/);
     assert.doesNotMatch(html, /~1 min/);
     assert.doesNotMatch(html, /06:00–23:00/);
+    leadOrder(html, "Walk time not published", "Passport control");
     leadOrder(html, "Passport control", "Reclear trap");
   });
 });
@@ -93,7 +104,7 @@ describe("MucLayoverControls", () => {
     assert.match(html, /Swap I am at and I need/);
     assert.match(html, /letter on your gate is the zone/);
     assert.match(html, /T1 D → T2 G/);
-    assert.match(html, /T2 G → satellite/);
+    assert.match(html, /T2 G → T2 satellite/);
     assert.match(html, /T2 G → T2 H/);
     assert.match(html, />Hall F</);
     assert.match(html, /Show path/);

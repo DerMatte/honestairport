@@ -10,6 +10,7 @@ import {
   MUC_GATE_LETTER_HINT,
   MUC_MINUTES_NOT_PUBLISHED,
   MUC_PUBLISHED,
+  MUC_ZONE_BY_ID,
   MUC_ZONE_IDS,
   isMucLayoversIata,
   isMucLayoversEnabled,
@@ -101,7 +102,8 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, MUC_PUBLISHED.shuttleRide);
     assert.match(result.trap, /^SAS checks in at T1 D, not T2\./);
-    assert.match(result.trap, /5–7 min ride shuttle \(06:00–23:00\)/);
+    assert.match(result.trap, /Then the 5–7 min ride shuttle\./);
+    assert.doesNotMatch(result.trap, /06:00–23:00/);
     assert.ok(
       result.trap.indexOf("SAS") < result.trap.indexOf("5–7"),
       "SAS must lead the trap",
@@ -115,7 +117,8 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, "5–7 min ride, then ~1 min PTS");
     assert.match(result.trap, /^SAS checks in at T1 D, not T2\./);
-    assert.match(result.trap, /5–7 min ride shuttle \(06:00–23:00\)/);
+    assert.match(result.trap, /Then the 5–7 min ride shuttle\./);
+    assert.doesNotMatch(result.trap, /06:00–23:00/);
     assert.match(result.trap, /cannot walk/i);
     assert.ok(
       result.trap.indexOf("5–7") < result.trap.indexOf("cannot walk"),
@@ -259,5 +262,9 @@ describe("lookupMucLayover never invents minutes", () => {
     assert.equal(lookupMucLayover("t1-d", "t2-g").trap.startsWith("SAS"), true);
     assert.equal(lookupMucLayover("t2-g", "t2-h").minutes, null);
     assert.equal(lookupMucLayover("t2-g", "t1-f").pathType, "reclear");
+    assert.equal(
+      MUC_COMMON_CONNECTIONS.find((chip) => chip.to === "t2-sat")?.label,
+      `T2 G → ${MUC_ZONE_BY_ID["t2-sat"].label}`,
+    );
   });
 });

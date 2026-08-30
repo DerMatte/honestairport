@@ -17,6 +17,7 @@ import {
   isMucZoneId,
   lookupMucLayover,
   mucLayoverHoursLabel,
+  mucLayoverMinutesLabel,
   parseMucZoneId,
   MUC_COMMON_CONNECTIONS,
   MUC_DEFAULT_FROM,
@@ -55,9 +56,15 @@ export function MucLayoverResultPanel({
       className="space-y-3 rounded-xl border bg-muted/30 p-4"
       aria-live="polite"
     >
-      {result.minutes ? (
-        <p className="text-2xl font-semibold tracking-tight">{result.minutes}</p>
-      ) : null}
+      <p
+        className={
+          result.minutes
+            ? "text-2xl font-semibold tracking-tight"
+            : "text-sm text-muted-foreground"
+        }
+      >
+        {mucLayoverMinutesLabel(result.minutes)}
+      </p>
       <p className="flex gap-2 text-sm leading-6">
         <Info
           className="mt-0.5 size-4 shrink-0 text-amber-700 dark:text-amber-300"

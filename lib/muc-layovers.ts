@@ -4,7 +4,8 @@
  * Minutes come only from Munich Airport's published connecting-flights page
  * (and the S-Bahn time HonestAirport already published for MAC Level 02).
  * Walk times, MCT, and security waits are never invented: unpublished pairs
- * return `minutes: null`. The UI leads with the trap — never a status-word hero.
+ * return `minutes: null`. The UI shows a muted "Walk time not published"
+ * line above the trap — never a 2xl status-word hero.
  *
  * Source: https://www.munich-airport.com/connecting-flights-260553
  */
@@ -169,7 +170,7 @@ export const MUC_GATE_LETTER_HINT =
 
 export const MUC_COMMON_CONNECTIONS = [
   { from: "t1-d", to: "t2-g", label: "T1 D → T2 G" },
-  { from: "t2-g", to: "t2-sat", label: "T2 G → satellite" },
+  { from: "t2-g", to: "t2-sat", label: "T2 G → T2 satellite" },
   { from: "t2-g", to: "t2-h", label: "T2 G → T2 H" },
   { from: "t2-g", to: "t1-f", label: "Hall F" },
 ] as const;
@@ -277,7 +278,7 @@ function t1T2Trap(from: MucZoneId, to: MucZoneId, viaSat: boolean): string {
   if (!involvesT1D(from, to)) {
     return viaSat ? TRAP.nightShuttleAndPts : TRAP.nightShuttle;
   }
-  const shuttle = `Then the ${MUC_PUBLISHED.shuttleRide} shuttle (${MUC_PUBLISHED.shuttleHours}).`;
+  const shuttle = `Then the ${MUC_PUBLISHED.shuttleRide} shuttle.`;
   return viaSat ? `${TRAP.sas} ${shuttle} ${TRAP.ptsWalk}` : `${TRAP.sas} ${shuttle}`;
 }
 
