@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, ExternalLink, Info } from "lucide-react";
+import { ArrowLeftRight, ExternalLink, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -17,10 +17,11 @@ import {
   isMucZoneId,
   lookupMucLayover,
   mucLayoverHoursLabel,
-  mucLayoverMinutesLabel,
   parseMucZoneId,
+  MUC_COMMON_CONNECTIONS,
   MUC_DEFAULT_FROM,
   MUC_DEFAULT_TO,
+  MUC_GATE_LETTER_HINT,
   MUC_ZONE_GROUPS,
   type MucPathType,
   type MucZoneId,
@@ -49,28 +50,13 @@ export function MucLayoverResultPanel({
 }: {
   result: MucLayoverResult;
 }) {
-  const unpublished = result.minutes === null;
-
   return (
     <div
       className="space-y-3 rounded-xl border bg-muted/30 p-4"
       aria-live="polite"
     >
-      <p
-        className={
-          unpublished
-            ? "text-2xl font-semibold tracking-tight text-muted-foreground"
-            : "text-2xl font-semibold tracking-tight"
-        }
-      >
-        {mucLayoverMinutesLabel(result.minutes)}
-      </p>
-      {result.hours.length > 0 ? (
-        <ul className="space-y-0.5 text-sm font-medium">
-          {result.hours.map((entry) => (
-            <li key={entry.label}>{mucLayoverHoursLabel(entry)}</li>
-          ))}
-        </ul>
+      {result.minutes ? (
+        <p className="text-2xl font-semibold tracking-tight">{result.minutes}</p>
       ) : null}
       <p className="flex gap-2 text-sm leading-6">
         <Info
@@ -79,6 +65,13 @@ export function MucLayoverResultPanel({
         />
         <span>{result.trap}</span>
       </p>
+      {result.hours.length > 0 ? (
+        <ul className="space-y-0.5 text-sm text-muted-foreground">
+          {result.hours.map((entry) => (
+            <li key={entry.label}>{mucLayoverHoursLabel(entry)}</li>
+          ))}
+        </ul>
+      ) : null}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-1">
         <Badge
           variant="outline"
@@ -146,6 +139,78 @@ function MucZoneSelect({
   );
 }
 
+export function MucLayoverControls({
+  from,
+  to,
+  onPairChange,
+  showSubmit,
+}: {
+  from: MucZoneId;
+  to: MucZoneId;
+  onPairChange: (nextFrom: MucZoneId, nextTo: MucZoneId) => void;
+  showSubmit: boolean;
+}) {
+  return (
+    <>
+      <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end">
+        <MucZoneSelect
+          id="muc-layover-from"
+          name="from"
+          label="I am at"
+          value={from}
+          onChange={(next) => onPairChange(next, to)}
+        />
+        <button
+          type="button"
+          aria-label="Swap I am at and I need"
+          onClick={() => onPairChange(to, from)}
+          className="mx-auto flex size-10 items-center justify-center rounded-lg border border-input text-muted-foreground outline-none hover:bg-muted/50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 sm:mb-0"
+        >
+          <ArrowLeftRight className="size-4" aria-hidden="true" />
+        </button>
+        <MucZoneSelect
+          id="muc-layover-to"
+          name="to"
+          label="I need"
+          value={to}
+          onChange={(next) => onPairChange(from, next)}
+        />
+      </div>
+      <p className="text-xs leading-5 text-muted-foreground">{MUC_GATE_LETTER_HINT}</p>
+      <div className="flex flex-wrap gap-2">
+        {MUC_COMMON_CONNECTIONS.map((chip) => {
+          const active = from === chip.from && to === chip.to;
+          return (
+            <button
+              key={chip.label}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onPairChange(chip.from, chip.to)}
+              className={
+                active
+                  ? "rounded-full border border-primary bg-primary/10 px-3 py-1 text-sm font-medium"
+                  : "rounded-full border border-input px-3 py-1 text-sm font-medium text-muted-foreground hover:bg-muted/50"
+              }
+            >
+              {chip.label}
+            </button>
+          );
+        })}
+      </div>
+      <button
+        type="submit"
+        className={
+          showSubmit
+            ? "block text-xs font-medium text-primary underline-offset-2 hover:underline"
+            : "hidden"
+        }
+      >
+        Show path
+      </button>
+    </>
+  );
+}
+
 /**
  * Client shell. `useSearchParams` stays here so the airport page can keep
  * prerendering (wrap in Suspense at the callsite). Origin/destination are
@@ -159,6 +224,11 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
   const from = parseMucZoneId(searchParams.get("from"), MUC_DEFAULT_FROM);
   const to = parseMucZoneId(searchParams.get("to"), MUC_DEFAULT_TO);
   const result = lookupMucLayover(from, to);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (!enabled || searchParams.get("layovers") !== "1") {
@@ -193,33 +263,12 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
       <CardContent>
         <form method="get" className="space-y-4">
           <input type="hidden" name="layovers" value="1" />
-          <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-end">
-            <MucZoneSelect
-              id="muc-layover-from"
-              name="from"
-              label="I am at"
-              value={from}
-              onChange={(next) => replacePair(next, to)}
-            />
-            <ArrowRight
-              className="mx-auto hidden size-4 text-muted-foreground sm:mb-3 sm:block"
-              aria-hidden="true"
-            />
-            <MucZoneSelect
-              id="muc-layover-to"
-              name="to"
-              label="I need"
-              value={to}
-              onChange={(next) => replacePair(from, next)}
-            />
-          </div>
-          <button
-            type="submit"
-            className="block text-xs font-medium text-primary underline-offset-2 hover:underline"
-          >
-            Show path
-          </button>
-
+          <MucLayoverControls
+            from={from}
+            to={to}
+            onPairChange={replacePair}
+            showSubmit={!hydrated}
+          />
           <MucLayoverResultPanel result={result} />
         </form>
       </CardContent>

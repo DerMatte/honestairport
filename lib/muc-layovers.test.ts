@@ -6,6 +6,9 @@ import {
   MUC_PINS_T2_G,
   MUC_PINS_T2_H,
   MUC_PINS_T2_SAT,
+  MUC_COMMON_CONNECTIONS,
+  MUC_GATE_LETTER_HINT,
+  MUC_MINUTES_NOT_PUBLISHED,
   MUC_PUBLISHED,
   MUC_ZONE_IDS,
   isMucLayoversIata,
@@ -35,7 +38,7 @@ describe("lookupMucLayover published pairs", () => {
   it("T2 G → T2 satellite is airside PTS with the published ~1 min", () => {
     const result = lookupMucLayover("t2-g", "t2-sat");
     assert.equal(result.pathType, "same_zone");
-    assert.equal(result.pathLabel, "Same-zone / airside PTS");
+    assert.equal(result.pathLabel, "Stay airside — PTS");
     assert.equal(result.minutes, MUC_PUBLISHED.ptsRide);
     assert.match(result.trap, /cannot walk/i);
     assert.equal(result.hours.length, 1);
@@ -125,7 +128,7 @@ describe("lookupMucLayover published pairs", () => {
     const result = lookupMucLayover("t2-g", "t2-h");
     assert.equal(result.pathType, "reclear");
     assert.equal(result.minutes, null);
-    assert.equal(mucLayoverMinutesLabel(result.minutes), "unpublished");
+    assert.equal(mucLayoverMinutesLabel(result.minutes), MUC_MINUTES_NOT_PUBLISHED);
     assert.deepEqual(result.hours, []);
     assert.match(result.trap, /Passport control/i);
     assert.match(result.trap, /unpublished/i);
@@ -156,7 +159,7 @@ describe("lookupMucLayover published pairs", () => {
     const result = lookupMucLayover("t2-g", "t1-f");
     assert.equal(result.pathType, "reclear");
     assert.equal(result.minutes, null);
-    assert.equal(mucLayoverMinutesLabel(result.minutes), "unpublished");
+    assert.equal(mucLayoverMinutesLabel(result.minutes), MUC_MINUTES_NOT_PUBLISHED);
     assert.match(result.trap, /Hall F/i);
     assert.match(result.trap, /Tel Aviv/i);
   });
@@ -172,7 +175,7 @@ describe("lookupMucLayover published pairs", () => {
     const result = lookupMucLayover("t1-a", "t1-b");
     assert.equal(result.pathType, "same_zone");
     assert.equal(result.minutes, null);
-    assert.equal(mucLayoverMinutesLabel(result.minutes), "unpublished");
+    assert.equal(mucLayoverMinutesLabel(result.minutes), MUC_MINUTES_NOT_PUBLISHED);
   });
 
   it("T1 D mentions the published SAS check-in trap", () => {
@@ -221,10 +224,7 @@ describe("lookupMucLayover never invents minutes", () => {
 
   it("path-type labels stay on the three published kinds", () => {
     assert.equal(mucPathTypeLabel("same_zone"), "Same-zone walk");
-    assert.equal(
-      mucPathTypeLabel("same_zone", { pts: true }),
-      "Same-zone / airside PTS",
-    );
+    assert.equal(mucPathTypeLabel("same_zone", { pts: true }), "Stay airside — PTS");
     assert.equal(mucPathTypeLabel("reclear"), "Reclear trap");
     assert.equal(
       mucPathTypeLabel("different_terminal"),
@@ -242,5 +242,22 @@ describe("lookupMucLayover never invents minutes", () => {
     assert.equal(parseMucZoneId(null, "t2-sat"), "t2-sat");
     assert.equal(parseMucZoneId("t2", "t2-sat"), "t2-g");
     assert.equal(lookupMucLayover(parseMucZoneId("t2", "t2-g"), "t2-sat").minutes, "~1 min");
+  });
+
+  it("common-connection chips stay on published or unpublished facts", () => {
+    assert.match(MUC_GATE_LETTER_HINT, /letter on your gate/i);
+    assert.match(MUC_GATE_LETTER_HINT, /G Schengen/);
+    assert.match(MUC_GATE_LETTER_HINT, /F is landside/);
+    assert.equal(MUC_COMMON_CONNECTIONS.length, 4);
+    for (const chip of MUC_COMMON_CONNECTIONS) {
+      const result = lookupMucLayover(chip.from, chip.to);
+      assert.ok(
+        MUC_ALLOWED_MINUTES.has(result.minutes),
+        `${chip.label} invented minutes: ${result.minutes}`,
+      );
+    }
+    assert.equal(lookupMucLayover("t1-d", "t2-g").trap.startsWith("SAS"), true);
+    assert.equal(lookupMucLayover("t2-g", "t2-h").minutes, null);
+    assert.equal(lookupMucLayover("t2-g", "t1-f").pathType, "reclear");
   });
 });

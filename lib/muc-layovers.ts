@@ -4,7 +4,7 @@
  * Minutes come only from Munich Airport's published connecting-flights page
  * (and the S-Bahn time HonestAirport already published for MAC Level 02).
  * Walk times, MCT, and security waits are never invented: unpublished pairs
- * return `minutes: null` and the UI prints "unpublished".
+ * return `minutes: null`. The UI leads with the trap — never a status-word hero.
  *
  * Source: https://www.munich-airport.com/connecting-flights-260553
  */
@@ -164,6 +164,18 @@ export function isMucZoneId(value: string): value is MucZoneId {
 export const MUC_DEFAULT_FROM: MucZoneId = "t2-g";
 export const MUC_DEFAULT_TO: MucZoneId = "t2-sat";
 
+export const MUC_GATE_LETTER_HINT =
+  "The letter on your gate is the zone: G Schengen, H non-Schengen, T1 A–E, Pier = T1 non-Schengen, F is landside.";
+
+export const MUC_COMMON_CONNECTIONS = [
+  { from: "t1-d", to: "t2-g", label: "T1 D → T2 G" },
+  { from: "t2-g", to: "t2-sat", label: "T2 G → satellite" },
+  { from: "t2-g", to: "t2-h", label: "T2 G → T2 H" },
+  { from: "t2-g", to: "t1-f", label: "Hall F" },
+] as const;
+
+export const MUC_MINUTES_NOT_PUBLISHED = "Walk time not published";
+
 export function parseMucZoneId(
   value: string | null | undefined,
   fallback: MucZoneId,
@@ -178,7 +190,7 @@ export function parseMucZoneId(
 }
 
 export function mucLayoverMinutesLabel(minutes: string | null): string {
-  return minutes ?? "unpublished";
+  return minutes ?? MUC_MINUTES_NOT_PUBLISHED;
 }
 
 export function mucLayoverHoursLabel(hours: MucPublishedHours): string {
@@ -193,7 +205,7 @@ export function mucPathTypeLabel(
 ): string {
   switch (pathType) {
     case "same_zone":
-      return options.pts ? "Same-zone / airside PTS" : "Same-zone walk";
+      return options.pts ? "Stay airside — PTS" : "Same-zone walk";
     case "reclear":
       return "Reclear trap";
     case "different_terminal":
