@@ -484,8 +484,8 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 {allAirports.length} airports, side by side
               </h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Scored airports appear on the live map. Guide-only airports remain in the
-                list until location and audit data are complete.
+                Every airport in the directory has an Airportist Score. The map
+                plots the same set.
               </p>
             </div>
             <span className="hidden shrink-0 rounded-full border px-3 py-1 font-mono text-xs text-muted-foreground sm:block">
@@ -706,7 +706,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
         >
           <div className="absolute top-3 left-3 z-10 rounded-lg border bg-background/90 px-3 py-2 shadow-sm backdrop-blur-sm">
             <p className="font-mono text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-              Live result set
+              Scored airports on the map
             </p>
             <p className="mt-0.5 text-sm font-medium">{filteredScored.length} scored airports</p>
           </div>

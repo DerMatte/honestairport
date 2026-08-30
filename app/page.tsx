@@ -19,10 +19,10 @@ function HomeHero() {
       />
       <div className="relative mx-auto max-w-7xl px-5 pt-14 pb-8 sm:px-6 sm:pt-20 sm:pb-10 lg:pt-24 lg:pb-12">
         <p className="font-mono text-xs font-semibold tracking-[0.16em] text-primary uppercase">
-          Live airport operations board
+          Traveler airport scores
         </p>
         <h1 className="mt-4 max-w-4xl text-4xl leading-[1.05] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-          Honest reviews — get through every airport with speed
+          Honest scores and traveler advice — get through every airport with speed
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
           Compare Airportist Scores, disruption risk, security times, and practical

@@ -7,10 +7,13 @@ import { HeaderChrome } from "@/app/components/header-chrome";
 export function SiteHeader({
   nearestAirportSlot,
   nearestAirportSidebarSlot,
+  membershipSlot,
 }: {
   /** RSC-rendered "Near you" link, streamed in behind a Suspense boundary. */
   nearestAirportSlot: ReactNode;
   nearestAirportSidebarSlot: ReactNode;
+  /** RSC membership status; hidden when the Whop gate is off. */
+  membershipSlot?: ReactNode;
 }) {
   return (
     <HeaderChrome
@@ -39,10 +42,11 @@ export function SiteHeader({
           >
             Members
           </Link>
-          <HeaderAccountMenu />
+          <HeaderAccountMenu membershipSlot={membershipSlot} />
         </>
       }
       nearestAirportSidebarSlot={nearestAirportSidebarSlot}
+      membershipSlot={membershipSlot}
     />
   );
 }

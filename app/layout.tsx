@@ -12,6 +12,7 @@ import {
   NearestAirportLinkSkeleton,
   NearestAirportSidebarSkeleton,
 } from "@/app/components/nearest-airport-skeletons";
+import { HeaderMembershipStatus } from "@/app/components/header-membership-status";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -105,6 +106,11 @@ export default async function RootLayout({
           nearestAirportSidebarSlot={
             <Suspense fallback={<NearestAirportSidebarSkeleton />}>
               <NearestAirportSidebarItem />
+            </Suspense>
+          }
+          membershipSlot={
+            <Suspense fallback={null}>
+              <HeaderMembershipStatus />
             </Suspense>
           }
         />

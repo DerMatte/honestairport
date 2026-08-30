@@ -29,10 +29,12 @@ export function HeaderChrome({
   brand,
   desktopNav,
   nearestAirportSidebarSlot,
+  membershipSlot,
 }: {
   brand: ReactNode;
   desktopNav: ReactNode;
   nearestAirportSidebarSlot: ReactNode;
+  membershipSlot?: ReactNode;
 }) {
   const pathname = usePathname();
   const pinHeader = pathname.startsWith("/airports/");
@@ -163,6 +165,7 @@ export function HeaderChrome({
           open={menuOpen}
           onOpenChange={setMenuOpen}
           nearestAirportSlot={nearestAirportSidebarSlot}
+          membershipSlot={membershipSlot}
         />
       ) : null}
 

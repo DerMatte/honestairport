@@ -53,9 +53,8 @@ export async function generateMetadata({
   params,
 }: AirportPageProps): Promise<Metadata> {
   const { slug } = await params;
-  // Most slugs are guide-only, so start the guide read alongside the profile
-  // lookup instead of waiting for the profile miss. The catch keeps a rejection
-  // from going unhandled when the curated path returns without awaiting it.
+  // Start the guide read alongside the profile lookup. The catch keeps a
+  // rejection from going unhandled if this path returns without awaiting it.
   const guideContentPromise = getAirportContent(slug);
   guideContentPromise.catch(() => {});
   const airport = await getAirportBySlug(slug);
@@ -152,9 +151,8 @@ function AirportPageContent({ slug }: { slug: string }) {
 }
 
 async function AirportPageResolved({ slug }: { slug: string }) {
-  // Warm the guide read for guide-only slugs (the majority); React.cache hands
-  // this same in-flight promise to GuideOnlyAirportPage. The catch keeps a
-  // rejection from going unhandled on the curated path, which never awaits it.
+  // Warm the guide read (React.cache-shared with later readers). The catch
+  // keeps a rejection from going unhandled if this path never awaits it.
   getAirportContent(slug).catch(() => {});
   const airport = await getAirportBySlug(slug);
 
@@ -226,6 +224,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                       / 10
                     </span>
                   </div>
+                  <p className="mt-2 max-w-[16rem] text-xs leading-5 text-muted-foreground">
+                    Editorial 0–10 from comfort, navigation, food, transport,
+                    and disruption resilience — not a Google rating.
+                  </p>
                 </div>
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:size-14">
                   <Star className="size-5 fill-current sm:size-6" aria-hidden="true" />
@@ -259,6 +261,12 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
+          <Suspense fallback={<DetailTabsSkeleton />}>
+            <CuratedAirportDetails airport={airport} />
+          </Suspense>
+        </section>
+
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={airport.iata} />
           </Suspense>
@@ -267,12 +275,6 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<TipBentoSkeleton />}>
             <CuratedAirportTips airport={airport} />
-          </Suspense>
-        </section>
-
-        <section className="mt-8 sm:mt-10 lg:mt-12">
-          <Suspense fallback={<DetailTabsSkeleton />}>
-            <CuratedAirportDetails airport={airport} />
           </Suspense>
         </section>
 
@@ -290,7 +292,6 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  // Guide summary is React.cache-deduped with CuratedAirportTips in the same request.
   const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
@@ -419,6 +420,16 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
+          <Suspense fallback={<DetailTabsSkeleton />}>
+            <GuideOnlyDetailTabs
+              iata={frontmatter.iata}
+              guide={guide}
+              loungesPromise={loungesPromise}
+            />
+          </Suspense>
+        </section>
+
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={frontmatter.iata} />
           </Suspense>
@@ -426,17 +437,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
           <AirportTipBento guideTips={guide.importantTips} />
-        </section>
-
-        <section className="mt-8 sm:mt-10 lg:mt-12">
-          <Suspense fallback={<DetailTabsSkeleton />}>
-            <GuideOnlyDetailTabs
-              iata={frontmatter.iata}
-              guide={guide}
-              guideMarkdown={guideContent.content}
-              loungesPromise={loungesPromise}
-            />
-          </Suspense>
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
@@ -450,22 +450,15 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
 async function GuideOnlyDetailTabs({
   iata,
   guide,
-  guideMarkdown,
   loungesPromise,
 }: {
   iata: string;
   guide: AirportGuideSummary;
-  guideMarkdown: string;
   loungesPromise: Promise<AirportLoungeView[]>;
 }) {
   const lounges = await loungesPromise;
   return (
-    <AirportDetailTabsGate
-      iata={iata}
-      guide={guide}
-      guideMarkdown={guideMarkdown}
-      lounges={lounges}
-    />
+    <AirportDetailTabsGate iata={iata} guide={guide} lounges={lounges} />
   );
 }
 

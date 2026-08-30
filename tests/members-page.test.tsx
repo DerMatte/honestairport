@@ -64,8 +64,11 @@ test("logged-out members page sells $8/month and the real free vs paid split", (
   assert.match(html, /Airport Overview/);
   assert.match(html, /Lounge directory on the airport page/);
   assert.match(html, /Home and search/);
-  assert.match(html, /Getting there, amenities, tips, water/);
+  assert.match(html, /Getting There — ground transport/);
+  assert.match(html, /Amenities, tips, water, disruptions/);
   assert.match(html, /Individual lounge pages/);
+  assert.match(html, /Back to LAX/);
+  assert.match(html, /href="\/airports\/lax"/);
   assert.match(html, /Telegram community on the Whop product/);
   assert.match(html, /no Telegram bot in this app/);
   assert.doesNotMatch(html, /x402/);
@@ -126,6 +129,31 @@ test("gate-off is a quiet note on the same sales page", () => {
   assert.match(html, /Membership is not enabled in this environment/);
   assert.doesNotMatch(html, /WHOP_PRODUCT_ID/);
   assert.match(html, /id="restore"/);
+  assert.match(html, /All airports/);
+});
+
+test("lounge teaser uses the lounge name and returns to the airport lounges tab", () => {
+  const teaser: AirportTeaser = {
+    iata: "SIN",
+    name: "Singapore Changi Airport",
+    city: "Singapore",
+    country: "Singapore",
+    blurb: null,
+  };
+  const html = renderToStaticMarkup(
+    <MembershipTeaser
+      teaser={teaser}
+      returnPath="/airports/sin?tab=lounges"
+      scope="lounge"
+      heading="Changi Lounge"
+    />,
+  );
+
+  assert.match(html, />Changi Lounge</);
+  assert.match(html, /Singapore Changi Airport/);
+  assert.match(html, /Back to lounges/);
+  assert.match(html, /href="\/airports\/sin\?tab=lounges"/);
+  assert.doesNotMatch(html, /All airports/);
 });
 
 test("membership teaser still points at /members restore", () => {
@@ -141,9 +169,12 @@ test("membership teaser still points at /members restore", () => {
       teaser={teaser}
       returnPath="/airports/lax"
       variant="panel"
+      heading="Traveler Tips"
     />,
   );
 
   assert.match(html, /href="\/members\?next=%2Fairports%2Flax#restore"/);
   assert.match(html, /Subscribe — \$8\/month/);
+  assert.match(html, /Unlock Traveler Tips/);
+  assert.match(html, /Traveler Tips is for HonestAirport members/);
 });

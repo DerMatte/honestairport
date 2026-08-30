@@ -11,7 +11,7 @@ import { getMcpTokenStatusForUser } from "@/lib/mcp/account-token";
 
 export const metadata: Metadata = {
   title: "Settings",
-  description: "Manage your HonestAirport profile, password, and MCP token.",
+  description: "Manage your HonestAirport profile and password.",
 };
 
 function SettingsPageFallback() {
@@ -52,7 +52,7 @@ async function SettingsPageContent() {
           Settings
         </h1>
         <p className="text-sm text-muted-foreground">
-          Update your profile, password, and MCP access token.
+          Update your profile and password.
         </p>
       </div>
       <SettingsForm
@@ -62,9 +62,24 @@ async function SettingsPageContent() {
           emailVerified: session.user.emailVerified,
         }}
       />
-      <McpTokenSettings
-        initialStatus={await getMcpTokenStatusForUser(session.user.id)}
-      />
+      <details className="group rounded-xl border border-border/70 bg-card/80">
+        <summary className="cursor-pointer list-none px-4 py-3 text-sm font-medium [&::-webkit-details-marker]:hidden">
+          <span className="flex items-center justify-between gap-2">
+            Advanced — MCP access
+            <span className="text-xs font-normal text-muted-foreground group-open:hidden">
+              Show
+            </span>
+            <span className="hidden text-xs font-normal text-muted-foreground group-open:inline">
+              Hide
+            </span>
+          </span>
+        </summary>
+        <div className="border-t border-border/70 p-4 pt-4">
+          <McpTokenSettings
+            initialStatus={await getMcpTokenStatusForUser(session.user.id)}
+          />
+        </div>
+      </details>
     </div>
   );
 }
