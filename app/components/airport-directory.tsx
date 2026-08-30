@@ -1,6 +1,7 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState, useTransition } from "react";
+import { useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Filter,
   List,
@@ -10,6 +11,7 @@ import {
   RotateCcw,
   Search,
   SlidersHorizontal,
+  X,
 } from "lucide-react";
 import { AirportDirectorySearch } from "@/app/components/airport-search-combobox";
 import { AirportCard, AirportGuideCard } from "@/app/components/airport-card";
@@ -44,11 +46,21 @@ import {
   amenityCategories,
   amenityLabel,
   compareGuideRecency,
+  disruptionLabel,
   disruptionStatuses,
   filterAndSortAirports,
   regions,
 } from "@/lib/airport-utils";
 import { normalizeSearchValue } from "@/lib/airport-search-utils";
+import {
+  DEFAULT_DIRECTORY_FILTERS,
+  clearDirectoryDataFilters,
+  directoryFiltersEqual,
+  directorySearchHref,
+  hasDirectoryChipFilters,
+  hasDirectoryDataFilters,
+  parseDirectorySearchParams,
+} from "@/lib/directory-search-params";
 import { cn } from "@/lib/utils";
 import type { AirportSummary } from "@/lib/airport-content";
 import type {
@@ -79,16 +91,6 @@ interface GuideDirectoryEntry {
   summary: AirportSummary;
   normalized: Record<AirportSearchScope, string>;
 }
-
-const DEFAULT_FILTERS: AirportFilters = {
-  query: "",
-  searchScope: "all",
-  minimumScore: 0,
-  regions: [],
-  amenities: [],
-  disruptionStatuses: [],
-  sort: "highest-score",
-};
 
 function toggleValue<T extends string>(values: T[], value: T): T[] {
   return values.includes(value)
@@ -228,6 +230,42 @@ function FilterPanel({
   );
 }
 
+function queryChipLabel(filters: AirportFilters): string {
+  const query = filters.query.trim();
+  switch (filters.searchScope) {
+    case "city":
+      return `City · ${query}`;
+    case "country":
+      return `Country · ${query}`;
+    case "all":
+      return query;
+    default: {
+      const exhaustiveCheck: never = filters.searchScope;
+      return exhaustiveCheck;
+    }
+  }
+}
+
+function FilterChip({
+  label,
+  onRemove,
+}: {
+  label: string;
+  onRemove: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onRemove}
+      className="inline-flex h-7 items-center gap-1 rounded-full border border-border/70 bg-card px-2.5 text-xs text-foreground transition-colors hover:bg-muted"
+      aria-label={`Remove ${label} filter`}
+    >
+      <span>{label}</span>
+      <X className="size-3 text-muted-foreground" aria-hidden="true" />
+    </button>
+  );
+}
+
 function MapPlaceholder({
   count,
   onLoad,
@@ -252,7 +290,12 @@ function MapPlaceholder({
 }
 
 export function AirportDirectory({ scoredAirports, allAirports }: AirportDirectoryProps) {
-  const [filters, setFilters] = useState<AirportFilters>(DEFAULT_FILTERS);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
+  const [filters, setFilters] = useState<AirportFilters>(() =>
+    parseDirectorySearchParams(searchParams),
+  );
   const deferredFilters = useDeferredValue(filters);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
   const [mobileMapMounted, setMobileMapMounted] = useState(false);
@@ -260,6 +303,25 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE);
   const [filtersOpen, setFiltersOpen] = useState(true);
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    const next = parseDirectorySearchParams(new URLSearchParams(searchKey));
+    setFilters((prev) => (directoryFiltersEqual(prev, next) ? prev : next));
+  }, [searchKey]);
+
+  const filterIdentity = [
+    filters.query,
+    filters.searchScope,
+    filters.minimumScore,
+    filters.regions.join(","),
+    filters.amenities.join(","),
+    filters.disruptionStatuses.join(","),
+    filters.sort,
+  ].join("|");
+
+  useEffect(() => {
+    setVisibleCount(INITIAL_VISIBLE);
+  }, [filterIdentity]);
 
   const otherAirports = useMemo<GuideDirectoryEntry[]>(() => {
     const scoredIatas = new Set(scoredAirports.map((airport) => airport.iata));
@@ -278,11 +340,10 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
       }));
   }, [allAirports, scoredAirports]);
 
-  const hasDataFilters =
-    deferredFilters.minimumScore > 0 ||
-    deferredFilters.regions.length > 0 ||
-    deferredFilters.amenities.length > 0 ||
-    deferredFilters.disruptionStatuses.length > 0;
+  const hasDataFilters = hasDirectoryDataFilters(deferredFilters);
+  const showFilterChips = hasDirectoryChipFilters(filters);
+  const showGuideOnlyHidden =
+    hasDirectoryDataFilters(filters) && otherAirports.length > 0;
 
   const filteredScored = useMemo(
     () => filterAndSortAirports(scoredAirports, deferredFilters),
@@ -330,7 +391,8 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
   }, [filteredScored, filteredGuides, deferredFilters.sort]);
 
   const visibleEntries = filteredEntries.slice(0, visibleCount);
-  const hasMore = visibleCount < filteredEntries.length;
+  const remainingCount = filteredEntries.length - visibleCount;
+  const hasMore = remainingCount > 0;
 
   const activeFilterCount =
     filters.regions.length +
@@ -339,10 +401,19 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     (filters.minimumScore > 0 ? 1 : 0) +
     (filters.query.trim() ? 1 : 0);
 
+  function writeFilters(next: AirportFilters) {
+    const href = directorySearchHref(next, searchParams);
+    const nextKey = href.startsWith("/?") ? href.slice(2) : "";
+    if (nextKey !== searchKey) {
+      router.replace(href, { scroll: false });
+    }
+  }
+
   function resetFilters() {
     startTransition(() => {
-      setFilters({ ...DEFAULT_FILTERS });
+      setFilters({ ...DEFAULT_DIRECTORY_FILTERS });
       setVisibleCount(INITIAL_VISIBLE);
+      writeFilters(DEFAULT_DIRECTORY_FILTERS);
     });
   }
 
@@ -350,6 +421,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
     startTransition(() => {
       setFilters(next);
       setVisibleCount(INITIAL_VISIBLE);
+      writeFilters(next);
     });
   }
 
@@ -392,7 +464,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
 
       <div
         aria-hidden="true"
-        className="mt-6 border-b border-border/50 pb-28 sm:mt-8 sm:pb-40 lg:mt-10 lg:pb-56"
+        className="mt-6 border-b border-border/50 pb-8 sm:mt-8 sm:pb-12 lg:mt-10"
       />
 
       <section
@@ -499,11 +571,72 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                 </div>
               </div>
 
-              {hasDataFilters && otherAirports.length > 0 ? (
-                <p className="rounded-lg bg-muted/60 px-3 py-2 text-xs leading-5 text-muted-foreground">
-                  Guide-only airports are hidden while score, amenity, region, or disruption
-                  filters are active.
-                </p>
+              {showFilterChips || showGuideOnlyHidden ? (
+                <div className="flex flex-wrap items-center gap-2">
+                  {showGuideOnlyHidden ? (
+                    <button
+                      type="button"
+                      onClick={() => updateFilters(clearDirectoryDataFilters(filters))}
+                      className="inline-flex h-7 items-center gap-1 rounded-full border border-border/70 bg-muted/70 px-2.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                      aria-label="Clear score, region, amenity, and disruption filters"
+                    >
+                      <span>Guide-only hidden</span>
+                      <X className="size-3" aria-hidden="true" />
+                    </button>
+                  ) : null}
+                  {filters.query.trim() ? (
+                    <FilterChip
+                      label={queryChipLabel(filters)}
+                      onRemove={() =>
+                        updateFilters({ ...filters, query: "", searchScope: "all" })
+                      }
+                    />
+                  ) : null}
+                  {filters.minimumScore > 0 ? (
+                    <FilterChip
+                      label={`Score ≥ ${filters.minimumScore.toFixed(1)}`}
+                      onRemove={() => updateFilters({ ...filters, minimumScore: 0 })}
+                    />
+                  ) : null}
+                  {filters.regions.map((region) => (
+                    <FilterChip
+                      key={`region-${region}`}
+                      label={region}
+                      onRemove={() =>
+                        updateFilters({
+                          ...filters,
+                          regions: filters.regions.filter((item) => item !== region),
+                        })
+                      }
+                    />
+                  ))}
+                  {filters.amenities.map((category) => (
+                    <FilterChip
+                      key={`amenity-${category}`}
+                      label={amenityLabel(category)}
+                      onRemove={() =>
+                        updateFilters({
+                          ...filters,
+                          amenities: filters.amenities.filter((item) => item !== category),
+                        })
+                      }
+                    />
+                  ))}
+                  {filters.disruptionStatuses.map((status) => (
+                    <FilterChip
+                      key={`disruption-${status}`}
+                      label={disruptionLabel(status)}
+                      onRemove={() =>
+                        updateFilters({
+                          ...filters,
+                          disruptionStatuses: filters.disruptionStatuses.filter(
+                            (item) => item !== status,
+                          ),
+                        })
+                      }
+                    />
+                  ))}
+                </div>
               ) : null}
 
               {filteredEntries.length === 0 ? (
@@ -557,7 +690,7 @@ export function AirportDirectory({ scoredAirports, allAirports }: AirportDirecto
                           )
                         }
                       >
-                        Show more airports
+                        Show more airports ({remainingCount} remaining)
                       </Button>
                     </div>
                   ) : null}

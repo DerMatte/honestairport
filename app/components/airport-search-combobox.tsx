@@ -522,6 +522,9 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
           <CommandList className="hidden" />
         )}
       </Command>
+      <p className="mt-2 px-1 text-xs leading-5 text-muted-foreground">
+        Cities and countries filter this list. An airport name opens its guide.
+      </p>
     </div>
   );
 }
