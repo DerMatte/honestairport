@@ -106,6 +106,13 @@ export const MUC_ZONE_ALIASES: Readonly<Record<string, MucZoneId>> = {
   t2: "t2-g",
 };
 
+/** Published operating window for a pair — never a guessed wait. */
+export interface MucPublishedHours {
+  label: string;
+  window: string;
+  note?: string;
+}
+
 export interface MucLayoverResult {
   from: MucZoneId;
   to: MucZoneId;
@@ -114,6 +121,8 @@ export interface MucLayoverResult {
   /** Published minutes, or null when the airport has not published a time. */
   minutes: string | null;
   trap: string;
+  /** Shuttle / PTS hours when this pair uses them. Empty when unpublished. */
+  hours: readonly MucPublishedHours[];
   sourceHref: typeof MUC_CONNECTING_FLIGHTS_URL;
   pinsNote?: string;
 }
@@ -135,18 +144,17 @@ export function isMucLayoversIata(iata: string): boolean {
 }
 
 /**
- * Preview gate: MUC only, and only with `?layovers=1` or
- * `NEXT_PUBLIC_MUC_LAYOVERS=1`. Other airports never pass.
+ * MUC only, on by default. `NEXT_PUBLIC_MUC_LAYOVERS=0` hides the block.
+ * Other airports never pass. `?layovers=1` is a scroll deep-link, not a gate.
  */
-export function isMucLayoversPreviewEnabled(
+export function isMucLayoversEnabled(
   iata: string,
-  layoversParam: string | null | undefined,
   envFlag: string | undefined = process.env.NEXT_PUBLIC_MUC_LAYOVERS,
 ): boolean {
   if (!isMucLayoversIata(iata)) {
     return false;
   }
-  return layoversParam === "1" || envFlag === "1";
+  return envFlag !== "0";
 }
 
 export function isMucZoneId(value: string): value is MucZoneId {
@@ -171,6 +179,12 @@ export function parseMucZoneId(
 
 export function mucLayoverMinutesLabel(minutes: string | null): string {
   return minutes ?? "unpublished";
+}
+
+export function mucLayoverHoursLabel(hours: MucPublishedHours): string {
+  return hours.note
+    ? `${hours.label} ${hours.window}, ${hours.note}`
+    : `${hours.label} ${hours.window}`;
 }
 
 export function mucPathTypeLabel(
@@ -215,13 +229,24 @@ function pinsNoteFor(to: MucZoneId): string | undefined {
   return undefined;
 }
 
+const SHUTTLE_HOURS: MucPublishedHours = {
+  label: "T1–T2 shuttle",
+  window: MUC_PUBLISHED.shuttleHours,
+};
+
+const PTS_HOURS: MucPublishedHours = {
+  label: "T2–satellite PTS",
+  window: MUC_PUBLISHED.ptsHours,
+  note: MUC_PUBLISHED.ptsFreq,
+};
+
 function makeResult(
   from: MucZoneId,
   to: MucZoneId,
   pathType: MucPathType,
   minutes: string | null,
   trap: string,
-  options: { pts?: boolean } = {},
+  options: { pts?: boolean; hours?: readonly MucPublishedHours[] } = {},
 ): MucLayoverResult {
   return {
     from,
@@ -230,9 +255,18 @@ function makeResult(
     pathLabel: mucPathTypeLabel(pathType, options),
     minutes,
     trap,
+    hours: options.hours ?? [],
     sourceHref: MUC_CONNECTING_FLIGHTS_URL,
     pinsNote: pinsNoteFor(to),
   };
+}
+
+function t1T2Trap(from: MucZoneId, to: MucZoneId, viaSat: boolean): string {
+  if (!involvesT1D(from, to)) {
+    return viaSat ? TRAP.nightShuttleAndPts : TRAP.nightShuttle;
+  }
+  const shuttle = `Then the ${MUC_PUBLISHED.shuttleRide} shuttle (${MUC_PUBLISHED.shuttleHours}).`;
+  return viaSat ? `${TRAP.sas} ${shuttle} ${TRAP.ptsWalk}` : `${TRAP.sas} ${shuttle}`;
 }
 
 function isT1Module(id: MucZoneId): boolean {
@@ -307,7 +341,7 @@ export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResu
       "same_zone",
       MUC_PUBLISHED.ptsRide,
       TRAP.ptsWalk,
-      { pts: true },
+      { pts: true, hours: [PTS_HOURS] },
     );
   }
 
@@ -321,7 +355,6 @@ export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResu
   const toT2 = isT2Family(to);
   if ((fromT1 && toT2) || (fromT2 && toT1)) {
     const viaSat = isSat(from) || isSat(to);
-    const night = viaSat ? TRAP.nightShuttleAndPts : TRAP.nightShuttle;
     return makeResult(
       from,
       to,
@@ -329,7 +362,8 @@ export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResu
       viaSat
         ? `${MUC_PUBLISHED.shuttleRide}, then ${MUC_PUBLISHED.ptsRide} PTS`
         : MUC_PUBLISHED.shuttleRide,
-      involvesT1D(from, to) ? `${TRAP.sas} ${night}` : night,
+      t1T2Trap(from, to, viaSat),
+      { hours: viaSat ? [SHUTTLE_HOURS, PTS_HOURS] : [SHUTTLE_HOURS] },
     );
   }
 

@@ -9,23 +9,25 @@ import {
   MUC_PUBLISHED,
   MUC_ZONE_IDS,
   isMucLayoversIata,
-  isMucLayoversPreviewEnabled,
+  isMucLayoversEnabled,
   isMucZoneId,
   parseMucZoneId,
   lookupMucLayover,
+  mucLayoverHoursLabel,
   mucLayoverMinutesLabel,
   mucPathTypeLabel,
 } from "./muc-layovers";
 
-describe("MUC layover preview gate", () => {
-  it("never enables the widget for other airports", () => {
+describe("MUC layover gate", () => {
+  it("is on for MUC by default and never for other airports", () => {
     assert.equal(isMucLayoversIata("FRA"), false);
     assert.equal(isMucLayoversIata("muc"), true);
-    assert.equal(isMucLayoversPreviewEnabled("FRA", "1", "1"), false);
-    assert.equal(isMucLayoversPreviewEnabled("MUC", "1", undefined), true);
-    assert.equal(isMucLayoversPreviewEnabled("muc", null, "1"), true);
-    assert.equal(isMucLayoversPreviewEnabled("MUC", null, undefined), false);
-    assert.equal(isMucLayoversPreviewEnabled("MUC", "0", "0"), false);
+    assert.equal(isMucLayoversEnabled("FRA"), false);
+    assert.equal(isMucLayoversEnabled("FRA", "1"), false);
+    assert.equal(isMucLayoversEnabled("MUC"), true);
+    assert.equal(isMucLayoversEnabled("muc", undefined), true);
+    assert.equal(isMucLayoversEnabled("MUC", "1"), true);
+    assert.equal(isMucLayoversEnabled("MUC", "0"), false);
   });
 });
 
@@ -36,6 +38,11 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathLabel, "Same-zone / airside PTS");
     assert.equal(result.minutes, MUC_PUBLISHED.ptsRide);
     assert.match(result.trap, /cannot walk/i);
+    assert.equal(result.hours.length, 1);
+    assert.equal(
+      mucLayoverHoursLabel(result.hours[0]!),
+      `T2–satellite PTS ${MUC_PUBLISHED.ptsHours}, ${MUC_PUBLISHED.ptsFreq}`,
+    );
     assert.equal(result.pinsNote, MUC_PINS_T2_SAT);
     assert.equal(result.sourceHref, MUC_CONNECTING_FLIGHTS_URL);
   });
@@ -61,6 +68,7 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, MUC_PUBLISHED.shuttleRide);
     assert.match(result.trap, /23:00–06:00/);
+    assert.equal(result.hours[0]?.window, MUC_PUBLISHED.shuttleHours);
     assert.doesNotMatch(result.minutes ?? "", /\b(15|20|25|30|40|60)\b/);
   });
 
@@ -69,6 +77,7 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, MUC_PUBLISHED.shuttleRide);
     assert.match(result.trap, /23:00–06:00/);
+    assert.equal(result.hours[0]?.window, MUC_PUBLISHED.shuttleHours);
     assert.equal(result.pinsNote, MUC_PINS_T2_H);
   });
 
@@ -79,28 +88,37 @@ describe("lookupMucLayover published pairs", () => {
     assert.doesNotMatch(result.minutes ?? "", /6–8|8 min|total/i);
     assert.match(result.trap, /23:00–06:00/);
     assert.match(result.trap, /cannot walk/i);
+    assert.equal(result.hours.length, 2);
+    assert.equal(result.hours[0]?.window, MUC_PUBLISHED.shuttleHours);
+    assert.equal(result.hours[1]?.window, MUC_PUBLISHED.ptsHours);
   });
 
-  it("T1 D → T2 G leads with SAS check-in, then the night-shuttle line", () => {
+  it("T1 D → T2 G leads with SAS, then the published 5–7 min shuttle", () => {
     const result = lookupMucLayover("t1-d", "t2-g");
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, MUC_PUBLISHED.shuttleRide);
     assert.match(result.trap, /^SAS checks in at T1 D, not T2\./);
-    assert.match(result.trap, /No connecting shuttle 23:00–06:00/);
+    assert.match(result.trap, /5–7 min ride shuttle \(06:00–23:00\)/);
     assert.ok(
-      result.trap.indexOf("SAS") < result.trap.indexOf("shuttle"),
+      result.trap.indexOf("SAS") < result.trap.indexOf("5–7"),
       "SAS must lead the trap",
     );
+    assert.equal(result.hours[0]?.window, MUC_PUBLISHED.shuttleHours);
     assert.equal(result.pinsNote, MUC_PINS_T2_G);
   });
 
-  it("T1 D → T2 satellite keeps SAS first and the published shuttle+PTS legs", () => {
+  it("T1 D → T2 satellite keeps SAS first, shuttle hours, and a PTS sentence", () => {
     const result = lookupMucLayover("t1-d", "t2-sat");
     assert.equal(result.pathType, "different_terminal");
     assert.equal(result.minutes, "5–7 min ride, then ~1 min PTS");
     assert.match(result.trap, /^SAS checks in at T1 D, not T2\./);
-    assert.match(result.trap, /23:00–06:00/);
+    assert.match(result.trap, /5–7 min ride shuttle \(06:00–23:00\)/);
     assert.match(result.trap, /cannot walk/i);
+    assert.ok(
+      result.trap.indexOf("5–7") < result.trap.indexOf("cannot walk"),
+      "PTS is an extra sentence after the shuttle",
+    );
+    assert.equal(result.hours.length, 2);
   });
 
   it("T2 G → T2 H is the unpublished passport-control pair", () => {
@@ -108,6 +126,7 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.pathType, "reclear");
     assert.equal(result.minutes, null);
     assert.equal(mucLayoverMinutesLabel(result.minutes), "unpublished");
+    assert.deepEqual(result.hours, []);
     assert.match(result.trap, /Passport control/i);
     assert.match(result.trap, /unpublished/i);
     assert.equal(result.pinsNote, MUC_PINS_T2_H);
@@ -126,6 +145,7 @@ describe("lookupMucLayover published pairs", () => {
     const h = lookupMucLayover("t2-h", "t2-h");
     assert.equal(g.pathType, "same_zone");
     assert.equal(g.minutes, null);
+    assert.deepEqual(g.hours, []);
     assert.doesNotMatch(g.trap, /Passport/);
     assert.equal(h.pathType, "same_zone");
     assert.equal(h.minutes, null);
@@ -188,6 +208,13 @@ describe("lookupMucLayover never invents minutes", () => {
         assert.equal(result.from, from);
         assert.equal(result.to, to);
         assert.equal(result.sourceHref, MUC_CONNECTING_FLIGHTS_URL);
+        if (result.minutes === null) {
+          assert.deepEqual(
+            result.hours,
+            [],
+            `${from} → ${to} must not invent hours on an unpublished pair`,
+          );
+        }
       }
     }
   });

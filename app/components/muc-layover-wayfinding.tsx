@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, ExternalLink, Info, Route } from "lucide-react";
+import { ArrowRight, ExternalLink, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -13,12 +13,12 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import {
-  isMucLayoversPreviewEnabled,
+  isMucLayoversEnabled,
   isMucZoneId,
   lookupMucLayover,
+  mucLayoverHoursLabel,
   mucLayoverMinutesLabel,
   parseMucZoneId,
-  MUC_CONNECTING_FLIGHTS_URL,
   MUC_DEFAULT_FROM,
   MUC_DEFAULT_TO,
   MUC_ZONE_GROUPS,
@@ -53,26 +53,25 @@ export function MucLayoverResultPanel({
 
   return (
     <div
-      className="space-y-3 rounded-xl border bg-muted/30 p-3"
+      className="space-y-3 rounded-xl border bg-muted/30 p-4"
       aria-live="polite"
     >
-      <div className="flex flex-wrap items-center gap-2">
-        <Badge
-          variant="outline"
-          className={`rounded-full ${pathTypeBadgeClass(result.pathType)}`}
-        >
-          {result.pathLabel}
-        </Badge>
-        <span
-          className={
-            unpublished
-              ? "text-sm text-muted-foreground"
-              : "font-mono text-sm font-medium"
-          }
-        >
-          {mucLayoverMinutesLabel(result.minutes)}
-        </span>
-      </div>
+      <p
+        className={
+          unpublished
+            ? "text-2xl font-semibold tracking-tight text-muted-foreground"
+            : "text-2xl font-semibold tracking-tight"
+        }
+      >
+        {mucLayoverMinutesLabel(result.minutes)}
+      </p>
+      {result.hours.length > 0 ? (
+        <ul className="space-y-0.5 text-sm font-medium">
+          {result.hours.map((entry) => (
+            <li key={entry.label}>{mucLayoverHoursLabel(entry)}</li>
+          ))}
+        </ul>
+      ) : null}
       <p className="flex gap-2 text-sm leading-6">
         <Info
           className="mt-0.5 size-4 shrink-0 text-amber-700 dark:text-amber-300"
@@ -80,6 +79,23 @@ export function MucLayoverResultPanel({
         />
         <span>{result.trap}</span>
       </p>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 pt-1">
+        <Badge
+          variant="outline"
+          className={`rounded-full ${pathTypeBadgeClass(result.pathType)}`}
+        >
+          {result.pathLabel}
+        </Badge>
+        <a
+          href={result.sourceHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition hover:text-primary hover:underline"
+        >
+          <ExternalLink className="size-3.5" aria-hidden="true" />
+          munich-airport.com connecting flights
+        </a>
+      </div>
       {result.pinsNote ? (
         <p className="text-xs leading-5 text-muted-foreground">{result.pinsNote}</p>
       ) : null}
@@ -102,7 +118,9 @@ function MucZoneSelect({
 }) {
   return (
     <div className="min-w-0 space-y-1.5">
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id} className="text-sm font-semibold">
+        {label}
+      </Label>
       <select
         id={id}
         name={name}
@@ -112,7 +130,7 @@ function MucZoneSelect({
             onChange(event.target.value);
           }
         }}
-        className="h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
+        className="h-10 w-full rounded-lg border border-input bg-transparent px-3 text-base outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
       >
         {MUC_ZONE_GROUPS.map((group) => (
           <optgroup key={group.label} label={group.label}>
@@ -129,16 +147,15 @@ function MucZoneSelect({
 }
 
 /**
- * Client preview shell. `useSearchParams` stays in this component so the
- * airport page can keep prerendering under Cache Components (wrap in
- * Suspense at the callsite). Origin/destination are URL-driven so the
- * published result is in the HTML even when client JS fails to hydrate.
+ * Client shell. `useSearchParams` stays here so the airport page can keep
+ * prerendering (wrap in Suspense at the callsite). Origin/destination are
+ * URL-driven so the published result is in the HTML even without hydration.
  */
 export function MucLayoverWayfinding({ iata }: { iata: string }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const enabled = isMucLayoversPreviewEnabled(iata, searchParams.get("layovers"));
+  const enabled = isMucLayoversEnabled(iata);
   const from = parseMucZoneId(searchParams.get("from"), MUC_DEFAULT_FROM);
   const to = parseMucZoneId(searchParams.get("to"), MUC_DEFAULT_TO);
   const result = lookupMucLayover(from, to);
@@ -158,7 +175,6 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
 
   function replacePair(nextFrom: MucZoneId, nextTo: MucZoneId) {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("layovers", "1");
     params.set("from", nextFrom);
     params.set("to", nextTo);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -167,22 +183,12 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
   return (
     <Card id={MUC_LAYOVERS_ANCHOR} className="scroll-mt-[var(--site-header-offset)]">
       <CardHeader>
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="text-sm font-medium text-primary">Layovers</p>
-            <CardTitle className="mt-1">I am at / I need</CardTitle>
-            <CardDescription>
-              Published Munich Airport times only. No MCT, walk minutes, or
-              security waits unless the airport published them.
-            </CardDescription>
-          </div>
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-            <Route className="size-5" aria-hidden="true" />
-          </div>
-        </div>
-        <Badge variant="outline" className="w-fit rounded-full">
-          MUC preview
-        </Badge>
+        <p className="text-sm font-medium text-primary">Connecting at MUC</p>
+        <CardTitle className="mt-1">I am at / I need</CardTitle>
+        <CardDescription>
+          Two picks. Published Munich Airport times only — no invented MCT,
+          walk minutes, or security waits.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form method="get" className="space-y-4">
@@ -196,7 +202,7 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
               onChange={(next) => replacePair(next, to)}
             />
             <ArrowRight
-              className="mx-auto hidden size-4 text-muted-foreground sm:mb-2.5 sm:block"
+              className="mx-auto hidden size-4 text-muted-foreground sm:mb-3 sm:block"
               aria-hidden="true"
             />
             <MucZoneSelect
@@ -215,16 +221,6 @@ export function MucLayoverWayfinding({ iata }: { iata: string }) {
           </button>
 
           <MucLayoverResultPanel result={result} />
-
-          <a
-            href={MUC_CONNECTING_FLIGHTS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs text-primary transition hover:underline"
-          >
-            <ExternalLink className="size-3.5" aria-hidden="true" />
-            munich-airport.com connecting flights
-          </a>
         </form>
       </CardContent>
     </Card>

@@ -52,7 +52,7 @@ import type {
   AirportLoungeView,
 } from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
-import { isMucLayoversIata } from "@/lib/muc-layovers";
+import { isMucLayoversEnabled } from "@/lib/muc-layovers";
 import {
   airportTabLabel,
   isPaidAirportTab,
@@ -370,6 +370,12 @@ export function AirportDetailTabs({
       membershipAccess={membershipAccess}
     >
         <TabsContent value="overview" className="space-y-6">
+          {isMucLayoversEnabled(iata) ? (
+            <Suspense fallback={null}>
+              <MucLayoverWayfinding iata={iata} />
+            </Suspense>
+          ) : null}
+
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
               <p className="text-sm font-medium text-primary">Live airport status</p>
@@ -443,12 +449,6 @@ export function AirportDetailTabs({
               <AirportGuideSources sources={guide.sourceLinks} />
             </CardContent>
           </Card>
-        ) : null}
-
-        {isMucLayoversIata(iata) ? (
-          <Suspense fallback={null}>
-            <MucLayoverWayfinding iata={iata} />
-          </Suspense>
         ) : null}
 
         {airport ? (
