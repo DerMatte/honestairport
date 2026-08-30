@@ -57,12 +57,14 @@ export function SiteSidebar({
   onNavigate,
   onSignOut,
   nearestAirportSlot,
+  membershipSlot,
 }: {
   user: SiteSidebarUser | null;
   isPending: boolean;
   onNavigate: () => void;
   onSignOut: () => void;
   nearestAirportSlot: ReactNode;
+  membershipSlot?: ReactNode;
 }) {
   return (
     <Sidebar
@@ -157,6 +159,12 @@ export function SiteSidebar({
                       </span>
                     </span>
                   </DropdownMenuLabel>
+                  {membershipSlot ? (
+                    <>
+                      <DropdownMenuSeparator />
+                      <div className="px-2 py-1.5">{membershipSlot}</div>
+                    </>
+                  ) : null}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link href="/settings" onClick={onNavigate}>

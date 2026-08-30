@@ -27,7 +27,7 @@ export function NearbyAirports({ iata }: NearbyAirportsProps) {
         Nearby airports
       </h2>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-        Other airports within about 150 km.
+        Passenger airports within about 150 km.
       </p>
 
       <ul className="mt-6 divide-y divide-border/70 rounded-2xl border border-border/70 bg-card/50">

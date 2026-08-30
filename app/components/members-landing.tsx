@@ -15,15 +15,27 @@ import type { HtmlAccess } from "@/lib/whop-gate";
 
 const FREE_PERKS = [
   "Airport Overview on every airport page",
+  "Getting There — ground transport",
   "Lounge directory on the airport page",
   "Home and search",
 ] as const;
 
 const MEMBER_PERKS = [
-  "Getting there, amenities, tips, water, the full guide, disruptions, and reviews",
+  "Amenities, tips, water, the full guide, disruptions, and reviews",
   "Individual lounge pages",
   "The existing Telegram community on the Whop product",
 ] as const;
+
+function membersBackLink(nextPath: string): { href: string; label: string } {
+  const match = /^\/airports\/([a-z0-9]+)/i.exec(nextPath);
+  if (match) {
+    return {
+      href: nextPath,
+      label: `Back to ${match[1].toUpperCase()}`,
+    };
+  }
+  return { href: "/", label: "All airports" };
+}
 
 export function MembersLanding({
   checkoutHref,
@@ -46,16 +58,17 @@ export function MembersLanding({
 }) {
   const allowed = access === "allowed";
   const returningFromCheckout = Boolean(paymentId) && !allowed;
+  const back = membersBackLink(nextPath);
 
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_7%,var(--background)),var(--background)_38rem)]">
       <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 sm:py-8 lg:py-10">
         <Link
-          href="/"
+          href={back.href}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
         >
           <ArrowLeft className="size-4" aria-hidden="true" />
-          All airports
+          {back.label}
         </Link>
 
         <header className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-14">
@@ -74,10 +87,10 @@ export function MembersLanding({
                 : "The rest of the airport, for $8 a month."}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Overview, the lounge directory, home, and search stay free.
-              Members get getting there, amenities, tips, water, the full
-              guide, disruptions, reviews, and every lounge page. Cancel
-              anytime — access ends when the membership ends.
+              Overview, Getting There, the lounge directory, home, and search
+              stay free. Members get amenities, tips, water, the full guide,
+              disruptions, reviews, and every lounge page. Cancel anytime —
+              access ends when the membership ends.
             </p>
 
             {allowed ? (

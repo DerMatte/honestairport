@@ -10,7 +10,6 @@ import {
   Info,
   Luggage,
   Map,
-  Plane,
   ShieldCheck,
   Sparkles,
   Train,
@@ -27,6 +26,7 @@ import { AirportRideBooking } from "@/app/components/airport-ride-booking";
 import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviewsFromServer } from "@/app/components/airport-reviews-from-server";
+import { AirportDetailTabsNav } from "@/app/components/airport-detail-tabs-nav";
 import { ReviewsTabSkeleton } from "@/app/components/loading-skeletons";
 import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +38,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent } from "@/components/ui/tabs";
 import { getAirportByIata } from "@/lib/airports";
 import {
   amenityLabel,
@@ -52,7 +52,11 @@ import type {
   AirportLoungeView,
 } from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
-import { isPaidAirportTab } from "@/lib/airport-tabs";
+import {
+  airportTabLabel,
+  isPaidAirportTab,
+  type AirportTabValue,
+} from "@/lib/airport-tabs";
 import type { AirportUserReview } from "@/lib/review-schema";
 import type { Airport, AmenityCategory, TransportBestFor } from "@/lib/types";
 import type { HtmlAccess } from "@/lib/whop-gate";
@@ -78,9 +82,6 @@ export interface AirportDetailTabsProps {
    */
   membershipAccess?: HtmlAccess;
 }
-
-const detailTabClassName =
-  "h-9 px-3 text-xs sm:text-sm data-active:text-primary after:bg-primary";
 
 function amenityIcon(category: AmenityCategory) {
   switch (category) {
@@ -274,11 +275,13 @@ function PaidTabBody({
   access,
   iata,
   airportName,
+  heading,
   children,
 }: {
   access: HtmlAccess;
   iata: string;
   airportName: string;
+  heading: string;
   children: ReactNode;
 }) {
   if (access !== "denied") {
@@ -287,6 +290,7 @@ function PaidTabBody({
   return (
     <MembershipTeaser
       variant="panel"
+      heading={heading}
       returnPath={`/airports/${iata.toLowerCase()}`}
       teaser={{
         name: airportName,
@@ -315,11 +319,12 @@ export function AirportDetailTabs({
   }
 
   const airportName = airport?.name ?? airport?.shortName ?? `${iata} airport`;
-  const lockPaid = (tab: string, body: ReactNode) =>
+  const lockPaid = (tab: AirportTabValue, body: ReactNode) =>
     isPaidAirportTab(tab) ? (
       <PaidTabBody
         access={membershipAccess}
         airportName={airportName}
+        heading={airportTabLabel(tab)}
         iata={iata}
       >
         {body}
@@ -349,77 +354,24 @@ export function AirportDetailTabs({
   const waterGuideSections = collectWaterGuideSections(guideSections);
   const showWater = Boolean(guide?.waterOptions.length || waterGuideSections.length);
 
+  const visibleTabs: AirportTabValue[] = [
+    "overview",
+    ...(showGettingThere ? (["getting-there"] as const) : []),
+    ...(showLounges ? (["lounges"] as const) : []),
+    ...(showAmenities ? (["amenities"] as const) : []),
+    ...(showTips ? (["tips"] as const) : []),
+    ...(showWater ? (["water"] as const) : []),
+    ...(guideMarkdown ? (["guide"] as const) : []),
+    "disruptions",
+    "reviews",
+  ];
+
   return (
-    <Tabs defaultValue="overview" className="gap-6">
-        <div className="sticky top-[var(--site-header-offset)] z-30 -mx-2 border-y border-border/70 bg-background/92 shadow-sm shadow-foreground/5 backdrop-blur-xl transition-[top] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none sm:-mx-3 sm:rounded-2xl sm:border">
-          <div className="flex min-h-14 min-w-0 items-center gap-2 px-2 sm:px-3">
-            <div className="flex shrink-0 items-center gap-2 border-r border-border/70 pr-3">
-              <span className="flex size-8 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-                <Plane className="size-4 -rotate-45" aria-hidden="true" />
-              </span>
-              <span className="font-mono text-xs font-semibold tracking-[0.12em] text-primary">
-                {iata}
-              </span>
-              <span className="hidden text-[10px] font-semibold tracking-[0.14em] text-muted-foreground uppercase lg:inline">
-                Guide
-              </span>
-            </div>
-
-            <div className="relative min-w-0 flex-1 after:pointer-events-none after:absolute after:inset-y-1 after:right-0 after:w-6 after:bg-linear-to-l after:from-background after:to-transparent sm:after:hidden">
-              <div className="overflow-x-auto px-1 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <TabsList
-                  aria-label={`${iata} guide sections`}
-                  className="h-9 w-max gap-1 pr-5 sm:pr-0"
-                  variant="line"
-                >
-                  <TabsTrigger className={detailTabClassName} value="overview">
-                    Overview
-                  </TabsTrigger>
-                  {showGettingThere ? (
-                    <TabsTrigger
-                      className={detailTabClassName}
-                      value="getting-there"
-                    >
-                      Getting There
-                    </TabsTrigger>
-                  ) : null}
-                  {showLounges ? (
-                    <TabsTrigger className={detailTabClassName} value="lounges">
-                      Lounges
-                    </TabsTrigger>
-                  ) : null}
-                  {showAmenities ? (
-                    <TabsTrigger className={detailTabClassName} value="amenities">
-                      Amenities
-                    </TabsTrigger>
-                  ) : null}
-                  {showTips ? (
-                    <TabsTrigger className={detailTabClassName} value="tips">
-                      Traveler Tips
-                    </TabsTrigger>
-                  ) : null}
-                  {showWater ? (
-                    <TabsTrigger className={detailTabClassName} value="water">
-                      Water
-                    </TabsTrigger>
-                  ) : null}
-                  {guideMarkdown ? (
-                    <TabsTrigger className={detailTabClassName} value="guide">
-                      Full Guide
-                    </TabsTrigger>
-                  ) : null}
-                  <TabsTrigger className={detailTabClassName} value="disruptions">
-                    Disruptions
-                  </TabsTrigger>
-                  <TabsTrigger className={detailTabClassName} value="reviews">
-                    Reviews
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-            </div>
-          </div>
-        </div>
-
+    <AirportDetailTabsNav
+      iata={iata}
+      visibleTabs={visibleTabs}
+      membershipAccess={membershipAccess}
+    >
         <TabsContent value="overview" className="space-y-6">
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
@@ -821,6 +773,6 @@ export function AirportDetailTabs({
           </Suspense>,
         )}
       </TabsContent>
-    </Tabs>
+    </AirportDetailTabsNav>
   );
 }

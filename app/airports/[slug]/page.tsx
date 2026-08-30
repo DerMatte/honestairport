@@ -226,6 +226,10 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
                       / 10
                     </span>
                   </div>
+                  <p className="mt-2 max-w-[16rem] text-xs leading-5 text-muted-foreground">
+                    Editorial 0–10 from comfort, navigation, food, transport,
+                    and disruption resilience — not a Google rating.
+                  </p>
                 </div>
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:size-14">
                   <Star className="size-5 fill-current sm:size-6" aria-hidden="true" />
@@ -259,6 +263,12 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
+          <Suspense fallback={<DetailTabsSkeleton />}>
+            <CuratedAirportDetails airport={airport} />
+          </Suspense>
+        </section>
+
+        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<PhotoGallerySkeleton />}>
             <AirportPhotoGallery iata={airport.iata} />
           </Suspense>
@@ -267,12 +277,6 @@ function CuratedAirportPage({ airport }: { airport: Airport }) {
         <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<TipBentoSkeleton />}>
             <CuratedAirportTips airport={airport} />
-          </Suspense>
-        </section>
-
-        <section className="mt-8 sm:mt-10 lg:mt-12">
-          <Suspense fallback={<DetailTabsSkeleton />}>
-            <CuratedAirportDetails airport={airport} />
           </Suspense>
         </section>
 
@@ -290,16 +294,18 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  // Guide summary is React.cache-deduped with CuratedAirportTips in the same request.
-  const [guide, seedReviews, lounges] = await Promise.all([
+  // Guide summary / body share React.cache with CuratedAirportTips.
+  const [guide, seedReviews, lounges, guideContent] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
     getAirportLoungesWithFallback(airport.iata),
+    getAirportContent(airport.iata),
   ]);
   return (
     <AirportDetailTabsGate
       airport={airport}
       guide={guide}
+      guideMarkdown={guideContent?.content}
       seedReviews={seedReviews}
       lounges={lounges}
     />
@@ -419,16 +425,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
-          <Suspense fallback={<PhotoGallerySkeleton />}>
-            <AirportPhotoGallery iata={frontmatter.iata} />
-          </Suspense>
-        </section>
-
-        <section className="mt-8 sm:mt-10 lg:mt-12">
-          <AirportTipBento guideTips={guide.importantTips} />
-        </section>
-
-        <section className="mt-8 sm:mt-10 lg:mt-12">
           <Suspense fallback={<DetailTabsSkeleton />}>
             <GuideOnlyDetailTabs
               iata={frontmatter.iata}
@@ -437,6 +433,16 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
               loungesPromise={loungesPromise}
             />
           </Suspense>
+        </section>
+
+        <section className="mt-8 sm:mt-10 lg:mt-12">
+          <Suspense fallback={<PhotoGallerySkeleton />}>
+            <AirportPhotoGallery iata={frontmatter.iata} />
+          </Suspense>
+        </section>
+
+        <section className="mt-8 sm:mt-10 lg:mt-12">
+          <AirportTipBento guideTips={guide.importantTips} />
         </section>
 
         <section className="mt-8 sm:mt-10 lg:mt-12">
