@@ -440,7 +440,9 @@ interface AirportDirectorySearchProps {
 
 export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDirectorySearchProps) {
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
   const resultsPanelRef = useRef<HTMLDivElement>(null);
+  const blurTimeoutRef = useRef<number>(0);
   const [focused, setFocused] = useState(false);
   const query = filters.query;
   const scope = filters.searchScope;
@@ -490,12 +492,20 @@ export function AirportDirectorySearch({ filters, onFiltersChange }: AirportDire
           <InlineSearchBar
             query={inputQuery}
             locationFilter={locationFilter}
+            inputRef={inputRef}
             onQueryChange={updateQuery}
             onClearLocationFilter={clearLocationFilter}
-            onFocus={() => setFocused(true)}
+            onFocus={() => {
+              window.clearTimeout(blurTimeoutRef.current);
+              setFocused(true);
+            }}
             onBlur={() => {
-              window.setTimeout(() => {
-                if (resultsPanelRef.current?.contains(document.activeElement)) {
+              blurTimeoutRef.current = window.setTimeout(() => {
+                const active = document.activeElement;
+                if (
+                  inputRef.current === active ||
+                  resultsPanelRef.current?.contains(active)
+                ) {
                   return;
                 }
                 setFocused(false);
