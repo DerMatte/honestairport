@@ -41,7 +41,8 @@ export const MUC_ZONE_IDS = [
   "t1-e",
   "t1-f",
   "t1-pier",
-  "t2",
+  "t2-g",
+  "t2-h",
   "t2-sat",
   "hbf",
 ] as const;
@@ -62,7 +63,8 @@ export const MUC_ZONES: readonly MucZone[] = [
   { id: "t1-e", label: "T1 E", group: "Terminal 1" },
   { id: "t1-f", label: "T1 F / Hall F (landside)", group: "Terminal 1" },
   { id: "t1-pier", label: "T1 Pier (non-Schengen)", group: "Terminal 1" },
-  { id: "t2", label: "T2", group: "Terminal 2" },
+  { id: "t2-g", label: "T2 Schengen (G)", group: "Terminal 2" },
+  { id: "t2-h", label: "T2 non-Schengen (H)", group: "Terminal 2" },
   { id: "t2-sat", label: "T2 satellite", group: "Terminal 2" },
   { id: "hbf", label: "München Hbf (S-Bahn)", group: "City" },
 ];
@@ -91,8 +93,18 @@ export const MUC_ZONE_BY_ID: Readonly<Record<MucZoneId, MucZone>> =
     MucZone
   >;
 
-export const MUC_FIRST_CLASS_PINS =
-  "First Class pins: G21, H21, K11, L11. Senator listed G24/H24.";
+/** Dest-specific lounge pins. Satellite Senator/Biz gates are omitted on purpose. */
+export const MUC_PINS_T2_G = "First Class pin: G21. Senator listed G24.";
+export const MUC_PINS_T2_H = "First Class pin: H21. Senator listed H24.";
+export const MUC_PINS_T2_SAT = "First Class pins: K11, L11.";
+
+/**
+ * Legacy `from=t2` / `to=t2` deep-links alias to T2 Schengen (G).
+ * `t2` is not a zone id — it must not appear in the dropdown.
+ */
+export const MUC_ZONE_ALIASES: Readonly<Record<string, MucZoneId>> = {
+  t2: "t2-g",
+};
 
 export interface MucLayoverResult {
   from: MucZoneId;
@@ -115,7 +127,8 @@ const T1_MODULES = new Set<MucZoneId>([
 ]);
 
 const T1_AIRSIDE = new Set<MucZoneId>([...T1_MODULES, "t1-pier"]);
-const T2_FAMILY = new Set<MucZoneId>(["t2", "t2-sat"]);
+const T2_MAIN = new Set<MucZoneId>(["t2-g", "t2-h"]);
+const T2_FAMILY = new Set<MucZoneId>(["t2-g", "t2-h", "t2-sat"]);
 
 export function isMucLayoversIata(iata: string): boolean {
   return iata.trim().toUpperCase() === MUC_LAYOVERS_IATA;
@@ -140,7 +153,7 @@ export function isMucZoneId(value: string): value is MucZoneId {
   return MUC_ZONE_BY_ID[value as MucZoneId] !== undefined;
 }
 
-export const MUC_DEFAULT_FROM: MucZoneId = "t2";
+export const MUC_DEFAULT_FROM: MucZoneId = "t2-g";
 export const MUC_DEFAULT_TO: MucZoneId = "t2-sat";
 
 export function parseMucZoneId(
@@ -149,6 +162,9 @@ export function parseMucZoneId(
 ): MucZoneId {
   if (value && isMucZoneId(value)) {
     return value;
+  }
+  if (value && value in MUC_ZONE_ALIASES) {
+    return MUC_ZONE_ALIASES[value];
   }
   return fallback;
 }
@@ -193,7 +209,10 @@ const TRAP = {
 } as const;
 
 function pinsNoteFor(to: MucZoneId): string | undefined {
-  return to === "t2" || to === "t2-sat" ? MUC_FIRST_CLASS_PINS : undefined;
+  if (to === "t2-g") return MUC_PINS_T2_G;
+  if (to === "t2-h") return MUC_PINS_T2_H;
+  if (to === "t2-sat") return MUC_PINS_T2_SAT;
+  return undefined;
 }
 
 function makeResult(
@@ -241,7 +260,15 @@ function isSat(id: MucZoneId): boolean {
 }
 
 function isT2Main(id: MucZoneId): boolean {
-  return id === "t2";
+  return T2_MAIN.has(id);
+}
+
+function isT2G(id: MucZoneId): boolean {
+  return id === "t2-g";
+}
+
+function isT2H(id: MucZoneId): boolean {
+  return id === "t2-h";
 }
 
 function isPier(id: MucZoneId): boolean {
@@ -258,9 +285,6 @@ function involvesT1D(from: MucZoneId, to: MucZoneId): boolean {
  */
 export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResult {
   if (from === to) {
-    if (isT2Main(from)) {
-      return makeResult(from, to, "same_zone", null, TRAP.t2Passport);
-    }
     if (involvesT1D(from, to)) {
       return makeResult(from, to, "same_zone", null, TRAP.sas);
     }
@@ -287,12 +311,17 @@ export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResu
     );
   }
 
+  if ((isT2G(from) && isT2H(to)) || (isT2H(from) && isT2G(to))) {
+    return makeResult(from, to, "reclear", null, TRAP.t2Passport);
+  }
+
   const fromT1 = isT1Airside(from);
   const toT1 = isT1Airside(to);
   const fromT2 = isT2Family(from);
   const toT2 = isT2Family(to);
   if ((fromT1 && toT2) || (fromT2 && toT1)) {
     const viaSat = isSat(from) || isSat(to);
+    const night = viaSat ? TRAP.nightShuttleAndPts : TRAP.nightShuttle;
     return makeResult(
       from,
       to,
@@ -300,7 +329,7 @@ export function lookupMucLayover(from: MucZoneId, to: MucZoneId): MucLayoverResu
       viaSat
         ? `${MUC_PUBLISHED.shuttleRide}, then ${MUC_PUBLISHED.ptsRide} PTS`
         : MUC_PUBLISHED.shuttleRide,
-      viaSat ? TRAP.nightShuttleAndPts : TRAP.nightShuttle,
+      involvesT1D(from, to) ? `${TRAP.sas} ${night}` : night,
     );
   }
 
