@@ -230,7 +230,7 @@ const TRAP = {
   sbahn:
     "S1/S8 is landside under the Munich Airport Center, Level 02, about every 20 min. Walk to the station is unpublished.",
   t2Passport:
-    "Passport control is required for Schengen ↔ non-Schengen. Walk minutes are unpublished.",
+    "Passport control is required for Schengen ↔ non-Schengen.",
   unpublished:
     "Walk minutes and MCT are unpublished — the airport does not publish a connection window.",
 } as const;

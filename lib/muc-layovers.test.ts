@@ -133,8 +133,11 @@ describe("lookupMucLayover published pairs", () => {
     assert.equal(result.minutes, null);
     assert.equal(mucLayoverMinutesLabel(result.minutes), MUC_MINUTES_NOT_PUBLISHED);
     assert.deepEqual(result.hours, []);
-    assert.match(result.trap, /Passport control/i);
-    assert.match(result.trap, /unpublished/i);
+    assert.equal(
+      result.trap,
+      "Passport control is required for Schengen ↔ non-Schengen.",
+    );
+    assert.doesNotMatch(result.trap, /Walk minutes are unpublished/);
     assert.equal(result.pinsNote, MUC_PINS_T2_H);
   });
 

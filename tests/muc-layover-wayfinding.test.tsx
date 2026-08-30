@@ -80,8 +80,9 @@ describe("MucLayoverResultPanel", () => {
       <MucLayoverResultPanel result={lookupMucLayover("t2-g", "t2-h")} />,
     );
     assert.match(html, /Walk time not published/);
-    assert.match(html, /Passport control/);
+    assert.match(html, /Passport control is required for Schengen/);
     assert.match(html, /Reclear trap/);
+    assert.doesNotMatch(html, /Walk minutes are unpublished/);
     assert.doesNotMatch(html, />unpublished</);
     assert.doesNotMatch(html, /5–7/);
     assert.doesNotMatch(html, /~1 min/);
