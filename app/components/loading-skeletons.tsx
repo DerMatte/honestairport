@@ -115,13 +115,13 @@ export function AirportPageSkeleton({ className }: { className?: string }) {
         <Skeleton className="h-5 w-28" />
         <HeroSkeleton />
         <div className="mt-8 sm:mt-10 lg:mt-12">
+          <DetailTabsSkeleton />
+        </div>
+        <div className="mt-8 sm:mt-10 lg:mt-12">
           <PhotoGallerySkeleton />
         </div>
         <div className="mt-8 sm:mt-10 lg:mt-12">
           <TipBentoSkeleton />
-        </div>
-        <div className="mt-8 sm:mt-10 lg:mt-12">
-          <DetailTabsSkeleton />
         </div>
       </div>
     </div>
