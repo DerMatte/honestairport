@@ -26,6 +26,7 @@ import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviewsFromServer } from "@/app/components/airport-reviews-from-server";
 import { AirportDetailTabsNav } from "@/app/components/airport-detail-tabs-nav";
+import { MucLayoverWayfinding } from "@/app/components/muc-layover-wayfinding";
 import { ReviewsTabSkeleton } from "@/app/components/loading-skeletons";
 import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,7 @@ import type {
   AirportLoungeView,
 } from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
+import { isMucLayoversIata } from "@/lib/muc-layovers";
 import {
   airportTabLabel,
   isPaidAirportTab,
@@ -441,6 +443,12 @@ export function AirportDetailTabs({
               <AirportGuideSources sources={guide.sourceLinks} />
             </CardContent>
           </Card>
+        ) : null}
+
+        {isMucLayoversIata(iata) ? (
+          <Suspense fallback={null}>
+            <MucLayoverWayfinding iata={iata} />
+          </Suspense>
         ) : null}
 
         {airport ? (
