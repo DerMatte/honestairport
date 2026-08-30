@@ -18,7 +18,6 @@ import {
   Wifi,
   Zap,
 } from "lucide-react";
-import { AirportGuideArticle } from "@/app/components/airport-guide-article";
 import { AirportLiveStatusFromServer } from "@/app/components/airport-live-status-from-server";
 import { AirportLiveStatusSkeleton } from "@/app/components/airport-live-status-loader";
 import { AirportLoungeGrid } from "@/app/components/airport-lounges";
@@ -67,8 +66,6 @@ export interface AirportDetailTabsProps {
   guide?: AirportGuideSummary | null;
   /** Required when no curated airport record is passed. */
   iata?: string;
-  /** Full markdown guide body; when set, renders a Full Guide tab. */
-  guideMarkdown?: string;
   /** Editorial reviews shown alongside live community reviews. */
   seedReviews?: AirportUserReview[];
   /**
@@ -307,7 +304,6 @@ export function AirportDetailTabs({
   airport,
   guide,
   iata: iataProp,
-  guideMarkdown,
   seedReviews,
   lounges = [],
   membershipAccess = "open",
@@ -361,7 +357,6 @@ export function AirportDetailTabs({
     ...(showAmenities ? (["amenities"] as const) : []),
     ...(showTips ? (["tips"] as const) : []),
     ...(showWater ? (["water"] as const) : []),
-    ...(guideMarkdown ? (["guide"] as const) : []),
     "disruptions",
     "reviews",
   ];
@@ -729,12 +724,6 @@ export function AirportDetailTabs({
         ) : null}
         </>)}
       </TabsContent>
-
-      {guideMarkdown ? (
-        <TabsContent value="guide" className="max-w-4xl">
-          {lockPaid("guide", <AirportGuideArticle content={guideMarkdown} />)}
-        </TabsContent>
-      ) : null}
 
       <TabsContent value="disruptions">
         {lockPaid(

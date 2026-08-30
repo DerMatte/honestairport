@@ -72,6 +72,7 @@ describe("resolveAirportTab", () => {
     assert.equal(resolveAirportTab(undefined, visible), "overview");
     assert.equal(resolveAirportTab("not-a-tab", visible), "overview");
     assert.equal(resolveAirportTab("water", visible), "overview");
+    assert.equal(resolveAirportTab("guide", visible), "overview");
     assert.equal(resolveAirportTab("overview", visible), "overview");
   });
 

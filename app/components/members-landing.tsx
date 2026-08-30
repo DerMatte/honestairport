@@ -21,7 +21,7 @@ const FREE_PERKS = [
 ] as const;
 
 const MEMBER_PERKS = [
-  "Amenities, tips, water, the full guide, disruptions, and reviews",
+  "Amenities, tips, water, disruptions, and reviews",
   "Individual lounge pages",
   "The existing Telegram community on the Whop product",
 ] as const;
@@ -88,8 +88,8 @@ export function MembersLanding({
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
               Overview, Getting There, the lounge directory, home, and search
-              stay free. Members get amenities, tips, water, the full guide,
-              disruptions, reviews, and every lounge page. Cancel anytime —
+              stay free. Members get amenities, tips, water, disruptions,
+              reviews, and every lounge page. Cancel anytime —
               access ends when the membership ends.
             </p>
 

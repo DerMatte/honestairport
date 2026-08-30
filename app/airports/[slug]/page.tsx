@@ -294,18 +294,15 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  // Guide summary / body share React.cache with CuratedAirportTips.
-  const [guide, seedReviews, lounges, guideContent] = await Promise.all([
+  const [guide, seedReviews, lounges] = await Promise.all([
     getAirportGuideSummaryByIata(airport.iata),
     getEditorialReviews(airport.iata),
     getAirportLoungesWithFallback(airport.iata),
-    getAirportContent(airport.iata),
   ]);
   return (
     <AirportDetailTabsGate
       airport={airport}
       guide={guide}
-      guideMarkdown={guideContent?.content}
       seedReviews={seedReviews}
       lounges={lounges}
     />
@@ -429,7 +426,6 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
             <GuideOnlyDetailTabs
               iata={frontmatter.iata}
               guide={guide}
-              guideMarkdown={guideContent.content}
               loungesPromise={loungesPromise}
             />
           </Suspense>
@@ -456,22 +452,15 @@ async function GuideOnlyAirportPage({ slug }: { slug: string }) {
 async function GuideOnlyDetailTabs({
   iata,
   guide,
-  guideMarkdown,
   loungesPromise,
 }: {
   iata: string;
   guide: AirportGuideSummary;
-  guideMarkdown: string;
   loungesPromise: Promise<AirportLoungeView[]>;
 }) {
   const lounges = await loungesPromise;
   return (
-    <AirportDetailTabsGate
-      iata={iata}
-      guide={guide}
-      guideMarkdown={guideMarkdown}
-      lounges={lounges}
-    />
+    <AirportDetailTabsGate iata={iata} guide={guide} lounges={lounges} />
   );
 }
 

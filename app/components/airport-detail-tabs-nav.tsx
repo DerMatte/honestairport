@@ -48,9 +48,7 @@ function AirportDetailTabsController({
   const chromeRef = useRef<HTMLDivElement>(null);
   const value = resolveAirportTab(requestedTab, visibleTabs);
   const showLocks = membershipAccess === "denied";
-  const shouldScrollOnMount = Boolean(
-    requestedTab && requestedTab !== "overview",
-  );
+  const shouldScrollOnMount = value !== "overview";
 
   useEffect(() => {
     if (shouldScrollOnMount) {

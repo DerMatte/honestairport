@@ -39,7 +39,7 @@ export function MembershipTeaser({
   const fallbackBlurb =
     scope === "lounge"
       ? "Full lounge pages — access rules, hours, and photos — are for HonestAirport members. The airport overview, Getting There, and lounge directory stay free."
-      : "Amenities, tips, water, the full guide, disruptions, and reviews are for HonestAirport members. Overview, Getting There, and the lounge directory stay free.";
+      : "Amenities, tips, water, disruptions, and reviews are for HonestAirport members. Overview, Getting There, and the lounge directory stay free.";
   const joinCopy =
     scope === "lounge"
       ? "$8/month unlocks every lounge page and the extra airport tabs. Cancel anytime — access ends when the membership ends."
