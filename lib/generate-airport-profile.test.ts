@@ -85,8 +85,8 @@ test("profileInputFromScore uses reference geo and country region", () => {
   assert.equal(input.region, "North America");
   assert.equal(input.shortName, "Los Angeles LAX");
   assert.equal(input.airportistScore, 6.4);
-  assert.equal(input.amenities[0].id, "lax-amenity-1");
-  assert.equal(input.tips[0].id, "lax-tip-1");
+  assert.equal(input.amenities?.[0]?.id, "lax-amenity-1");
+  assert.equal(input.tips?.[0]?.id, "lax-tip-1");
   assert.deepEqual(input.disruption.alerts, ["Evening marine layer"]);
   assert.ok(typeof input.disruption.lastUpdated === "string");
 });
