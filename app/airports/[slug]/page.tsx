@@ -53,9 +53,8 @@ export async function generateMetadata({
   params,
 }: AirportPageProps): Promise<Metadata> {
   const { slug } = await params;
-  // Most slugs are guide-only, so start the guide read alongside the profile
-  // lookup instead of waiting for the profile miss. The catch keeps a rejection
-  // from going unhandled when the curated path returns without awaiting it.
+  // Start the guide read alongside the profile lookup. The catch keeps a
+  // rejection from going unhandled if this path returns without awaiting it.
   const guideContentPromise = getAirportContent(slug);
   guideContentPromise.catch(() => {});
   const airport = await getAirportBySlug(slug);
@@ -152,9 +151,8 @@ function AirportPageContent({ slug }: { slug: string }) {
 }
 
 async function AirportPageResolved({ slug }: { slug: string }) {
-  // Warm the guide read for guide-only slugs (the majority); React.cache hands
-  // this same in-flight promise to GuideOnlyAirportPage. The catch keeps a
-  // rejection from going unhandled on the curated path, which never awaits it.
+  // Warm the guide read (React.cache-shared with later readers). The catch
+  // keeps a rejection from going unhandled if this path never awaits it.
   getAirportContent(slug).catch(() => {});
   const airport = await getAirportBySlug(slug);
 
@@ -290,16 +288,18 @@ async function CuratedAirportTips({ airport }: { airport: Airport }) {
 }
 
 async function CuratedAirportDetails({ airport }: { airport: Airport }) {
-  // Guide summary is React.cache-deduped with CuratedAirportTips in the same request.
-  const [guide, seedReviews, lounges] = await Promise.all([
-    getAirportGuideSummaryByIata(airport.iata),
+  // Full guide body is React.cache-deduped with CuratedAirportTips in the same request.
+  const [guideContent, seedReviews, lounges] = await Promise.all([
+    getAirportContent(airport.iata),
     getEditorialReviews(airport.iata),
     getAirportLoungesWithFallback(airport.iata),
   ]);
+  const guide = guideContent ? getAirportGuideSummary(guideContent) : null;
   return (
     <AirportDetailTabsGate
       airport={airport}
       guide={guide}
+      guideMarkdown={guideContent?.content}
       seedReviews={seedReviews}
       lounges={lounges}
     />
