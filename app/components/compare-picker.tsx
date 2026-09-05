@@ -1,23 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeftRight, ChevronsUpDown, Plane, Search, X } from "lucide-react";
+import { ArrowLeftRight, Plane, Search, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
 import { useAirportSearch } from "@/app/components/use-airport-search";
 import { compareSearchHref } from "@/lib/compare-search-params";
 import { cn } from "@/lib/utils";
@@ -28,145 +16,172 @@ export type ComparePickerValue = {
   name?: string | null;
 };
 
-function CompareAirportCombobox({
-  id,
+function AirportField({
+  name,
   label,
-  value,
+  iata,
+  airportName,
   excludeIata,
-  onSelect,
+  onPicked,
 }: {
-  id: string;
+  name: "a" | "b";
   label: string;
-  value: ComparePickerValue;
+  iata: string | null;
+  airportName?: string | null;
   excludeIata?: string | null;
-  onSelect: (airport: AirportSearchEntry) => void;
+  onPicked: (iata: string) => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const listId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const blurTimeoutRef = useRef(0);
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
   const { results, pending } = useAirportSearch(query, null);
   const airports = results.airports.filter(
     (airport) => airport.iata !== excludeIata,
   );
 
   useEffect(() => {
-    if (!open) {
-      setQuery("");
-      return;
-    }
-    const frame = window.requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [open]);
+    return () => window.clearTimeout(blurTimeoutRef.current);
+  }, []);
 
-  const selectedLabel = value.iata
-    ? value.name || value.iata
-    : `Pick ${label}`;
+  function pick(airport: AirportSearchEntry) {
+    setQuery("");
+    setOpen(false);
+    onPicked(airport.iata);
+  }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          id={id}
-          type="button"
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          aria-label={label}
-          className="h-auto min-h-14 w-full justify-between gap-3 rounded-2xl border-border/70 bg-card px-3 py-2.5 text-left shadow-sm"
-        >
-          <span className="flex min-w-0 items-center gap-3">
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
-              <Plane className="size-4" aria-hidden="true" />
-            </span>
-            <span className="min-w-0">
-              <span className="block text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
-                {label}
-              </span>
-              <span className="mt-0.5 flex min-w-0 items-center gap-2">
-                {value.iata ? (
-                  <Badge variant="outline" className="font-mono">
-                    {value.iata}
-                  </Badge>
-                ) : null}
-                <span
-                  className={cn(
-                    "truncate text-sm font-medium",
-                    value.iata ? "text-foreground" : "text-muted-foreground",
-                  )}
-                >
-                  {selectedLabel}
-                </span>
-              </span>
-            </span>
+    <div className="relative">
+      <label htmlFor={`compare-airport-${name}`} className="sr-only">
+        {label}
+      </label>
+      <div className="rounded-2xl border border-border/70 bg-card px-3 py-2.5 shadow-sm">
+        <div className="flex items-center gap-3">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+            <Plane className="size-4" aria-hidden="true" />
           </span>
-          <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="w-(--radix-popover-trigger-width) min-w-72 overflow-hidden p-0"
-      >
-        <Command shouldFilter={false} label={`Search ${label}`}>
-          <div className="flex items-center gap-2 border-b border-border/70 px-3">
-            <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            <CommandInput
-              ref={inputRef}
-              inline
-              value={query}
-              onValueChange={setQuery}
-              placeholder="Search code, name, or city"
-              className="h-11"
-            />
-            {query ? (
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                className="rounded-full p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
-                aria-label="Clear search"
-              >
-                <X className="size-3.5" />
-              </button>
-            ) : null}
+          <div className="min-w-0 flex-1">
+            <div className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
+              {label}
+            </div>
+            <div className="mt-0.5 flex items-center gap-2">
+              {iata ? (
+                <Badge variant="outline" className="font-mono">
+                  {iata}
+                </Badge>
+              ) : null}
+              {airportName && !open ? (
+                <span className="truncate text-sm font-medium">{airportName}</span>
+              ) : null}
+            </div>
+            <div className="mt-1 flex items-center gap-2">
+              <Search className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+              <Input
+                ref={inputRef}
+                key={`${name}-${iata ?? "empty"}`}
+                id={`compare-airport-${name}`}
+                name={name}
+                defaultValue={iata ?? ""}
+                autoComplete="off"
+                spellCheck={false}
+                placeholder={iata ? "Change airport" : "IATA, name, or city"}
+                aria-controls={listId}
+                aria-expanded={open}
+                role="combobox"
+                className="h-8 border-0 bg-transparent px-0 shadow-none focus-visible:ring-0"
+                onChange={(event) => {
+                  setQuery(event.target.value);
+                  setOpen(true);
+                }}
+                onFocus={() => {
+                  window.clearTimeout(blurTimeoutRef.current);
+                  setOpen(true);
+                }}
+                onBlur={() => {
+                  blurTimeoutRef.current = window.setTimeout(() => {
+                    const active = document.activeElement;
+                    if (
+                      inputRef.current === active ||
+                      panelRef.current?.contains(active)
+                    ) {
+                      return;
+                    }
+                    setOpen(false);
+                  }, 150);
+                }}
+              />
+              {query ? (
+                <button
+                  type="button"
+                  className="rounded-full p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  aria-label={`Clear ${label}`}
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                    setQuery("");
+                    if (inputRef.current) {
+                      inputRef.current.value = "";
+                      inputRef.current.focus();
+                    }
+                  }}
+                >
+                  <X className="size-3.5" />
+                </button>
+              ) : null}
+            </div>
           </div>
-          <CommandList className="max-h-72">
+        </div>
+      </div>
+
+      {open ? (
+        <div
+          ref={panelRef}
+          id={listId}
+          className="absolute top-[calc(100%+0.5rem)] z-50 w-full overflow-hidden rounded-2xl border border-border/70 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/5"
+        >
+          <ul className="max-h-72 overflow-auto p-1">
             {!pending && airports.length === 0 ? (
-              <CommandEmpty>No airports match that search.</CommandEmpty>
+              <li className="px-3 py-6 text-center text-sm text-muted-foreground">
+                {query.trim()
+                  ? "No airports match that search."
+                  : "Type a code, city, or airport name."}
+              </li>
             ) : null}
-            {airports.length > 0 ? (
-              <CommandGroup heading="Airports">
-                {airports.map((airport) => (
-                  <CommandItem
-                    key={airport.iata}
-                    value={`${airport.iata}-${airport.slug}`}
-                    onSelect={() => {
-                      onSelect(airport);
-                      setOpen(false);
-                    }}
-                  >
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {airport.iata}
+            {airports.map((airport) => (
+              <li key={airport.iata}>
+                <button
+                  type="button"
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-muted"
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                    if (inputRef.current) {
+                      inputRef.current.value = airport.iata;
+                    }
+                    pick(airport);
+                  }}
+                >
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {airport.iata}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium">
+                      {airport.shortName ?? airport.name}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-medium">
-                        {airport.shortName ?? airport.name}
-                      </span>
-                      <span className="block truncate text-xs text-muted-foreground">
-                        {airport.city}, {airport.country}
-                        {airport.score !== undefined
-                          ? ` · Score ${airport.score.toFixed(1)}`
-                          : null}
-                      </span>
+                    <span className="block truncate text-xs text-muted-foreground">
+                      {airport.city}, {airport.country}
+                      {airport.score !== undefined
+                        ? ` · Score ${airport.score.toFixed(1)}`
+                        : null}
                     </span>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ) : null}
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -187,37 +202,43 @@ export function ComparePicker({
   }
 
   return (
-    <div
-      className={cn(
-        "grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center",
-        isPending && "opacity-80",
-      )}
+    <form
+      action="/compare"
+      method="get"
+      className={cn("space-y-3", isPending && "opacity-80")}
     >
-      <CompareAirportCombobox
-        id="compare-airport-a"
-        label="Airport A"
-        value={a}
-        excludeIata={b.iata}
-        onSelect={(airport) => replacePair(airport.iata, b.iata)}
-      />
-      <Button
-        type="button"
-        variant="outline"
-        size="icon"
-        className="mx-auto size-11 rounded-2xl"
-        aria-label="Swap airports"
-        disabled={!a.iata && !b.iata}
-        onClick={() => replacePair(b.iata, a.iata)}
-      >
-        <ArrowLeftRight className="size-4" aria-hidden="true" />
-      </Button>
-      <CompareAirportCombobox
-        id="compare-airport-b"
-        label="Airport B"
-        value={b}
-        excludeIata={a.iata}
-        onSelect={(airport) => replacePair(a.iata, airport.iata)}
-      />
-    </div>
+      <div className="grid gap-3 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+        <AirportField
+          name="a"
+          label="Airport A"
+          iata={a.iata}
+          airportName={a.name}
+          excludeIata={b.iata}
+          onPicked={(iata) => replacePair(iata, b.iata)}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="mx-auto size-11 rounded-2xl"
+          aria-label="Swap airports"
+          disabled={!a.iata && !b.iata}
+          onClick={() => replacePair(b.iata, a.iata)}
+        >
+          <ArrowLeftRight className="size-4" aria-hidden="true" />
+        </Button>
+        <AirportField
+          name="b"
+          label="Airport B"
+          iata={b.iata}
+          airportName={b.name}
+          excludeIata={a.iata}
+          onPicked={(iata) => replacePair(a.iata, iata)}
+        />
+      </div>
+      <div className="flex justify-end">
+        <Button type="submit">Compare</Button>
+      </div>
+    </form>
   );
 }
