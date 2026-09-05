@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
+import { AttributionCapture } from "@/app/components/attribution-capture";
+import { Ga4 } from "@/app/components/ga4";
+import { MetaPixel } from "@/app/components/meta-pixel";
 import {
   NearestAirportHeaderLink,
   NearestAirportSidebarItem,
@@ -155,6 +158,11 @@ export default async function RootLayout({
             </p>
           </div>
         </footer>
+        <Suspense fallback={null}>
+          <AttributionCapture />
+        </Suspense>
+        <MetaPixel />
+        <Ga4 />
         <Analytics />
       </body>
     </html>

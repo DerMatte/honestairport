@@ -1,3 +1,5 @@
+import { appendAttributionToCheckoutUrl, type CheckoutAttribution } from "@/lib/attribution";
+
 /**
  * Whop $8/month membership gate for HonestAirport HTML intel.
  *
@@ -202,6 +204,7 @@ export function membershipCheckoutHref(
   returnPath = "/members",
   env: WhopEnv = process.env,
   siteUrl?: string,
+  attribution?: CheckoutAttribution | null,
 ): string {
   const checkout = getWhopCheckoutUrl(env);
   try {
@@ -211,7 +214,7 @@ export function membershipCheckoutHref(
       complete.searchParams.set("next", returnPath);
       url.searchParams.set("redirect", complete.toString());
     }
-    return url.toString();
+    return appendAttributionToCheckoutUrl(url.toString(), attribution);
   } catch {
     return checkout;
   }

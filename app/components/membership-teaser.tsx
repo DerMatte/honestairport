@@ -3,6 +3,7 @@ import { ArrowLeft, Lock, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { JoinCheckoutLink } from "@/app/components/join-checkout-link";
 import { checkoutUrlForPath } from "@/lib/whop-access";
 import type { AirportTeaser } from "@/lib/whop-teaser";
 
@@ -69,9 +70,9 @@ export function MembershipTeaser({
         </div>
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button size="lg" className="sm:flex-1" asChild>
-            <a href={checkoutHref} rel="noopener noreferrer">
+            <JoinCheckoutLink href={checkoutHref}>
               Subscribe — $8/month
-            </a>
+            </JoinCheckoutLink>
           </Button>
           <Button size="lg" variant="outline" className="sm:flex-1" asChild>
             <Link href={`/members?next=${encodeURIComponent(returnPath)}#restore`}>

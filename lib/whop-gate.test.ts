@@ -201,6 +201,22 @@ describe("session password / nav / checkout href", () => {
       "https://www.honestairport.com/members?next=%2Fairports%2Flax",
     );
   });
+
+  it("merges attribution onto checkout without replacing redirect", () => {
+    const href = membershipCheckoutHref(
+      "/airports/lax",
+      enabledEnv,
+      "https://www.honestairport.com",
+      { utm_source: "meta", utm_campaign: "members", event_id: "ic_1" },
+    );
+    const url = new URL(href);
+    assert.equal(
+      url.searchParams.get("redirect"),
+      "https://www.honestairport.com/members?next=%2Fairports%2Flax",
+    );
+    assert.equal(url.searchParams.get("utm_source"), "meta");
+    assert.equal(url.searchParams.get("event_id"), "ic_1");
+  });
 });
 
 describe("resolveWhopUserId", () => {

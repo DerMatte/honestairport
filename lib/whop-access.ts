@@ -7,6 +7,7 @@ import { getDb, isDatabaseConfigured } from "@/lib/db";
 import { user } from "@/lib/db/auth-schema";
 import { SITE_URL } from "@/lib/site";
 import { getWhop } from "@/lib/whop";
+import type { CheckoutAttribution } from "@/lib/attribution";
 import {
   getWhopProductId,
   isWhopGateEnabled,
@@ -79,11 +80,13 @@ export async function hasLiveWhopMembership(
 export function checkoutUrlForPath(
   returnPath = "/members",
   env: WhopEnv = process.env,
+  attribution?: CheckoutAttribution | null,
 ): string {
   return membershipCheckoutHref(
     returnPath,
     env,
     env.NEXT_PUBLIC_SITE_URL?.trim() || SITE_URL,
+    attribution,
   );
 }
 

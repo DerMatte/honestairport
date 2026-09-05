@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { MembersKnowBeforeYouGo } from "@/app/components/members-know-before-you-go";
 import { Skeleton } from "@/components/ui/skeleton";
+import { JoinCheckoutLink } from "@/app/components/join-checkout-link";
 import type { HtmlAccess } from "@/lib/whop-gate";
 
 const FREE_PERKS = [
@@ -105,9 +106,9 @@ export function MembersLanding({
             ) : (
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Button size="lg" className="h-11 px-5 text-base" asChild>
-                  <a href={checkoutHref} rel="noopener noreferrer">
+                  <JoinCheckoutLink href={checkoutHref}>
                     Join members · $8/mo
-                  </a>
+                  </JoinCheckoutLink>
                 </Button>
                 <a
                   href="#restore"
