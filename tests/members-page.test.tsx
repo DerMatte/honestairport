@@ -67,6 +67,15 @@ test("logged-out members page sells $8/month and the real free vs paid split", (
     /Scores are free\. Lounges deep, disruptions, tips, and reviews unlock for members — \$8\/mo\./,
   );
   assert.match(html, /Free stays useful\. Members get the rest\./);
+  assert.match(html, /Know before you go/);
+  assert.match(html, /Your Priority Pass app lists a lounge\. We say skip\./);
+  assert.match(html, /The rebuild looks fine inside B\/C\./);
+  assert.match(html, /Famous ≠ top-10\./);
+  assert.match(html, /href="\/airports\/nte\?tab=lounges"/);
+  assert.match(html, /href="\/airports\/lga"/);
+  assert.match(html, /href="\/airports\/sin"/);
+  assert.doesNotMatch(html, /\/airports\/nte\/lounge\//);
+  assert.doesNotMatch(html, /\/airports\/NTE\/lounges/);
   assert.match(html, /Airport Overview/);
   assert.match(html, /Lounge directory on the airport page/);
   assert.match(html, /Home and search/);
@@ -121,6 +130,8 @@ test("allowed state confirms membership and continues to the safe next path", ()
   assert.match(html, /Membership is active/);
   assert.match(html, /href="\/airports\/sin"/);
   assert.match(html, />Continue</);
+  assert.match(html, /Know before you go/);
+  assert.match(html, /Your Priority Pass app lists a lounge\. We say skip\./);
   assert.doesNotMatch(html, /Join members · \$8\/mo/);
   assert.doesNotMatch(html, /id="restore"/);
   assert.match(html, /Telegram community lives on the Whop product page/);

@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { MembersKnowBeforeYouGo } from "@/app/components/members-know-before-you-go";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { HtmlAccess } from "@/lib/whop-gate";
 
@@ -178,6 +179,11 @@ export function MembersLanding({
             </div>
           )}
         </header>
+
+        <MembersKnowBeforeYouGo
+          checkoutHref={checkoutHref}
+          showJoinCta={!allowed}
+        />
 
         <section className="mt-14 sm:mt-16" aria-labelledby="what-you-get">
           <p className="font-mono text-[11px] font-semibold tracking-[0.15em] text-primary uppercase">
