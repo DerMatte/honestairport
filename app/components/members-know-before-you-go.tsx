@@ -58,15 +58,26 @@ export function MembersKnowBeforeYouGo({
                 {card.body}
               </p>
               <p className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-2">
-                {card.links.map((link) => (
-                  <Link
+                {card.links.map((link, index) => (
+                  <span
                     key={link.href + link.label}
-                    href={link.href}
-                    className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                    className="inline-flex items-center gap-3"
                   >
-                    {link.label}
-                    <ArrowRight className="size-3.5" aria-hidden="true" />
-                  </Link>
+                    {index > 0 ? (
+                      <span className="text-muted-foreground" aria-hidden="true">
+                        ·
+                      </span>
+                    ) : null}
+                    <Link
+                      href={link.href}
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary underline-offset-4 hover:underline"
+                    >
+                      {link.label}
+                      {card.links.length === 1 ? (
+                        <ArrowRight className="size-3.5" aria-hidden="true" />
+                      ) : null}
+                    </Link>
+                  </span>
                 ))}
               </p>
             </CardContent>
