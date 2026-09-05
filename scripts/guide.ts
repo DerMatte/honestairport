@@ -6,6 +6,7 @@
  *
  * Usage:
  *   pnpm guide list                    # IATA, name, lastUpdated for all guides
+ *   pnpm guide next [N]                # next N missing IATAs from the generation priority list (default 10)
  *   pnpm guide show LHR                # print guide markdown (frontmatter + body)
  *   pnpm guide show LHR /tmp/lhr.md    # export guide markdown to a file
  *   pnpm guide save /tmp/lhr.md        # validate + upsert + revalidate site
@@ -22,6 +23,11 @@ import {
   rowToAirportContent,
   upsertAirportGuide,
 } from "../lib/airport-guides";
+import {
+  DEFAULT_GENERATION_BATCH_SIZE,
+  formatGenerationPriorityLine,
+  getNextMissingForGeneration,
+} from "../lib/airport-generation-priority";
 import { loadLocalEnv } from "./load-env";
 import { requestSiteRevalidation } from "./revalidate-site";
 
@@ -38,6 +44,33 @@ async function list() {
     console.log(`${row.iata}\t${row.lastUpdated}\t${row.name} (${row.city}, ${row.country})`);
   }
   console.log(`\n${rows.length} guides.`);
+}
+
+async function nextMissing(limitArg?: string) {
+  const parsed = limitArg === undefined ? DEFAULT_GENERATION_BATCH_SIZE : Number.parseInt(limitArg, 10);
+  const limit =
+    Number.isFinite(parsed) && parsed > 0 ? parsed : DEFAULT_GENERATION_BATCH_SIZE;
+
+  const rows = await fetchAllAirportGuideRows();
+  const existing = new Set(rows.map((row) => row.iata));
+  const missing = getNextMissingForGeneration(existing, limit);
+
+  if (missing.length === 0) {
+    console.log("No missing airports remain on the generation priority list.");
+    return;
+  }
+
+  const highestTier = missing[missing.length - 1]!.tier;
+  if (highestTier > 1) {
+    console.log(
+      `Tier 1 (ACI top 100) is exhausted for this batch — continuing into tier ${highestTier}.`,
+    );
+  }
+
+  for (const airport of missing) {
+    console.log(formatGenerationPriorityLine(airport));
+  }
+  console.log(`\n${missing.length} next missing (limit ${limit}).`);
 }
 
 async function show(iata: string, outFile?: string) {
@@ -69,15 +102,19 @@ async function main() {
   switch (command) {
     case "list":
       return list();
+    case "next":
+      return nextMissing(arg);
     case "show":
       if (!arg) break;
       return show(arg, extra);
     case "save":
       if (!arg) break;
       return save(arg);
+    default:
+      break;
   }
 
-  console.error("Usage: pnpm guide <list | show IATA [out.md] | save file.md>");
+  console.error("Usage: pnpm guide <list | next [N] | show IATA [out.md] | save file.md>");
   process.exit(1);
 }
 
