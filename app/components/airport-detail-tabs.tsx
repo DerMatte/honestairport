@@ -26,6 +26,7 @@ import { AirportWaterOptionGrid } from "@/app/components/airport-water-bottle";
 import { AirportGuideSources } from "@/app/components/airport-guide-sources";
 import { AirportReviewsFromServer } from "@/app/components/airport-reviews-from-server";
 import { AirportDetailTabsNav } from "@/app/components/airport-detail-tabs-nav";
+import { MucLayoverWayfinding } from "@/app/components/muc-layover-wayfinding";
 import { ReviewsTabSkeleton } from "@/app/components/loading-skeletons";
 import { MembershipTeaser } from "@/app/components/membership-teaser";
 import { Badge } from "@/components/ui/badge";
@@ -51,6 +52,7 @@ import type {
   AirportLoungeView,
 } from "@/lib/airport-content";
 import { filterWaterRelatedGuideItems } from "@/lib/airport-content";
+import { isMucLayoversEnabled } from "@/lib/muc-layovers";
 import {
   airportTabLabel,
   isPaidAirportTab,
@@ -368,6 +370,12 @@ export function AirportDetailTabs({
       membershipAccess={membershipAccess}
     >
         <TabsContent value="overview" className="space-y-6">
+          {isMucLayoversEnabled(iata) ? (
+            <Suspense fallback={null}>
+              <MucLayoverWayfinding iata={iata} />
+            </Suspense>
+          ) : null}
+
           <section aria-labelledby="live-status-heading" className="space-y-3">
             <div>
               <p className="text-sm font-medium text-primary">Live airport status</p>
