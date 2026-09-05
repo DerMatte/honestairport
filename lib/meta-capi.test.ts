@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  buildActivationCapiEvents,
   buildSubscribeCapiEvent,
   hashMetaPii,
   sendMetaCapiEvents,
@@ -8,11 +9,12 @@ import {
 } from "./meta-capi";
 import {
   MEMBER_CONTENT_NAME,
+  MEMBER_PURCHASE_EVENT,
   MEMBER_SUBSCRIBE_CURRENCY,
   MEMBER_SUBSCRIBE_EVENT,
   MEMBER_SUBSCRIBE_VALUE,
   META_GRAPH_VERSION,
-  subscribeEventIdFromWhopId,
+  activationEventIdFromWhopId,
 } from "./meta-tracking";
 
 const capiEnv = {
@@ -32,36 +34,39 @@ describe("hashMetaPii", () => {
   });
 });
 
-describe("subscribe payload shape", () => {
-  it("builds a Subscribe event with $8 USD Members custom_data and stable event_id", () => {
-    const eventId = subscribeEventIdFromWhopId("pay_abc123");
+describe("activation payload shape", () => {
+  it("builds Subscribe + Purchase with the same event_id and $8 USD Members custom_data", () => {
+    const eventId = activationEventIdFromWhopId("pay_abc123");
     assert.equal(eventId, "whop_pay_abc123");
-    assert.equal(subscribeEventIdFromWhopId("pay_abc123"), eventId);
+    assert.equal(activationEventIdFromWhopId("pay_abc123"), eventId);
 
-    const event = buildSubscribeCapiEvent({
+    const userData = userDataFromRequest({
+      email: "Member@HonestAirport.com",
+      externalId: "user_whop1",
+    });
+    const [subscribe, purchase] = buildActivationCapiEvents({
       eventId,
       eventTime: 1_700_000_000,
-      userData: userDataFromRequest({
-        email: "Member@HonestAirport.com",
-        externalId: "user_whop1",
-      }),
+      userData,
       env: capiEnv,
     });
 
-    assert.equal(event.event_name, MEMBER_SUBSCRIBE_EVENT);
-    assert.equal(event.event_name, "Subscribe");
-    assert.equal(event.event_id, "whop_pay_abc123");
-    assert.equal(event.event_time, 1_700_000_000);
-    assert.equal(event.action_source, "website");
-    assert.equal(event.event_source_url, "https://www.honestairport.com/members");
-    assert.deepEqual(event.custom_data, {
+    assert.equal(subscribe.event_name, MEMBER_SUBSCRIBE_EVENT);
+    assert.equal(purchase.event_name, MEMBER_PURCHASE_EVENT);
+    assert.equal(subscribe.event_id, purchase.event_id);
+    assert.equal(subscribe.event_id, "whop_pay_abc123");
+    assert.equal(subscribe.event_time, purchase.event_time);
+    assert.equal(subscribe.action_source, "website");
+    assert.equal(subscribe.event_source_url, "https://www.honestairport.com/members");
+    assert.deepEqual(subscribe.custom_data, {
       value: MEMBER_SUBSCRIBE_VALUE,
       currency: MEMBER_SUBSCRIBE_CURRENCY,
       content_name: MEMBER_CONTENT_NAME,
     });
-    assert.deepEqual(event.user_data.em, [hashMetaPii("member@honestairport.com")]);
-    assert.equal(event.user_data.external_id, "user_whop1");
-    assert.equal(event.user_data.client_ip_address, undefined);
+    assert.deepEqual(purchase.custom_data, subscribe.custom_data);
+    assert.deepEqual(subscribe.user_data.em, [hashMetaPii("member@honestairport.com")]);
+    assert.equal(subscribe.user_data.external_id, "user_whop1");
+    assert.equal(subscribe.user_data.client_ip_address, undefined);
   });
 
   it("copies fbp/fbc and client IP/UA from request headers when present", () => {

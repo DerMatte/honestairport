@@ -151,14 +151,29 @@ describe("handleWhopWebhook Subscribe mapping", () => {
     });
     assert.equal(first.status, 200);
     assert.ok(first.subscribe);
+    assert.ok(first.purchase);
     assert.equal(first.subscribe.event_name, "Subscribe");
+    assert.equal(first.purchase.event_name, "Purchase");
     assert.equal(first.subscribe.event_id, "whop_pay_abc123");
+    assert.equal(first.purchase.event_id, first.subscribe.event_id);
+    assert.equal(first.capiEvents.length, 2);
     assert.equal(first.subscribe.custom_data?.value, 8);
     assert.equal(first.subscribe.custom_data?.currency, "USD");
     assert.equal(first.subscribe.custom_data?.content_name, "HonestAirport Members");
+    assert.deepEqual(first.purchase.custom_data, first.subscribe.custom_data);
     assert.equal(first.subscribe.event_source_url, "https://www.honestairport.com/members");
     assert.equal(first.subscribe.action_source, "website");
     assert.equal(retry.subscribe?.event_id, first.subscribe.event_id);
+    assert.equal(retry.purchase?.event_id, first.subscribe.event_id);
+    assert.ok(first.ga4);
+    assert.deepEqual(
+      first.ga4.events.map((event) => event.name),
+      ["purchase", "subscribe"],
+    );
+    assert.equal(first.ga4.events[0]?.params.transaction_id, "whop_pay_abc123");
+    assert.equal(first.ga4.events[1]?.params.transaction_id, "whop_pay_abc123");
+    assert.equal(first.ga4.events[0]?.params.value, 8);
+    assert.equal(first.ga4.user_id, "user_whop1");
     assert.equal(
       subscribeEventIdForWebhook({ type: "payment.succeeded", data: { id: "pay_abc123" } }),
       "whop_pay_abc123",
@@ -185,7 +200,9 @@ describe("handleWhopWebhook Subscribe mapping", () => {
     });
     assert.equal(result.status, 200);
     assert.equal(result.subscribe?.event_id, "whop_mem_xyz");
+    assert.equal(result.purchase?.event_id, "whop_mem_xyz");
     assert.equal(result.subscribe?.event_name, "Subscribe");
+    assert.equal(result.purchase?.event_name, "Purchase");
   });
 
   it("acknowledges unmatched products and ignored event types without CAPI", () => {

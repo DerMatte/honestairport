@@ -5,6 +5,7 @@ import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { Plane } from "lucide-react";
 import { Analytics } from "@vercel/analytics/next";
 import { AttributionCapture } from "@/app/components/attribution-capture";
+import { Ga4 } from "@/app/components/ga4";
 import { MetaPixel } from "@/app/components/meta-pixel";
 import {
   NearestAirportHeaderLink,
@@ -161,6 +162,7 @@ export default async function RootLayout({
           <AttributionCapture />
         </Suspense>
         <MetaPixel />
+        <Ga4 />
         <Analytics />
       </body>
     </html>

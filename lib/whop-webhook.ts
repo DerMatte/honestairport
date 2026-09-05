@@ -11,22 +11,25 @@
  *   - `ws_…`    → HMAC key is the full secret UTF-8 bytes
  *   - other     → try Standard Webhooks decode, then raw UTF-8
  *
- * Subscribe fires for `payment.succeeded` / `membership.activated` when
- * the payload product is `prod_F5F5XD1OGhQoK` or the plan is
- * `plan_ee0kSfuyD6v9a` (or the env product/plan override).
+ * Activation fires Subscribe + Purchase (same event_id) for
+ * `payment.succeeded` / `membership.activated` when the payload product
+ * is `prod_F5F5XD1OGhQoK` or the plan is `plan_ee0kSfuyD6v9a`
+ * (or the env product/plan override). GA4 purchase + subscribe go out
+ * on the same activation when Measurement Protocol env is set.
  */
 
 import { createHmac, timingSafeEqual } from "node:crypto";
 import {
   getWhopWebhookSecret,
   MEMBER_PLAN_ID,
-  subscribeEventIdFromWhopId,
+  activationEventIdFromWhopId,
 } from "@/lib/meta-tracking";
 import {
-  buildSubscribeCapiEvent,
+  buildActivationCapiEvents,
   userDataFromRequest,
   type MetaCapiEvent,
 } from "@/lib/meta-capi";
+import { buildGa4ActivationEvents, type Ga4CollectPayload } from "@/lib/ga4";
 import {
   DEFAULT_WHOP_PRODUCT_ID,
   getWhopProductId,
@@ -208,13 +211,13 @@ export function subscribeEventIdForWebhook(
     return null;
   }
   if (event.type === "payment.succeeded" && data.id?.trim()) {
-    return subscribeEventIdFromWhopId(data.id);
+    return activationEventIdFromWhopId(data.id);
   }
   if (event.type === "membership.activated" && data.id?.trim()) {
-    return subscribeEventIdFromWhopId(data.id);
+    return activationEventIdFromWhopId(data.id);
   }
   const fallback = data.membership?.id?.trim() || data.id?.trim();
-  return fallback ? subscribeEventIdFromWhopId(fallback) : null;
+  return fallback ? activationEventIdFromWhopId(fallback) : null;
 }
 
 export function eventTimeFromWebhook(event: WhopWebhookEnvelope, nowSec?: number): number {
@@ -227,11 +230,17 @@ export function eventTimeFromWebhook(event: WhopWebhookEnvelope, nowSec?: number
   return nowSec ?? Math.floor(Date.now() / 1000);
 }
 
-export function buildSubscribeEventFromWebhook(
+export type ActivationEvents = {
+  eventId: string;
+  capi: [MetaCapiEvent, MetaCapiEvent];
+  ga4: Ga4CollectPayload;
+};
+
+export function buildActivationEventsFromWebhook(
   event: WhopWebhookEnvelope,
   env: WhopEnv = process.env,
   nowSec?: number,
-): MetaCapiEvent | null {
+): ActivationEvents | null {
   if (!isWhopSubscribeEventType(event.type)) {
     return null;
   }
@@ -242,26 +251,55 @@ export function buildSubscribeEventFromWebhook(
   if (!eventId) {
     return null;
   }
-  return buildSubscribeCapiEvent({
-    eventId,
-    eventTime: eventTimeFromWebhook(event, nowSec),
-    userData: userDataFromRequest({
-      email: event.data?.user?.email,
-      externalId: event.data?.user?.id,
-    }),
-    env,
+  const eventTime = eventTimeFromWebhook(event, nowSec);
+  const userData = userDataFromRequest({
+    email: event.data?.user?.email,
+    externalId: event.data?.user?.id,
   });
+  return {
+    eventId,
+    capi: buildActivationCapiEvents({
+      eventId,
+      eventTime,
+      userData,
+      env,
+    }),
+    ga4: buildGa4ActivationEvents({
+      eventId,
+      userId: event.data?.user?.id,
+      eventTimeSec: eventTime,
+    }),
+  };
+}
+
+/** Subscribe half of an activation — kept for callers that only need ads primary. */
+export function buildSubscribeEventFromWebhook(
+  event: WhopWebhookEnvelope,
+  env: WhopEnv = process.env,
+  nowSec?: number,
+): MetaCapiEvent | null {
+  return buildActivationEventsFromWebhook(event, env, nowSec)?.capi[0] ?? null;
 }
 
 export type HandleWhopWebhookResult = {
   status: number;
   body: { ok: true; skipped?: string } | { error: string };
   subscribe: MetaCapiEvent | null;
+  purchase: MetaCapiEvent | null;
+  capiEvents: MetaCapiEvent[];
+  ga4: Ga4CollectPayload | null;
+};
+
+const EMPTY_EVENTS = {
+  subscribe: null,
+  purchase: null,
+  capiEvents: [] as MetaCapiEvent[],
+  ga4: null,
 };
 
 /**
- * Verify + map a Whop webhook. CAPI send is left to the route so the
- * HTTP 200 can return before Graph is called.
+ * Verify + map a Whop webhook. CAPI / GA4 send is left to the route so
+ * the HTTP 200 can return before Graph or Measurement Protocol is called.
  */
 export function handleWhopWebhook(options: {
   rawBody: string;
@@ -272,7 +310,7 @@ export function handleWhopWebhook(options: {
   const env = options.env ?? process.env;
   const secret = getWhopWebhookSecret(env);
   if (!secret) {
-    return { status: 404, body: { error: "webhook_off" }, subscribe: null };
+    return { status: 404, body: { error: "webhook_off" }, ...EMPTY_EVENTS };
   }
 
   const verified = verifyWhopWebhookSignature({
@@ -282,21 +320,36 @@ export function handleWhopWebhook(options: {
     nowSec: options.nowSec,
   });
   if (!verified.ok) {
-    return { status: 401, body: { error: verified.error }, subscribe: null };
+    return { status: 401, body: { error: verified.error }, ...EMPTY_EVENTS };
   }
 
   if (!isWhopSubscribeEventType(verified.event.type)) {
-    return { status: 200, body: { ok: true, skipped: "ignored_type" }, subscribe: null };
+    return {
+      status: 200,
+      body: { ok: true, skipped: "ignored_type" },
+      ...EMPTY_EVENTS,
+    };
   }
 
-  const subscribe = buildSubscribeEventFromWebhook(
+  const activation = buildActivationEventsFromWebhook(
     verified.event,
     env,
     options.nowSec,
   );
-  if (!subscribe) {
-    return { status: 200, body: { ok: true, skipped: "not_members" }, subscribe: null };
+  if (!activation) {
+    return {
+      status: 200,
+      body: { ok: true, skipped: "not_members" },
+      ...EMPTY_EVENTS,
+    };
   }
 
-  return { status: 200, body: { ok: true }, subscribe };
+  return {
+    status: 200,
+    body: { ok: true },
+    subscribe: activation.capi[0],
+    purchase: activation.capi[1],
+    capiEvents: [...activation.capi],
+    ga4: activation.ga4,
+  };
 }

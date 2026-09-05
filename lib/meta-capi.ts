@@ -145,6 +145,37 @@ export function buildSubscribeCapiEvent(options: {
   });
 }
 
+export function buildPurchaseCapiEvent(options: {
+  eventId: string;
+  eventTime?: number;
+  userData?: MetaCapiUserData;
+  env?: WhopEnv;
+}): MetaCapiEvent {
+  return buildMetaCapiEvent({
+    eventName: "Purchase",
+    eventId: options.eventId,
+    eventTime: options.eventTime,
+    userData: options.userData,
+    env: options.env,
+  });
+}
+
+/**
+ * Subscribe (ads primary) + Purchase, same event_id for Meta dedupe
+ * against any browser mirrors. Names stay distinct; the id is shared.
+ */
+export function buildActivationCapiEvents(options: {
+  eventId: string;
+  eventTime?: number;
+  userData?: MetaCapiUserData;
+  env?: WhopEnv;
+}): [MetaCapiEvent, MetaCapiEvent] {
+  return [
+    buildSubscribeCapiEvent(options),
+    buildPurchaseCapiEvent(options),
+  ];
+}
+
 export type SendMetaCapiResult =
   | { ok: true; skipped: "capi_off" | "empty" }
   | { ok: true; status: number }

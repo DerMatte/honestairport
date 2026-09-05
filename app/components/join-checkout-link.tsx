@@ -8,7 +8,8 @@ import {
   LAST_TOUCH_COOKIE,
   parseAttributionCookie,
 } from "@/lib/attribution";
-import { createMetaEventId, isMetaPixelEnabled } from "@/lib/meta-tracking";
+import { createMetaEventId, isGa4BrowserEnabled, isMetaPixelEnabled } from "@/lib/meta-tracking";
+import { fireGa4BeginCheckout } from "@/app/components/ga4";
 import { fireInitiateCheckout } from "@/app/components/meta-pixel";
 
 function readDocumentCookie(name: string): string | null {
@@ -36,8 +37,8 @@ function checkoutHrefWithAttribution(href: string, eventId: string): string {
 
 /**
  * Join / Subscribe CTA that hops to hosted Whop checkout.
- * Fires Meta InitiateCheckout (when the Pixel env is set) and appends
- * first/last-touch UTM + click ids plus the Pixel event_id.
+ * Fires Meta InitiateCheckout and GA4 begin_checkout when those env
+ * vars are set, then appends first/last-touch UTM + click ids plus event_id.
  */
 export function JoinCheckoutLink({
   href,
@@ -57,6 +58,9 @@ export function JoinCheckoutLink({
     const eventId = createMetaEventId("ic");
     if (isMetaPixelEnabled()) {
       fireInitiateCheckout(eventId);
+    }
+    if (isGa4BrowserEnabled()) {
+      fireGa4BeginCheckout();
     }
     const next = checkoutHrefWithAttribution(href, eventId);
     event.preventDefault();

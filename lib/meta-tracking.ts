@@ -1,8 +1,8 @@
 /**
  * HonestAirport Members paid-tracking constants.
  *
- * Meta Pixel + CAPI only. No GA4/gtag. Tracking is inert until the
- * matching env vars are set — never invent pixel IDs or tokens.
+ * Meta Pixel/CAPI + optional GA4. Tracking is inert until the matching
+ * env vars are set — never invent Pixel IDs, GA4 IDs, or tokens.
  */
 
 import { readTrimmed, type WhopEnv } from "@/lib/whop-gate";
@@ -13,12 +13,16 @@ export const META_PIXEL_ID_ENV = "META_PIXEL_ID";
 export const META_CAPI_ACCESS_TOKEN_ENV = "META_CAPI_ACCESS_TOKEN";
 export const META_CAPI_TEST_EVENT_CODE_ENV = "META_CAPI_TEST_EVENT_CODE";
 export const WHOP_WEBHOOK_SECRET_ENV = "WHOP_WEBHOOK_SECRET";
+export const GA4_PUBLIC_MEASUREMENT_ID_ENV = "NEXT_PUBLIC_GA4_MEASUREMENT_ID";
+export const GA4_MEASUREMENT_ID_ENV = "GA4_MEASUREMENT_ID";
+export const GA4_API_SECRET_ENV = "GA4_API_SECRET";
 
-/** Recurring $8/month membership — Meta event is Subscribe, not Purchase. */
+/** Recurring $8/month membership. Ads optimize on Subscribe; Purchase is dual-sent. */
 export const MEMBER_SUBSCRIBE_VALUE = 8;
 export const MEMBER_SUBSCRIBE_CURRENCY = "USD";
 export const MEMBER_CONTENT_NAME = "HonestAirport Members";
 export const MEMBER_SUBSCRIBE_EVENT = "Subscribe";
+export const MEMBER_PURCHASE_EVENT = "Purchase";
 export const MEMBER_PLAN_ID = "plan_ee0kSfuyD6v9a";
 
 export const META_GRAPH_VERSION = "v21.0";
@@ -53,6 +57,35 @@ export function getWhopWebhookSecret(env: WhopEnv = process.env): string | null 
   return readTrimmed(env, WHOP_WEBHOOK_SECRET_ENV);
 }
 
+const GA4_MEASUREMENT_ID = /^G-[A-Z0-9]{4,20}$/i;
+
+export function getPublicGa4MeasurementId(env: WhopEnv = process.env): string | null {
+  const value = readTrimmed(env, GA4_PUBLIC_MEASUREMENT_ID_ENV);
+  return value && GA4_MEASUREMENT_ID.test(value) ? value.toUpperCase() : null;
+}
+
+/** Server Measurement Protocol id. Prefer the server var, then the public id. */
+export function getGa4MeasurementId(env: WhopEnv = process.env): string | null {
+  const server = readTrimmed(env, GA4_MEASUREMENT_ID_ENV);
+  if (server && GA4_MEASUREMENT_ID.test(server)) {
+    return server.toUpperCase();
+  }
+  return getPublicGa4MeasurementId(env);
+}
+
+export function getGa4ApiSecret(env: WhopEnv = process.env): string | null {
+  return readTrimmed(env, GA4_API_SECRET_ENV);
+}
+
+export function isGa4BrowserEnabled(env: WhopEnv = process.env): boolean {
+  return getPublicGa4MeasurementId(env) !== null;
+}
+
+/** Measurement Protocol needs a measurement id and an API secret. */
+export function isGa4MeasurementProtocolEnabled(env: WhopEnv = process.env): boolean {
+  return getGa4MeasurementId(env) !== null && getGa4ApiSecret(env) !== null;
+}
+
 export function isMetaPixelEnabled(env: WhopEnv = process.env): boolean {
   return getPublicMetaPixelId(env) !== null;
 }
@@ -74,7 +107,8 @@ export type MetaStandardEventName =
   | "PageView"
   | "ViewContent"
   | "InitiateCheckout"
-  | "Subscribe";
+  | "Subscribe"
+  | "Purchase";
 
 export type MemberCustomData = {
   value: number;
@@ -98,7 +132,13 @@ export function createMetaEventId(prefix = "ha"): string {
   return `${prefix}_${uuid}`;
 }
 
-/** Stable CAPI event_id so Whop webhook retries dedupe in Events Manager. */
-export function subscribeEventIdFromWhopId(whopId: string): string {
+/**
+ * Stable event_id so Whop webhook retries dedupe in Events Manager.
+ * Subscribe and Purchase share this same id on purpose (Ads/CoS).
+ */
+export function activationEventIdFromWhopId(whopId: string): string {
   return `whop_${whopId.trim()}`;
 }
+
+/** @deprecated Use activationEventIdFromWhopId — same value. */
+export const subscribeEventIdFromWhopId = activationEventIdFromWhopId;
