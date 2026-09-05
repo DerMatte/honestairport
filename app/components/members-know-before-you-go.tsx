@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { JoinCheckoutLink } from "@/app/components/join-checkout-link";
 
 const SEED_CARDS = [
   {
@@ -88,9 +89,9 @@ export function MembersKnowBeforeYouGo({
       {showJoinCta ? (
         <div className="mt-6">
           <Button size="lg" className="h-11 px-5 text-base" asChild>
-            <a href={checkoutHref} rel="noopener noreferrer">
+            <JoinCheckoutLink href={checkoutHref}>
               Join members · $8/mo
-            </a>
+            </JoinCheckoutLink>
           </Button>
         </div>
       ) : null}
