@@ -140,6 +140,12 @@ export default async function RootLayout({
                 Directory
               </Link>
               <Link
+                href="/compare"
+                className="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Compare
+              </Link>
+              <Link
                 href="/tsa-tips"
                 className="text-muted-foreground transition-colors hover:text-foreground"
               >

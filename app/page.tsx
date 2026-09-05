@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { cacheLife, cacheTag } from "next/cache";
 import { AirportDirectory } from "@/app/components/airport-directory";
 import { DirectorySkeleton } from "@/app/components/loading-skeletons";
@@ -26,7 +27,14 @@ function HomeHero() {
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
           Compare Airportist Scores, disruption risk, security times, and practical
-          traveler advice before you fly.
+          traveler advice before you fly.{" "}
+          <Link
+            href="/compare"
+            className="font-medium text-primary underline decoration-primary/30 underline-offset-4 hover:decoration-primary"
+          >
+            Compare two airports
+          </Link>
+          .
         </p>
       </div>
     </section>

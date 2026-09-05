@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import {
   ChevronsUpDown,
+  Columns2,
   Compass,
   LogIn,
   LogOut,
@@ -96,6 +97,25 @@ export function SiteSidebar({
                     <span className="font-medium">Browse airports</span>
                     <span className="truncate text-xs text-sidebar-foreground/60">
                       Scores, tips & traveler intel
+                    </span>
+                  </div>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                size="lg"
+                className="h-auto items-start py-2.5"
+              >
+                <Link href="/compare" onClick={onNavigate}>
+                  <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-sidebar-accent text-sidebar-accent-foreground">
+                    <Columns2 className="size-4" aria-hidden="true" />
+                  </div>
+                  <div className="flex min-w-0 flex-col gap-0.5 leading-none">
+                    <span className="font-medium">Compare</span>
+                    <span className="truncate text-xs text-sidebar-foreground/60">
+                      Scores side by side
                     </span>
                   </div>
                 </Link>

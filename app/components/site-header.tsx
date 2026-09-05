@@ -31,6 +31,12 @@ export function SiteHeader({
         <>
           {nearestAirportSlot}
           <Link
+            href="/compare"
+            className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Compare
+          </Link>
+          <Link
             href="/tsa-tips"
             className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
