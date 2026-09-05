@@ -274,14 +274,16 @@ export function tipCategoryLabel(category: TipCategory): string {
   }
 }
 
-function parseTimeToCityMinutes(timeToCity: string): number | null {
+function parseTimeToCityMinutes(timeToCity: string | null | undefined): number | null {
+  if (typeof timeToCity !== "string" || !timeToCity) return null;
   const numbers = timeToCity.match(/\d+/g)?.map(Number);
   if (!numbers?.length) return null;
   // Ranges like "35-45 min" average out; single values like "15 min" pass through unchanged.
   return numbers.reduce((sum, value) => sum + value, 0) / numbers.length;
 }
 
-function parseCostTier(cost: string): number {
+function parseCostTier(cost: string | null | undefined): number {
+  if (typeof cost !== "string" || !cost) return 2;
   const dollarSigns = cost.match(/\$/g)?.length ?? 0;
   return dollarSigns > 0 ? dollarSigns : 2; // unrecognized format: assume mid-tier
 }

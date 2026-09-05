@@ -12,15 +12,15 @@ import { checkoutUrlForPath, getHtmlAccess } from "@/lib/whop-access";
 import { isWhopGateEnabled } from "@/lib/whop-gate";
 
 export const metadata: Metadata = {
-  title: "Members: $8/month airport intel",
+  title: "Free finds the airport. Members decide the day.",
   description:
-    "Join HonestAirport Members for $8/month. Unlock extra airport tabs and lounge pages. Overview, Getting There, the lounge directory, home, and search stay free. Cancel anytime.",
+    "Scores are free. Lounges deep, disruptions, tips, and reviews unlock for members — $8/mo.",
   alternates: { canonical: "/members" },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "HonestAirport Members — $8/month",
+    title: "Free finds the airport. Members decide the day.",
     description:
-      "Unlock extra airport tabs and lounge pages. Overview, Getting There, and the lounge directory stay free. Cancel anytime.",
+      "Scores are free. Lounges deep, disruptions, tips, and reviews unlock for members — $8/mo.",
     type: "website",
     url: "/members",
   },
