@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Link from "next/link";
 import { Plane } from "lucide-react";
-import { HeaderAccountMenu } from "@/app/components/header-account-menu";
+import { HeaderAccountLoader } from "@/app/components/header-account-loader";
 import { HeaderChrome } from "@/app/components/header-chrome";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function SiteHeader({
   nearestAirportSlot,
@@ -27,23 +28,11 @@ export function SiteHeader({
           </span>
         </Link>
       }
-      desktopNav={
-        <>
-          {nearestAirportSlot}
-          <Link
-            href="/tsa-tips"
-            className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-          >
-            TSA tips
-          </Link>
-          <Link
-            href="/members"
-            className="px-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Members
-          </Link>
-          <HeaderAccountMenu membershipSlot={membershipSlot} />
-        </>
+      desktopNav={nearestAirportSlot}
+      desktopAccount={
+        <Suspense fallback={<Skeleton className="size-8 rounded-full" />}>
+          <HeaderAccountLoader membershipSlot={membershipSlot} />
+        </Suspense>
       }
       nearestAirportSidebarSlot={nearestAirportSidebarSlot}
       membershipSlot={membershipSlot}

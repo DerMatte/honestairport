@@ -2,7 +2,9 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   isWhopAccessConfigured,
+  resolveWhopProfileImage,
   userHasLiveWhopMembership,
+  whopProfilePictureUrl,
 } from "./whop-access";
 
 const configuredEnv = {
@@ -78,5 +80,94 @@ describe("userHasLiveWhopMembership", () => {
       },
     );
     assert.equal(granted, false);
+  });
+});
+
+describe("whopProfilePictureUrl", () => {
+  it("reads url, source_url, or a bare https string", () => {
+    assert.equal(
+      whopProfilePictureUrl({ url: "https://img.whop.com/a.jpg" }),
+      "https://img.whop.com/a.jpg",
+    );
+    assert.equal(
+      whopProfilePictureUrl({ source_url: "https://img.whop.com/b.jpg" }),
+      "https://img.whop.com/b.jpg",
+    );
+    assert.equal(
+      whopProfilePictureUrl("https://img.whop.com/c.jpg"),
+      "https://img.whop.com/c.jpg",
+    );
+  });
+
+  it("rejects missing, non-http, and empty values", () => {
+    assert.equal(whopProfilePictureUrl(null), null);
+    assert.equal(whopProfilePictureUrl({ url: "/relative.jpg" }), null);
+    assert.equal(whopProfilePictureUrl({ url: "javascript:alert(1)" }), null);
+    assert.equal(whopProfilePictureUrl({}), null);
+  });
+});
+
+describe("resolveWhopProfileImage", () => {
+  it("does not call Whop when the visitor is signed out or the gate is off", async () => {
+    let called = 0;
+    const retrieve = async () => {
+      called += 1;
+      return { profile_picture: { url: "https://img.whop.com/a.jpg" } };
+    };
+    assert.equal(
+      await resolveWhopProfileImage({
+        env: configuredEnv,
+        signedIn: false,
+        accountWhopUserId: "user_abc",
+        retrieveUser: retrieve,
+      }),
+      null,
+    );
+    assert.equal(
+      await resolveWhopProfileImage({
+        env: {},
+        signedIn: true,
+        accountWhopUserId: "user_abc",
+        retrieveUser: retrieve,
+      }),
+      null,
+    );
+    assert.equal(called, 0);
+  });
+
+  it("returns the Whop photo when retrieve succeeds", async () => {
+    const url = await resolveWhopProfileImage({
+      env: configuredEnv,
+      signedIn: true,
+      accountWhopUserId: "user_abc",
+      retrieveUser: async (id) => {
+        assert.equal(id, "user_abc");
+        return { profile_picture: { url: "https://img.whop.com/me.jpg" } };
+      },
+    });
+    assert.equal(url, "https://img.whop.com/me.jpg");
+  });
+
+  it("returns null when retrieve throws or the picture is missing", async () => {
+    assert.equal(
+      await resolveWhopProfileImage({
+        env: configuredEnv,
+        signedIn: true,
+        accountWhopUserId: "user_abc",
+        retrieveUser: async () => {
+          throw new Error("whop down");
+        },
+      }),
+      null,
+    );
+    assert.equal(
+      await resolveWhopProfileImage({
+        env: configuredEnv,
+        signedIn: true,
+        accountWhopUserId: "user_abc",
+        retrieveUser: async () => ({ profile_picture: null }),
+      }),
+      null,
+    );
   });
 });

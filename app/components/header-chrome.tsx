@@ -28,11 +28,13 @@ const TOP_REVEAL_OFFSET = 12;
 export function HeaderChrome({
   brand,
   desktopNav,
+  desktopAccount,
   nearestAirportSidebarSlot,
   membershipSlot,
 }: {
   brand: ReactNode;
   desktopNav: ReactNode;
+  desktopAccount: ReactNode;
   nearestAirportSidebarSlot: ReactNode;
   membershipSlot?: ReactNode;
 }) {
@@ -117,20 +119,29 @@ export function HeaderChrome({
           {brand}
 
           <div className="ml-auto flex items-center gap-1">
-            <nav className="mr-1 hidden items-center gap-1 md:flex">{desktopNav}</nav>
+            <nav className="mr-1 hidden items-center gap-1 md:flex">
+              {desktopNav}
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Search airports"
+                onClick={openSearch}
+                className="text-muted-foreground"
+              >
+                <Search />
+              </Button>
+              {desktopAccount}
+            </nav>
 
             <Button
               variant="ghost"
               size="sm"
               aria-label="Search airports"
               onClick={openSearch}
-              className="hidden gap-2 text-muted-foreground sm:inline-flex"
+              className="hidden gap-2 text-muted-foreground sm:inline-flex md:hidden"
             >
               <Search className="size-4" aria-hidden="true" />
               Search
-              <kbd className="pointer-events-none hidden rounded-md border border-border/70 bg-muted/60 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground md:inline">
-                ⌘K
-              </kbd>
             </Button>
 
             <Button
@@ -143,7 +154,9 @@ export function HeaderChrome({
               <Search />
             </Button>
 
-            <AssistantLauncher />
+            <div className="md:hidden">
+              <AssistantLauncher />
+            </div>
 
             <Button
               variant="ghost"

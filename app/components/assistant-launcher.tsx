@@ -19,22 +19,23 @@ const AssistantPanel = dynamic(() => import("@/app/components/assistant-panel"),
   loading: () => <Loading className="m-auto" label="Opening assistant" />,
 });
 
-function airportIataFromPathname(pathname: string): string | undefined {
-  const match = /^\/airports\/([^/]+)/.exec(pathname);
-  if (!match) return undefined;
-  const slug = match[1];
-  if (slug === "__placeholder__" || !/^[A-Za-z]{3}$/.test(slug)) return undefined;
-  return slug.toUpperCase();
-}
-
-export function AssistantLauncher() {
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname();
-  const iata = airportIataFromPathname(pathname);
-
-  return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+function assistantTrigger(variant: "header" | "fab") {
+  switch (variant) {
+    case "fab":
+      return (
+        <Button
+          variant="outline"
+          size="sm"
+          aria-label="Ask HonestAirport"
+          title="Ask HonestAirport"
+          className="fixed right-5 bottom-5 z-40 hidden gap-1.5 rounded-full border-border/70 bg-background/90 text-muted-foreground shadow-none backdrop-blur-md md:inline-flex"
+        >
+          <Sparkles className="size-4" aria-hidden="true" />
+          Ask
+        </Button>
+      );
+    case "header":
+      return (
         <Button
           variant="ghost"
           size="icon-sm"
@@ -45,6 +46,35 @@ export function AssistantLauncher() {
           <Sparkles className="size-4" aria-hidden="true" />
           <span className="hidden sm:inline">Ask</span>
         </Button>
+      );
+    default: {
+      const _exhaustive: never = variant;
+      return _exhaustive;
+    }
+  }
+}
+
+function airportIataFromPathname(pathname: string): string | undefined {
+  const match = /^\/airports\/([^/]+)/.exec(pathname);
+  if (!match) return undefined;
+  const slug = match[1];
+  if (slug === "__placeholder__" || !/^[A-Za-z]{3}$/.test(slug)) return undefined;
+  return slug.toUpperCase();
+}
+
+export function AssistantLauncher({
+  variant = "header",
+}: {
+  variant?: "header" | "fab";
+}) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const iata = airportIataFromPathname(pathname);
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        {assistantTrigger(variant)}
       </SheetTrigger>
       <SheetContent
         side="right"

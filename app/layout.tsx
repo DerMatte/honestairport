@@ -17,6 +17,7 @@ import {
   NearestAirportSidebarSkeleton,
 } from "@/app/components/nearest-airport-skeletons";
 import { HeaderMembershipStatus } from "@/app/components/header-membership-status";
+import { AssistantLauncher } from "@/app/components/assistant-launcher";
 import { SiteHeader } from "@/app/components/site-header";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -159,6 +160,7 @@ export default async function RootLayout({
             </p>
           </div>
         </footer>
+        <AssistantLauncher variant="fab" />
         <Suspense fallback={null}>
           <AttributionCapture />
         </Suspense>

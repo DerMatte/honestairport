@@ -40,17 +40,105 @@ export const checkProductAccess = cache(
 );
 
 async function readAccountWhopUserId(): Promise<string | null> {
+  const account = await readSignedInWhopAccount();
+  return account.whopUserId;
+}
+
+const readSignedInWhopAccount = cache(async function readSignedInWhopAccount(): Promise<{
+  signedIn: boolean;
+  whopUserId: string | null;
+}> {
   if (!isDatabaseConfigured()) {
-    return null;
+    return { signedIn: false, whopUserId: null };
   }
   try {
     const session = await auth.api.getSession({ headers: await headers() });
-    const stored = session?.user?.whopUserId;
-    return typeof stored === "string" && stored.trim() ? stored.trim() : null;
+    if (!session?.user) {
+      return { signedIn: false, whopUserId: null };
+    }
+    const stored = session.user.whopUserId;
+    return {
+      signedIn: true,
+      whopUserId: typeof stored === "string" && stored.trim() ? stored.trim() : null,
+    };
+  } catch {
+    return { signedIn: false, whopUserId: null };
+  }
+});
+
+const PROFILE_PICTURE_URL_KEYS = ["url", "source_url", "sourceUrl"] as const;
+
+function isHttpUrl(value: string): boolean {
+  return value.startsWith("https://") || value.startsWith("http://");
+}
+
+/** Pull a displayable URL out of Whop's loosely typed `profile_picture`. */
+export function whopProfilePictureUrl(picture: unknown): string | null {
+  if (typeof picture === "string") {
+    return isHttpUrl(picture) ? picture : null;
+  }
+  if (!picture || typeof picture !== "object") {
+    return null;
+  }
+  const record = picture as Record<string, unknown>;
+  for (const key of PROFILE_PICTURE_URL_KEYS) {
+    const value = record[key];
+    if (typeof value === "string" && isHttpUrl(value)) {
+      return value;
+    }
+  }
+  return null;
+}
+
+export type RetrieveWhopProfile = (whopUserId: string) => Promise<{
+  profile_picture: unknown;
+}>;
+
+/**
+ * Prefer the Whop profile photo when the visitor is signed in and we have a
+ * Whop user id. Failures (gate off, no id, API error) return null so the
+ * header can fall back to Better Auth / initials.
+ */
+export async function resolveWhopProfileImage(options: {
+  env?: WhopEnv;
+  signedIn: boolean;
+  cookieWhopUserId?: string | null;
+  accountWhopUserId?: string | null;
+  retrieveUser: RetrieveWhopProfile;
+}): Promise<string | null> {
+  if (!options.signedIn || !isWhopGateEnabled(options.env)) {
+    return null;
+  }
+  const whopUserId = resolveWhopUserId(
+    options.cookieWhopUserId,
+    options.accountWhopUserId,
+  );
+  if (!whopUserId) {
+    return null;
+  }
+  try {
+    const profile = await options.retrieveUser(whopUserId);
+    return whopProfilePictureUrl(profile.profile_picture);
   } catch {
     return null;
   }
 }
+
+export const getWhopProfileImage = cache(async function getWhopProfileImage(
+  env: WhopEnv = process.env,
+): Promise<string | null> {
+  const [account, whopSession] = await Promise.all([
+    readSignedInWhopAccount(),
+    getWhopSession(env),
+  ]);
+  return resolveWhopProfileImage({
+    env,
+    signedIn: account.signedIn,
+    cookieWhopUserId: whopSession?.whopUserId,
+    accountWhopUserId: account.whopUserId,
+    retrieveUser: (id) => getWhop(env).users.retrieve(id),
+  });
+});
 
 /** Live membership check. Off / missing session never calls Whop. */
 export const getHtmlAccess = cache(async function getHtmlAccess(
