@@ -19,6 +19,20 @@ const nextConfig: NextConfig = {
     cpus: 4,
     optimizePackageImports: ["lucide-react", "radix-ui", "cmdk", "motion"],
   },
+  async redirects() {
+    return [
+      {
+        source: "/compare/:a",
+        destination: "/compare?a=:a",
+        permanent: false,
+      },
+      {
+        source: "/compare/:a/:b",
+        destination: "/compare?a=:a&b=:b",
+        permanent: false,
+      },
+    ];
+  },
   async headers() {
     return [
       {
