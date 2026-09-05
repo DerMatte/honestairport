@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { AttributionCapture } from "@/app/components/attribution-capture";
 import { Ga4 } from "@/app/components/ga4";
 import { MetaPixel } from "@/app/components/meta-pixel";
+import { WhopPixel } from "@/app/components/whop-pixel";
 import {
   NearestAirportHeaderLink,
   NearestAirportSidebarItem,
@@ -161,6 +162,7 @@ export default async function RootLayout({
         <Suspense fallback={null}>
           <AttributionCapture />
         </Suspense>
+        <WhopPixel />
         <MetaPixel />
         <Ga4 />
         <Analytics />
