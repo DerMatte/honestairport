@@ -45,9 +45,9 @@ function landing(
 }
 
 test("members metadata is a public sales page", () => {
-  assert.match(String(metadata.title), /\$8/);
-  assert.match(String(metadata.description), /\$8\/month/);
-  assert.match(String(metadata.description), /lounge/);
+  assert.match(String(metadata.title), /Free finds the airport/);
+  assert.match(String(metadata.description), /\$8\/mo/);
+  assert.match(String(metadata.description), /Lounges/);
   const robots = metadata.robots;
   assert.ok(robots && typeof robots === "object");
   assert.equal(robots.index, true);
@@ -58,9 +58,15 @@ test("members metadata is a public sales page", () => {
 test("logged-out members page sells $8/month and the real free vs paid split", () => {
   const html = landing();
 
-  assert.match(html, /Subscribe — \$8\/month/);
+  assert.match(html, /Join members · \$8\/mo/);
+  assert.match(html, /href="https:\/\/whop.com\/checkout\/plan_ee0kSfuyD6v9a"/);
   assert.match(html, /\$8\/month/);
-  assert.match(html, /The rest of the airport, for \$8 a month/);
+  assert.match(html, /Free finds the airport\. Members decide the day\./);
+  assert.match(
+    html,
+    /Scores are free\. Lounges deep, disruptions, tips, and reviews unlock for members — \$8\/mo\./,
+  );
+  assert.match(html, /Free stays useful\. Members get the rest\./);
   assert.match(html, /Airport Overview/);
   assert.match(html, /Lounge directory on the airport page/);
   assert.match(html, /Home and search/);
@@ -85,9 +91,9 @@ test("logged-out members page sells $8/month and the real free vs paid split", (
   assert.doesNotMatch(html, /owner/);
 });
 
-test("signed-in non-members still see Subscribe, not a Sign in CTA", () => {
+test("signed-in non-members still see Join members, not a Sign in CTA", () => {
   const html = landing({ signedIn: true });
-  assert.match(html, /Subscribe — \$8\/month/);
+  assert.match(html, /Join members · \$8\/mo/);
   assert.doesNotMatch(html, />Sign in</);
   assert.match(html, /saves the Whop id on your account/);
 });
@@ -102,7 +108,7 @@ test("restore stays secondary unless a receipt is in the URL", () => {
   assert.match(returning, /<details[^>]*open/);
   assert.match(returning, /Welcome back from checkout/);
   assert.match(returning, /value="pay_abc123"/);
-  assert.match(returning, /Subscribe — \$8\/month/);
+  assert.match(returning, /Join members · \$8\/mo/);
 });
 
 test("allowed state confirms membership and continues to the safe next path", () => {
@@ -115,7 +121,7 @@ test("allowed state confirms membership and continues to the safe next path", ()
   assert.match(html, /Membership is active/);
   assert.match(html, /href="\/airports\/sin"/);
   assert.match(html, />Continue</);
-  assert.doesNotMatch(html, /Subscribe — \$8\/month/);
+  assert.doesNotMatch(html, /Join members · \$8\/mo/);
   assert.doesNotMatch(html, /id="restore"/);
   assert.match(html, /Telegram community lives on the Whop product page/);
   assert.match(html, /there is no Telegram bot in this app/);
@@ -124,8 +130,8 @@ test("allowed state confirms membership and continues to the safe next path", ()
 test("gate-off is a quiet note on the same sales page", () => {
   const html = landing({ access: "open", gateOn: false, nextPath: "/" });
 
-  assert.match(html, /Subscribe — \$8\/month/);
-  assert.match(html, /The rest of the airport, for \$8 a month/);
+  assert.match(html, /Join members · \$8\/mo/);
+  assert.match(html, /Free finds the airport\. Members decide the day\./);
   assert.match(html, /Membership is not enabled in this environment/);
   assert.doesNotMatch(html, /WHOP_PRODUCT_ID/);
   assert.match(html, /id="restore"/);

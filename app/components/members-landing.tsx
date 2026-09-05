@@ -84,13 +84,12 @@ export function MembersLanding({
             <h1 className="mt-5 max-w-3xl text-4xl leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
               {allowed
                 ? "You're in — the rest of the airport is unlocked."
-                : "The rest of the airport, for $8 a month."}
+                : "Free finds the airport. Members decide the day."}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              Overview, Getting There, the lounge directory, home, and search
-              stay free. Members get amenities, tips, water, disruptions,
-              reviews, and every lounge page. Cancel anytime —
-              access ends when the membership ends.
+              {allowed
+                ? "Overview, Getting There, the lounge directory, home, and search stay free. Members get amenities, tips, water, disruptions, reviews, and every lounge page. Cancel anytime — access ends when the membership ends."
+                : "Scores are free. Lounges deep, disruptions, tips, and reviews unlock for members — $8/mo."}
             </p>
 
             {allowed ? (
@@ -106,7 +105,7 @@ export function MembersLanding({
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Button size="lg" className="h-11 px-5 text-base" asChild>
                   <a href={checkoutHref} rel="noopener noreferrer">
-                    Subscribe — $8/month
+                    Join members · $8/mo
                   </a>
                 </Button>
                 <a
